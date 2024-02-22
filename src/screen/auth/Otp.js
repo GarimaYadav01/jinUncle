@@ -100,8 +100,8 @@ const Otp = (props) => {
                         </View>
                     </View>
                     <CustomButton size={"large"} label={"Continue"}
-                        onPress={handlesubmit}
-                    // onPress={() => props.navigation.navigate("Otp")}
+                        // onPress={handlesubmit}
+                    onPress={() => props.navigation.navigate("Otp")}
                     />
                 </ImageBackground>
 
