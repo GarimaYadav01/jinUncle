@@ -1,93 +1,99 @@
 import React from "react";
-import { Dimensions, Image, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View } from "react-native";
+import { Dimensions, FlatList, Image, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { ICONS } from "../../assets/themes";
+import CustomButton from "../../compontent/Custombutton";
 const { height, width } = Dimensions.get("screen")
 
 const ProfileScreen = () => {
 
-    const button = [
+    const buttonData = [
         {
             id: "1",
-            lable: "Basics"
+            lable: "My bookings",
+            image: ICONS.arrow,
+            // icon:require("")
         },
         {
             id: "2",
-            lable: "Size Details"
+            lable: "Help center",
+            image: ICONS.arrow
         },
         {
             id: "3",
-            lable: "skin & Hair"
-        },
-
-    ]
-
-    const card = [
-        {
-            id: "1",
-            lable: "orders"
-        },
-        {
-            id: "2",
-            lable: "Insider"
-        },
-        {
-            id: "3",
-            lable: "Help Center"
+            lable: "Wallet",
+            image: ICONS.arrow
         },
         {
             id: "4",
-            lable: "Coupons"
-        }
-    ]
-
-    const method = [
-        {
-            id: "1",
-            lable: "Payments & Currencies"
-        },
-        {
-            id: "2",
-            lable: "Earn & Redeem"
-        },
-        {
-            id: "3",
-            lable: "Manage Account"
-        },
-        {
-            id: "4",
-            lable: "Challenges"
+            lable: "Plus membership",
+            image: ICONS.arrow
         },
         {
             id: "5",
-            lable: "Wishlist"
+            lable: "My rating",
+            image: ICONS.arrow
         },
         {
-            id: "6",
-            lable: "Myntra Suggests"
+            id: "3",
+            lable: "Manage addresses",
+            image: ICONS.arrow
         },
         {
-            id: "6",
-            lable: "Myntra Suggests"
+            id: "3",
+            lable: "Manage payment methods",
+            image: ICONS.arrow
         },
-
+        {
+            id: "3",
+            lable: "Settings",
+            image: ICONS.arrow
+        },
+        {
+            id: "3",
+            lable: "Scheduled bookings",
+            image: ICONS.arrow
+        },
+        {
+            id: "4",
+            lable: "About UC",
+            image: ICONS.arrow
+        },
+        {
+            id: "5",
+            lable: "Logout",
+            image: ICONS.arrow
+        },
     ]
-
     return (
-        <SafeAreaView style={{ flex: 1 }}>
+        <SafeAreaView style={{ flex: 1, }}>
             <ScrollView style={styles.container}>
                 <View style={styles.con}>
-                    {/* <StatusBar backgroundColor={"#0088CC"} /> */}
-                    <View style={{ justifyContent: "center", alignSelf: "center", marginTop: height * 0.04 }}>
-                        <Image source={require("../../assets/logo/logo.png")} />
+                    <View style={{
+                        marginTop: height * 0.05, marginLeft: width * 0.07
+                    }}>
+                        <Text style={[styles.text, { fontSize: 25 }]}>
+                            Verified customer
+                        </Text>
+                        <Text style={styles.text}>
+                            +91 7364778488
+                        </Text>
 
-                        <Image source={require("../../assets/Newicon/useractive.png")} style={styles.img} resizeMode="contain" />
-                        <Text style={styles.text}>
-                            Garima Yadav
-                        </Text>
-                        <Text style={styles.text}>
-                            garimayadav933@gmail.com
-                        </Text>
                     </View>
+                    <TouchableOpacity style={{ marginTop: height * 0.05, marginRight: width * 0.1 }}>
+                        <Image source={require("../../assets/Newicon/edit.png")} style={{ width: 40, height: 40 }} />
 
+                    </TouchableOpacity>
+                </View>
+                <View style={{ flex: 1 }}>
+                    <View style={styles.container1}>
+                        {buttonData.map(button => (
+                            <TouchableOpacity key={button.id} style={styles.buttonContainer}>
+                                <Text style={styles.label}>{button.lable}</Text>
+                                <Image source={button.image} style={styles.icon} />
+                            </TouchableOpacity>
+                        ))}
+                    </View>
+             
                 </View>
             </ScrollView>
 
@@ -99,17 +105,22 @@ export default ProfileScreen;
 const styles = StyleSheet.create({
     text: {
         fontSize: 20,
-        color: "#000",
-        textAlign: "center"
+        color: "#FFF",
+        // textAlign: "center"
     },
     con: {
-        // backgroundColor: "#0088CC",
+        backgroundColor: "#000",
         // height: height * 0.15,
         width: width,
         alignSelf: "center",
         // borderRadius: 10,
         elevation: 1,
         shadowOpacity: 2,
+        height: height * 0.15,
+        flexDirection: "row",
+        justifyContent: "space-between",
+        borderBottomWidth: 1,
+        borderBottomColor: "#f5fffa"
 
     },
     container: {
@@ -120,5 +131,31 @@ const styles = StyleSheet.create({
         height: 150,
         width: 150,
         alignSelf: "center"
-    }
+    },
+
+    buttonContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: 20,
+        borderBottomWidth: 1,
+        borderBottomColor: '#ddd',
+        // backgroundColor: "#FFF",
+        justifyContent: "space-between",
+        paddingHorizontal: 20
+
+    },
+    label: {
+        fontSize: 20,
+        marginRight: 10,
+        color: "#000"
+    },
+    icon: {
+        width: 20,
+        height: 20,
+    },
+    // container1: {
+    //     flex: 1,
+    //     alignItems: 'center',
+    //     justifyContent: 'center',
+    //   },
 });

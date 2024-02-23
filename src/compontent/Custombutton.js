@@ -2,13 +2,13 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Platform, Dimensions } from 'react-native';
 const { width, height } = Dimensions.get("screen")
 
-const CustomButton = ({ label, size, onPress }) => {
+const CustomButton = ({ label, size, onPress, backgroundColor, color }) => {
   const buttonStyle = size === 'large' ? styles.btnLarge : styles.btnSmall;
   const textStyle = size === 'large' ? styles.textLarge : styles.textSmall;
 
   return (
-    <TouchableOpacity style={[styles.btn, buttonStyle]} onPress={onPress}>
-      <Text style={[styles.textinput, textStyle]}>{label}</Text>
+    <TouchableOpacity style={[styles.btn, buttonStyle, { backgroundColor }]} onPress={onPress}>
+      <Text style={[styles.textinput, textStyle, { color }]}>{label}</Text>
     </TouchableOpacity>
   );
 };
@@ -57,11 +57,10 @@ const styles = StyleSheet.create({
     // marginVertical: 5,
   },
   textLarge: {
-    color: "#000",
+    color: "#9400d3",
     fontSize: 18,
     marginVertical: Platform.OS === 'android' ? height * 0.015 : height * 0.015,
     textAlign: "center",
-
     // padding: Platform.OS === 'android' ? 8  : 10
   },
   textSmall: {

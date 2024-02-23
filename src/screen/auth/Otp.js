@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, SafeAreaView, StatusBar, Image, Dimensions, Tex
 import TextinputComponent from '../../compontent/TextinputComponent';
 import CustomButton from '../../compontent/Custombutton';
 import CodeInput from 'react-native-code-input';
-
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { showMessage } from 'react-native-flash-message';
@@ -23,7 +22,7 @@ const Otp = (props) => {
             type: "success",
             icon: "success"
         });
-        props.navigation.navigate("Bottomnavigation")
+        props.navigation.navigate("Location")
     }
     const [timer, setTimer] = useState(180);
     const [isTimerRunning, setIsTimerRunning] = useState(false);
@@ -77,8 +76,8 @@ const Otp = (props) => {
                             Enter your  one time password +91 3746327490
                         </Text>
                         <CodeInput
-                            activeColor="white"
-                            inactiveColor="gray"
+                            activeColor="#9400d3"
+                            inactiveColor="white"
                             autoFocus={true}
                             inputPosition="center"
                             size={60}
@@ -86,11 +85,10 @@ const Otp = (props) => {
                             onFulfill={(code) => onCodeFilled(code)}
                             containerStyle={styles.codeInputContainer}
                             codeInputStyle={styles.codeInput}
-
                         />
                     </View>
-                    <View style={{ justifyContent: "flex-end", marginTop: height * 0.05, alignSelf: "center", marginLeft: width * 0.7 }}>
-                        <View style={{ flexDirection: "row", justifyContent: "center", marginTop: 5 }}>
+                    <View style={{ justifyContent: "flex-end", alignSelf: "center", marginLeft: width * 0.7,marginVertical:height*0.09}}>
+                        <View style={{ flexDirection: "row", justifyContent: "center", }}>
                             {isResendVisible && (
                                 <TouchableOpacity onPress={startTimer}>
                                     <Text style={styles.resend}>Resend</Text>
@@ -100,8 +98,10 @@ const Otp = (props) => {
                         </View>
                     </View>
                     <CustomButton size={"large"} label={"Continue"}
-                        // onPress={handlesubmit}
-                    onPress={() => props.navigation.navigate("Otp")}
+                        onPress={handlesubmit}
+                        backgroundColor={"#f5fffa"}
+                        color={"#9400d3"} 
+                    // onPress={() => props.navigation.navigate("Otp")}
                     />
                 </ImageBackground>
 
@@ -123,9 +123,10 @@ const styles = StyleSheet.create({
         fontFamily: "Rubik-Bold"
     },
     container1: {
-        flex: 1,
+        // flex: 1,
         marginHorizontal: 20,
-        marginTop: height * 0.07
+        marginTop: height * 0.07,
+        // backgroundColor:"red"
     },
     logo: {
         width: width * 0.8,
@@ -152,23 +153,21 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 5,
         fontSize: 20,
+        color:"white"
     },
     resend: {
         fontFamily: "Rubik-Regular",
         fontSize: 18,
-        color: "#FFF"
+        color: "#9400d3"
     },
     timer: {
         fontSize: 14,
         fontStyle: "normal",
         color: "#f5fffa"
-
     },
     img:{
         height:height,
         width:width
     }
-
 });
-
 export default Otp;

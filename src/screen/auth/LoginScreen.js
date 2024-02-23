@@ -43,15 +43,23 @@ const LoginScreen = (props) => {
         <ScrollView>
           <ImageBackground source={require("../../assets/Newicon/blackscreen.png")} style={styles.img}>
             <View style={styles.container1}>
+              <View style={{ flexDirection: "row" }}>
+                <Image source={require("../../assets/logo/jinnlogo.png")} style={styles.logo} resizeMode='contain' />
+                <View>
+                  <Text style={[styles.text, { color: "#ffe4c4" }]}>
+                    Jinnuncle is now
+                  </Text>
+                  <Text style={styles.header}>
+                    Jinnuncle
+                  </Text>
+                  <Text style={styles.text}>Your Home Service Expert</Text>
+                  <Text style={[styles.text, { color: "#fff8dc" }]}>Quick <Text>.</Text><Text>Affordable<Text>.</Text><Text>Trusted</Text></Text></Text>
+                </View>
 
-              {/* <Image source={require("../../assets/logo/logo.png")} style={styles.logo} resizeMode='contain' /> */}
-
-              <Text style={styles.header}>
-                Jinnuncle
-              </Text>
+              </View>
 
               <Formik
-                initialValues={{ email: '', password: '' }}
+                initialValues={{ phonenumber: '', }}
                 // validationSchema={validationSchema}
                 onSubmit={(values) => {
                   // Handle form submission
@@ -69,10 +77,8 @@ const LoginScreen = (props) => {
                     <TextinputComponent inputType="phone" placeholder={"Enter your phone number"} onChangeText={handleChange('phonenumber')}
                       onBlur={handleBlur('phonenumber')} value={values.phonenumber} />
                     {errors.phonenumber && touched.phonenumber && <Text style={[styles.error, { marginRight: width * 0.4 }]}>{errors.phonenumber}</Text>}
-
-
                     <View style={{ marginTop: height * 0.03 }}>
-                      <CustomButton label={"Verfiy phone number"} size={"large"} onPress={handleSubmit} />
+                      <CustomButton label={"Verfiy phone number"} size={"large"} onPress={handleSubmit} backgroundColor={"#f5fffa"} color={"#9400d3"} />
 
                     </View>
                   </View>
@@ -80,11 +86,8 @@ const LoginScreen = (props) => {
               </Formik>
             </View>
           </ImageBackground>
-
         </ScrollView>
       </View>
-
-
     </SafeAreaView>
   );
 };
@@ -107,7 +110,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     // marginTop: height * 0.07,
     alignItems: "center",
-    justifyContent:"center"
+    justifyContent: "center",
+    // flexDirection:"row"
   },
   subheading: {
     color: "#000",
@@ -137,6 +141,17 @@ const styles = StyleSheet.create({
     width: width,
     height: height
   },
+  text: {
+    fontSize: 14,
+    fontStyle: "normal",
+    color: "white"
+
+  },
+  logo: {
+    height: 90,
+    width: 90,
+    // tintColor:"#FFF"
+  }
 });
 
 export default LoginScreen;

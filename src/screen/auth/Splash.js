@@ -17,13 +17,13 @@ const Splash = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <StatusBar backgroundColor={"#000"} translucent />
-            <ImageBackground source={require("../../assets/Newicon/blackscreen.png")} style={styles.img}>
-                <View style={styles.container}>
-                    {/* Your other components */}
-                    <Image source={require("../../assets/logo/logo.png")} style={styles.logo} resizeMode='contain' />
-                </View>
-            </ImageBackground>
+            <StatusBar backgroundColor={"#FFF"} translucent />
+
+            <View style={styles.container}>
+                {/* Your other components */}
+                <Image source={require("../../assets/logo/jinnlogo.png")} style={styles.logo} resizeMode='contain' />
+            </View>
+
 
 
         </SafeAreaView>
@@ -35,11 +35,12 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: "#000"
+        backgroundColor: "#FFF"
     },
     logo: {
         width: width * 0.8,
-        height: height * 0.08
+        height: height * 0.4,
+        resizeMode:"contain"
     },
     img: {
         height: height,
