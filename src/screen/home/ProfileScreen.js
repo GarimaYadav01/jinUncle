@@ -2,68 +2,83 @@ import React from "react";
 import { Dimensions, FlatList, Image, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { ICONS } from "../../assets/themes";
 import CustomButton from "../../compontent/Custombutton";
+import { useNavigation } from "@react-navigation/native";
 const { height, width } = Dimensions.get("screen")
 
 const ProfileScreen = () => {
-
+    const navigation = useNavigation();
     const buttonData = [
         {
             id: "1",
             lable: "My bookings",
             image: ICONS.arrow,
-            // icon:require("")
+            screen: "Mybooking"
         },
         {
             id: "2",
             lable: "Help center",
-            image: ICONS.arrow
+            image: ICONS.arrow,
+            screen: "Helpcenter"
         },
         {
             id: "3",
             lable: "Wallet",
-            image: ICONS.arrow
+            image: ICONS.arrow,
+            screen: "Wallet"
         },
         {
             id: "4",
             lable: "Plus membership",
-            image: ICONS.arrow
+            image: ICONS.arrow,
+            screen: "Mybooking"
         },
         {
             id: "5",
             lable: "My rating",
-            image: ICONS.arrow
+            image: ICONS.arrow,
+            screen: "Mybooking"
         },
         {
             id: "3",
             lable: "Manage addresses",
-            image: ICONS.arrow
+            image: ICONS.arrow,
+            screen: "Mybooking"
         },
         {
             id: "3",
             lable: "Manage payment methods",
-            image: ICONS.arrow
+            image: ICONS.arrow,
+            screen: "Mybooking"
         },
         {
             id: "3",
             lable: "Settings",
-            image: ICONS.arrow
+            image: ICONS.arrow,
+            screen: "Mybooking"
         },
         {
             id: "3",
             lable: "Scheduled bookings",
-            image: ICONS.arrow
+            image: ICONS.arrow,
+            screen: "Mybooking"
         },
         {
             id: "4",
-            lable: "About UC",
-            image: ICONS.arrow
+            lable: "About",
+            image: ICONS.arrow,
+            screen: "Aboutus"
         },
         {
             id: "5",
             lable: "Logout",
-            image: ICONS.arrow
+            image: ICONS.arrow,
+            screen: "Mybooking"
         },
     ]
+    const handleMenuItemPress = (screen) => {
+        // Navigate to the specified screen
+        navigation.navigate(screen);
+    };
     return (
         <SafeAreaView style={{ flex: 1, }}>
             <ScrollView style={styles.container}>
@@ -77,23 +92,22 @@ const ProfileScreen = () => {
                         <Text style={styles.text}>
                             +91 7364778488
                         </Text>
-
                     </View>
-                    <TouchableOpacity style={{ marginTop: height * 0.05, marginRight: width * 0.1 }}>
-                        <Image source={require("../../assets/Newicon/edit.png")} style={{ width: 40, height: 40 }} />
+                    <TouchableOpacity style={{ marginTop: height * 0.06, marginRight: width * 0.1 }}>
+                        <Image source={require("../../assets/Newicon/edit-info.png")} style={{ width: 40, height: 40 }} />
 
                     </TouchableOpacity>
                 </View>
                 <View style={{ flex: 1 }}>
                     <View style={styles.container1}>
-                        {buttonData.map(button => (
-                            <TouchableOpacity key={button.id} style={styles.buttonContainer}>
+                        {buttonData.map((button, index) => (
+                            <TouchableOpacity key={button.id} style={styles.buttonContainer} onPress={() => handleMenuItemPress(button.screen)}>
                                 <Text style={styles.label}>{button.lable}</Text>
                                 <Image source={button.image} style={styles.icon} />
                             </TouchableOpacity>
                         ))}
                     </View>
-             
+
                 </View>
             </ScrollView>
 
@@ -105,11 +119,11 @@ export default ProfileScreen;
 const styles = StyleSheet.create({
     text: {
         fontSize: 20,
-        color: "#FFF",
+        color: "#000",
         // textAlign: "center"
     },
     con: {
-        backgroundColor: "#000",
+        backgroundColor: "#FFF",
         // height: height * 0.15,
         width: width,
         alignSelf: "center",

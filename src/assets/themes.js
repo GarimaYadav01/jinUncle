@@ -27,10 +27,16 @@ const ICONS = {
     arrow: require("../assets/Icon/chevronright.png"),
     addcard: require("../assets/Icon/Group26.png"),
     bell: require("../assets/Icon/bell.png"),
-   
     heart: require("../assets/Icon/Vector9.png"),
     heartyellow: require("../assets/Icon/Vecto9.png"),
     heartwhite: require("../assets/Icon/Vector10.png"),
+    income: require("../assets/Newicon/income.png"),
+    premium: require("../assets/Newicon/premium-quality.png"),
+    safety: require("../assets/Newicon/safety-at-work.png"),
+    support: require("../assets/Newicon/support.png"),
+    warranty: require("../assets/Newicon/warranty.png"),
+    user: require("../assets/bottomnavigatiomnimage/user.png")
+
 };
 
 export { ICONS };

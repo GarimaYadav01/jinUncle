@@ -11,6 +11,12 @@ import Resetpassword from '../screen/auth/Resetpassword';
 import Location from '../screen/location/Location';
 import location2 from '../screen/location/location2';
 import Location3 from '../screen/location/location3';
+import Mybooking from '../screen/profilescreens/Mybooking';
+import Aboutus from '../screen/profilescreens/Aboutus';
+import Helpcenter from '../screen/profilescreens/Helpcenter';
+import Account from '../screen/helpcenter/Account';
+import phonenumber from '../screen/helpcenter/Phonenumber';
+import Editprofile from '../screen/helpcenter/Editprofile';
 
 const Stack = createNativeStackNavigator();
 
@@ -28,6 +34,12 @@ const Navigation = () => {
                 <Stack.Screen name="Location" component={Location} />
                 <Stack.Screen name="Location2" component={location2} />
                 <Stack.Screen name="Location3" component={Location3} />
+                <Stack.Screen name="Mybooking" component={Mybooking} />
+                <Stack.Screen name="Aboutus" component={Aboutus} />
+                <Stack.Screen name="Helpcenter" component={Helpcenter} />
+                <Stack.Screen name="Account" component={Account} />
+                <Stack.Screen name="phonenumber" component={phonenumber} />
+                <Stack.Screen name="Editprofile" component={Editprofile} />
             </Stack.Navigator>
         </NavigationContainer>
     );

@@ -14,9 +14,9 @@ const location2 = () => {
         return () => clearTimeout(timeout);
     }, [navigation]);
     return (
-        <SafeAreaView style={{ backgroundColor: "#000", flex: 1 }}>
+        <SafeAreaView style={{ backgroundColor: "#FFF", flex: 1 }}>
             <StatusBar backgroundColor="transparent" translucent={true} />
-            <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: "#000" }}>
+            <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: "#FFFF" }}>
                 <View style={{ alignSelf: "center", justifyContent: "center", marginTop: height * 0.3 }}>
                     <Image source={require("../../assets/Newicon/XOsX.gif")} style={styles.images} />
                     <Text style={styles.text}>
@@ -45,13 +45,13 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 20,
         fontStyle: "normal",
-        color: "white",
+        color: "#000",
         textAlign: "center"
 
     },
     images: {
         width: 200,
-        height: 200,
+        height: 230,
         alignSelf: "center"
     }
 });

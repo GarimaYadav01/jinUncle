@@ -38,57 +38,56 @@ const LoginScreen = (props) => {
   return (
     <SafeAreaView style={styles.container}>
 
-      <View style={{ backgroundColor: "#000", flex: 1 }}>
+      <View style={{ backgroundColor: "#FFF", flex: 1 }}>
         <StatusBar backgroundColor="transparent" translucent={true} />
         <ScrollView>
-          <ImageBackground source={require("../../assets/Newicon/blackscreen.png")} style={styles.img}>
-            <View style={styles.container1}>
-              <View style={{ flexDirection: "row" }}>
-                <Image source={require("../../assets/logo/jinnlogo.png")} style={styles.logo} resizeMode='contain' />
-                <View>
-                  <Text style={[styles.text, { color: "#ffe4c4" }]}>
-                    Jinnuncle is now
-                  </Text>
-                  <Text style={styles.header}>
-                    Jinnuncle
-                  </Text>
-                  <Text style={styles.text}>Your Home Service Expert</Text>
-                  <Text style={[styles.text, { color: "#fff8dc" }]}>Quick <Text>.</Text><Text>Affordable<Text>.</Text><Text>Trusted</Text></Text></Text>
-                </View>
-
+          <View style={styles.container1}>
+            <View style={{ flexDirection: "row" }}>
+              <Image source={require("../../assets/logo/jinnlogo.png")} style={styles.logo} resizeMode='contain' />
+              <View>
+                <Text style={[styles.text, { color: "black" }]}>
+                  Jinnuncle is now
+                </Text>
+                <Text style={styles.header}>
+                  Jinnuncle
+                </Text>
+                <Text style={styles.text}>Your Home Service Expert</Text>
+                <Text style={[styles.text, { color: "black" }]}>Quick <Text>.</Text><Text>Affordable<Text>.</Text><Text>Trusted</Text></Text></Text>
               </View>
 
-              <Formik
-                initialValues={{ phonenumber: '', }}
-                // validationSchema={validationSchema}
-                onSubmit={(values) => {
-                  // Handle form submission
-                  console.log(values);
-                  showMessage({
-                    message: "Login successfully",
-                    type: "success",
-                    icon: "success"
-                  })
-                  props.navigation.navigate("Otp")
-                }}
-              >
-                {({ handleChange, handleBlur, handleSubmit, touched, values, errors }) => (
-                  <View style={styles.contain}>
-                    <TextinputComponent inputType="phone" placeholder={"Enter your phone number"} onChangeText={handleChange('phonenumber')}
-                      onBlur={handleBlur('phonenumber')} value={values.phonenumber} />
-                    {errors.phonenumber && touched.phonenumber && <Text style={[styles.error, { marginRight: width * 0.4 }]}>{errors.phonenumber}</Text>}
-                    <View style={{ marginTop: height * 0.03 }}>
-                      <CustomButton label={"Verfiy phone number"} size={"large"} onPress={handleSubmit} backgroundColor={"#f5fffa"} color={"#9400d3"} />
-
-                    </View>
-                  </View>
-                )}
-              </Formik>
             </View>
-          </ImageBackground>
+
+            <Formik
+              initialValues={{ phonenumber: '', }}
+              // validationSchema={validationSchema}
+              onSubmit={(values) => {
+                // Handle form submission
+                console.log(values);
+                showMessage({
+                  message: "Login successfully",
+                  type: "success",
+                  icon: "success"
+                })
+                props.navigation.navigate("Otp")
+              }}
+            >
+              {({ handleChange, handleBlur, handleSubmit, touched, values, errors }) => (
+                <View style={styles.contain}>
+                  <TextinputComponent inputType="phone" placeholder={"Enter your phone number"} onChangeText={handleChange('phonenumber')}
+                    onBlur={handleBlur('phonenumber')} value={values.phonenumber} />
+                  {errors.phonenumber && touched.phonenumber && <Text style={[styles.error, { marginRight: width * 0.4 }]}>{errors.phonenumber}</Text>}
+                  <View style={{ marginTop: height * 0.03 }}>
+                    <CustomButton label={"Verfiy phone number"} size={"large"} onPress={handleSubmit} backgroundColor={"#f5fffa"} color={"#9400d3"} />
+
+                  </View>
+                </View>
+              )}
+            </Formik>
+          </View>
+
         </ScrollView>
       </View>
-    </SafeAreaView>
+    </SafeAreaView >
   );
 };
 
@@ -100,7 +99,7 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 35,
     fontWeight: "700",
-    color: "#FFF",
+    color: "black",
     fontFamily: "Rubik-Bold",
     textAlign: "center"
 
@@ -144,7 +143,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 14,
     fontStyle: "normal",
-    color: "white"
+    color: "black"
 
   },
   logo: {

@@ -20,7 +20,7 @@ const Header = ({ title, onBackPress }) => {
       {/* <StatusBar backgroundColor={"#FFF"} barStyle={"light-content"} /> */}
       <View style={[styles.container, Platform.OS === 'ios' && styles.iosContainer]}>
         <TouchableOpacity onPress={handleBackPress}>
-          <Image source={require("../assets/Icon/left-chevron.png")} style={styles.backIcon} />
+          <Image source={require("../assets/Newicon/back.png")} style={styles.backIcon} />
         </TouchableOpacity>
         <Text style={styles.title}>{title}</Text>
       </View>
@@ -33,9 +33,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
-    paddingVertical: Platform.OS === 'ios' ? 20 : StatusBar.currentHeight + 5,
-    // backgroundColor: "#FFF",
+    paddingVertical: Platform.OS === 'ios' ? 20 : StatusBar.currentHeight + 6,
+    backgroundColor: "#004E8C",
     paddingHorizontal: 16,
+
   },
 
   iosContainer: {
@@ -51,6 +52,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontWeight: "bold",
+    fontFamily:"Roboto-Bold",
     color: "#FFF",
     marginLeft: width * 0.1,
     textAlign: "center",

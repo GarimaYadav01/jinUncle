@@ -56,7 +56,7 @@ const TextinputComponent = ({ label, placeholder, secureTextEntry, inputType, on
               onChangeText={onChangeText}
               onBlur={onBlur}
               value={value}
-              placeholderTextColor={"#FFF"}
+              placeholderTextColor={"gray"}
 
             />
             {inputType === 'password' && (
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: "#E6E6E6",
     // marginBottom: height * 0.02,
-    marginTop: 5,
+    marginTop:height*0.01,
     color: "black"
 
   },
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     resizeMode: 'contain',
-    tintColor:"#FFF"
+    // tintColor:"#FFF"
   },
   eyeIcon: {
     width: 20,
@@ -104,13 +104,14 @@ const styles = StyleSheet.create({
   },
   inputField: {
     flex: 1,
-    color: "#FFF"
+    // color: "#FFF"
+    
   },
   textInputLabel: {
     color: "#393838",
     fontSize: 18,
     // marginBottom: height * 0.02,
-    // marginTop: 10
+    marginTop: 10
   },
 });
 

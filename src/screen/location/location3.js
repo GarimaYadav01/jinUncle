@@ -13,9 +13,9 @@ const location2 = () => {
         return () => clearTimeout(timeout);
     }, [navigation]);
     return (
-        <SafeAreaView style={{ backgroundColor: "#000", flex: 1 }}>
+        <SafeAreaView style={{ backgroundColor: "#FFF", flex: 1 }}>
             <StatusBar backgroundColor="transparent" translucent={true} />
-            <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: "#000" }}>
+            <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: "#FFF" }}>
                 <View style={{ alignSelf: "center", justifyContent: "center", marginTop: height * 0.3 }}>
                     <Image source={require("../../assets/Newicon/location.png")} style={styles.images} />
 
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 20,
         fontStyle: "normal",
-        color: "white",
+        color: "#000",
         textAlign: "center",
         width: width * 0.7,
         marginTop: height * 0.05

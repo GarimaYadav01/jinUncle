@@ -16,23 +16,23 @@ const Bottomnavigation = () => {
         <Tab.Navigator
             screenOptions={({ route }) => ({
 
-                tabBarActiveTintColor: '#9400d3',
+                tabBarActiveTintColor: '#004E8C',
                 tabBarStyle: {
                     height: height * 0.08,
                     borderTopLeftRadius: 30,
                     borderTopRightRadius: 30,
-                    backgroundColor: "#000",
+                    backgroundColor: "#FFF",
                 },
                 tabBarIcon: ({ focused, color, size }) => {
                     let iconName;
 
                     if (route.name === 'Home') {
-                        iconName = focused ? require('../assets/Newicon/home.png') : require('../assets/Newicon/home.png');
-                    } else if (route.name === 'Settings') {
-                        iconName = focused ? require('../assets/Newicon/setting.png') : require('../assets/Newicon/setting.png');
+                        iconName = focused ? require('../assets/bottomnavigatiomnimage/homeactive.png') : require('../assets/bottomnavigatiomnimage/home.png');
+                    } else if (route.name === 'Services') {
+                        iconName = focused ? require('../assets/bottomnavigatiomnimage/serviceactive.png') : require('../assets/bottomnavigatiomnimage/service.png');
 
                     } else if (route.name === 'garimayadav') {
-                        iconName = focused ? require('../assets/Newicon/multiple-users.png') : require('../assets/Newicon/multiple-users.png');
+                        iconName = focused ? require('../assets/bottomnavigatiomnimage/useractive.png') : require('../assets/bottomnavigatiomnimage/user.png');
                     }
                     return <Image source={iconName} style={{ width: 40, height: 40 }} />;
                 },
@@ -40,7 +40,7 @@ const Bottomnavigation = () => {
         >
 
             <Tab.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
-            <Tab.Screen name="Settings" component={SettingsScreen} options={{ headerShown: false }} />
+            <Tab.Screen name="Services" component={SettingsScreen} options={{ headerShown: false }} />
             <Tab.Screen name="garimayadav" component={ProfileScreen} options={{ headerShown: false }} />
         </Tab.Navigator>
     );

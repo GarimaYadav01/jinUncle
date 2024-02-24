@@ -69,42 +69,39 @@ const Otp = (props) => {
         <SafeAreaView style={styles.container}>
             <StatusBar backgroundColor={"transparent"} translucent />
             <ScrollView>
-                <ImageBackground source={require("../../assets/Newicon/blackscreen.png")} style={styles.img}>
-                    <View style={styles.container1}>
-                        <Text style={styles.header}>Otp Verification</Text>
-                        <Text style={styles.subheading}>
-                            Enter your  one time password +91 3746327490
-                        </Text>
-                        <CodeInput
-                            activeColor="#9400d3"
-                            inactiveColor="white"
-                            autoFocus={true}
-                            inputPosition="center"
-                            size={60}
-                            codeLength={4}
-                            onFulfill={(code) => onCodeFilled(code)}
-                            containerStyle={styles.codeInputContainer}
-                            codeInputStyle={styles.codeInput}
-                        />
-                    </View>
-                    <View style={{ justifyContent: "flex-end", alignSelf: "center", marginLeft: width * 0.7,marginVertical:height*0.09}}>
-                        <View style={{ flexDirection: "row", justifyContent: "center", }}>
-                            {isResendVisible && (
-                                <TouchableOpacity onPress={startTimer}>
-                                    <Text style={styles.resend}>Resend</Text>
-                                </TouchableOpacity>
-                            )}
-                            {isTimerRunning && <Text style={styles.timer}>{formatTime(timer)}</Text>}
-                        </View>
-                    </View>
-                    <CustomButton size={"large"} label={"Continue"}
-                        onPress={handlesubmit}
-                        backgroundColor={"#f5fffa"}
-                        color={"#9400d3"} 
-                    // onPress={() => props.navigation.navigate("Otp")}
+                <View style={styles.container1}>
+                    <Text style={styles.header}>Otp Verification</Text>
+                    <Text style={styles.subheading}>
+                        Enter your  one time password +91 3746327490
+                    </Text>
+                    <CodeInput
+                        activeColor="#004E8C"
+                        inactiveColor="#000"
+                        autoFocus={true}
+                        inputPosition="center"
+                        size={60}
+                        codeLength={4}
+                        onFulfill={(code) => onCodeFilled(code)}
+                        containerStyle={styles.codeInputContainer}
+                        codeInputStyle={styles.codeInput}
                     />
-                </ImageBackground>
-
+                </View>
+                <View style={{ justifyContent: "flex-end", alignSelf: "center", marginLeft: width * 0.7, marginVertical: height * 0.04}}>
+                    <View style={{ flexDirection: "row", justifyContent: "center", }}>
+                        {isResendVisible && (
+                            <TouchableOpacity onPress={startTimer}>
+                                <Text style={styles.resend}>Resend</Text>
+                            </TouchableOpacity>
+                        )}
+                        {isTimerRunning && <Text style={styles.timer}>{formatTime(timer)}</Text>}
+                    </View>
+                </View>
+                <CustomButton size={"large"} label={"Continue"}
+                    onPress={handlesubmit}
+                    backgroundColor={"#f5fffa"}
+                    color={"#9400d3"}
+                // onPress={() => props.navigation.navigate("Otp")}
+                />
             </ScrollView>
         </SafeAreaView>
     );
@@ -114,12 +111,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         // padding: 20,
-        backgroundColor: "#000"
+        // backgroundColor: "#000"
     },
     header: {
         fontSize: 40,
         fontWeight: "500",
-        color: "#f5fffa",
+        color: "#000",
         fontFamily: "Rubik-Bold"
     },
     container1: {
@@ -133,7 +130,7 @@ const styles = StyleSheet.create({
         height: height * 0.08
     },
     subheading: {
-        color: "#f5fffa",
+        color: "#000",
         fontSize: 16,
         fontWeight: "500",
         marginTop: 5,
@@ -146,28 +143,28 @@ const styles = StyleSheet.create({
         marginTop: -5,
     },
     codeInputContainer: {
-        marginTop: height * 0.09,
+        marginTop: height * 0.06,
         columnGap: 15
     },
     codeInput: {
         borderWidth: 1,
         borderRadius: 5,
         fontSize: 20,
-        color:"white"
+        // color: "white"
     },
     resend: {
         fontFamily: "Rubik-Regular",
         fontSize: 18,
-        color: "#9400d3"
+        color: "#004E8C"
     },
     timer: {
         fontSize: 14,
         fontStyle: "normal",
-        color: "#f5fffa"
+        color: "#004E8C"
     },
-    img:{
-        height:height,
-        width:width
+    img: {
+        height: height,
+        width: width
     }
 });
 export default Otp;

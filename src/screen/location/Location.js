@@ -9,7 +9,7 @@ const Location = (props) => {
             // style={{ backgroundColor: "#000", flex: 1 }}
             >
                 <StatusBar backgroundColor="transparent" translucent={true} />
-                <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: "#000" }}>
+                <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: "#FFF" }}>
                     {/* <ImageBackground source={require("../../assets/Newicon/blackscreen.png")} style={styles.img}> */}
                     <View style={{ alignSelf: "center", marginVertical: height * 0.2, }}>
                         <Image source={require("../../assets/Newicon/location.png")} style={styles.images} />
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 20,
         fontStyle: "normal",
-        color: "white",
+        color: "#000",
         textAlign: "center"
 
     },

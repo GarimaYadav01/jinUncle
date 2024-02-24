@@ -1,15 +1,18 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Platform, Dimensions } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 const { width, height } = Dimensions.get("screen")
-
 const CustomButton = ({ label, size, onPress, backgroundColor, color }) => {
   const buttonStyle = size === 'large' ? styles.btnLarge : styles.btnSmall;
   const textStyle = size === 'large' ? styles.textLarge : styles.textSmall;
 
   return (
-    <TouchableOpacity style={[styles.btn, buttonStyle, { backgroundColor }]} onPress={onPress}>
-      <Text style={[styles.textinput, textStyle, { color }]}>{label}</Text>
-    </TouchableOpacity>
+    <View>
+      <TouchableOpacity style={[styles.btn, buttonStyle, { backgroundColor: "#004E8C" }]} onPress={onPress}>
+        <Text style={[styles.textinput, textStyle, { color:"#FFFF"}]}>{label}</Text>
+      </TouchableOpacity>
+    </View>
+
   );
 };
 
