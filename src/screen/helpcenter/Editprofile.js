@@ -4,9 +4,17 @@ import Header from "../../compontent/Header";
 import TextinputComponent from "../../compontent/TextinputComponent";
 import CustomButton from "../../compontent/Custombutton";
 import ApplyModal from "../../compontent/ApplyModal";
+import { showMessage } from "react-native-flash-message";
 const { height, width } = Dimensions.get("screen")
 const Editprofile = () => {
-   
+
+    const handlesubmit = () => {
+        showMessage({
+            message: "update sucessufully",
+            type: "success",
+            icon: "success"
+        })
+    }
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#FFF" }}>
@@ -18,11 +26,11 @@ const Editprofile = () => {
                     <TextinputComponent label={"Phone number"} placeholder={"Enter you phone number."} inputType={"phone"} />
                 </View>
                 <View style={{ marginTop: 20 }}>
-                    <CustomButton label={"Update Now"} size={"large"} />
+                    <CustomButton label={"Update Now"} size={"large"} onPress={handlesubmit} />
                 </View>
 
             </ScrollView>
-          
+
         </SafeAreaView>
     );
 }

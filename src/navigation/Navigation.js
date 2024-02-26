@@ -17,7 +17,14 @@ import Helpcenter from '../screen/profilescreens/Helpcenter';
 import Account from '../screen/helpcenter/Account';
 import phonenumber from '../screen/helpcenter/Phonenumber';
 import Editprofile from '../screen/helpcenter/Editprofile';
-
+import Saved from '../screen/helpcenter/Saved';
+import Changeemail from '../screen/helpcenter/Changeemail';
+import Address from '../screen/helpcenter/Address';
+import Checksavedpayments from '../screen/helpcenter/Checksavedpayments';
+import Managepaymentmethods from '../screen/helpcenter/Managepaymentmethods';
+import Wallet from '../screen/profilescreens/Wallet';
+import Settings from '../screen/profilescreens/Settings';
+import Rateing from '../screen/profilescreens/Rateing';
 const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
@@ -40,6 +47,14 @@ const Navigation = () => {
                 <Stack.Screen name="Account" component={Account} />
                 <Stack.Screen name="phonenumber" component={phonenumber} />
                 <Stack.Screen name="Editprofile" component={Editprofile} />
+                <Stack.Screen name="Saved" component={Saved} />
+                <Stack.Screen name="Changeemail" component={Changeemail} />
+                <Stack.Screen name="Address" component={Address} />
+                <Stack.Screen name="Checksavedpayments" component={Checksavedpayments} />
+                <Stack.Screen name="Managepaymentmethods" component={Managepaymentmethods} />
+                <Stack.Screen name="Wallet" component={Wallet} />
+                <Stack.Screen name="Settings" component={Settings} />
+                <Stack.Screen name="Rateing" component={Rateing} />
             </Stack.Navigator>
         </NavigationContainer>
     );

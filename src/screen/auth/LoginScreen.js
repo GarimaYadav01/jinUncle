@@ -45,14 +45,14 @@ const LoginScreen = (props) => {
             <View style={{ flexDirection: "row" }}>
               <Image source={require("../../assets/logo/jinnlogo.png")} style={styles.logo} resizeMode='contain' />
               <View>
-                <Text style={[styles.text, { color: "black" }]}>
+                <Text style={[styles.text, { color: "#004E8C" }]}>
                   Jinnuncle is now
                 </Text>
                 <Text style={styles.header}>
                   Jinnuncle
                 </Text>
                 <Text style={styles.text}>Your Home Service Expert</Text>
-                <Text style={[styles.text, { color: "black" }]}>Quick <Text>.</Text><Text>Affordable<Text>.</Text><Text>Trusted</Text></Text></Text>
+                <Text style={[styles.text, { color: "#004E8C" }]}>Quick <Text>.</Text><Text>Affordable<Text>.</Text><Text>Trusted</Text></Text></Text>
               </View>
 
             </View>
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
   container1: {
     flex: 1,
     marginHorizontal: 20,
-    // marginTop: height * 0.07,
+    marginTop: height * 0.2,
     alignItems: "center",
     justifyContent: "center",
     // flexDirection:"row"

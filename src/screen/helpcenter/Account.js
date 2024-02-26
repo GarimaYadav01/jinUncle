@@ -16,20 +16,20 @@ const Account = () => {
             id: "2",
             lable: "Where can i check my saved addresses ?",
             image: ICONS.arrow,
-            screen: "Helpcenter"
+            screen: "Saved"
         },
 
         {
             id: "3",
             lable: "I want to changes my email address",
             image: ICONS.arrow,
-            screen: "Mybooking"
+            screen: "Changeemail"
         },
         {
             id: "3",
             lable: "Where can i see my saved payment",
             image: ICONS.arrow,
-            screen: "Mybooking"
+            screen: "Checksavedpayments"
         },
         
 

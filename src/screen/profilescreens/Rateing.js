@@ -11,19 +11,20 @@ const { height, width } = Dimensions.get("screen");
 const Rateing = () => {
 
     const [isVisible, setIsVisible] = useState(false);
+    const [isChecked, setIsChecked] = useState(false);
 
-        const showModal = () => {
-            setIsVisible(true);
-        };
-    
-        const hideModal = () => {
-            setIsVisible(false);
-        };
-    
-        const handleSave = () => {
-            hideModal();
-        };
-    
+    const showModal = () => {
+        setIsVisible(true);
+    };
+
+    const hideModal = () => {
+        setIsVisible(false);
+    };
+
+    const handleSave = () => {
+        hideModal();
+    };
+
     const handleRating = (rating) => {
         // Handle the rating as needed, such as saving it to state or sending it to a server
         console.log('Selected rating:', rating);
@@ -34,19 +35,19 @@ const Rateing = () => {
             comment: "I loved this dress so much as soon as I tried it on I knew I had to buy it in another color. I am 5'3 about 155lbs and I carry all my weight in my upper body. When I put it on I felt like it thinned me put and I got so many compliments.",
             lable: "Kim Shine",
             date: "August 13, 2019",
-            icon: IMAGE.car,
+            // icon: IMAGE.car,
         },
         {
             comment: "I loved this dress so much as soon as I tried it on I knew I had to buy it in another color. I am 5'3 about 155lbs and I carry all my weight in my upper body. When I put it on I felt like it thinned me put and I got so many compliments.",
             lable: "Kim Shine",
             date: "August 13, 2019",
-            icon: IMAGE.car,
+            // icon: IMAGE.car,
         }
     ];
 
     const renderReviewItem = ({ item }) => (
         <View style={styles.card}>
-            <Image source={IMAGE.proboy} resizeMode="contain" style={{ width: 30, height: 30, marginTop: -height * 0.07, marginRight: height * 0.08 }} />
+            {/* <Image source={IMAGE.proboy} resizeMode="contain" style={{ width: 30, height: 30, marginTop: -height * 0.07, marginRight: height * 0.08 }} /> */}
             <View style={{ marginHorizontal: 20 }}>
                 <Text style={styles.kim}>{item.lable}</Text>
                 <View style={styles.container2}>
@@ -68,7 +69,7 @@ const Rateing = () => {
                 </ScrollView>
                 <View style={{ flexDirection: "row", alignSelf: "center", marginLeft: width * 0.6, marginTop: height * 0.05 }}>
                     <Text>Helpful</Text>
-                    <Image source={require("../../assets/payment/icon.png")} resizeMode="contain" style={{ width: 30, height: 30, marginTop: -height * 0.01 }} />
+                    {/* <Image source={require("../../assets/payment/icon.png")} resizeMode="contain" style={{ width: 30, height: 30, marginTop: -height * 0.01 }} /> */}
                 </View>
             </View>
         </View>
@@ -77,11 +78,14 @@ const Rateing = () => {
     return (
         <SafeAreaView>
             <Header title={"Rating and reviews"} />
-            <ScrollView contentContainerStyle={styles.container}  showsVerticalScrollIndicator={false}>
+            <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
                 <View style={styles.content}>
                     <Text style={styles.sectionTitle}>8 reviews</Text>
                     <View style={{ flexDirection: "row", justifyContent: "center" }}>
-                        <CheckBox />
+                        <CheckBox
+                            isChecked={isChecked}
+                            onClick={() => setIsChecked(!isChecked)}
+                        />
                         <Text style={styles.text}>With photo</Text>
                     </View>
                 </View>
@@ -96,18 +100,18 @@ const Rateing = () => {
                 </View>
                 <View>
                     <TouchableOpacity style={styles.btn} onPress={showModal}>
-                        <View style={{ flexDirection: "row", alignSelf: "center" }}>
-                            <Image source={require("../../assets/payment/penicon.png")} resizeMode="contain" style={{ width: 25, height: 25, marginTop: -height * 0.005 }} />
+                        <View style={{ flexDirection: "row", alignSelf: "center",columnGap:10 }}>
+                            <Image source={require("../../assets/logo/pen.png")} resizeMode="contain" style={{ width: 25, height: 25, marginTop: -height * 0.005,tintColor:"#FFF" }} />
                             <Text style={styles.text2}>Write a review</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
 
                 <Rateingmodal
-                isVisible={isVisible}
-                hideModal={hideModal}
-                handleSave={handleSave}
-            />
+                    isVisible={isVisible}
+                    hideModal={hideModal}
+                    handleSave={handleSave}
+                />
             </ScrollView>
         </SafeAreaView>
     );
@@ -176,19 +180,21 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         height: height * 0.05,
         width: width * 0.41,
-        backgroundColor: "#FFCC00",
-        borderColor: "#FFCC00",
+        backgroundColor: "#004E8C",
+        borderColor: "#004E8C",
         borderRadius: 50,
         textAlign: "center",
-        paddingVertical: height * 0.01,
-        marginLeft:width*0.5,
-        marginTop:15
+        // paddingVertical: height * 0.01,
+        marginLeft: width * 0.5,
+        marginTop: 15,
+        justifyContent:"center",
+     
     },
     text2: {
-        fontSize: 11,
+        fontSize: 13,
         fontFamily: "Rubik",
         fontStyle: "normal",
-        color: "#1E1E1E",
+        color: "#FFF",
         fontWeight: "400"
     }
 });

@@ -4,7 +4,7 @@ import Header from "../../compontent/Header";
 import ApplyModal from "../../compontent/ApplyModal";
 import { showMessage } from "react-native-flash-message";
 const { height, width } = Dimensions.get("screen")
-const Phonenumber = (props) => {
+const Changeemail = (props) => {
     const [isVisible, setIsVisible] = useState(false);
     const showModal = () => {
         setIsVisible(true);
@@ -25,14 +25,14 @@ const Phonenumber = (props) => {
             <ScrollView>
                 <View style={styles.con}>
                     <Text style={styles.text}>
-                        I want to change my phone number
+                        I want to change my email address
                     </Text >
                     <Text style={styles.text2}>You can change your phone number from the
                         profile section after verifyingbif with an OTP</Text>
                     <TouchableOpacity style={styles.btn} onPress={() => props.navigation.navigate("Editprofile")}>
                         <Text style={styles.btntext
                         }>
-                            Change phone number
+                            Change email address
                         </Text>
                     </TouchableOpacity>
 
@@ -58,7 +58,7 @@ const Phonenumber = (props) => {
 
     )
 }
-export default Phonenumber;
+export default Changeemail;
 const styles = StyleSheet.create({
     container: {
         flexGrow: 1,

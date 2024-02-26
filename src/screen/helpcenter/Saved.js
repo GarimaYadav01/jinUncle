@@ -3,8 +3,10 @@ import { Dimensions, Image, SafeAreaView, ScrollView, StyleSheet, Text, Touchabl
 import Header from "../../compontent/Header";
 import ApplyModal from "../../compontent/ApplyModal";
 import { showMessage } from "react-native-flash-message";
+
 const { height, width } = Dimensions.get("screen")
-const Phonenumber = (props) => {
+
+const Saved = (props) => {
     const [isVisible, setIsVisible] = useState(false);
     const showModal = () => {
         setIsVisible(true);
@@ -21,20 +23,33 @@ const Phonenumber = (props) => {
     };
     return (
         <SafeAreaView>
-            <Header />
+            <Header title={"Account"} />
             <ScrollView>
-                <View style={styles.con}>
-                    <Text style={styles.text}>
-                        I want to change my phone number
-                    </Text >
-                    <Text style={styles.text2}>You can change your phone number from the
-                        profile section after verifyingbif with an OTP</Text>
-                    <TouchableOpacity style={styles.btn} onPress={() => props.navigation.navigate("Editprofile")}>
-                        <Text style={styles.btntext
-                        }>
-                            Change phone number
+                <View style={{ backgroundColor: "#FFF" }}>
+
+                    <View style={{ marginHorizontal: 20 }}>
+
+
+                        <Text style={styles.text}>Where Can i check my saved addresses?</Text>
+
+                        <Text style={styles.text1}>You can check your saved address using the following ways</Text>
+                        <Text style={styles.text1}>
+                            1. while selecting the location on the app homescreen
                         </Text>
-                    </TouchableOpacity>
+
+                        <Text style={styles.text1}>     2. Check address on the checkout screen before making payment</Text>
+
+                        <Text style={styles.text1}>Alternatively,you can also click on the below link to check all saved address:</Text>
+
+                        <TouchableOpacity style={styles.btn} onPress={() => props.navigation.navigate("Address")}>
+                            <Text style={styles.btntext
+                            }>
+                                My addresses
+                            </Text>
+                        </TouchableOpacity>
+
+                    </View>
+
 
                 </View>
                 <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginHorizontal: 16, marginTop: height * 0.04 }}>
@@ -47,6 +62,8 @@ const Phonenumber = (props) => {
                         <Image source={require("../../assets/Newicon/dont-like.png")} resizeMode="contain" style={{ width: 20, height: 20 }} />
                     </TouchableOpacity>
                 </View>
+
+
             </ScrollView>
             <ApplyModal
                 isVisible={isVisible}
@@ -55,28 +72,11 @@ const Phonenumber = (props) => {
             // handleSave={handleSave}
             />
         </SafeAreaView>
+    );
+};
 
-    )
-}
-export default Phonenumber;
+export default Saved;
 const styles = StyleSheet.create({
-    container: {
-        flexGrow: 1,
-        paddingHorizontal: 16,
-        paddingBottom: 20,
-    },
-    content: {
-        marginTop: 20,
-    },
-    sectionTitle: {
-        fontSize: 18,
-        fontWeight: "bold",
-        marginBottom: 10,
-    },
-    sectionText: {
-        fontSize: 16,
-        marginBottom: 20,
-    },
     buttonContainer: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -97,25 +97,20 @@ const styles = StyleSheet.create({
         width: 20,
         height: 20,
     },
-    con: {
-        backgroundColor: "white",
-        borderWidth: 1,
-        borderColor: "white",
-        width: width,
-        paddingHorizontal: 20,
-        paddingRight: width * 0.2,
-        padding: 20
-    },
     text: {
-        fontFamily: "Roboto-Medium",
+        fontStyle: "normal",
         fontSize: 20,
-        color: "black",
-        marginVertical: height * 0.02
+        color: "#000",
+        marginTop: height * 0.05,
+        textAlign: "center",
+        fontFamily: "Roboto-Black"
     },
-    text2: {
-        fontFamily: "Roboto-Medium",
-        fontSize: 15,
-        color: "gray"
+    text1: {
+        fontSize: 16,
+        fontStyle: "normal",
+        textAlign: "center",
+        marginVertical: height * 0.01,
+
     },
     btn: {
         height: height * 0.06,

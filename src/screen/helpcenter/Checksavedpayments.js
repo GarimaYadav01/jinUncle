@@ -4,7 +4,7 @@ import Header from "../../compontent/Header";
 import ApplyModal from "../../compontent/ApplyModal";
 import { showMessage } from "react-native-flash-message";
 const { height, width } = Dimensions.get("screen")
-const Phonenumber = (props) => {
+const Checksavedpayments = (props) => {
     const [isVisible, setIsVisible] = useState(false);
     const showModal = () => {
         setIsVisible(true);
@@ -25,14 +25,16 @@ const Phonenumber = (props) => {
             <ScrollView>
                 <View style={styles.con}>
                     <Text style={styles.text}>
-                        I want to change my phone number
+                        Where can i see my saved payment details ?
                     </Text >
-                    <Text style={styles.text2}>You can change your phone number from the
-                        profile section after verifyingbif with an OTP</Text>
-                    <TouchableOpacity style={styles.btn} onPress={() => props.navigation.navigate("Editprofile")}>
+                    <Text style={styles.text2}>You can change all your saved payment details by clickling the below button.
+                    </Text>
+                    <Text style={styles.text2}>if you wish to remove any saved payment details, you can either unlink wallet account or delete the saved cards
+                    </Text>
+                    <TouchableOpacity style={styles.btn} onPress={() => props.navigation.navigate("Managepaymentmethods")}>
                         <Text style={styles.btntext
                         }>
-                            Change phone number
+                            Check saved payments
                         </Text>
                     </TouchableOpacity>
 
@@ -58,7 +60,7 @@ const Phonenumber = (props) => {
 
     )
 }
-export default Phonenumber;
+export default Checksavedpayments;
 const styles = StyleSheet.create({
     container: {
         flexGrow: 1,

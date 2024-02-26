@@ -1,6 +1,5 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Platform, Dimensions } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 const { width, height } = Dimensions.get("screen")
 const CustomButton = ({ label, size, onPress, backgroundColor, color }) => {
   const buttonStyle = size === 'large' ? styles.btnLarge : styles.btnSmall;

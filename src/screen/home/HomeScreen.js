@@ -1,7 +1,24 @@
-import React from "react";
-import { Dimensions, Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Dimensions, Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import TextinputComponent from "../../compontent/TextinputComponent";
 const { width, height } = Dimensions.get("screen")
 const HomeScreen = () => {
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const images = [
+        require('../../assets/banner/banner.png'),
+        require('../../assets/banner/banner2.png'),
+        require('../../assets/banner/banner2.png'),
+        // Add more image sources as needed
+    ];
+    useEffect(() => {
+        const interval = setInterval(() => {
+            // Update the index to the next image
+            setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+        }, 3000); // Change the interval duration as needed (in milliseconds)
+
+        return () => clearInterval(interval); // Clear the interval on component unmount
+    }, []);
+
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <ScrollView>
@@ -9,13 +26,23 @@ const HomeScreen = () => {
                     <Image source={require("../../assets/Newicon/location.png")} style={styles.images} />
                     <TouchableOpacity>
                         <Text style={styles.text}>Janakpuri District Center</Text>
-                        <Text style={[styles.text,{fontSize:14,color:"#c0c0c0"}]}>Janakpuri-Delhi- 110058-india</Text>
+                        <Text style={[styles.text, { fontSize: 14, color: "#c0c0c0" }]}>Janakpuri-Delhi- 110058-india</Text>
                     </TouchableOpacity>
                     <TouchableOpacity>
                         <Image source={require("../../assets/Newicon/add.png")} resizeMode="contain" style={{ width: 30, height: 30 }} />
                     </TouchableOpacity>
 
                 </View>
+
+                <View style={{ marginHorizontal: 20 }}>
+                    {/* <TextinputComponent /> */}
+
+
+                    <View style={styles.container1}>
+                        <Image source={images[currentIndex]} style={styles.image} />
+                    </View>
+                </View>
+
             </ScrollView>
 
         </SafeAreaView>
@@ -81,5 +108,13 @@ const styles = StyleSheet.create({
         height: 30,
         width: 30,
         resizeMode: "contain"
-    }
+    },
+    container1: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginVertical: height * 0.06,
+        borderRadius: 30
+
+    },
 });

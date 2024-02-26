@@ -36,25 +36,25 @@ const ProfileScreen = () => {
             id: "5",
             lable: "My rating",
             image: ICONS.arrow,
-            screen: "Mybooking"
+            screen: "Rateing"
         },
         {
             id: "3",
             lable: "Manage addresses",
             image: ICONS.arrow,
-            screen: "Mybooking"
+            screen: "Address"
         },
         {
             id: "3",
             lable: "Manage payment methods",
             image: ICONS.arrow,
-            screen: "Mybooking"
+            screen: "Managepaymentmethods"
         },
         {
             id: "3",
             lable: "Settings",
             image: ICONS.arrow,
-            screen: "Mybooking"
+            screen: "Settings"
         },
         {
             id: "3",
