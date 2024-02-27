@@ -1,14 +1,22 @@
-import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, StatusBar, Dimensions, ScrollView, BackHandler, Alert, ImageBackground, Image } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, Text, StyleSheet, SafeAreaView, StatusBar, Dimensions, ScrollView, BackHandler, Alert, ImageBackground, Image, TextInput } from 'react-native';
 import TextinputComponent from '../../compontent/TextinputComponent';
 import CustomButton from '../../compontent/Custombutton';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import CountryPicker from 'react-native-country-picker-modal';
 import { showMessage } from 'react-native-flash-message';
 
 const { width, height } = Dimensions.get("screen");
 
 const LoginScreen = (props) => {
+  const [countryCode, setCountryCode] = useState('US');
+  const [phoneNumber, setPhoneNumber] = useState('');
+
+  const onSelectCountry = (country) => {
+    setCountryCode(country.cca2);
+  };
+
   const validationSchema = Yup.object().shape({
 
   });
@@ -73,8 +81,27 @@ const LoginScreen = (props) => {
             >
               {({ handleChange, handleBlur, handleSubmit, touched, values, errors }) => (
                 <View style={styles.contain}>
-                  <TextinputComponent inputType="phone" placeholder={"Enter your phone number"} onChangeText={handleChange('phonenumber')}
-                    onBlur={handleBlur('phonenumber')} value={values.phonenumber} />
+                  {/* <TextinputComponent inputType="phone" placeholder={"Enter your phone number"} onChangeText={handleChange('phonenumber')}
+                    onBlur={handleBlur('phonenumber')} value={values.phonenumber} /> */}
+                  <View style={styles.container2}>
+                    <CountryPicker
+                      withFlag
+                      withCallingCode
+                      withCallingCodeButton
+                      withFilter
+                      withEmoji
+                      onSelect={onSelectCountry}
+                      countryCode={countryCode}
+                      containerButtonStyle={styles.countryPicker}
+                    />
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Enter your phone number"
+                      value={phoneNumber}
+                      onChangeText={setPhoneNumber}
+                      keyboardType="phone-pad"
+                    />
+                  </View>
                   {errors.phonenumber && touched.phonenumber && <Text style={[styles.error, { marginRight: width * 0.4 }]}>{errors.phonenumber}</Text>}
                   <View style={{ marginTop: height * 0.03 }}>
                     <CustomButton label={"Verfiy phone number"} size={"large"} onPress={handleSubmit} backgroundColor={"#f5fffa"} color={"#9400d3"} />
@@ -100,7 +127,7 @@ const styles = StyleSheet.create({
     fontSize: 35,
     fontWeight: "700",
     color: "black",
-    fontFamily: "Rubik-Bold",
+    fontFamily: "Roboto-BoldItalic",
     textAlign: "center"
 
   },
@@ -143,14 +170,35 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 14,
     fontStyle: "normal",
-    color: "black"
+    color: "black",
+    fontFamily: "Roboto-MediumItalic"
 
   },
   logo: {
     height: 90,
     width: 90,
     // tintColor:"#FFF"
-  }
+  },
+  container2: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    marginBottom: 10,
+  },
+  countryPicker: {
+    paddingVertical: 10,
+    paddingHorizontal: 5,
+  },
+  input: {
+    flex: 1,
+    height: 40,
+    marginLeft: 10,
+    backgroundColor: "white",
+    width: width * 0.9
+  },
 });
 
 export default LoginScreen;

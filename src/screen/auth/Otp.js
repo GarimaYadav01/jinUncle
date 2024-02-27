@@ -86,7 +86,7 @@ const Otp = (props) => {
                         codeInputStyle={styles.codeInput}
                     />
                 </View>
-                <View style={{ justifyContent: "flex-end", alignSelf: "center", marginLeft: width * 0.7, marginVertical: height * 0.04}}>
+                <View style={{ justifyContent: "flex-end", alignSelf: "center", marginLeft: width * 0.7, marginVertical: height * 0.04 }}>
                     <View style={{ flexDirection: "row", justifyContent: "center", }}>
                         {isResendVisible && (
                             <TouchableOpacity onPress={startTimer}>
@@ -115,9 +115,9 @@ const styles = StyleSheet.create({
     },
     header: {
         fontSize: 40,
-        fontWeight: "500",
+        // fontWeight: "500",
         color: "#000",
-        fontFamily: "Rubik-Bold"
+        fontFamily: "Roboto-BoldItalic"
     },
     container1: {
         // flex: 1,
@@ -132,9 +132,9 @@ const styles = StyleSheet.create({
     subheading: {
         color: "#000",
         fontSize: 16,
-        fontWeight: "500",
+        // fontWeight: "500",
         marginTop: 5,
-        fontFamily: "Rubik-Regular"
+        fontFamily: "Roboto-BoldItalic"
     },
 
     error: {
@@ -153,7 +153,7 @@ const styles = StyleSheet.create({
         // color: "white"
     },
     resend: {
-        fontFamily: "Rubik-Regular",
+        fontFamily: "Roboto-BoldItalic",
         fontSize: 18,
         color: "#004E8C"
     },

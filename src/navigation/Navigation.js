@@ -25,6 +25,7 @@ import Managepaymentmethods from '../screen/helpcenter/Managepaymentmethods';
 import Wallet from '../screen/profilescreens/Wallet';
 import Settings from '../screen/profilescreens/Settings';
 import Rateing from '../screen/profilescreens/Rateing';
+
 const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
@@ -55,6 +56,7 @@ const Navigation = () => {
                 <Stack.Screen name="Wallet" component={Wallet} />
                 <Stack.Screen name="Settings" component={Settings} />
                 <Stack.Screen name="Rateing" component={Rateing} />
+            
             </Stack.Navigator>
         </NavigationContainer>
     );

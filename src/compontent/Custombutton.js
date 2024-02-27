@@ -56,6 +56,8 @@ const styles = StyleSheet.create({
   textinput: {
     color: "#000000",
     fontSize: 22,
+    fontFamily:"Roboto-BoldItalic",
+    fontStyle:"normal"
     // marginVertical: 5,
   },
   textLarge: {

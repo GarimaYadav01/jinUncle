@@ -18,6 +18,7 @@ const location2 = () => {
             <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: "#FFF" }}>
                 <View style={{ alignSelf: "center", justifyContent: "center", marginTop: height * 0.3 }}>
                     <Image source={require("../../assets/Newicon/location.png")} style={styles.images} />
+                    {/* <Image source={require("../../assets/logo/jinnlogo.png")} style={styles.images} /> */}
 
                     <Text style={styles.text}>
                         Kirti Shikhar Tower, 1020, 10th floor, Janakpuri District Center, Janakpuri, New Delhi, Delhi 110059
@@ -47,7 +48,9 @@ const styles = StyleSheet.create({
         color: "#000",
         textAlign: "center",
         width: width * 0.7,
-        marginTop: height * 0.05
+        marginTop: height * 0.05,
+        fontFamily:"Roboto-BoldItalic"
+        
 
     },
     images: {

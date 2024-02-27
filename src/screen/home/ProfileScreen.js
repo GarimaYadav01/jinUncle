@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Dimensions, FlatList, Image, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { ICONS } from "../../assets/themes";
 import CustomButton from "../../compontent/Custombutton";
 import { useNavigation } from "@react-navigation/native";
+import LogoutModal from "../../compontent/LogoutModal";
 const { height, width } = Dimensions.get("screen")
 
 const ProfileScreen = () => {
@@ -39,49 +40,50 @@ const ProfileScreen = () => {
             screen: "Rateing"
         },
         {
-            id: "3",
+            id: "6",
             lable: "Manage addresses",
             image: ICONS.arrow,
             screen: "Address"
         },
         {
-            id: "3",
+            id: "7",
             lable: "Manage payment methods",
             image: ICONS.arrow,
             screen: "Managepaymentmethods"
         },
         {
-            id: "3",
+            id: "8",
             lable: "Settings",
             image: ICONS.arrow,
             screen: "Settings"
         },
         {
-            id: "3",
+            id: "9",
             lable: "Scheduled bookings",
             image: ICONS.arrow,
             screen: "Mybooking"
         },
         {
-            id: "4",
+            id: "10",
             lable: "About",
             image: ICONS.arrow,
             screen: "Aboutus"
         },
-        {
-            id: "5",
-            lable: "Logout",
-            image: ICONS.arrow,
-            screen: "Mybooking"
-        },
+
     ]
     const handleMenuItemPress = (screen) => {
         // Navigate to the specified screen
         navigation.navigate(screen);
     };
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const handleLogout = () => {
+        setModalVisible(false);
+        navigation.navigate("LoginScreen")
+    };
     return (
-        <SafeAreaView style={{ flex: 1, }}>
-            <ScrollView style={styles.container}>
+        <SafeAreaView style={{ flex: 1, }}  >
+            <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
                 <View style={styles.con}>
                     <View style={{
                         marginTop: height * 0.05, marginLeft: width * 0.07
@@ -109,7 +111,16 @@ const ProfileScreen = () => {
                     </View>
 
                 </View>
+                <TouchableOpacity style={styles.buttonContainer} onPress={() => setModalVisible(true)}>
+                    <Text style={styles.label}>Logout</Text>
+
+                </TouchableOpacity>
             </ScrollView>
+            <LogoutModal
+                visible={modalVisible}
+                onClose={() => setModalVisible(false)}
+                onLogout={handleLogout}
+            />
 
         </SafeAreaView>
 
