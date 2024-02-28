@@ -31,6 +31,7 @@ const Rateingmodal = ({ isVisible, hideModal, handleSave }) => {
                                 defaultRating={0}
                                 size={30}
                                 onFinishRating={handleRating}
+                           
                             />
                         </View>
                         <View style={{ marginTop: height * 0.02 }}>
@@ -49,7 +50,7 @@ const Rateingmodal = ({ isVisible, hideModal, handleSave }) => {
                             </TouchableOpacity>
                         </View>
 
-                        <CustomButton label={"SEND REVIEW"} size={"large"} onPress={handleSave} />
+                        <CustomButton label={"SEND REVIEW"} size={"large"} onPress={handleSave} backgroundColor={"#004E8C"} color={"white"} />
                     </View>
                 </View>
             </ScrollView>

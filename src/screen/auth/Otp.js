@@ -10,11 +10,17 @@ const { width, height } = Dimensions.get("screen")
 
 const Otp = (props) => {
     const [code, setCode] = useState('');
+    const [isCodeEntered, setIsCodeEntered] = useState(false);
 
     const onCodeFilled = (code) => {
-        // Handle the completed OTP code
-        console.log('OTP Code:', code);
+        setCode(code);
+        setIsCodeEntered(true);
     };
+
+    // const onCodeFilled = (code) => {
+    //     // Handle the completed OTP code
+    //     console.log('OTP Code:', code);
+    // };
 
     const handlesubmit = () => {
         showMessage({
@@ -96,11 +102,13 @@ const Otp = (props) => {
                         {isTimerRunning && <Text style={styles.timer}>{formatTime(timer)}</Text>}
                     </View>
                 </View>
-                <CustomButton size={"large"} label={"Continue"}
+                <CustomButton
+                    size={"large"}
+                    label={"Continue"}
                     onPress={handlesubmit}
-                    backgroundColor={"#f5fffa"}
-                    color={"#9400d3"}
-                // onPress={() => props.navigation.navigate("Otp")}
+                    backgroundColor={isCodeEntered ? "#004E8C" : "white"}
+                    color={isCodeEntered ? "white" : "#004E8C"}
+                    disabled={!isCodeEntered}
                 />
             </ScrollView>
         </SafeAreaView>

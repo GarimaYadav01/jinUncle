@@ -47,7 +47,7 @@ const CardListComponent = ({ navigation }) => {
             likes: "4.85(60k reviews)",
             starts: 549,
             label: "Deep cleaning of indoor & outdoor unit with Advanced foam & Power-jet Technology",
-            images: require("../../assets/banner/img3.png")
+            images: require("../../assets/banner/img-1.png")
 
 
         },
@@ -69,7 +69,7 @@ const CardListComponent = ({ navigation }) => {
             likes: "4.85(60k reviews)",
             starts: 549,
             label: "Deep cleaning of indoor & outdoor unit with Advanced foam & Power-jet Technology",
-            images: require("../../assets/banner/img3.png")
+            images: require("../../assets/banner/img-1.png")
 
 
         }

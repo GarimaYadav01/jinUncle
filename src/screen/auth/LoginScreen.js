@@ -12,13 +12,22 @@ const { width, height } = Dimensions.get("screen");
 const LoginScreen = (props) => {
   const [countryCode, setCountryCode] = useState('US');
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [isFilled, setIsFilled] = useState(false);
+
+
+  const handleInputChange = (text) => {
+    setPhoneNumber(text);
+    setIsFilled(text.trim() !== '');
+  };
+
+
 
   const onSelectCountry = (country) => {
     setCountryCode(country.cca2);
   };
 
   const validationSchema = Yup.object().shape({
-
+    phonenumber: Yup.string().required("phonenumber is required"),
   });
 
   useEffect(() => {
@@ -98,13 +107,22 @@ const LoginScreen = (props) => {
                       style={styles.input}
                       placeholder="Enter your phone number"
                       value={phoneNumber}
-                      onChangeText={setPhoneNumber}
+                      // onChangeText={setPhoneNumber}
+                      onChangeText={handleInputChange}
                       keyboardType="phone-pad"
+                      placeholderTextColor={"gray"}
                     />
                   </View>
-                  {errors.phonenumber && touched.phonenumber && <Text style={[styles.error, { marginRight: width * 0.4 }]}>{errors.phonenumber}</Text>}
+                  {errors.phonenumber && touched.phonenumber && <Text style={[styles.error,]}>{errors.phonenumber}</Text>}
                   <View style={{ marginTop: height * 0.03 }}>
-                    <CustomButton label={"Verfiy phone number"} size={"large"} onPress={handleSubmit} backgroundColor={"#f5fffa"} color={"#9400d3"} />
+                    <CustomButton
+                      label={"Verfiy phone number"}
+                      size={"large"}
+                      onPress={handleSubmit}
+                      backgroundColor={isFilled ? "#004E8C" : "white"} // Change background color based on input
+                      color={isFilled ? "white" : "#004E8C"} // Change text color based on input
+                      disabled={!isFilled} // Disable button if input is not filled
+                    />
 
                   </View>
                 </View>
@@ -182,23 +200,40 @@ const styles = StyleSheet.create({
   container2: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
+    backgroundColor: 'white',
+    width: '90%',
+    borderRadius: 10,
     paddingHorizontal: 10,
-    marginBottom: 10,
-  },
-  countryPicker: {
-    paddingVertical: 10,
-    paddingHorizontal: 5,
+    marginTop: 10,
+    borderColor: "#FFF"
   },
   input: {
     flex: 1,
-    height: 40,
     marginLeft: 10,
-    backgroundColor: "white",
-    width: width * 0.9
+    backgroundColor: 'white',
+    borderRadius: 10,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
   },
+
+  countryPicker: {
+    paddingVertical: 10,
+    paddingHorizontal: 5,
+    // borderWidth: 1,
+    marginLeft: 20
+
+  },
+  // input: {
+  //   flex: 1,
+  //   // height: 40,
+  //   marginLeft: 10,
+  //   color:"black",
+  //   // backgroundColor: "pink",
+  //   width: width * 0.6,
+  //   borderWidth: 1,
+  //   alignSelf:"center",
+  //   backgroundColor:"#FFF"
+  // },
 });
 
 export default LoginScreen;

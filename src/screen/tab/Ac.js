@@ -6,9 +6,6 @@ import CardListComponent from "./CardListComponent";
 const { height, width } = Dimensions.get("screen")
 
 const Ac = () => {
-
-
-
     const coupon = [
         {
             id: "1",
@@ -52,17 +49,17 @@ const Ac = () => {
     const subcategory = [
         {
             id: "1",
-            image: require("../../assets/subimages/gas.webp"),
+            image: require("../../assets/newimages/AC1.png"),
             name: "Repair & gas refill"
         },
         {
             id: "2",
-            image: require("../../assets/subimages/repair.jpg"),
+            image: require("../../assets/newimages/AC.png"),
             name: "Install & Uninstall"
         },
         {
             id: "3",
-            image: require("../../assets/subimages/image.jpeg"),
+            image: require("../../assets/newimages/AC2.png"),
             name: "service"
         }
     ]

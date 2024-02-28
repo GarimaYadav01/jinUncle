@@ -1,9 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import { Dimensions, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Header from "../../compontent/Header";
+import ApplyModal from "../../compontent/ApplyModal";
 const { height, width } = Dimensions.get("screen")
 
 const Managepaymentmethods = () => {
+    const [isVisible, setIsVisible] = useState(false);
+
+    const showModal = () => {
+        setIsVisible(true);
+    };
+
+    const hideModal = () => {
+        setIsVisible(false);
+    };
+    const handleSave = (cardDetails) => {
+        // Add logic to save card details
+        console.log("Card details:", cardDetails);
+        hideModal();
+    };
     return (
         <SafeAreaView>
             <Header title={"Manage payment methods"} />
@@ -13,7 +28,7 @@ const Managepaymentmethods = () => {
                     <Text>
                         Debit or Credit card
                     </Text>
-                    <TouchableOpacity>
+                    <TouchableOpacity  onPress={showModal}>
                         <View style={{ flexDirection: "row", alignItems: "center", marginTop: 10, }}>
                             <Image source={require("../../assets/Newicon/atm-card.png")} style={{ width: 30, height: 30 }} resizeMode="contain" />
                             <Text style={styles.text}>Add a card</Text>
@@ -23,6 +38,11 @@ const Managepaymentmethods = () => {
 
                 </View>
             </View>
+            <ApplyModal
+                isVisible={isVisible}
+                onClose={hideModal}
+                handleSave={handleSave}
+            />
         </SafeAreaView>
 
     );

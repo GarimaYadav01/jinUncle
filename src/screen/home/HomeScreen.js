@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Dimensions, FlatList, Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import TextinputComponent from "../../compontent/TextinputComponent";
+import { useNavigation } from "@react-navigation/native";
+import Applyproma from "../../compontent/Applyproma";
+import ApplyModal from "../../compontent/ApplyModal";
 const { width, height } = Dimensions.get("screen")
 const HomeScreen = () => {
+    const navigation = useNavigation();
+
+
     const [currentIndex, setCurrentIndex] = useState(0);
     const images = [
         require('../../assets/banner/banner.png'),
@@ -10,40 +16,46 @@ const HomeScreen = () => {
         require('../../assets/banner/banner2.png'),
         // Add more image sources as needed
     ];
-
     const data = [
         {
             id: "1",
             image: require("../../assets/banner/img2.png"),
-            name: "Ac"
+            name: "Ac",
+            screen: "Accategory"
+
         },
         {
             id: "2",
             image: require("../../assets/banner/img3.png"),
-            name: "Refrigerator"
+            name: "Refrigerator",
+            screen: "Fridagecategory"
         },
         {
             id: "3",
             image: require("../../assets/banner/img-1.png"),
-            name: "Washing Machine"
+            name: "Washing Machine",
+            screen: "Washingmachinecategory"
         }
     ]
-
+    const handleMenuItemPress = (screen) => {
+        // Navigate to the specified screen
+        navigation.navigate(screen);
+    };
 
     const subcategory = [
         {
             id: "1",
-            image: require("../../assets/subimages/gas.webp"),
+            image: require("../../assets/newimages/AC1.png"),
             name: "Repair & gas refill"
         },
         {
             id: "2",
-            image: require("../../assets/subimages/repair.jpg"),
+            image: require("../../assets/newimages/AC.png"),
             name: "Install & Uninstall"
         },
         {
             id: "3",
-            image: require("../../assets/subimages/image.jpeg"),
+            image: require("../../assets/newimages/AC2.png"),
             name: "service"
         }
     ]
@@ -65,6 +77,75 @@ const HomeScreen = () => {
             name: "Side by Side"
         }
     ]
+
+    const subcategorywashingmachine = [
+        {
+            id: "1",
+            image: require("../../assets/newimages/washingmachine1.png"),
+            name: "Single door"
+        },
+        {
+            id: "2",
+            image: require("../../assets/newimages/washingmachine2.png"),
+            name: "Double door"
+        },
+        {
+            id: "3",
+            image: require("../../assets/newimages/wahingmachine3.png"),
+            name: "Side by Side"
+        }
+    ]
+
+    const Allmix = [
+        {
+            id: "1",
+            image: require("../../assets/newimages/washingmachine1.png"),
+            name: "Fix washing machine",
+            icon: require("../../assets/logo/star.png"),
+            likes: "4.85(60k reviews)",
+            starts: 549,
+        },
+        {
+            id: "2",
+            image: require("../../assets/newimages/washingmachine2.png"),
+            name: "cleaning",
+            icon: require("../../assets/logo/star.png"),
+            likes: "4.85(60k reviews)",
+            starts: 549,
+        },
+        {
+            id: "3",
+            image: require("../../assets/newimages/wahingmachine3.png"),
+            name: "change the wire",
+            icon: require("../../assets/logo/star.png"),
+            likes: "4.85(60k reviews)",
+            starts: 549,
+        },
+        {
+            id: "4",
+            image: require("../../assets/newimages/AC1.png"),
+            name: "Repair & gas refill",
+            icon: require("../../assets/logo/star.png"),
+            likes: "4.85(60k reviews)",
+            starts: 549,
+        },
+        {
+            id: "5",
+            image: require("../../assets/newimages/AC.png"),
+            name: "Install & Uninstall",
+            icon: require("../../assets/logo/star.png"),
+            likes: "4.85(60k reviews)",
+            starts: 549,
+        },
+        {
+            id: "6",
+            image: require("../../assets/newimages/AC2.png"),
+            name: "service",
+            icon: require("../../assets/logo/star.png"),
+            likes: "4.85(60k reviews)",
+            starts: 549,
+        }
+    ]
     useEffect(() => {
         const interval = setInterval(() => {
             // Update the index to the next image
@@ -77,7 +158,7 @@ const HomeScreen = () => {
 
     const renderItem = ({ item }) => (
         <View style={{ marginBottom: 20, marginTop: 10 }}>
-            <TouchableOpacity style={styles.btn}>
+            <TouchableOpacity style={styles.btn} onPress={() => handleMenuItemPress(item.screen)}>
                 <Image source={item.image} style={{ width: 100, height: 100 }} resizeMode="contain" />
                 <Text style={styles.name}>{item.name}</Text>
             </TouchableOpacity>
@@ -104,18 +185,31 @@ const HomeScreen = () => {
         </View>
     );
 
+    const renderItemallmix = ({ item }) => (
+        <View style={{ marginBottom: 20, marginTop: 10 }}>
+            <TouchableOpacity style={styles.btn}>
+                <Image source={item.image} style={{ width: 100, height: 100 }} resizeMode="contain" />
+                <Text style={[styles.name, { width: width * 0.3 }]}>{item.name}</Text>
+                <View style={styles.ratingContainer}>
+                    <Image source={item.icon} style={styles.starIcon} />
+                    <Text style={styles.likes}>{item.likes}</Text>
+                </View>
+                <Text style={{ color: "black" }}>$258</Text>
+            </TouchableOpacity>
+        </View>
+    );
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
-            <ScrollView style={{ flexGrow: 1, paddingbottom: 50 }} showsVerticalScrollIndicator={false}>
+            <ScrollView style={{ flexGrow: 1, paddingbottom: 200 }} showsVerticalScrollIndicator={false}>
                 <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: height * 0.03, marginHorizontal: 20 }}>
                     {/* <Image source={require("../../assets/Newicon/location.png")} style={styles.images} /> */}
-                        <Image source={require("../../assets/logo/jinnlogo.png")} style={styles.images} />
+                    <Image source={require("../../assets/logo/jinnlogo.png")} style={styles.images} />
                     <TouchableOpacity>
                         <Text style={styles.text}>Janakpuri District Center</Text>
                         <Text style={[styles.text, { fontSize: 14, color: "#c0c0c0" }]}>Janakpuri-Delhi- 110058-india</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity>
+                    <TouchableOpacity >
                         <Image source={require("../../assets/Newicon/add.png")} resizeMode="contain" style={{ width: 30, height: 30, marginLeft: 40 }} />
                     </TouchableOpacity>
 
@@ -138,7 +232,7 @@ const HomeScreen = () => {
                 <View style={{ marginHorizontal: 20 }}>
                     {/* <TextinputComponent /> */}
                     <View style={styles.container1}>
-                        <Image source={images[currentIndex]} style={styles.image} />
+                        <Image source={images[currentIndex]} style={styles.image} resizeMode="contain" />
                     </View>
                 </View>
                 <View style={styles.con}>
@@ -188,9 +282,45 @@ const HomeScreen = () => {
                             />
                         </View>
                     </View>
+                    <View style={{ marginTop: 10 }}>
+                        <Text style={styles.text}>
+                            WashingMachine Repair & service
+                        </Text>
+
+                        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                            <FlatList
+                                data={subcategorywashingmachine}
+                                renderItem={renderItemfridage}
+                                keyExtractor={item => item.id}
+                                horizontal
+                                showsHorizontalScrollIndicator={false}
+                            />
+                        </View>
+                    </View>
+
+                    <View style={{ marginTop: 10, backgroundColor: "white", paddingBottom: 50, borderWidth: 1, borderColor: "#FFF", height: height * 0.28, borderRadius: 10 }}>
+                        <Text style={styles.text}>
+                            Most booked  services
+                        </Text>
+
+                        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
+                            <FlatList
+                                data={Allmix}
+                                renderItem={renderItemallmix}
+                                keyExtractor={item => item.id}
+                                horizontal
+                                showsHorizontalScrollIndicator={false}
+                            />
+                        </View>
+                    </View>
+                    {/* 
+                    <View style={styles.conn}>
+                        <Text>Refer and get free services</Text>
+                    </View> */}
                 </View>
 
             </ScrollView>
+
 
         </SafeAreaView>
 
@@ -255,7 +385,7 @@ const styles = StyleSheet.create({
 
     },
     image: {
-        width: width * 0.95,
+        width: width * 0.87,
         borderRadius: 10
     },
     btn: {
@@ -301,6 +431,23 @@ const styles = StyleSheet.create({
         flex: 1,
         height: 50,
         color: '#333',
-
     },
+    ratingContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        // marginBottom: 5,
+        // marginTop:10
+    },
+    starIcon: {
+        width: 14,
+        height: 14,
+        marginRight: 5,
+    },
+    likes: {
+        fontSize: 12,
+        color: 'gray',
+    },
+    conn: {
+        fontFamily: "Roboto-Regular"
+    }
 });

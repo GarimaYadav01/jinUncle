@@ -61,7 +61,7 @@ const ProfileScreen = () => {
             id: "9",
             lable: "Scheduled bookings",
             image: ICONS.arrow,
-            screen: "Mybooking"
+            screen: "Schechdulebooking"
         },
         {
             id: "10",

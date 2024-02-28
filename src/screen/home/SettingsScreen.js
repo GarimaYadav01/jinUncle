@@ -2,6 +2,8 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
 import { Dimensions, FlatList, Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Ac from "../tab/Ac";
+import Refrigerator from "../tab/Refrigerator";
+import Washingmachine from "../tab/Washingmachine";
 const { height, width } = Dimensions.get("screen")
 const SettingsScreen = () => {
     const navigation = useNavigation();
@@ -62,15 +64,13 @@ const SettingsScreen = () => {
             case "Refrigerator":
                 return (
                     <View>
-                        <Text>Additional content for Refrigerator tab</Text>
-                        {/* <Image source={require("../../assets/refrigerator_image.png")} style={{ width: 100, height: 100 }} resizeMode="contain" /> */}
+                        <Refrigerator />
                     </View>
                 );
             case "Washing Machine":
                 return (
                     <View>
-                        <Text>Additional content for Washing Machine tab</Text>
-                        {/* <Image source={require("../../assets/washing_machine_image.png")} style={{ width: 100, height: 100 }} resizeMode="contain" /> */}
+                        <Washingmachine />
                     </View>
                 );
             default:
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
         fontWeight: "500"
     },
     con: {
-        marginTop: height*0.03,
+        marginTop: height * 0.03,
         marginHorizontal: 20
     },
     btn: {
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         borderRadius: 10,
-        marginTop:height*0.03
+        marginTop: height * 0.03
     },
     activeTab: {
         backgroundColor: "#FFF", // Change to your active color
@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
         textAlign: "center"
     },
-    additionalContent:{
-        marginTop:height*0.03
+    additionalContent: {
+        marginTop: height * 0.03
     }
 });

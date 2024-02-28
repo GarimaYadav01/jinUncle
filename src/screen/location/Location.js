@@ -18,8 +18,8 @@ const Location = (props) => {
                             <Text style={styles.text}>
                                 Where do you want your Service?
                             </Text>
-                            <CustomButton label={"At my current location"} size={"large"} backgroundColor="#9400d3" color={"white"} onPress={() => props.navigation.navigate("Location2")} />
-                            <CustomButton label={"I'll enter my location manually"} size={"large"} backgroundColor="#f5fffa" color={"#9400d3"} />
+                            <CustomButton label={"At my current location"} size={"large"} backgroundColor="#004E8C" color={"white"} onPress={() => props.navigation.navigate("Location2")} />
+                            <CustomButton label={"I'll enter my location manually"} size={"large"} backgroundColor="#004E8C" color={"white"} />
                         </View>
                     </View>
                     {/* </ImageBackground> */}

@@ -25,6 +25,11 @@ import Managepaymentmethods from '../screen/helpcenter/Managepaymentmethods';
 import Wallet from '../screen/profilescreens/Wallet';
 import Settings from '../screen/profilescreens/Settings';
 import Rateing from '../screen/profilescreens/Rateing';
+import Accategory from '../screen/allcategory/Accategory';
+import Fridagecategory from '../screen/allcategory/Fridagecategory';
+import Washingmachinecategory from '../screen/allcategory/Washingmachinecategory';
+import Schechdulebooking from '../screen/profilescreens/Schechdulebooking';
+import Addcard from '../screen/helpcenter/Addcard';
 
 const Stack = createNativeStackNavigator();
 
@@ -56,7 +61,11 @@ const Navigation = () => {
                 <Stack.Screen name="Wallet" component={Wallet} />
                 <Stack.Screen name="Settings" component={Settings} />
                 <Stack.Screen name="Rateing" component={Rateing} />
-            
+                <Stack.Screen name="Accategory" component={Accategory} />
+                <Stack.Screen name="Fridagecategory" component={Fridagecategory} />
+                <Stack.Screen name="Washingmachinecategory" component={Washingmachinecategory} />
+                <Stack.Screen name="Schechdulebooking" component={Schechdulebooking} />
+                <Stack.Screen name="Addcard" component={Addcard} />
             </Stack.Navigator>
         </NavigationContainer>
     );

@@ -52,6 +52,7 @@ const Header2 = ({ title }) => {
                         source={require("../assets/banner/magnifying-glass.png")}
                         style={styles.icon}
                         resizeMode="contain"
+                      
                     />
                 </TouchableOpacity>
             </View>
@@ -69,9 +70,9 @@ const styles = StyleSheet.create({
         height:height*0.08,
         paddingTop: 10,
         paddingBottom: 5,
-        backgroundColor: '#fff', // Header background color
-        borderBottomWidth: 1,
-        borderBottomColor: '#ccc', // Border color
+        backgroundColor: 'transparent', // Header background color
+        // borderBottomWidth: 1,
+        // borderBottomColor: '#ccc', // Border color
     },
     title: {
         fontSize: 18,

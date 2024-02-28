@@ -26,7 +26,7 @@ const Editprofile = () => {
                     <TextinputComponent label={"Phone number"} placeholder={"Enter you phone number."} inputType={"phone"} />
                 </View>
                 <View style={{ marginTop: 20 }}>
-                    <CustomButton label={"Update Now"} size={"large"} onPress={handlesubmit} />
+                    <CustomButton label={"Update Now"} size={"large"} onPress={handlesubmit} backgroundColor={"#004E8C"} color={"white"}/>
                 </View>
 
             </ScrollView>

@@ -7,8 +7,8 @@ const CustomButton = ({ label, size, onPress, backgroundColor, color }) => {
 
   return (
     <View>
-      <TouchableOpacity style={[styles.btn, buttonStyle, { backgroundColor: "#004E8C" }]} onPress={onPress}>
-        <Text style={[styles.textinput, textStyle, { color:"#FFFF"}]}>{label}</Text>
+      <TouchableOpacity style={[styles.btn, buttonStyle, { backgroundColor: backgroundColor }]} onPress={onPress}>
+        <Text style={[styles.textinput, textStyle, { color:color}]}>{label}</Text>
       </TouchableOpacity>
     </View>
 
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     width: width * 0.84,
     height: height * 0.065,
-    backgroundColor: "#f5fffa",
+    backgroundColor: "#004E8C",
     shadowColor: '#000',
     shadowOpacity: 0.4,
     elevation: Platform.OS === 'android' ? 4 : 0,
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     width: width * 0.45,
     height: height * 0.065,
-    backgroundColor: "#2d3194",
+    backgroundColor: "#004E8C",
     shadowColor: '#000',
     shadowOpacity: 0.4,
     elevation: Platform.OS === 'android' ? 4 : 0,
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     // marginVertical: 5,
   },
   textLarge: {
-    color: "#9400d3",
+    color: "white",
     fontSize: 18,
     marginVertical: Platform.OS === 'android' ? height * 0.015 : height * 0.015,
     textAlign: "center",
