@@ -11,7 +11,7 @@ const Phonenumber = (props) => {
     };
     const hideModal = () => {
         setIsVisible(false);
-    };
+    }; ''
     const handlePress = () => {
         showMessage({
             message: 'Your message here',

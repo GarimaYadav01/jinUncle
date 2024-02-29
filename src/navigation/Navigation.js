@@ -30,6 +30,19 @@ import Fridagecategory from '../screen/allcategory/Fridagecategory';
 import Washingmachinecategory from '../screen/allcategory/Washingmachinecategory';
 import Schechdulebooking from '../screen/profilescreens/Schechdulebooking';
 import Addcard from '../screen/helpcenter/Addcard';
+import Getting from '../screen/getting/Getting';
+import Book from '../screen/booking/Book';
+import Booking from '../screen/booking/Booking';
+import Cancellation from '../screen/booking/Cancellation';
+import Minimum from '../screen/booking/Minimum';
+import Professional from '../screen/booking/Professional';
+import Unable from '../screen/paymentflow/Unable';
+import Gotowallet from '../screen/paymentflow/Gotowallet';
+import Jucredits from '../screen/paymentflow/Jucredits';
+import Validitywallet from '../screen/paymentflow/Validitywallet';
+import Referral from '../screen/paymentflow/Referral';
+import Secondreferral from '../screen/paymentflow/Secondreferral';
+import Paymentdetails from '../screen/paymentflow/Paymentdetails';
 
 const Stack = createNativeStackNavigator();
 
@@ -66,6 +79,19 @@ const Navigation = () => {
                 <Stack.Screen name="Washingmachinecategory" component={Washingmachinecategory} />
                 <Stack.Screen name="Schechdulebooking" component={Schechdulebooking} />
                 <Stack.Screen name="Addcard" component={Addcard} />
+                <Stack.Screen name="Getting" component={Getting} />
+                <Stack.Screen name="Book" component={Book} />
+                <Stack.Screen name="Booking" component={Booking} />
+                <Stack.Screen name="Cancellation" component={Cancellation} />
+                <Stack.Screen name="Minimum" component={Minimum} />
+                <Stack.Screen name="Professional" component={Professional} />
+                <Stack.Screen name="Unable" component={Unable} />
+                <Stack.Screen name="Gotowallet" component={Gotowallet} />
+                <Stack.Screen name="Jucredits" component={Jucredits} />
+                <Stack.Screen name="Validitywallet" component={Validitywallet} />
+                <Stack.Screen name="Referral" component={Referral} />
+                <Stack.Screen name="Secondreferral" component={Secondreferral} />
+                <Stack.Screen name="Paymentdetails" component={Paymentdetails} />
             </Stack.Navigator>
         </NavigationContainer>
     );

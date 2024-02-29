@@ -148,11 +148,10 @@ const HomeScreen = () => {
     ]
     useEffect(() => {
         const interval = setInterval(() => {
-            // Update the index to the next image
             setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-        }, 3000); // Change the interval duration as needed (in milliseconds)
+        }, 3000);
 
-        return () => clearInterval(interval); // Clear the interval on component unmount
+        return () => clearInterval(interval);
     }, []);
 
 
@@ -209,9 +208,11 @@ const HomeScreen = () => {
                         <Text style={styles.text}>Janakpuri District Center</Text>
                         <Text style={[styles.text, { fontSize: 14, color: "#c0c0c0" }]}>Janakpuri-Delhi- 110058-india</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity >
-                        <Image source={require("../../assets/Newicon/add.png")} resizeMode="contain" style={{ width: 30, height: 30, marginLeft: 40 }} />
-                    </TouchableOpacity>
+                    <View>
+                        <TouchableOpacity >
+                            <Image source={require("../../assets/Newicon/add.png")} resizeMode="contain" style={{ width: 30, height: 30, }} />
+                        </TouchableOpacity>
+                    </View>
 
                 </View>
 
@@ -298,7 +299,7 @@ const HomeScreen = () => {
                         </View>
                     </View>
 
-                    <View style={{ marginTop: 10, backgroundColor: "white", paddingBottom: 50, borderWidth: 1, borderColor: "#FFF", height: height * 0.28, borderRadius: 10 }}>
+                    <View style={{ marginTop: 10, backgroundColor: "white", paddingBottom: 50, borderWidth: 1, borderColor: "#FFF", padding: 8, borderRadius: 10 }}>
                         <Text style={styles.text}>
                             Most booked  services
                         </Text>
@@ -392,11 +393,12 @@ const styles = StyleSheet.create({
         backgroundColor: "#FFF",
         columnGap: 10,
         marginHorizontal: 10,
-        height: height * 0.18,
+        // height: height * 0.18,
         width: width * 0.4,
         justifyContent: "center",
         alignItems: "center",
-        borderRadius: 10
+        borderRadius: 10,
+        padding: 10
 
     },
     name: {

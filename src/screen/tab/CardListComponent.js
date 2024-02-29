@@ -59,8 +59,6 @@ const CardListComponent = ({ navigation }) => {
             starts: 549,
             label: "Deep cleaning of indoor & outdoor unit with Advanced foam & Power-jet Technology",
             images: require("../../assets/banner/img3.png")
-
-
         },
         {
             id: "1",
@@ -94,7 +92,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         alignItems: 'center',
         // width:width*0.9
-        marginHorizontal:20
+        marginHorizontal: 20
     },
     image: {
         width: 80,

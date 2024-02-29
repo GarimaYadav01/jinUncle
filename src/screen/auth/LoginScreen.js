@@ -27,7 +27,11 @@ const LoginScreen = (props) => {
   };
 
   const validationSchema = Yup.object().shape({
-    phonenumber: Yup.string().required("phonenumber is required"),
+    phoneNumber: Yup.string()
+      .required("Phone number is required")
+      .matches(/^[0-9]+$/, 'Must be only digits')
+      .min(10, 'Must be at least 10 characters')
+      .max(15, 'Must not exceed 15 characters'),
   });
 
   useEffect(() => {
@@ -75,7 +79,7 @@ const LoginScreen = (props) => {
             </View>
 
             <Formik
-              initialValues={{ phonenumber: '', }}
+              initialValues={{ phoneNumber: '', }}
               // validationSchema={validationSchema}
               onSubmit={(values) => {
                 // Handle form submission
@@ -90,8 +94,6 @@ const LoginScreen = (props) => {
             >
               {({ handleChange, handleBlur, handleSubmit, touched, values, errors }) => (
                 <View style={styles.contain}>
-                  {/* <TextinputComponent inputType="phone" placeholder={"Enter your phone number"} onChangeText={handleChange('phonenumber')}
-                    onBlur={handleBlur('phonenumber')} value={values.phonenumber} /> */}
                   <View style={styles.container2}>
                     <CountryPicker
                       withFlag
@@ -107,27 +109,28 @@ const LoginScreen = (props) => {
                       style={styles.input}
                       placeholder="Enter your phone number"
                       value={phoneNumber}
-                      // onChangeText={setPhoneNumber}
                       onChangeText={handleInputChange}
                       keyboardType="phone-pad"
                       placeholderTextColor={"gray"}
+                      onBlur={handleBlur('phoneNumber')}
+                      maxLength={20}
                     />
                   </View>
-                  {errors.phonenumber && touched.phonenumber && <Text style={[styles.error,]}>{errors.phonenumber}</Text>}
+                  {errors.phoneNumber && touched.phoneNumber && <Text style={styles.error}>{errors.phoneNumber}</Text>}
                   <View style={{ marginTop: height * 0.03 }}>
                     <CustomButton
-                      label={"Verfiy phone number"}
+                      label={"Verify phone number"}
                       size={"large"}
                       onPress={handleSubmit}
                       backgroundColor={isFilled ? "#004E8C" : "white"} // Change background color based on input
                       color={isFilled ? "white" : "#004E8C"} // Change text color based on input
                       disabled={!isFilled} // Disable button if input is not filled
                     />
-
                   </View>
                 </View>
               )}
             </Formik>
+
           </View>
 
         </ScrollView>
@@ -200,17 +203,18 @@ const styles = StyleSheet.create({
   container2: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'white',
+    // backgroundColor: 'pink',
     width: '90%',
     borderRadius: 10,
     paddingHorizontal: 10,
     marginTop: 10,
-    borderColor: "#FFF"
+    borderColor: "gray",
+    borderWidth: 1
   },
   input: {
     flex: 1,
     marginLeft: 10,
-    backgroundColor: 'white',
+    // backgroundColor: 'red',
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 15,

@@ -43,9 +43,6 @@ const Refrigerator = () => {
 
         }
     ]
-
-
-
     const subcategory = [
         {
             id: "1",
@@ -87,50 +84,58 @@ const Refrigerator = () => {
     );
     return (
 
-            <ScrollView style={{ flexGrow: 1, paddingBottom: 50 }} showsVerticalScrollIndicator={false}>
-                <View>
-                    <View style={{ backgroundColor: "#FFF" }}>
+        <ScrollView style={{ flexGrow: 1, paddingBottom: 50 }} showsVerticalScrollIndicator={false}>
+            <View>
+                <View style={{ backgroundColor: "#FFF" }}>
 
-                        <View style={{ marginHorizontal: 20, }}>
-                            <Text style={styles.text}>Refrigerator</Text>
-                            <View style={{ flexDirection: "row", alignItems: "center", columnGap: 10, marginTop: 10 }}>
-                                <Image source={require("../../assets/logo/star.png")} style={{ width: 20, height: 20 }} resizeMode="contain" />
-                                <Text>4.48 (988k bookings)</Text>
-                            </View>
-                            <TouchableOpacity style={styles.btn}>
-                                <View style={{ flexDirection: "row", alignItems: "center", marginHorizontal: 20, marginTop: 10, columnGap: 10 }}>
+                    <View style={{ marginHorizontal: 20, }}>
+                        <Text style={styles.text}>Refrigerator</Text>
+                        <View style={{ flexDirection: "row", alignItems: "center", columnGap: 10, marginTop: 10 }}>
+                            <Image source={require("../../assets/logo/star.png")} style={{ width: 20, height: 20 }} resizeMode="contain" />
+                            <Text>4.48 (988k bookings)</Text>
+                        </View>
+                        <TouchableOpacity style={styles.btn}>
+                            <View style={{ flexDirection: "row", alignItems: "center", marginTop: 10, columnGap: 10, justifyContent: "space-between", marginHorizontal: 10 }}>
+                                <View style={{ flexDirection: "row", columnGap: 10 }}>
                                     <Image source={require("../../assets/logo/checked.png")} resizeMode="contain" style={{ width: 20, height: 20 }} />
                                     <Text>JU Cover</Text>
-                                    <Image source={ICONS.arrow} style={{ width: 30, height: 30, marginLeft: width * 0.5 }} />
                                 </View>
-                                <Text style={styles.text1}>Verified quotes & 30 days warranty</Text>
-                            </TouchableOpacity>
-                            <FlatList
-                                data={coupon}
-                                renderItem={renderItem2}
-                                keyExtractor={item => item.id}
-                                style={styles.container}
-                                horizontal
-                                contentContainerStyle={{ columnGap: 10 }}
-                                showsHorizontalScrollIndicator={false}
 
-                            />
-                        </View>
+                                <View>
+                                    <Image source={ICONS.arrow} style={{ width: 30, height: 30, }} />
+                                </View>
 
-                    </View>
-                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                            </View>
+                            <Text style={styles.text1}>Verified quotes & 30 days warranty</Text>
+                        </TouchableOpacity>
                         <FlatList
-                            data={subcategory}
-                            renderItem={renderItem3}
+                            data={coupon}
+                            renderItem={renderItem2}
                             keyExtractor={item => item.id}
+                            style={styles.container}
                             horizontal
+                            contentContainerStyle={{ columnGap: 10 }}
                             showsHorizontalScrollIndicator={false}
+
                         />
                     </View>
-                    <CardListComponent />
 
                 </View>
-            </ScrollView>
+                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                    <FlatList
+                        data={subcategory}
+                        renderItem={renderItem3}
+                        keyExtractor={item => item.id}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                        showsVerticalScrollIndicator={false
+                        }
+                    />
+                </View>
+                <CardListComponent />
+
+            </View>
+        </ScrollView>
     );
 };
 
@@ -150,11 +155,12 @@ const styles = StyleSheet.create({
         backgroundColor: "#FFF",
         columnGap: 10,
         marginHorizontal: 10,
-        height: height * 0.18,
+        // height: height * 0.18,
         width: width * 0.4,
         justifyContent: "center",
         alignItems: "center",
-        borderRadius: 10
+        borderRadius: 10,
+        padding: 10
 
     },
     activeTab: {
@@ -195,6 +201,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#F5F5F5',
         padding: 10,
         borderRadius: 5,
+        marginTop: height * 0.03
         // borderColor:"red"
     },
     image: {

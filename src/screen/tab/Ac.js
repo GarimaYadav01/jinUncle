@@ -86,7 +86,7 @@ const Ac = () => {
         </View>
     );
     return (
-        <ScrollView style={{flexGrow:1,paddingBottom:50}} showsVerticalScrollIndicator={false}>
+        <ScrollView style={{ flexGrow: 1, paddingBottom: 50 }} showsVerticalScrollIndicator={false}>
             <View>
 
 
@@ -99,10 +99,13 @@ const Ac = () => {
                             <Text>4.48 (6.6 M bookings)</Text>
                         </View>
                         <TouchableOpacity style={styles.btn}>
-                            <View style={{ flexDirection: "row", alignItems: "center", marginHorizontal: 20, marginTop: 10, columnGap: 10 }}>
-                                <Image source={require("../../assets/logo/checked.png")} resizeMode="contain" style={{ width: 20, height: 20 }} />
-                                <Text>JU Cover</Text>
-                                <Image source={ICONS.arrow} style={{ width: 30, height: 30, marginLeft: width * 0.5 }} />
+                            <View style={{ flexDirection: "row", alignItems: "center", marginTop: 10, columnGap: 10, justifyContent: "space-between" }}>
+                                <View style={{ flexDirection: "row", columnGap: 10 }}>
+                                    <Image source={require("../../assets/logo/checked.png")} resizeMode="contain" style={{ width: 20, height: 20 }} />
+                                    <Text>JU Cover</Text>
+                                </View>
+
+                                <Image source={ICONS.arrow} style={{ width: 30, height: 30, }} />
                             </View>
                             <Text style={styles.text1}>Verified quotes & 30 days warranty</Text>
                         </TouchableOpacity>
@@ -176,8 +179,8 @@ const styles = StyleSheet.create({
         width: width * 0.9,
         borderRadius: 10,
         borderWidth: 1,
-        height: height * 0.1,
-
+        // height: height * 0.1,
+        padding: 13,
         backgroundColor: '#F5F5F5',
         borderColor: "#dededf",
         marginTop: height * 0.02
@@ -200,7 +203,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#F5F5F5',
         padding: 10,
         borderRadius: 5,
-        // borderColor:"red"
+        // borderColor:"red",
+        marginTop:height*0.03
     },
     image: {
         width: 30,

@@ -87,10 +87,7 @@ const Washingmachine = () => {
     return (
         <ScrollView style={{ flexGrow: 1, paddingBottom: 50 }} showsVerticalScrollIndicator={false}>
             <View>
-
-
                 <View style={{ backgroundColor: "#FFF" }}>
-
                     <View style={{ marginHorizontal: 20, }}>
                         <Text style={styles.text}>Washing Machine Repair</Text>
                         <View style={{ flexDirection: "row", alignItems: "center", columnGap: 10, marginTop: 10 }}>
@@ -154,11 +151,12 @@ const styles = StyleSheet.create({
         backgroundColor: "#FFF",
         columnGap: 10,
         marginHorizontal: 10,
-        height: height * 0.18,
+        // height: height * 0.18,
         width: width * 0.4,
         justifyContent: "center",
         alignItems: "center",
-        borderRadius: 10
+        borderRadius: 10,
+        padding: 10
 
     },
     activeTab: {
@@ -199,6 +197,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#F5F5F5',
         padding: 10,
         borderRadius: 5,
+        marginTop: height * 0.03
         // borderColor:"red"
     },
     image: {

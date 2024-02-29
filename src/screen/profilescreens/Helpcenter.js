@@ -18,7 +18,7 @@ const Helpcenter = () => {
             id: "2",
             lable: "Getting started with jinnuncle",
             image: ICONS.arrow,
-            screen: "Helpcenter",
+            screen: "Getting",
             icon: ICONS.support
 
         },
@@ -29,13 +29,7 @@ const Helpcenter = () => {
             screen: "Wallet",
             icon: ICONS.income
         },
-        {
-            id: "4",
-            lable: "JinnUncle Plus membership",
-            image: ICONS.arrow,
-            screen: "Mybooking",
-            icon: ICONS.premium
-        },
+   
         {
             id: "5",
             lable: "JU Safety",
@@ -44,7 +38,7 @@ const Helpcenter = () => {
             icon: ICONS.safety
         },
         {
-            id: "5",
+            id: "6",
             lable: "Warranty",
             image: ICONS.arrow,
             screen: "Mybooking",

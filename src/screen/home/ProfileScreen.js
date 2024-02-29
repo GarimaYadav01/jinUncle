@@ -27,12 +27,12 @@ const ProfileScreen = () => {
             image: ICONS.arrow,
             screen: "Wallet"
         },
-        {
-            id: "4",
-            lable: "Plus membership",
-            image: ICONS.arrow,
-            screen: "Mybooking"
-        },
+        // {
+        //     id: "4",
+        //     lable: "Plus membership",
+        //     image: ICONS.arrow,
+        //     screen: "Mybooking"
+        // },
         {
             id: "5",
             lable: "My rating",

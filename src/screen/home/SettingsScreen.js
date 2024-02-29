@@ -116,12 +116,14 @@ const styles = StyleSheet.create({
         backgroundColor: "lightgray",
         columnGap: 10,
         marginHorizontal: 10,
-        height: height * 0.18,
+        // height: height * 0.18,
+        padding:10,
         width: width * 0.4,
         justifyContent: "center",
         alignItems: "center",
         borderRadius: 10,
-        marginTop: height * 0.03
+        marginTop: height * 0.03,
+        flex:1
     },
     activeTab: {
         backgroundColor: "#FFF", // Change to your active color
