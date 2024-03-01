@@ -16,9 +16,7 @@ const Book = () => {
                     <View>
                         <Text style={[styles.text2, { fontSize: 20 }]}>Was this article helpful ?</Text>
                     </View>
-                    <View style={{flexDirection:"row" ,columnGap:10}}>
-
-
+                    <View style={{ flexDirection: "row", columnGap: 10 }}>
                         <TouchableOpacity
                         >
                             <Image source={require("../../assets/Newicon/like.png")} resizeMode="contain" style={{ width: 20, height: 20, }} />
@@ -57,7 +55,7 @@ const styles = StyleSheet.create({
     sectionText: {
         fontSize: 16,
         marginBottom: 20,
-        lineHeight:22,
-        fontFamily:"Roboto-Regular"
+        lineHeight: 22,
+        fontFamily: "Roboto-Regular"
     },
 });
