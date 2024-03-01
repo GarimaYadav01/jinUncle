@@ -118,8 +118,8 @@ const styles = StyleSheet.create({
         fontFamily: "Roboto-Medium",
         fontSize: 15,
         color: "gray",
-        lineHeight:22,
-        marginTop:10
+        lineHeight: 22,
+        marginTop: 10
     },
     btn: {
         height: height * 0.06,

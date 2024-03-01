@@ -3,6 +3,7 @@ import { Dimensions, FlatList, Image, SafeAreaView, ScrollView, StyleSheet, Text
 import { ICONS } from "../../assets/themes";
 import Header2 from "../../compontent/Header2";
 import CardListComponent from "../tab/CardListComponent";
+import Refrigerator from "../tab/Refrigerator";
 const { height, width } = Dimensions.get("screen")
 
 const Fridagecategory = () => {
@@ -110,48 +111,7 @@ const Fridagecategory = () => {
                     </ImageBackground>
                     {/* </View> */}
                 </View>
-                <View>
-                    <View style={{ backgroundColor: "#FFF" }}>
-                        <View style={{ marginHorizontal: 20, }}>
-                            <Text style={styles.text}>Refrigerator</Text>
-                            <View style={{ flexDirection: "row", alignItems: "center", columnGap: 10, marginTop: 10 }}>
-                                <Image source={require("../../assets/logo/star.png")} style={{ width: 20, height: 20 }} resizeMode="contain" />
-                                <Text>4.48 (988k bookings)</Text>
-                            </View>
-                            <TouchableOpacity style={styles.btn}>
-                                <View style={{ flexDirection: "row", alignItems: "center", marginHorizontal: 20, marginTop: 10, columnGap: 10 }}>
-                                    <Image source={require("../../assets/logo/checked.png")} resizeMode="contain" style={{ width: 20, height: 20 }} />
-                                    <Text>JU Cover</Text>
-                                    <Image source={ICONS.arrow} style={{ width: 30, height: 30, marginLeft: width * 0.5 }} />
-                                </View>
-                                <Text style={styles.text1}>Verified quotes & 30 days warranty</Text>
-                            </TouchableOpacity>
-                            <FlatList
-                                data={coupon}
-                                renderItem={renderItem2}
-                                keyExtractor={item => item.id}
-                                style={styles.container}
-                                horizontal
-                                contentContainerStyle={{ columnGap: 10 }}
-                                showsHorizontalScrollIndicator={false}
-
-                            />
-
-
-                        </View>
-
-                    </View>
-                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                        <FlatList
-                            data={subcategory}
-                            renderItem={renderItem3}
-                            keyExtractor={item => item.id}
-                            horizontal
-                            showsHorizontalScrollIndicator={false}
-                        />
-                    </View>
-                    <CardListComponent />
-                </View>
+                <Refrigerator />
             </ScrollView>
         </SafeAreaView>
 
@@ -160,83 +120,6 @@ const Fridagecategory = () => {
 
 export default Fridagecategory;
 const styles = StyleSheet.create({
-    text: {
-        fontSize: 20,
-        color: "#000",
-        fontWeight: "500",
-        fontFamily: "Roboto-BoldItalic"
-    },
-    con: {
-        marginTop: 10,
-        marginHorizontal: 20
-    },
-    btn1: {
-        backgroundColor: "#FFF",
-        columnGap: 10,
-        marginHorizontal: 10,
-        height: height * 0.18,
-        width: width * 0.4,
-        justifyContent: "center",
-        alignItems: "center",
-        borderRadius: 10
-
-    },
-    activeTab: {
-        backgroundColor: "#FFF", // Change to your active color
-    },
-    name: {
-        fontSize: 16,
-        color: "black",
-        fontFamily: "Roboto-Regular",
-        marginTop: 10,
-        textAlign: "center"
-    },
-    btn: {
-        width: width * 0.9,
-        borderRadius: 10,
-        borderWidth: 1,
-        height: height * 0.1,
-
-        backgroundColor: '#F5F5F5',
-        borderColor: "#dededf",
-        marginTop: height * 0.02
-    },
-    text1: {
-        color: "#000",
-        fontFamily: "Roboto-Regular",
-        marginHorizontal: 20,
-        marginTop: 10,
-        fontSize: 16
-    },
-    container: {
-        marginTop: 10,
-        paddingHorizontal: 20,
-    },
-    itemContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: 10,
-        backgroundColor: '#F5F5F5',
-        padding: 10,
-        borderRadius: 5,
-        // borderColor:"red"
-    },
-    image: {
-        width: 30,
-        height: 30,
-        marginRight: 10,
-    },
-    textContainer: {
-        flex: 1,
-    },
-    name: {
-        fontSize: 16,
-        fontWeight: 'bold',
-    },
-    subname: {
-        fontSize: 14,
-        color: 'gray',
-    },
     image1: {
         width: width,
         // borderRadius: 10,

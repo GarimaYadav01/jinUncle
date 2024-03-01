@@ -4,41 +4,40 @@ import { ICONS } from "../../assets/themes";
 import Header2 from "../../compontent/Header2";
 import CardListComponent from "./CardListComponent";
 const { height, width } = Dimensions.get("screen")
-
 const Washingmachine = () => {
     const coupon = [
         {
             id: "1",
             name: "Buy more save more",
-            subname: "$100 off 2nd item onwards",
+            subname: "₹100 off 2nd item onwards",
             image: require("../../assets/logo/add.png")
 
         },
         {
             id: "2",
             name: "Buy more save more",
-            subname: "$100 off 2nd item onwards",
+            subname: "₹100 off 2nd item onwards",
             image: require("../../assets/logo/brand.png")
 
         },
         {
             id: "3",
             name: "Buy more save more",
-            subname: "$100 off 2nd item onwards",
+            subname: "₹100 off 2nd item onwards",
             image: require("../../assets/logo/brand.png")
 
         },
         {
             id: "4",
             name: "Buy more save more",
-            subname: "$100 off 2nd item onwards",
+            subname: "₹100 off 2nd item onwards",
             image: require("../../assets/logo/add.png")
 
         },
         {
             id: "5",
             name: "Buy more save more",
-            subname: "$100 off 2nd item onwards",
+            subname: "₹100 off 2nd item onwards",
             image: require("../../assets/logo/brand.png")
 
         }
@@ -72,7 +71,6 @@ const Washingmachine = () => {
                 </View>
             </View>
         </TouchableOpacity>
-
     );
 
     const renderItem3 = ({ item }) => (
@@ -110,10 +108,7 @@ const Washingmachine = () => {
                             horizontal
                             contentContainerStyle={{ columnGap: 10 }}
                             showsHorizontalScrollIndicator={false}
-
                         />
-
-
                     </View>
 
                 </View>
@@ -138,9 +133,9 @@ const Washingmachine = () => {
 export default Washingmachine;
 const styles = StyleSheet.create({
     text: {
-        fontSize: 20,
+        fontSize: 27,
         color: "#000",
-        fontWeight: "500",
+        fontWeight: "bold",
         fontFamily: "Roboto-BoldItalic"
     },
     con: {
@@ -173,7 +168,8 @@ const styles = StyleSheet.create({
         width: width * 0.9,
         borderRadius: 10,
         borderWidth: 1,
-        height: height * 0.06,
+        // height: height * 0.06,
+        padding: 10,
 
         backgroundColor: '#F5F5F5',
         borderColor: "#dededf",
@@ -194,11 +190,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 10,
-        backgroundColor: '#F5F5F5',
-        padding: 10,
-        borderRadius: 5,
-        marginTop: height * 0.03
-        // borderColor:"red"
+        // backgroundColor: '#F5F5F5',
+        padding: 5,
+        borderRadius: 20,
+        marginTop: height * 0.03,
+        // borderColor:"red",
+        borderColor: "#F5F5F5",
+        borderWidth: 1.5,
     },
     image: {
         width: 30,
@@ -208,12 +206,9 @@ const styles = StyleSheet.create({
     textContainer: {
         flex: 1,
     },
-    name: {
-        fontSize: 16,
-        fontWeight: 'bold',
-    },
     subname: {
         fontSize: 14,
         color: 'gray',
+        fontFamily: "Roboto-Regular",
     },
 });

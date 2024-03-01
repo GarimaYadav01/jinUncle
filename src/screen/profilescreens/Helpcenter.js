@@ -29,7 +29,7 @@ const Helpcenter = () => {
             screen: "Wallet",
             icon: ICONS.income
         },
-   
+
         {
             id: "5",
             lable: "JU Safety",
@@ -66,9 +66,7 @@ const Helpcenter = () => {
                                             <Text style={styles.label}>{button.lable}</Text>
                                             <Image source={button.image} style={styles.icon1} />
                                         </View>
-
                                     </View>
-
                                 </TouchableOpacity>
                             ))}
                         </View>

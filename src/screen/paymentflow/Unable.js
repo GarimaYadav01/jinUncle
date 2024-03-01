@@ -11,9 +11,9 @@ const Unable = () => {
                     <Text style={styles.sectionTitle}>I am unable to make payment</Text>
 
                     <Text style={styles.sectionText}>Note: Simpl and Lazypay are temporarily facing high error rates. We request you to use a different payment methof for now. Our team is working to fix this.</Text>
-                    <Text style={styles.sectionText}>. Select a different payment mode than the one you're trying with (e.g. try using your debit card instead of UPI).</Text>
-                    <Text style={styles.sectionText}>.If switching payment mode doesn't work - then select "pay online after serivce" or "pay with cash after serivce". In case paying online,you will be able to pick a mode of your choice after the service ends.</Text>
-                    <Text style={styles.sectionText}>.If multiple payment options are failing or pay after services is not available-please wait for some time and try placing the booking again.</Text>
+                    <Text style={styles.sectionText}><Text style={{ color: "black", fontSize: 20, fontWeight: "500" }}>*</Text>  Select a different payment mode than the one you're trying with (e.g. try using your debit card instead of UPI).</Text>
+                    <Text style={styles.sectionText}><Text style={{ color: "black", fontSize: 20, fontWeight: "500" }}>*</Text>  If switching payment mode doesn't work - then select "pay online after serivce" or "pay with cash after serivce". In case paying online,you will be able to pick a mode of your choice after the service ends.</Text>
+                    <Text style={styles.sectionText}><Text style={{ color: "black", fontSize: 20, fontWeight: "500" }}>*</Text>  If multiple payment options are failing or pay after services is not available-please wait for some time and try placing the booking again.</Text>
 
                     <Text style={styles.sectionText}>If any <Text style={{ color: "black" }}>amount has been debited and the booking shows "payment failed" - please don't worry.</Text> any debited amount will be credited back to your source account within 7 working days.</Text>
 

@@ -3,6 +3,7 @@ import { Dimensions, FlatList, Image, ImageBackground, SafeAreaView, ScrollView,
 import { ICONS } from "../../assets/themes";
 import Header2 from "../../compontent/Header2";
 import CardListComponent from "../tab/CardListComponent";
+import Washingmachine from "../tab/Washingmachine";
 
 const { height, width } = Dimensions.get("screen")
 
@@ -107,56 +108,12 @@ const Washingmachinecategory = () => {
                 <View >
                     {/* <TextinputComponent /> */}
                     {/* <View style={styles.container1}> */}
-
                     <ImageBackground source={images[currentIndex]} style={styles.image1}  >
                         <Header2 />
                     </ImageBackground>
                     {/* </View> */}
                 </View>
-                <View>
-                    <View style={{ backgroundColor: "#FFF" }}>
-
-                        <View style={{ marginHorizontal: 20, }}>
-                            <Text style={styles.text}>Washing Machine Repair</Text>
-                            <View style={{ flexDirection: "row", alignItems: "center", columnGap: 10, marginTop: 10 }}>
-                                <Image source={require("../../assets/logo/star.png")} style={{ width: 20, height: 20 }} resizeMode="contain" />
-                                <Text>4.83 (1.7M bookings)</Text>
-                            </View>
-                            <TouchableOpacity style={styles.btn}>
-                                <View style={{ flexDirection: "row", alignItems: "center", marginHorizontal: 20, marginTop: 10, columnGap: 10, justifyContent: "space-between" }}>
-                                    <Image source={require("../../assets/logo/checked.png")} resizeMode="contain" style={{ width: 20, height: 20 }} />
-                                    <Text style={{ marginRight: width * 0.2 }}>Expert verified repiar quotes</Text>
-                                    <Image source={ICONS.arrow} style={{ width: 30, height: 30, }} />
-                                </View>
-                                {/* <Text style={styles.text1}>Verified quotes & 30 days warranty</Text> */}
-                            </TouchableOpacity>
-                            <FlatList
-                                data={coupon}
-                                renderItem={renderItem2}
-                                keyExtractor={item => item.id}
-                                style={styles.container}
-                                horizontal
-                                contentContainerStyle={{ columnGap: 10 }}
-                                showsHorizontalScrollIndicator={false}
-
-                            />
-
-
-                        </View>
-
-                    </View>
-                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                        <FlatList
-                            data={subcategory}
-                            renderItem={renderItem3}
-                            keyExtractor={item => item.id}
-                            horizontal
-                            showsHorizontalScrollIndicator={false}
-                        />
-                    </View>
-                    <CardListComponent />
-
-                </View>
+                <Washingmachine />
             </ScrollView>
         </SafeAreaView>
 
@@ -179,11 +136,12 @@ const styles = StyleSheet.create({
         backgroundColor: "#FFF",
         columnGap: 10,
         marginHorizontal: 10,
-        height: height * 0.18,
+        // height: height * 0.18,
         width: width * 0.4,
         justifyContent: "center",
         alignItems: "center",
-        borderRadius: 10
+        borderRadius: 10,
+        padding: 10
 
     },
     activeTab: {
@@ -200,7 +158,8 @@ const styles = StyleSheet.create({
         width: width * 0.9,
         borderRadius: 10,
         borderWidth: 1,
-        height: height * 0.06,
+        // height: height * 0.06,
+        padding: 10,
 
         backgroundColor: '#F5F5F5',
         borderColor: "#dededf",
@@ -224,6 +183,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#F5F5F5',
         padding: 10,
         borderRadius: 5,
+        marginTop: height * 0.03
         // borderColor:"red"
     },
     image: {

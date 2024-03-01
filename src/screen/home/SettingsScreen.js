@@ -104,9 +104,10 @@ export default SettingsScreen;
 
 const styles = StyleSheet.create({
     text: {
-        fontSize: 20,
+        fontSize: 27,
         color: "#000",
-        fontWeight: "500"
+        fontWeight: "bold",
+        fontFamily: "Roboto-BoldItalic"
     },
     con: {
         marginTop: height * 0.03,

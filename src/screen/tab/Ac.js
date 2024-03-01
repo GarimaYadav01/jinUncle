@@ -10,36 +10,36 @@ const Ac = () => {
         {
             id: "1",
             name: "Buy more save more",
-            subname: "$100 off 2nd item onwards",
+            subname: "₹100 off 2nd item onwards",
             image: require("../../assets/logo/add.png")
 
         },
         {
             id: "2",
             name: "Buy more save more",
-            subname: "$100 off 2nd item onwards",
-            image: require("../../assets/logo/add.png")
+            subname: "₹100 off 2nd item onwards",
+            image: require("../../assets/logo/brand.png")
 
         },
         {
             id: "3",
             name: "Buy more save more",
-            subname: "$100 off 2nd item onwards",
-            image: require("../../assets/logo/add.png")
+            subname: "₹100 off 2nd item onwards",
+            image: require("../../assets/logo/brand.png")
 
         },
         {
             id: "4",
             name: "Buy more save more",
-            subname: "$100 off 2nd item onwards",
+            subname: "₹100 off 2nd item onwards",
             image: require("../../assets/logo/add.png")
 
         },
         {
             id: "5",
             name: "Buy more save more",
-            subname: "$100 off 2nd item onwards",
-            image: require("../../assets/logo/add.png")
+            subname: "₹100 off 2nd item onwards",
+            image: require("../../assets/logo/brand.png")
 
         }
     ]
@@ -88,10 +88,7 @@ const Ac = () => {
     return (
         <ScrollView style={{ flexGrow: 1, paddingBottom: 50 }} showsVerticalScrollIndicator={false}>
             <View>
-
-
                 <View style={{ backgroundColor: "#FFF" }}>
-
                     <View style={{ marginHorizontal: 20, }}>
                         <Text style={styles.text}>Ac Repair & Service</Text>
                         <View style={{ flexDirection: "row", alignItems: "center", columnGap: 10, marginTop: 10 }}>
@@ -99,10 +96,10 @@ const Ac = () => {
                             <Text>4.48 (6.6 M bookings)</Text>
                         </View>
                         <TouchableOpacity style={styles.btn}>
-                            <View style={{ flexDirection: "row", alignItems: "center", marginTop: 10, columnGap: 10, justifyContent: "space-between" }}>
+                            <View style={{ flexDirection: "row", alignItems: "center", marginTop: 10, columnGap: 10, justifyContent: "space-between", marginHorizontal: 10 }}>
                                 <View style={{ flexDirection: "row", columnGap: 10 }}>
                                     <Image source={require("../../assets/logo/checked.png")} resizeMode="contain" style={{ width: 20, height: 20 }} />
-                                    <Text>JU Cover</Text>
+                                    <Text style={{ color: "gray", fontFamily: "Roboto-Regular" }}>JU Cover</Text>
                                 </View>
 
                                 <Image source={ICONS.arrow} style={{ width: 30, height: 30, }} />
@@ -119,10 +116,7 @@ const Ac = () => {
                             showsHorizontalScrollIndicator={false}
 
                         />
-
-
                     </View>
-
                 </View>
                 <View style={{ justifyContent: 'center', alignItems: 'center' }}>
                     <FlatList
@@ -134,7 +128,6 @@ const Ac = () => {
                     />
                 </View>
                 <CardListComponent />
-
             </View>
         </ScrollView>
 
@@ -145,9 +138,9 @@ const Ac = () => {
 export default Ac;
 const styles = StyleSheet.create({
     text: {
-        fontSize: 20,
+        fontSize: 27,
         color: "#000",
-        fontWeight: "500",
+        fontWeight: "bold",
         fontFamily: "Roboto-BoldItalic"
     },
     con: {
@@ -169,11 +162,12 @@ const styles = StyleSheet.create({
         backgroundColor: "#FFF", // Change to your active color
     },
     name: {
-        fontSize: 16,
+        fontSize: 17,
         color: "black",
-        fontFamily: "Roboto-Regular",
+        fontFamily: "Roboto-bold",
         marginTop: 10,
-        textAlign: "center"
+        textAlign: "center",
+        fontWeight: "500"
     },
     btn: {
         width: width * 0.9,
@@ -200,11 +194,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 10,
-        backgroundColor: '#F5F5F5',
-        padding: 10,
-        borderRadius: 5,
+        // backgroundColor: '#F5F5F5',
+        padding: 5,
+        borderRadius: 20,
+        marginTop: height * 0.03,
         // borderColor:"red",
-        marginTop:height*0.03
+        borderColor: "#F5F5F5",
+        borderWidth: 1.5,
     },
     image: {
         width: 30,
@@ -214,12 +210,10 @@ const styles = StyleSheet.create({
     textContainer: {
         flex: 1,
     },
-    name: {
-        fontSize: 16,
-        fontWeight: 'bold',
-    },
+
     subname: {
         fontSize: 14,
         color: 'gray',
+        fontFamily: "Roboto-Regular",
     },
 });

@@ -193,7 +193,7 @@ const HomeScreen = () => {
                     <Image source={item.icon} style={styles.starIcon} />
                     <Text style={styles.likes}>{item.likes}</Text>
                 </View>
-                <Text style={{ color: "black" }}>$258</Text>
+                <Text style={{ color: "black" }}>₹258</Text>
             </TouchableOpacity>
         </View>
     );
@@ -206,14 +206,13 @@ const HomeScreen = () => {
                     <Image source={require("../../assets/logo/jinnlogo.png")} style={styles.images} />
                     <TouchableOpacity>
                         <Text style={styles.text}>Janakpuri District Center</Text>
-                        <Text style={[styles.text, { fontSize: 14, color: "#c0c0c0" }]}>Janakpuri-Delhi- 110058-india</Text>
+                        <Text style={[styles.text, { fontSize: 14, color: "#c0c0c0", fontFamily: "Roboto-Regular", }]}>Janakpuri-Delhi- 110058-india</Text>
                     </TouchableOpacity>
                     <View>
                         <TouchableOpacity >
                             <Image source={require("../../assets/Newicon/add.png")} resizeMode="contain" style={{ width: 30, height: 30, }} />
                         </TouchableOpacity>
                     </View>
-
                 </View>
 
                 <View style={styles.container}>
@@ -230,12 +229,12 @@ const HomeScreen = () => {
                         />
                     </View>
                 </View>
-                <View style={{ marginHorizontal: 20 }}>
+                {/* <View style={{ marginHorizontal: 20 }}>
                     {/* <TextinputComponent /> */}
-                    <View style={styles.container1}>
-                        <Image source={images[currentIndex]} style={styles.image} resizeMode="contain" />
-                    </View>
+                <View style={styles.container1}>
+                    <Image source={images[currentIndex]} style={styles.image} resizeMode="contain" />
                 </View>
+                {/* </View> */}
                 <View style={styles.con}>
                     <Text style={styles.text}>Category</Text>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -262,12 +261,12 @@ const HomeScreen = () => {
                             />
                         </View>
                     </View>
-                    <View style={{ marginHorizontal: 20 }}>
-                        {/* <TextinputComponent /> */}
-                        <View style={styles.container1}>
+                    {/* <View style={{ marginHorizontal: 20 }}> */}
+                    {/* <TextinputComponent /> */}
+                    {/* <View style={styles.container1}>
                             <Image source={images[currentIndex]} style={styles.image} />
                         </View>
-                    </View>
+                    </View> */}
                     <View style={{ marginTop: 10 }}>
                         <Text style={styles.text}>
                             Refrigerator Repair & service
@@ -331,9 +330,10 @@ export default HomeScreen;
 
 const styles = StyleSheet.create({
     text: {
-        fontSize: 20,
+        fontSize: 22,
         color: "#000",
-        fontWeight: "500"
+        fontWeight: "bold",
+        fontFamily: "Roboto-BoldItalic"
 
         // textAlign: "center"
     },

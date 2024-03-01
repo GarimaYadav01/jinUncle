@@ -218,13 +218,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingVertical: 10,
     paddingHorizontal: 15,
+    color: "black"
   },
 
   countryPicker: {
     paddingVertical: 10,
     paddingHorizontal: 5,
     // borderWidth: 1,
-    marginLeft: 20
+    // marginLeft: 20
 
   },
   // input: {

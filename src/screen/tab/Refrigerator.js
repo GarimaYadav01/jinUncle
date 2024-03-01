@@ -10,35 +10,35 @@ const Refrigerator = () => {
         {
             id: "1",
             name: "Buy more save more",
-            subname: "$100 off 2nd item onwards",
+            subname: "₹100 off 2nd item onwards",
             image: require("../../assets/logo/add.png")
 
         },
         {
             id: "2",
             name: "Buy more save more",
-            subname: "$100 off 2nd item onwards",
+            subname: "₹100 off 2nd item onwards",
             image: require("../../assets/logo/brand.png")
 
         },
         {
             id: "3",
             name: "Buy more save more",
-            subname: "$100 off 2nd item onwards",
+            subname: "₹100 off 2nd item onwards",
             image: require("../../assets/logo/brand.png")
 
         },
         {
             id: "4",
             name: "Buy more save more",
-            subname: "$100 off 2nd item onwards",
+            subname: "₹100 off 2nd item onwards",
             image: require("../../assets/logo/add.png")
 
         },
         {
             id: "5",
             name: "Buy more save more",
-            subname: "$100 off 2nd item onwards",
+            subname: "₹100 off 2nd item onwards",
             image: require("../../assets/logo/brand.png")
 
         }
@@ -66,7 +66,7 @@ const Refrigerator = () => {
                 <Image source={item.image} style={styles.image} />
                 <View style={styles.textContainer}>
                     <Text style={styles.name}>{item.name}</Text>
-                    <Text style={styles.subname}>{item.subname}</Text>
+                    <Text style={styles.subname}>  {item.subname}</Text>
                 </View>
             </View>
         </TouchableOpacity>
@@ -89,7 +89,7 @@ const Refrigerator = () => {
                 <View style={{ backgroundColor: "#FFF" }}>
 
                     <View style={{ marginHorizontal: 20, }}>
-                        <Text style={styles.text}>Refrigerator</Text>
+                        <Text style={styles.text}>Refrigerator & Service</Text>
                         <View style={{ flexDirection: "row", alignItems: "center", columnGap: 10, marginTop: 10 }}>
                             <Image source={require("../../assets/logo/star.png")} style={{ width: 20, height: 20 }} resizeMode="contain" />
                             <Text>4.48 (988k bookings)</Text>
@@ -98,7 +98,7 @@ const Refrigerator = () => {
                             <View style={{ flexDirection: "row", alignItems: "center", marginTop: 10, columnGap: 10, justifyContent: "space-between", marginHorizontal: 10 }}>
                                 <View style={{ flexDirection: "row", columnGap: 10 }}>
                                     <Image source={require("../../assets/logo/checked.png")} resizeMode="contain" style={{ width: 20, height: 20 }} />
-                                    <Text>JU Cover</Text>
+                                    <Text style={{ color: "gray", fontFamily: "Roboto-Regular" }}>JU Cover</Text>
                                 </View>
 
                                 <View>
@@ -121,7 +121,7 @@ const Refrigerator = () => {
                     </View>
 
                 </View>
-                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <View style={{ justifyContent: 'center', alignItems: 'center' ,flexGrow:1}}>
                     <FlatList
                         data={subcategory}
                         renderItem={renderItem3}
@@ -142,9 +142,9 @@ const Refrigerator = () => {
 export default Refrigerator;
 const styles = StyleSheet.create({
     text: {
-        fontSize: 20,
+        fontSize: 27,
         color: "#000",
-        fontWeight: "500",
+        fontWeight: "bold",
         fontFamily: "Roboto-BoldItalic"
     },
     con: {
@@ -167,18 +167,19 @@ const styles = StyleSheet.create({
         backgroundColor: "#FFF", // Change to your active color
     },
     name: {
-        fontSize: 16,
+        fontSize: 17,
         color: "black",
         fontFamily: "Roboto-Regular",
         marginTop: 10,
-        textAlign: "center"
+        textAlign: "center",
+        fontWeight: "500"
     },
     btn: {
         width: width * 0.9,
         borderRadius: 10,
         borderWidth: 1,
-        height: height * 0.1,
-
+        // height: height * 0.1,
+        padding: 13,
         backgroundColor: '#F5F5F5',
         borderColor: "#dededf",
         marginTop: height * 0.02
@@ -198,11 +199,15 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 10,
-        backgroundColor: '#F5F5F5',
-        padding: 10,
-        borderRadius: 5,
-        marginTop: height * 0.03
-        // borderColor:"red"
+        // backgroundColor: '#F5F5F5',
+        padding: 5,
+        borderRadius: 20,
+        marginTop: height * 0.03,
+        // borderColor:"red",
+        borderColor: "#F5F5F5",
+        borderWidth: 1.5,
+        
+
     },
     image: {
         width: 30,
@@ -212,12 +217,10 @@ const styles = StyleSheet.create({
     textContainer: {
         flex: 1,
     },
-    name: {
-        fontSize: 16,
-        fontWeight: 'bold',
-    },
+
     subname: {
         fontSize: 14,
         color: 'gray',
+        fontFamily: "Roboto-Regular",
     },
 });
