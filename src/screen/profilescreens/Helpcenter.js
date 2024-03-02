@@ -34,14 +34,14 @@ const Helpcenter = () => {
             id: "5",
             lable: "JU Safety",
             image: ICONS.arrow,
-            screen: "Mybooking",
+            screen: "Jusatefy",
             icon: ICONS.safety
         },
         {
             id: "6",
             lable: "Warranty",
             image: ICONS.arrow,
-            screen: "Mybooking",
+            screen: "Warranty",
             icon: ICONS.warranty
         },
     ]

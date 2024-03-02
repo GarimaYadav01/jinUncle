@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FlatList, View, Text, Image, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 import ModalCompontent from '../../compontent/ModalCompontent';
+
 const { height, width } = Dimensions.get("screen")
 
 
@@ -20,7 +21,7 @@ const CardListComponent = ({ navigation }) => {
                     <Text style={{ color: "#004E8C", marginTop: 10 }}>₹100 off 2nd item onwords</Text>
                     <Text style={styles.label}>{item.label}</Text>
                     <TouchableOpacity onPress={() => handleCardPress(item)}>
-                        <Text style={{ color: "#004E8C", marginTop: 10 ,fontWeight:"800",fontSize:14}}>{item.view}</Text>
+                        <Text style={{ color: "#004E8C", marginTop: 10, fontWeight: "800", fontSize: 14 }}>{item.view}</Text>
                     </TouchableOpacity>
 
                 </View>

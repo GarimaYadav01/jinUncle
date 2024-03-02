@@ -95,7 +95,7 @@ const Washingmachine = () => {
                         <TouchableOpacity style={styles.btn}>
                             <View style={{ flexDirection: "row", alignItems: "center", marginHorizontal: 20, marginTop: 10, columnGap: 10, justifyContent: "space-between" }}>
                                 <Image source={require("../../assets/logo/checked.png")} resizeMode="contain" style={{ width: 20, height: 20 }} />
-                                <Text style={{ marginRight: width * 0.2 }}>Expert verified repiar quotes</Text>
+                                <Text style={{ marginRight: width * 0.2, fontSize: 15, color: "gray" }}>Expert verified repiar quotes</Text>
                                 <Image source={ICONS.arrow} style={{ width: 30, height: 30, }} />
                             </View>
                             {/* <Text style={styles.text1}>Verified quotes & 30 days warranty</Text> */}
@@ -170,7 +170,6 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         // height: height * 0.06,
         padding: 10,
-
         backgroundColor: '#F5F5F5',
         borderColor: "#dededf",
         marginTop: height * 0.02

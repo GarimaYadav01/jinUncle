@@ -11,7 +11,7 @@ const Paymentdetails = (props) => {
     };
     const hideModal = () => {
         setIsVisible(false);
-    }; ''
+    };
     const handlePress = () => {
         showMessage({
             message: 'Your message here',
@@ -33,7 +33,6 @@ const Paymentdetails = (props) => {
                     </Text>
                     <Text style={styles.text2}>Activate the Usage of your creadits at the cart summary page before checking out!
                     </Text>
-              
                     <TouchableOpacity style={styles.btn} onPress={() => props.navigation.navigate("Editprofile")}>
                         <Text style={styles.btntext
                         }>
@@ -122,7 +121,7 @@ const styles = StyleSheet.create({
         fontSize: 15,
         color: "gray",
         lineHeight: 22,
-        marginTop:10
+        marginTop: 10
     },
     btn: {
         height: height * 0.06,

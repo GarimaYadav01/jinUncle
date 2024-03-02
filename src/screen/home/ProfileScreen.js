@@ -25,7 +25,7 @@ const ProfileScreen = () => {
             id: "3",
             lable: "Wallet",
             image: ICONS.arrow,
-            screen: "Wallet"
+            screen: "MyWallet"
         },
         // {
         //     id: "4",

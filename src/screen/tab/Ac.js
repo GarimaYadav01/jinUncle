@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { Dimensions, FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { ICONS } from "../../assets/themes";
 import Header2 from "../../compontent/Header2";
 import CardListComponent from "./CardListComponent";
+import WarrantyModal from "../../compontent/WarrantyModal";
 const { height, width } = Dimensions.get("screen")
 
 const Ac = () => {
@@ -43,9 +44,6 @@ const Ac = () => {
 
         }
     ]
-
-
-
     const subcategory = [
         {
             id: "1",
@@ -63,6 +61,20 @@ const Ac = () => {
             name: "service"
         }
     ]
+    const [modalVisible, setModalVisible] = useState(false);
+
+
+
+
+    const handleCardPress = () => {
+
+        setModalVisible(true);
+    };
+
+    const closeModal = () => {
+        setModalVisible(false);
+    };
+
     const renderItem2 = ({ item }) => (
         <TouchableOpacity>
             <View style={styles.itemContainer}>
@@ -95,7 +107,7 @@ const Ac = () => {
                             <Image source={require("../../assets/logo/star.png")} style={{ width: 20, height: 20 }} resizeMode="contain" />
                             <Text>4.48 (6.6 M bookings)</Text>
                         </View>
-                        <TouchableOpacity style={styles.btn}>
+                        <TouchableOpacity style={styles.btn} onPress={handleCardPress}>
                             <View style={{ flexDirection: "row", alignItems: "center", marginTop: 10, columnGap: 10, justifyContent: "space-between", marginHorizontal: 10 }}>
                                 <View style={{ flexDirection: "row", columnGap: 10 }}>
                                     <Image source={require("../../assets/logo/checked.png")} resizeMode="contain" style={{ width: 20, height: 20 }} />
@@ -129,6 +141,7 @@ const Ac = () => {
                 </View>
                 <CardListComponent />
             </View>
+            <WarrantyModal visible={modalVisible} onClose={closeModal} />
         </ScrollView>
 
 

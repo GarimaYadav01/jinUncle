@@ -43,6 +43,11 @@ import Validitywallet from '../screen/paymentflow/Validitywallet';
 import Referral from '../screen/paymentflow/Referral';
 import Secondreferral from '../screen/paymentflow/Secondreferral';
 import Paymentdetails from '../screen/paymentflow/Paymentdetails';
+import Jusatefy from '../screen/helpcenter/Jusatefy';
+import Warranty from '../screen/helpcenter/Warranty';
+import Services from '../screen/helpcenter/Services';
+import Pay from '../screen/helpcenter/Pay';
+import MyWallet from '../screen/helpcenter/MyWallet';
 
 const Stack = createNativeStackNavigator();
 
@@ -92,11 +97,14 @@ const Navigation = () => {
                 <Stack.Screen name="Referral" component={Referral} />
                 <Stack.Screen name="Secondreferral" component={Secondreferral} />
                 <Stack.Screen name="Paymentdetails" component={Paymentdetails} />
+                <Stack.Screen name="Jusatefy" component={Jusatefy} />
+                <Stack.Screen name="Warranty" component={Warranty} />
+                <Stack.Screen name="Services" component={Services} />
+                <Stack.Screen name="Pay" component={Pay} />
+                <Stack.Screen name="MyWallet" component={MyWallet} />
             </Stack.Navigator>
         </NavigationContainer>
     );
 };
-
-
 
 export default Navigation;

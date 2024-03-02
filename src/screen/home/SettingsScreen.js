@@ -80,7 +80,7 @@ const SettingsScreen = () => {
 
     return (
         <SafeAreaView>
-            <ScrollView showsHorizontalScrollIndicator={false}>
+            <ScrollView showsHorizontalScrollIndicator={false} showsVerticalScrollIndicator={false}>
                 <View style={styles.con}>
                     <Text style={styles.text}>Category</Text>
                     <FlatList

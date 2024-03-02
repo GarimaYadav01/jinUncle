@@ -100,8 +100,8 @@ const Rateing = () => {
                 </View>
                 <View>
                     <TouchableOpacity style={styles.btn} onPress={showModal}>
-                        <View style={{ flexDirection: "row", alignSelf: "center",columnGap:10 }}>
-                            <Image source={require("../../assets/logo/pen.png")} resizeMode="contain" style={{ width: 25, height: 25, marginTop: -height * 0.005,tintColor:"#FFF" }} />
+                        <View style={{ flexDirection: "row", alignSelf: "center", columnGap: 10 }}>
+                            <Image source={require("../../assets/logo/pen.png")} resizeMode="contain" style={{ width: 25, height: 25, marginTop: -height * 0.005, tintColor: "#FFF" }} />
                             <Text style={styles.text2}>Write a review</Text>
                         </View>
                     </TouchableOpacity>
@@ -187,8 +187,8 @@ const styles = StyleSheet.create({
         // paddingVertical: height * 0.01,
         marginLeft: width * 0.5,
         marginTop: 15,
-        justifyContent:"center",
-     
+        justifyContent: "center",
+
     },
     text2: {
         fontSize: 13,

@@ -28,40 +28,32 @@ const Accategory = () => {
             name: "Buy more save more",
             subname: "$100 off 2nd item onwards",
             image: require("../../assets/logo/add.png")
-
         },
         {
             id: "2",
             name: "Buy more save more",
             subname: "$100 off 2nd item onwards",
             image: require("../../assets/logo/add.png")
-
         },
         {
             id: "3",
             name: "Buy more save more",
             subname: "$100 off 2nd item onwards",
             image: require("../../assets/logo/add.png")
-
         },
         {
             id: "4",
             name: "Buy more save more",
             subname: "$100 off 2nd item onwards",
             image: require("../../assets/logo/add.png")
-
         },
         {
             id: "5",
             name: "Buy more save more",
             subname: "$100 off 2nd item onwards",
             image: require("../../assets/logo/add.png")
-
         }
     ]
-
-
-
     const subcategory = [
         {
             id: "1",
@@ -125,7 +117,7 @@ const Accategory = () => {
 
 export default Accategory;
 const styles = StyleSheet.create({
-  
+
     image1: {
         width: width,
         // borderRadius: 10,

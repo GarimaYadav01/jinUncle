@@ -48,7 +48,7 @@ const Settings = ({ navigation }) => {
 
                 <TouchableOpacity onPress={openDeleteModal} style={{ flexDirection: "row", marginTop: height * 0.02, paddingHorizontal: 25, alignItems: "center" }}>
                     <Image source={require("../../assets/Icon/delete.png")} style={{ width: 30, height: 30 }} />
-                    <Text style={styles.delete}>Delete Account</Text>
+                    <Text style={styles.delete}>  Delete Account</Text>
                 </TouchableOpacity>
             </ScrollView>
 
