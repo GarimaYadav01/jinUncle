@@ -8,6 +8,7 @@ const { height, width } = Dimensions.get("screen")
 const CardListComponent = ({ navigation }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [quantityStates, setQuantityStates] = useState({});
+    const [payment,setPayment] = useState({});
     useEffect(() => {
         // Initialize quantity states for each item
         const initialQuantityStates = {};
@@ -49,46 +50,46 @@ const CardListComponent = ({ navigation }) => {
     };
 
     const handlerender = ({ item }) => (
-      
-            <View style={styles.card}>
+
+        <View style={styles.card}>
+            <View>
+                <Image source={item.images} style={styles.image} />
                 <View>
-                    <Image source={item.images} style={styles.image} />
-                    <View>
-                        {!quantityStates[item.id]?.showQuantityView ? (
-                            <TouchableOpacity style={styles.smallbutton} onPress={() => toggleVector(item.id)}>
-                                <Text style={styles.textbut}>Add</Text>
+                    {!quantityStates[item.id]?.showQuantityView ? (
+                        <TouchableOpacity style={styles.smallbutton} onPress={() => toggleVector(item.id)}>
+                            <Text style={styles.textbut}>Add</Text>
+                        </TouchableOpacity>
+                    ) : (
+                        <View style={styles.container1}>
+                            <TouchableOpacity onPress={() => handleDecrease(item.id)}>
+                                <Text style={styles.textbut}>-</Text>
                             </TouchableOpacity>
-                        ) : (
-                            <View style={styles.container1}>
-                                <TouchableOpacity onPress={() => handleDecrease(item.id)}>
-                                    <Text style={styles.textbut}>-</Text>
-                                </TouchableOpacity>
-                                <Text style={styles.textbut}>{quantityStates[item.id]?.quantity}</Text>
-                                <TouchableOpacity onPress={() => handleIncrease(item.id)}>
-                                    <Text style={styles.textbut}>+</Text>
-                                </TouchableOpacity>
-                            </View>
-                        )}
-                    </View>
-                </View>
-
-                <View style={styles.content}>
-                    <Text style={{ color: "#004E8C" }}>30-Day Warranty</Text>
-                    <Text style={styles.service}>{item.service}</Text>
-                    <View style={styles.ratingContainer}>
-                        <Image source={item.image} style={styles.starIcon} />
-                        <Text style={styles.likes}>{item.likes}</Text>
-                    </View>
-                    <Text style={{color:"black",fontSize:17}}>{item.starts}</Text>
-                    <Text style={{ color: "#004E8C", marginTop: 10 ,fontWeight:"500"}}>₹100 off 2nd item onwords</Text>
-                    <Text style={styles.label}>{item.label}</Text>
-                    <TouchableOpacity onPress={() => handleCardPress(item)}>
-                        <Text style={{ color: "#004E8C", marginTop: 10, fontWeight: "800", fontSize: 14 }}>{item.view}</Text>
-                    </TouchableOpacity>
-
+                            <Text style={styles.textbut}>{quantityStates[item.id]?.quantity}</Text>
+                            <TouchableOpacity onPress={() => handleIncrease(item.id)}>
+                                <Text style={styles.textbut}>+</Text>
+                            </TouchableOpacity>
+                        </View>
+                    )}
                 </View>
             </View>
-     
+
+            <View style={styles.content}>
+                <Text style={{ color: "#004E8C" }}>30-Day Warranty</Text>
+                <Text style={styles.service}>{item.service}</Text>
+                <View style={styles.ratingContainer}>
+                    <Image source={item.image} style={styles.starIcon} />
+                    <Text style={styles.likes}>{item.likes}</Text>
+                </View>
+                <Text style={{ color: "black", fontSize: 17 }}>{item.starts}</Text>
+                <Text style={{ color: "#004E8C", marginTop: 10, fontWeight: "500" }}>₹100 off 2nd item onwords</Text>
+                <Text style={styles.label}>{item.label}</Text>
+                <TouchableOpacity onPress={() => handleCardPress(item)}>
+                    <Text style={{ color: "#004E8C", marginTop: 10, fontWeight: "800", fontSize: 14 }}>{item.view}</Text>
+                </TouchableOpacity>
+
+            </View>
+        </View>
+
     );
 
 
@@ -169,6 +170,13 @@ const CardListComponent = ({ navigation }) => {
 
             />
             <ModalCompontent visible={modalVisible} onClose={closeModal} item={selectedItem} />
+
+            <View style={styles.paymentcard}>
+                <Text style={styles.text}>₹549</Text>
+                <TouchableOpacity style={styles.smallbutton}>
+                    <Text style={styles.textbut}>View card</Text>
+                </TouchableOpacity>
+            </View>
         </View>
 
     );

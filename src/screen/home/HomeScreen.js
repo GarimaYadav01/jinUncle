@@ -5,17 +5,18 @@ import { useNavigation } from "@react-navigation/native";
 import Applyproma from "../../compontent/Applyproma";
 import ApplyModal from "../../compontent/ApplyModal";
 const { width, height } = Dimensions.get("screen")
-const HomeScreen = () => {
+const HomeScreen = (props) => {
     const navigation = useNavigation();
 
 
     const [currentIndex, setCurrentIndex] = useState(0);
-    // const images = [
-    //     require('../../assets/banner/banner.png'),
-    //     require('../../assets/banner/banner2.png'),
-    //     require('../../assets/banner/banner2.png'),
-    //     // Add more image sources as needed
-    // ];
+    const [currentgifIndex, setCurrentgifIndex] = useState(0);
+    const gif = [
+        require("../../assets/gif/AC.gif"),
+        require('../../assets/gif/Refrigerator.gif'),
+        require('../../assets/gif/washingmachine1.gif'),
+        // Add more image sources as needed
+    ];
     const images = [
         require('../../assets/newbanners/fridgeBannner2.png'),
         require('../../assets/banner/ACBAnner.png'),
@@ -159,6 +160,14 @@ const HomeScreen = () => {
 
         return () => clearInterval(interval);
     }, []);
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentgifIndex((prevIndex) => (prevIndex + 1) % gif.length);
+        }, 3000);
+
+        return () => clearInterval(interval);
+    }, []);
+
 
 
     const renderItem = ({ item }) => (
@@ -173,7 +182,7 @@ const HomeScreen = () => {
 
     const renderItem2 = ({ item }) => (
         <View style={{ marginBottom: 20, marginTop: 10 }}>
-            <TouchableOpacity style={styles.btn}>
+            <TouchableOpacity style={styles.btn} onPress={() => props.navigation.navigate("Servicedetails")}>
                 <Image source={item.image} style={{ width: 100, height: 100 }} resizeMode="contain" />
                 <Text style={styles.name}>{item.name}</Text>
             </TouchableOpacity>
@@ -193,7 +202,7 @@ const HomeScreen = () => {
     const renderItemallmix = ({ item }) => (
         <View style={{ marginBottom: 20, marginTop: 10 }}>
             <TouchableOpacity style={styles.btn}>
-                <Image source={item.image} style={{ width: 100, height: 100,borderRadiu:10 }} resizeMode="contain" />
+                <Image source={item.image} style={{ width: 100, height: 100, borderRadiu: 10 }} resizeMode="contain" />
                 <Text style={[styles.name, { width: width * 0.3 }]}>{item.name}</Text>
                 <View style={styles.ratingContainer}>
                     <Image source={item.icon} style={styles.starIcon} />
@@ -205,8 +214,8 @@ const HomeScreen = () => {
     );
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
-            <ScrollView style={{ flexGrow: 1, paddingbottom: 200 }} showsVerticalScrollIndicator={false}>
+        <SafeAreaView style={{ flex: 1, paddingBottom: 20 }}>
+            <ScrollView style={{ flexGrow: 1, }} showsVerticalScrollIndicator={false}>
                 <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: height * 0.03, marginHorizontal: 20 }}>
                     {/* <Image source={require("../../assets/Newicon/location.png")} style={styles.images} /> */}
                     <Image source={require("../../assets/logo/jinnlogo.png")} style={styles.images} />
@@ -237,8 +246,11 @@ const HomeScreen = () => {
                 </View>
                 {/* <View style={{ marginHorizontal: 20 }}>
                     {/* <TextinputComponent /> */}
-                <View style={styles.container1}>
+                {/* <View style={styles.container1}>
                     <Image source={images[currentIndex]} style={styles.image} resizeMode="contain" />
+                </View> */}
+                <View style={styles.container1}>
+                    <Image source={gif[currentgifIndex]} style={styles.image} resizeMode="contain" />
                 </View>
                 {/* </View> */}
                 <View style={styles.con}>
@@ -267,12 +279,10 @@ const HomeScreen = () => {
                             />
                         </View>
                     </View>
+                    <Image source={require("../../assets/gif/AC.gif")} style={{}} />
                     {/* <View style={{ marginHorizontal: 20 }}> */}
                     {/* <TextinputComponent /> */}
-                    {/* <View style={styles.container1}>
-                            <Image source={images[currentIndex]} style={styles.image} />
-                        </View>
-                    </View> */}
+
                     <View style={{ marginTop: 10 }}>
                         <Text style={styles.text}>
                             Refrigerator Repair & service
@@ -303,8 +313,11 @@ const HomeScreen = () => {
                             />
                         </View>
                     </View>
+                    <View style={styles.container1}>
+                        <Image source={images[currentIndex]} style={styles.image} />
+                    </View>
 
-                    <View style={{ marginTop: 10, backgroundColor: "white", paddingBottom: 50, borderWidth: 1, borderColor: "#FFF", padding: 8, borderRadius: 10 }}>
+                    <View style={{ marginTop: 10, backgroundColor: "white", borderWidth: 1, borderColor: "#FFF", padding: 5, borderRadius: 10 }}>
                         <Text style={styles.text}>
                             Most booked  services
                         </Text>
@@ -319,10 +332,7 @@ const HomeScreen = () => {
                             />
                         </View>
                     </View>
-                    {/* 
-                    <View style={styles.conn}>
-                        <Text>Refer and get free services</Text>
-                    </View> */}
+
                 </View>
 
             </ScrollView>
@@ -393,7 +403,7 @@ const styles = StyleSheet.create({
     },
     image: {
         // width: width * 0.87,
-        borderRadius: 10
+        borderRadius: 20
     },
     btn: {
         backgroundColor: "#FFF",

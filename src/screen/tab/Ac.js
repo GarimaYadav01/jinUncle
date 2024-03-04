@@ -98,26 +98,29 @@ const Ac = () => {
         </View>
     );
     return (
-        <ScrollView style={{ flexGrow: 1, paddingBottom: 50 }} showsVerticalScrollIndicator={false}>
-            <View>
-                <View style={{ backgroundColor: "#FFF" }}>
-                    <View style={{ marginHorizontal: 20, }}>
-                        <Text style={styles.text}>Ac Repair & Service</Text>
-                        <View style={{ flexDirection: "row", alignItems: "center", columnGap: 10, marginTop: 10 }}>
-                            <Image source={require("../../assets/logo/star.png")} style={{ width: 20, height: 20 }} resizeMode="contain" />
-                            <Text>4.48 (6.6 M bookings)</Text>
-                        </View>
-                        <TouchableOpacity style={styles.btn} onPress={handleCardPress}>
-                            <View style={{ flexDirection: "row", alignItems: "center", marginBottom: height * 0.01, columnGap: 10, justifyContent: "space-between", marginHorizontal: 10 }}>
-                                <View style={{ flexDirection: "row", columnGap: 10 }}>
-                                    <Image source={require("../../assets/logo/checked.png")} resizeMode="contain" style={{ width: 20, height: 20 }} />
-                                    <Text style={{ color: "gray", fontFamily: "Roboto-Regular" }}>JU Cover</Text>
-                                </View>
-                                <Image source={ICONS.arrow} style={{ width: 30, height: 30, }} />
+        <View>
+
+
+            <ScrollView style={{ flexGrow: 1, paddingBottom: 50 }} showsVerticalScrollIndicator={false}>
+                <View>
+                    <View style={{ backgroundColor: "#FFF" }}>
+                        <View style={{ marginHorizontal: 20, }}>
+                            <Text style={styles.text}>Ac Repair & Service</Text>
+                            <View style={{ flexDirection: "row", alignItems: "center", columnGap: 10, marginTop: 10 }}>
+                                <Image source={require("../../assets/logo/star.png")} style={{ width: 20, height: 20 }} resizeMode="contain" />
+                                <Text>4.48 (6.6 M bookings)</Text>
                             </View>
-                            <Text style={styles.text1}>Verified quotes & 30 days warranty</Text>
-                        </TouchableOpacity>
-                        {/* <FlatList
+                            <TouchableOpacity style={styles.btn} onPress={handleCardPress}>
+                                <View style={{ flexDirection: "row", alignItems: "center", marginBottom: height * 0.01, columnGap: 10, justifyContent: "space-between", marginHorizontal: 10 }}>
+                                    <View style={{ flexDirection: "row", columnGap: 10 }}>
+                                        <Image source={require("../../assets/logo/checked.png")} resizeMode="contain" style={{ width: 20, height: 20 }} />
+                                        <Text style={{ color: "gray", fontFamily: "Roboto-Regular" }}>JU Cover</Text>
+                                    </View>
+                                    <Image source={ICONS.arrow} style={{ width: 30, height: 30, }} />
+                                </View>
+                                <Text style={styles.text1}>Verified quotes & 30 days warranty</Text>
+                            </TouchableOpacity>
+                            {/* <FlatList
                             data={coupon}
                             renderItem={renderItem2}
                             keyExtractor={item => item.id}
@@ -127,29 +130,26 @@ const Ac = () => {
                             showsHorizontalScrollIndicator={false}
 
                         /> */}
+                        </View>
                     </View>
-                </View>
-                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                    <FlatList
-                        data={subcategory}
-                        renderItem={renderItem3}
-                        keyExtractor={item => item.id}
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                    />
-                </View>
-                <CardListComponent />
-            </View>
-            <View style={styles.paymentcard}>
-                <Text style={styles.text}>₹549</Text>
-                <TouchableOpacity style={styles.smallbutton}>
-                    <Text style={styles.textbut}>View card</Text>
-                </TouchableOpacity>
-            </View>
-            <WarrantyModal visible={modalVisible} onClose={closeModal} />
-        </ScrollView>
+                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                        <FlatList
+                            data={subcategory}
+                            renderItem={renderItem3}
+                            keyExtractor={item => item.id}
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                        />
+                    </View>
+                    <CardListComponent />
 
+                </View>
 
+                <WarrantyModal visible={modalVisible} onClose={closeModal} />
+            </ScrollView>
+         
+
+        </View>
     );
 };
 
