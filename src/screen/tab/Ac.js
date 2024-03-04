@@ -7,43 +7,43 @@ import WarrantyModal from "../../compontent/WarrantyModal";
 const { height, width } = Dimensions.get("screen")
 
 const Ac = () => {
-    const coupon = [
-        {
-            id: "1",
-            name: "Buy more save more",
-            subname: "₹100 off 2nd item onwards",
-            image: require("../../assets/logo/add.png")
+    // const coupon = [
+    //     {
+    //         id: "1",
+    //         name: "Buy more save more",
+    //         subname: "₹100 off 2nd item onwards",
+    //         image: require("../../assets/logo/add.png")
 
-        },
-        {
-            id: "2",
-            name: "Buy more save more",
-            subname: "₹100 off 2nd item onwards",
-            image: require("../../assets/logo/brand.png")
+    //     },
+    //     {
+    //         id: "2",
+    //         name: "Buy more save more",
+    //         subname: "₹100 off 2nd item onwards",
+    //         image: require("../../assets/logo/brand.png")
 
-        },
-        {
-            id: "3",
-            name: "Buy more save more",
-            subname: "₹100 off 2nd item onwards",
-            image: require("../../assets/logo/brand.png")
+    //     },
+    //     {
+    //         id: "3",
+    //         name: "Buy more save more",
+    //         subname: "₹100 off 2nd item onwards",
+    //         image: require("../../assets/logo/brand.png")
 
-        },
-        {
-            id: "4",
-            name: "Buy more save more",
-            subname: "₹100 off 2nd item onwards",
-            image: require("../../assets/logo/add.png")
+    //     },
+    //     {
+    //         id: "4",
+    //         name: "Buy more save more",
+    //         subname: "₹100 off 2nd item onwards",
+    //         image: require("../../assets/logo/add.png")
 
-        },
-        {
-            id: "5",
-            name: "Buy more save more",
-            subname: "₹100 off 2nd item onwards",
-            image: require("../../assets/logo/brand.png")
+    //     },
+    //     {
+    //         id: "5",
+    //         name: "Buy more save more",
+    //         subname: "₹100 off 2nd item onwards",
+    //         image: require("../../assets/logo/brand.png")
 
-        }
-    ]
+    //     }
+    // ]
     const subcategory = [
         {
             id: "1",
@@ -108,17 +108,16 @@ const Ac = () => {
                             <Text>4.48 (6.6 M bookings)</Text>
                         </View>
                         <TouchableOpacity style={styles.btn} onPress={handleCardPress}>
-                            <View style={{ flexDirection: "row", alignItems: "center", marginTop: 10, columnGap: 10, justifyContent: "space-between", marginHorizontal: 10 }}>
+                            <View style={{ flexDirection: "row", alignItems: "center", marginBottom: height * 0.01, columnGap: 10, justifyContent: "space-between", marginHorizontal: 10 }}>
                                 <View style={{ flexDirection: "row", columnGap: 10 }}>
                                     <Image source={require("../../assets/logo/checked.png")} resizeMode="contain" style={{ width: 20, height: 20 }} />
                                     <Text style={{ color: "gray", fontFamily: "Roboto-Regular" }}>JU Cover</Text>
                                 </View>
-
                                 <Image source={ICONS.arrow} style={{ width: 30, height: 30, }} />
                             </View>
                             <Text style={styles.text1}>Verified quotes & 30 days warranty</Text>
                         </TouchableOpacity>
-                        <FlatList
+                        {/* <FlatList
                             data={coupon}
                             renderItem={renderItem2}
                             keyExtractor={item => item.id}
@@ -127,7 +126,7 @@ const Ac = () => {
                             contentContainerStyle={{ columnGap: 10 }}
                             showsHorizontalScrollIndicator={false}
 
-                        />
+                        /> */}
                     </View>
                 </View>
                 <View style={{ justifyContent: 'center', alignItems: 'center' }}>
@@ -140,6 +139,12 @@ const Ac = () => {
                     />
                 </View>
                 <CardListComponent />
+            </View>
+            <View style={styles.paymentcard}>
+                <Text style={styles.text}>₹549</Text>
+                <TouchableOpacity style={styles.smallbutton}>
+                    <Text style={styles.textbut}>View card</Text>
+                </TouchableOpacity>
             </View>
             <WarrantyModal visible={modalVisible} onClose={closeModal} />
         </ScrollView>
@@ -190,7 +195,7 @@ const styles = StyleSheet.create({
         padding: 13,
         backgroundColor: '#F5F5F5',
         borderColor: "#dededf",
-        marginTop: height * 0.02
+        marginVertical: height * 0.02
     },
     text1: {
         color: "#000",
@@ -228,5 +233,28 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: 'gray',
         fontFamily: "Roboto-Regular",
+    },
+    paymentcard: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        paddingHorizontal: 20,
+        backgroundColor: "#FFFF",
+        padding: 15,
+        alignContent: "center"
+    },
+    smallbutton: {
+        height: height * 0.04,
+        width: width * 0.3,
+        borderRadius: 5,
+        borderWidth: 1,
+        justifyContent: "center",
+        alignContent: "center",
+        backgroundColor: "#004E8C",
+        borderColor: "#004E8C",
+        // marginTop: height * 0.01
+    },
+    textbut: {
+        textAlign: "center",
+        color: "white"
     },
 });

@@ -10,10 +10,16 @@ const HomeScreen = () => {
 
 
     const [currentIndex, setCurrentIndex] = useState(0);
+    // const images = [
+    //     require('../../assets/banner/banner.png'),
+    //     require('../../assets/banner/banner2.png'),
+    //     require('../../assets/banner/banner2.png'),
+    //     // Add more image sources as needed
+    // ];
     const images = [
-        require('../../assets/banner/banner.png'),
-        require('../../assets/banner/banner2.png'),
-        require('../../assets/banner/banner2.png'),
+        require('../../assets/newbanners/fridgeBannner2.png'),
+        require('../../assets/banner/ACBAnner.png'),
+        require('../../assets/banner/ACBAnner1.png'),
         // Add more image sources as needed
     ];
     const data = [
@@ -100,7 +106,7 @@ const HomeScreen = () => {
         {
             id: "1",
             image: require("../../assets/newimages/washingmachine1.png"),
-            name: "Fix washing machine",
+            name: "washing",
             icon: require("../../assets/logo/star.png"),
             likes: "4.85(60k reviews)",
             starts: 549,
@@ -187,7 +193,7 @@ const HomeScreen = () => {
     const renderItemallmix = ({ item }) => (
         <View style={{ marginBottom: 20, marginTop: 10 }}>
             <TouchableOpacity style={styles.btn}>
-                <Image source={item.image} style={{ width: 100, height: 100 }} resizeMode="contain" />
+                <Image source={item.image} style={{ width: 100, height: 100,borderRadiu:10 }} resizeMode="contain" />
                 <Text style={[styles.name, { width: width * 0.3 }]}>{item.name}</Text>
                 <View style={styles.ratingContainer}>
                     <Image source={item.icon} style={styles.starIcon} />
@@ -386,7 +392,7 @@ const styles = StyleSheet.create({
 
     },
     image: {
-        width: width * 0.87,
+        // width: width * 0.87,
         borderRadius: 10
     },
     btn: {

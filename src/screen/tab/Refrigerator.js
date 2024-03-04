@@ -6,43 +6,43 @@ import CardListComponent from "./CardListComponent";
 const { height, width } = Dimensions.get("screen")
 
 const Refrigerator = () => {
-    const coupon = [
-        {
-            id: "1",
-            name: "Buy more save more",
-            subname: "₹100 off 2nd item onwards",
-            image: require("../../assets/logo/add.png")
+    // const coupon = [
+    //     {
+    //         id: "1",
+    //         name: "Buy more save more",
+    //         subname: "₹100 off 2nd item onwards",
+    //         image: require("../../assets/logo/add.png")
 
-        },
-        {
-            id: "2",
-            name: "Buy more save more",
-            subname: "₹100 off 2nd item onwards",
-            image: require("../../assets/logo/brand.png")
+    //     },
+    //     {
+    //         id: "2",
+    //         name: "Buy more save more",
+    //         subname: "₹100 off 2nd item onwards",
+    //         image: require("../../assets/logo/brand.png")
 
-        },
-        {
-            id: "3",
-            name: "Buy more save more",
-            subname: "₹100 off 2nd item onwards",
-            image: require("../../assets/logo/brand.png")
+    //     },
+    //     {
+    //         id: "3",
+    //         name: "Buy more save more",
+    //         subname: "₹100 off 2nd item onwards",
+    //         image: require("../../assets/logo/brand.png")
 
-        },
-        {
-            id: "4",
-            name: "Buy more save more",
-            subname: "₹100 off 2nd item onwards",
-            image: require("../../assets/logo/add.png")
+    //     },
+    //     {
+    //         id: "4",
+    //         name: "Buy more save more",
+    //         subname: "₹100 off 2nd item onwards",
+    //         image: require("../../assets/logo/add.png")
 
-        },
-        {
-            id: "5",
-            name: "Buy more save more",
-            subname: "₹100 off 2nd item onwards",
-            image: require("../../assets/logo/brand.png")
+    //     },
+    //     {
+    //         id: "5",
+    //         name: "Buy more save more",
+    //         subname: "₹100 off 2nd item onwards",
+    //         image: require("../../assets/logo/brand.png")
 
-        }
-    ]
+    //     }
+    // ]
     const subcategory = [
         {
             id: "1",
@@ -108,7 +108,7 @@ const Refrigerator = () => {
                             </View>
                             <Text style={styles.text1}>Verified quotes & 30 days warranty</Text>
                         </TouchableOpacity>
-                        <FlatList
+                        {/* <FlatList
                             data={coupon}
                             renderItem={renderItem2}
                             keyExtractor={item => item.id}
@@ -117,11 +117,11 @@ const Refrigerator = () => {
                             contentContainerStyle={{ columnGap: 10 }}
                             showsHorizontalScrollIndicator={false}
 
-                        />
+                        /> */}
                     </View>
 
                 </View>
-                <View style={{ justifyContent: 'center', alignItems: 'center' ,flexGrow:1}}>
+                <View style={{ justifyContent: 'center', alignItems: 'center', flexGrow: 1 }}>
                     <FlatList
                         data={subcategory}
                         renderItem={renderItem3}
@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
         padding: 13,
         backgroundColor: '#F5F5F5',
         borderColor: "#dededf",
-        marginTop: height * 0.02
+        marginVertical: height * 0.02
     },
     text1: {
         color: "#000",
@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
         // borderColor:"red",
         borderColor: "#F5F5F5",
         borderWidth: 1.5,
-        
+
 
     },
     image: {

@@ -9,7 +9,7 @@ const { height, width } = Dimensions.get("screen")
 const Accategory = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const images = [
-        require('../../assets/banner/banner.png'),
+        require('../../assets/banner/ACBAnner.png'),
         require('../../assets/banner/ACBAnner.png'),
         require('../../assets/banner/ACBAnner1.png'),
         // Add more image sources as needed

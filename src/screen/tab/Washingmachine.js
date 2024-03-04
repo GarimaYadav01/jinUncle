@@ -5,43 +5,43 @@ import Header2 from "../../compontent/Header2";
 import CardListComponent from "./CardListComponent";
 const { height, width } = Dimensions.get("screen")
 const Washingmachine = () => {
-    const coupon = [
-        {
-            id: "1",
-            name: "Buy more save more",
-            subname: "₹100 off 2nd item onwards",
-            image: require("../../assets/logo/add.png")
+    // const coupon = [
+    //     {
+    //         id: "1",
+    //         name: "Buy more save more",
+    //         subname: "₹100 off 2nd item onwards",
+    //         image: require("../../assets/logo/add.png")
 
-        },
-        {
-            id: "2",
-            name: "Buy more save more",
-            subname: "₹100 off 2nd item onwards",
-            image: require("../../assets/logo/brand.png")
+    //     },
+    //     {
+    //         id: "2",
+    //         name: "Buy more save more",
+    //         subname: "₹100 off 2nd item onwards",
+    //         image: require("../../assets/logo/brand.png")
 
-        },
-        {
-            id: "3",
-            name: "Buy more save more",
-            subname: "₹100 off 2nd item onwards",
-            image: require("../../assets/logo/brand.png")
+    //     },
+    //     {
+    //         id: "3",
+    //         name: "Buy more save more",
+    //         subname: "₹100 off 2nd item onwards",
+    //         image: require("../../assets/logo/brand.png")
 
-        },
-        {
-            id: "4",
-            name: "Buy more save more",
-            subname: "₹100 off 2nd item onwards",
-            image: require("../../assets/logo/add.png")
+    //     },
+    //     {
+    //         id: "4",
+    //         name: "Buy more save more",
+    //         subname: "₹100 off 2nd item onwards",
+    //         image: require("../../assets/logo/add.png")
 
-        },
-        {
-            id: "5",
-            name: "Buy more save more",
-            subname: "₹100 off 2nd item onwards",
-            image: require("../../assets/logo/brand.png")
+    //     },
+    //     {
+    //         id: "5",
+    //         name: "Buy more save more",
+    //         subname: "₹100 off 2nd item onwards",
+    //         image: require("../../assets/logo/brand.png")
 
-        }
-    ]
+    //     }
+    // ]
 
 
     const subcategory = [
@@ -94,13 +94,16 @@ const Washingmachine = () => {
                         </View>
                         <TouchableOpacity style={styles.btn}>
                             <View style={{ flexDirection: "row", alignItems: "center", marginHorizontal: 20, marginTop: 10, columnGap: 10, justifyContent: "space-between" }}>
-                                <Image source={require("../../assets/logo/checked.png")} resizeMode="contain" style={{ width: 20, height: 20 }} />
-                                <Text style={{ marginRight: width * 0.2, fontSize: 15, color: "gray" }}>Expert verified repiar quotes</Text>
+                                <View style={{ flexDirection: "row", columnGap: 10 }}>
+                                    <Image source={require("../../assets/logo/checked.png")} resizeMode="contain" style={{ width: 20, height: 20 }} />
+                                    <Text style={{ fontSize: 15, color: "gray" }}>Expert verified repiar quotes</Text>
+                                </View>
+
                                 <Image source={ICONS.arrow} style={{ width: 30, height: 30, }} />
                             </View>
                             {/* <Text style={styles.text1}>Verified quotes & 30 days warranty</Text> */}
                         </TouchableOpacity>
-                        <FlatList
+                        {/* <FlatList
                             data={coupon}
                             renderItem={renderItem2}
                             keyExtractor={item => item.id}
@@ -108,7 +111,7 @@ const Washingmachine = () => {
                             horizontal
                             contentContainerStyle={{ columnGap: 10 }}
                             showsHorizontalScrollIndicator={false}
-                        />
+                        /> */}
                     </View>
 
                 </View>
@@ -172,7 +175,7 @@ const styles = StyleSheet.create({
         padding: 10,
         backgroundColor: '#F5F5F5',
         borderColor: "#dededf",
-        marginTop: height * 0.02
+        marginVertical: height * 0.02
     },
     text1: {
         color: "#000",

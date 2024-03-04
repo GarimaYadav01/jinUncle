@@ -29,12 +29,12 @@ const Bottomnavigation = () => {
                     if (route.name === 'Home') {
                         iconName = focused ? require('../assets/bottomnavigatiomnimage/homeactive.png') : require('../assets/bottomnavigatiomnimage/home.png');
                     } else if (route.name === 'Services') {
-                        iconName = focused ? require('../assets/bottomnavigatiomnimage/serviceactive.png') : require('../assets/bottomnavigatiomnimage/service.png');
+                        iconName = focused ? require('../assets/bottomnavigatiomnimage/public-serviceactive.png') : require('../assets/bottomnavigatiomnimage/public-service.png');
 
                     } else if (route.name === 'garimayadav') {
                         iconName = focused ? require('../assets/bottomnavigatiomnimage/useractive.png') : require('../assets/bottomnavigatiomnimage/user.png');
                     }
-                    return <Image source={iconName} style={{ width: 40, height: 40 }} />;
+                    return <Image source={iconName} style={{ width: 30, height: 30 }} />;
                 },
             })}
         >

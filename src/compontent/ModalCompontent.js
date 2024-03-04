@@ -7,6 +7,53 @@ const { height, width } = Dimensions.get("screen")
 const ModalCompontent = ({ visible, onClose, item }) => {
 
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [quantityStates, setQuantityStates] = useState({});
+
+
+    useEffect(() => {
+        // Initialize quantity states for each item
+        const initialQuantityStates = {};
+        Allmix.forEach(({ id }) => {
+            initialQuantityStates[id] = {
+                showQuantityView: false,
+                quantity: 1
+            };
+        });
+        setQuantityStates(initialQuantityStates);
+    }, []);
+    const handleIncrease = (id) => {
+        setQuantityStates(prevStates => ({
+            ...prevStates,
+            [id]: {
+                ...prevStates[id],
+                quantity: prevStates[id].quantity + 1
+            }
+        }));
+    };
+
+    const handleDecrease = (id) => {
+        setQuantityStates(prevStates => ({
+            ...prevStates,
+            [id]: {
+                ...prevStates[id],
+                quantity: Math.max(1, prevStates[id].quantity - 1)
+            }
+        }));
+    };
+
+    const handleAddButtonClick = () => {
+        setShowQuantityView(true);
+    };
+    const toggleVector = (id) => {
+        setQuantityStates(prevStates => ({
+            ...prevStates,
+            [id]: {
+                ...prevStates[id],
+                showQuantityView: !prevStates[id].showQuantityView
+            }
+        }));
+    };
+
     const images = [
         require('../assets/banner/banner.png'),
         require('../assets/banner/ACBAnner.png'),
@@ -79,15 +126,28 @@ const ModalCompontent = ({ visible, onClose, item }) => {
                 <Text style={[styles.name, { width: width * 0.3 }]}>{item.name}</Text>
                 <View style={styles.ratingContainer}>
                     <Image source={item.icon} style={styles.starIcon} />
-                    <Text style={styles.likes}>{item.likes}</Text>
+                    <Text style={{ color: "gray" }}>{item.likes}</Text>
                 </View>
                 <Text style={{ color: "black" }}>₹258</Text>
+                <View>
+                    {!quantityStates[item.id]?.showQuantityView ? (
+                        <TouchableOpacity style={styles.smallbutton} onPress={() => toggleVector(item.id)}>
+                            <Text style={styles.textbut}>Add</Text>
+                        </TouchableOpacity>
+                    ) : (
+                        <View style={styles.container1}>
+                            <TouchableOpacity onPress={() => handleDecrease(item.id)}>
+                                <Text style={styles.textbut}>-</Text>
+                            </TouchableOpacity>
+                            <Text style={styles.textbut}>{quantityStates[item.id]?.quantity}</Text>
+                            <TouchableOpacity onPress={() => handleIncrease(item.id)}>
+                                <Text style={styles.textbut}>+</Text>
+                            </TouchableOpacity>
+                        </View>
+                    )}
+                </View>
 
-                <TouchableOpacity style={styles.smallbutton}>
-                    <Text style={styles.textbut}>Add</Text>
-                </TouchableOpacity>
             </TouchableOpacity>
-
         </View>
     );
     const renderItemallmix2 = ({ item }) => (
@@ -111,13 +171,13 @@ const ModalCompontent = ({ visible, onClose, item }) => {
     return (
         <Modal visible={visible} transparent={true} animationType="slide">
             <View style={styles.modalContainer}>
-                <View style={{ justifyContent: "flex-end", marginLeft: width * 0.8, paddingBottom: 20,    marginTop:height*0.05, }}>
+                <View style={{ justifyContent: "flex-end", marginLeft: width * 0.8, paddingBottom: 20, marginTop: height * 0.05, }}>
                     <TouchableOpacity onPress={onClose}>
                         <Image source={require("../assets/Icon/x-mark.png")} style={{ width: 40, height: 40 }} tintColor={"white"} />
                     </TouchableOpacity>
                 </View>
                 <View style={styles.modalContent}>
-                    <ScrollView showsVerticalScrollIndicator={false} style={{ flexGrow: 1 }}>
+                    <ScrollView showsVerticalScrollIndicator={false} style={{ flexGrow: 1, paddingBottom: 150, }}>
                         <View style={{ flexDirection: "row" }}>
                             <Image source={images[currentIndex]} style={{ borderRadius: 5 }} />
                         </View>
@@ -134,7 +194,6 @@ const ModalCompontent = ({ visible, onClose, item }) => {
                                     <Image source={require("../assets/Icon/check.png")} resizeMode="contain" style={{ width: 20, height: 20 }} />
                                     <Text style={{ color: "#004E8C", fontSize: 15, fontWeight: "bold" }}>JU Cover</Text>
                                 </View>
-
                                 <Text style={{ color: "gray", fontStyle: "normal", fontSize: 16 }}>Standard rate card</Text>
                                 <Image source={ICONS.arrow} style={{ width: 30, height: 30, }} />
                             </View>
@@ -166,6 +225,46 @@ const ModalCompontent = ({ visible, onClose, item }) => {
                             <Image source={require("../assets/Icon/check.png")} resizeMode="contain" style={{ width: 20, height: 20 }} />
                             <Text style={{ color: "#004E8C", fontSize: 22, fontWeight: "bold" }}>JU Cover</Text>
                         </View>
+                        <View style={{ flexDirection: "row", columnGap: 10 }}>
+
+
+
+                            <View style={styles.warrantybutton}>
+                                <Image source={require("../assets/bottomnavigatiomnimage/waranty.png")} style={{
+                                    width: 60,
+                                    height: 60
+                                }} />
+                                <Text style={[styles.text1, { fontWeight: "bold" }]}>JU warranty</Text>
+                            </View>
+
+                            <View style={styles.warrantybutton}>
+                                <Image source={require("../assets/bottomnavigatiomnimage/refund.png")} style={{
+                                    width: 60,
+                                    height: 60
+                                }} />
+                                <Text style={[styles.text1, { fontWeight: "bold" }]}>No questions asked claim</Text>
+                            </View>
+
+                            <View style={styles.warrantybutton}>
+                                <Image source={require("../assets/bottomnavigatiomnimage/verified.png")} style={{
+                                    width: 60,
+                                    height: 60
+                                }} />
+                                <Text style={[styles.text1, { fontWeight: "bold" }]}>UC verified quotes</Text>
+                            </View>
+                        </View>
+
+                        <TouchableOpacity style={styles.btnlearn}>
+                            <Text style={{ color: "gray", fontStyle: "normal", fontSize: 16 }}>Learn about claims process</Text>
+                            <Image source={ICONS.arrow} style={{ width: 40, height: 40 }} />
+                        </TouchableOpacity>
+
+                        <View>
+
+                        </View>
+                        {/* <View style={{ flexDirection: "row" }}>
+                            <Image source={images[currentIndex]} style={{ borderRadius: 5 }} />
+                        </View> */}
 
                     </ScrollView>
                 </View>
@@ -182,16 +281,21 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
-   
+
+
     },
     modalContent: {
-    
         backgroundColor: 'white',
         padding: 20,
         // borderRadius: 10,
         width: width,
         borderTopLeftRadius: 10,
-        borderTopRightRadius: 10
+        borderTopRightRadius: 10,
+        flexGrow: 1,
+        marginHorizontal: 20,
+        paddingBottom:100
+        // height:height
+
     },
     closeButton: {
         marginTop: 10,
@@ -283,6 +387,46 @@ const styles = StyleSheet.create({
     textbut: {
         textAlign: "center",
         color: "white"
+    },
+    container1: {
+        // flex: 1,
+        flexDirection: "row",
+        justifyContent: "center",
+        backgroundColor: "#004E8C",
+        borderColor: "#004E8C",
+        marginTop: height * 0.01,
+        height: height * 0.03,
+        width: width * 0.25,
+        borderRadius: 5,
+        borderWidth: 1,
+        alignContent: "center",
+        columnGap: 20
+    },
+    warrantybutton: {
+        padding: 10,
+        borderWidth: 1,
+        backgroundColor: "#e6e6fa",
+        width: width * 0.28,
+        borderColor: "#e6e6fa",
+        justifyContent: "center",
+        // flex: 1,
+        alignItems: "center",
+        borderRadius: 10,
+        marginVertical: height * 0.01
+    },
+    btnlearn: {
+        flexDirection: "row",
+        alignItems: "center",
+        width: width * 0.9,
+        borderRadius: 10,
+        borderWidth: 1,
+        // height: height * 0.06,
+        padding: 5,
+        backgroundColor: '#F5F5F5',
+        borderColor: "#dededf",
+        justifyContent: "space-between",
+        paddingHorizontal: 10,
+        marginVertical: height * 0.01
     }
 });
 
