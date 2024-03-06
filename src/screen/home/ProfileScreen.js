@@ -69,7 +69,6 @@ const ProfileScreen = () => {
             image: ICONS.arrow,
             screen: "Aboutus"
         },
-
     ]
     const handleMenuItemPress = (screen) => {
         // Navigate to the specified screen

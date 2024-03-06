@@ -31,7 +31,7 @@ const Rateingmodal = ({ isVisible, hideModal, handleSave }) => {
                                 defaultRating={0}
                                 size={30}
                                 onFinishRating={handleRating}
-                           
+
                             />
                         </View>
                         <View style={{ marginTop: height * 0.02 }}>

@@ -8,7 +8,7 @@ const { height, width } = Dimensions.get("screen")
 const CardListComponent = ({ navigation }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [quantityStates, setQuantityStates] = useState({});
-    const [payment,setPayment] = useState({});
+    const [payment, setPayment] = useState({});
     useEffect(() => {
         // Initialize quantity states for each item
         const initialQuantityStates = {};
@@ -116,8 +116,6 @@ const CardListComponent = ({ navigation }) => {
             label: "Deep cleaning of indoor & outdoor unit with Advanced foam & Power-jet Technology",
             images: require("../../assets/banner/img-1.png"),
             view: "View details"
-
-
         },
         {
             id: "3",
@@ -138,18 +136,12 @@ const CardListComponent = ({ navigation }) => {
             label: "Deep cleaning of indoor & outdoor unit with Advanced foam & Power-jet Technology",
             images: require("../../assets/banner/img-1.png"),
             view: "View details"
-
-
         }
-
 
     ]
 
-
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
-
-
 
     const handleCardPress = (item) => {
         setSelectedItem(item);
@@ -170,13 +162,13 @@ const CardListComponent = ({ navigation }) => {
 
             />
             <ModalCompontent visible={modalVisible} onClose={closeModal} item={selectedItem} />
-
+            {/* 
             <View style={styles.paymentcard}>
                 <Text style={styles.text}>₹549</Text>
                 <TouchableOpacity style={styles.smallbutton}>
                     <Text style={styles.textbut}>View card</Text>
                 </TouchableOpacity>
-            </View>
+            </View> */}
         </View>
 
     );
@@ -262,6 +254,15 @@ const styles = StyleSheet.create({
         alignContent: "center",
         columnGap: 20
     },
+    paymentcard: {
+        width: width,
+        backgroundColor: "#FFF",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        paddingHorizontal: 20,
+        padding: 10
+    }
 });
 
 export default CardListComponent;

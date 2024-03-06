@@ -119,6 +119,24 @@ const ModalCompontent = ({ visible, onClose, item }) => {
         }
     ]
 
+    const data = [
+        {
+            title: 'Step 1: Deep Cleaning',
+            description: 'Deep cleaning of indoor & outdoor unit before the anti-rust protection is applied',
+            image: require("../assets/gif/AC.gif"),
+        },
+        {
+            title: 'Step 2: Anti-rust Protection',
+            description: 'Specialised anti-rust coating for copper coils to prevent gas leakage (Up to 1 year)',
+            image: require("../assets/gif/AC.gif"),
+        },
+        {
+            title: 'Step 3: Anti-rust Protection',
+            description: 'Specialised anti-rust coating for copper coils to prevent gas leakage (Up to 1 year)',
+            image: require("../assets/gif/AC.gif"),
+        },
+    ];
+
     const renderItemallmix = ({ item }) => (
         <View style={{ marginBottom: 20, marginTop: 10, alignContent: "center", justifyContent: "center" }}>
             <TouchableOpacity style={styles.btn1}>
@@ -179,15 +197,13 @@ const ModalCompontent = ({ visible, onClose, item }) => {
                 <View style={styles.modalContent}>
                     <ScrollView showsVerticalScrollIndicator={false} style={{ flexGrow: 1, paddingBottom: 150, }}>
                         <View style={{ flexDirection: "row" }}>
-                            <Image source={images[currentIndex]} style={{ borderRadius: 5 }} />
+                            <Image source={images[currentIndex]} style={{ borderRadius: 10,width:width*0.9 }} />
                         </View>
-
                         <Text style={styles.text}>Ac Repair (split/ window)</Text>
                         <View style={{ flexDirection: "row", alignItems: "center", columnGap: 10, marginTop: 10 }}>
                             <Image source={require("../assets/logo/star.png")} style={{ width: 20, height: 20 }} resizeMode="contain" />
                             <Text style={{ color: "gray", fontFamily: "Roboto-Regular" }}>4.48 (6.6 M bookings)</Text>
                         </View>
-
                         <TouchableOpacity style={styles.btn}>
                             <View style={{ flexDirection: "row", alignItems: "center", marginHorizontal: 20, marginTop: 10, columnGap: 10, justifyContent: "space-between" }}>
                                 <View style={{ flexDirection: "row" }}>
@@ -253,18 +269,48 @@ const ModalCompontent = ({ visible, onClose, item }) => {
                                 <Text style={[styles.text1, { fontWeight: "bold" }]}>UC verified quotes</Text>
                             </View>
                         </View>
-
+                        {/* 
                         <TouchableOpacity style={styles.btnlearn}>
                             <Text style={{ color: "gray", fontStyle: "normal", fontSize: 16 }}>Learn about claims process</Text>
                             <Image source={ICONS.arrow} style={{ width: 40, height: 40 }} />
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
 
-                        <View>
 
+                        <Text style={styles.text}>
+                            How it works
+                        </Text>
+                        {/* <View style={{ marginVertical: height * 0.01, marginHorizontal: 20 }}>
+                            <Text style={styles.deep}>Deep cleaning</Text>
+                            <Text style={[styles.deep, { color: "gray", fontSize: 15 }]}>Deep cleaning of indoor & outdoor unit before the anti-rust protection is applied</Text>
+                            <Image source={require("../assets/gif/AC.gif")} style={{ height: height * 0.2, width: width * 0.9, borderRadius: 20, marginTop: height * 0.01 }} />
                         </View>
-                        {/* <View style={{ flexDirection: "row" }}>
-                            <Image source={images[currentIndex]} style={{ borderRadius: 5 }} />
+                        <View style={{ marginHorizontal: 20 }}>
+                            <Text style={styles.deep}>Anti-rust protection</Text>
+                            <Text style={[styles.deep, { color: "gray", fontSize: 15 }]}>Specialised anti-rust coating for copper colis to prevent gas leakage(Up to 1 year)</Text>
+                            <Image source={require("../assets/gif/AC.gif")} style={{ height: height * 0.2, width: width * 0.9, borderRadius: 20, marginTop: height * 0.01 }} />
                         </View> */}
+
+                        <View style={styles.container3}>
+                            <FlatList
+                                data={data}
+                                renderItem={({ item, index }) => (
+                                    <View style={styles.stepContainer}>
+                                        <View style={styles.progressContainer}>
+                                            {index > 0 && <View style={styles.progressLine} />}
+                                        </View>
+                                        <View style={styles.stepContent}>
+                                            <Text style={styles.title}>{item.title}</Text>
+                                            <Text style={styles.description}>{item.description}</Text>
+                                            <Image source={item.image} style={styles.image} />
+                                        </View>
+                                    </View>
+                                )}
+                                keyExtractor={(item, index) => index.toString()}
+                            />
+                        </View>
+                        <View>
+                        </View>
+
 
                     </ScrollView>
                 </View>
@@ -292,8 +338,8 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
         flexGrow: 1,
-        marginHorizontal: 20,
-        paddingBottom:100
+        // marginHorizontal: 20,
+        paddingBottom: 100
         // height:height
 
     },
@@ -427,7 +473,52 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         paddingHorizontal: 10,
         marginVertical: height * 0.01
-    }
+    },
+    deep: {
+        fontSize: 17,
+        color: "black",
+        fontWeight: "500",
+        fontFamily: "Roboto-Medium"
+
+    },
+    container3: {
+        flex: 1,
+        paddingHorizontal: 20,
+    },
+    stepContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 20,
+    },
+    progressContainer: {
+        width: 30,
+        alignItems: 'center',
+    },
+    progressLine: {
+        flex: 1,
+        width: 2,
+        backgroundColor: 'gray',
+    },
+    stepContent: {
+        flex: 1,
+        marginLeft: 10,
+    },
+    title: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginBottom: 5,
+    },
+    description: {
+        fontSize: 15,
+        color: 'gray',
+        marginBottom: 10,
+    },
+    image: {
+        height: height * 0.2,
+        width: width * 0.9,
+        borderRadius: 20,
+        marginTop: height * 0.01,
+    },
 });
 
 export default ModalCompontent;

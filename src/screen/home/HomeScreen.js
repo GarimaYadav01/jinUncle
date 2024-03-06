@@ -1,13 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Dimensions, FlatList, Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import TextinputComponent from "../../compontent/TextinputComponent";
 import { useNavigation } from "@react-navigation/native";
 import Applyproma from "../../compontent/Applyproma";
 import ApplyModal from "../../compontent/ApplyModal";
+import Seeall from "../../compontent/Seeall";
 const { width, height } = Dimensions.get("screen")
 const HomeScreen = (props) => {
     const navigation = useNavigation();
+    const [index, setIndex] = useState(0);
+    const flatListRef = useRef(null);
+    const [expanded, setExpanded] = useState(false);
 
+    const toggleExpand = () => {
+        setExpanded(!expanded);
+    };
 
     const [currentIndex, setCurrentIndex] = useState(0);
     const [currentgifIndex, setCurrentgifIndex] = useState(0);
@@ -153,6 +160,21 @@ const HomeScreen = (props) => {
             starts: 549,
         }
     ]
+
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            // Calculate the next index to scroll to
+            const nextIndex = (index + 1) % Allmix.length;
+            // Scroll to the next index
+            flatListRef.current.scrollToIndex({ animated: true, index: nextIndex });
+            // Update the index state
+            setIndex(nextIndex);
+        }, 3000); // Adjust the interval duration as needed
+
+        return () => clearInterval(interval);
+    }, [index]); // Re-run effect when index changes
+
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
@@ -173,7 +195,7 @@ const HomeScreen = (props) => {
     const renderItem = ({ item }) => (
         <View style={{ marginBottom: 20, marginTop: 10 }}>
             <TouchableOpacity style={styles.btn} onPress={() => handleMenuItemPress(item.screen)}>
-                <Image source={item.image} style={{ width: 100, height: 100 }} resizeMode="contain" />
+                <Image source={item.image} style={{ width: 150, height: 150, borderRadius: 10 }} resizeMode="contain" />
                 <Text style={styles.name}>{item.name}</Text>
             </TouchableOpacity>
 
@@ -183,7 +205,7 @@ const HomeScreen = (props) => {
     const renderItem2 = ({ item }) => (
         <View style={{ marginBottom: 20, marginTop: 10 }}>
             <TouchableOpacity style={styles.btn} onPress={() => props.navigation.navigate("Servicedetails")}>
-                <Image source={item.image} style={{ width: 100, height: 100 }} resizeMode="contain" />
+                <Image source={item.image} style={{ width: 150, height: 150, borderRadius: 10 }} resizeMode="contain" />
                 <Text style={styles.name}>{item.name}</Text>
             </TouchableOpacity>
 
@@ -192,7 +214,7 @@ const HomeScreen = (props) => {
     const renderItemfridage = ({ item }) => (
         <View style={{ marginBottom: 20, marginTop: 10 }}>
             <TouchableOpacity style={styles.btn}>
-                <Image source={item.image} style={{ width: 100, height: 100 }} resizeMode="contain" />
+                <Image source={item.image} style={{ width: 150, height: 150, borderRadius: 10 }} resizeMode="contain" />
                 <Text style={styles.name}>{item.name}</Text>
             </TouchableOpacity>
 
@@ -202,7 +224,7 @@ const HomeScreen = (props) => {
     const renderItemallmix = ({ item }) => (
         <View style={{ marginBottom: 20, marginTop: 10 }}>
             <TouchableOpacity style={styles.btn}>
-                <Image source={item.image} style={{ width: 100, height: 100, borderRadiu: 10 }} resizeMode="contain" />
+                <Image source={item.image} style={{ width: 150, height: 150, borderRadius: 10 }} resizeMode="contain" />
                 <Text style={[styles.name, { width: width * 0.3 }]}>{item.name}</Text>
                 <View style={styles.ratingContainer}>
                     <Image source={item.icon} style={styles.starIcon} />
@@ -213,8 +235,71 @@ const HomeScreen = (props) => {
         </View>
     );
 
+
+
+    const [modalVisible, setModalVisible] = useState(false);
+    const openModal = () => {
+        setModalVisible(true);
+    };
+
+    const closeModal = () => {
+        setModalVisible(false);
+    };
+    const categories = [
+        {
+            id: "1",
+            image: require("../../assets/banner/img2.png"),
+            name: "Ac Repair & Serivce",
+            screen: "Accategory"
+
+        },
+        {
+            id: "2",
+            image: require("../../assets/banner/img3.png"),
+            name: "Refrigerator",
+            screen: "Fridagecategory"
+        },
+        {
+            id: "3",
+            image: require("../../assets/banner/img-1.png"),
+            name: "Washing Machine Reapir",
+            screen: "Washingmachinecategory"
+        },
+        {
+            id: "4",
+            image: require("../../assets/banner/img-1.png"),
+            name: "Service",
+            screen: "Washingmachinecategory"
+        },
+        {
+            id: "5",
+            image: require("../../assets/banner/img-1.png"),
+            name: "Repair & gas refill ",
+            screen: "Washingmachinecategory"
+        },
+        {
+            id: "6",
+            image: require("../../assets/banner/img-1.png"),
+            name: "Install & uninstall",
+            screen: "Washingmachinecategory"
+        },
+        {
+            id: "3",
+            image: require("../../assets/banner/img-1.png"),
+            name: "Split AC",
+            screen: "Washingmachinecategory"
+        },
+        {
+            id: "7",
+            image: require("../../assets/banner/img-1.png"),
+            name: "Window AC",
+            screen: "Washingmachinecategory"
+        },
+
+
+    ];
     return (
-        <SafeAreaView style={{ flex: 1, paddingBottom: 20 }}>
+        <SafeAreaView style={{ flex: 1, paddingBottom: 20, backgroundColor: "#FFF" }}>
             <ScrollView style={{ flexGrow: 1, }} showsVerticalScrollIndicator={false}>
                 <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: height * 0.03, marginHorizontal: 20 }}>
                     {/* <Image source={require("../../assets/Newicon/location.png")} style={styles.images} /> */}
@@ -318,17 +403,33 @@ const HomeScreen = (props) => {
                     </View>
 
                     <View style={{ marginTop: 10, backgroundColor: "white", borderWidth: 1, borderColor: "#FFF", padding: 5, borderRadius: 10 }}>
-                        <Text style={styles.text}>
-                            Most booked  services
-                        </Text>
+
+                        <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+                            <Text style={styles.text}>
+                                Most booked  services
+                            </Text>
+                            <TouchableOpacity onPress={openModal}>
+                                <Text style={[styles.text, { color: "#004E8C", fontSize: 17 }]}>See all</Text>
+                            </TouchableOpacity>
+                        </View>
+
+
 
                         <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
                             <FlatList
+                                ref={flatListRef}
                                 data={Allmix}
                                 renderItem={renderItemallmix}
-                                keyExtractor={item => item.id}
+                                keyExtractor={(item) => item.id.toString()}
                                 horizontal
                                 showsHorizontalScrollIndicator={false}
+                                pagingEnabled
+                                onMomentumScrollEnd={(event) => {
+                                    // Calculate the index of the current item based on the scroll position
+                                    const { contentOffset, layoutMeasurement, contentSize } = event.nativeEvent;
+                                    const newIndex = Math.floor(contentOffset.x / layoutMeasurement.width);
+                                    setIndex(newIndex);
+                                }}
                             />
                         </View>
                     </View>
@@ -336,7 +437,7 @@ const HomeScreen = (props) => {
                 </View>
 
             </ScrollView>
-
+            <Seeall isVisible={modalVisible} onClose={closeModal} categories={categories} />
 
         </SafeAreaView>
 
@@ -402,11 +503,11 @@ const styles = StyleSheet.create({
 
     },
     image: {
-        // width: width * 0.87,
+        width: width * 0.89,
         borderRadius: 20
     },
     btn: {
-        backgroundColor: "#FFF",
+        // backgroundColor: "#FFF",
         columnGap: 10,
         marginHorizontal: 10,
         // height: height * 0.18,
@@ -418,7 +519,7 @@ const styles = StyleSheet.create({
 
     },
     name: {
-        fontSize: 16,
+        fontSize: 17,
         color: "black",
         fontFamily: "Roboto-Regular",
         marginTop: 10,

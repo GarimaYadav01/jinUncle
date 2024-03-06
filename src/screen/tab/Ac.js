@@ -63,6 +63,8 @@ const Ac = () => {
     ]
     const [modalVisible, setModalVisible] = useState(false);
 
+    const [showPayment, setShowPayment] = useState(false);
+
 
 
 
@@ -74,6 +76,10 @@ const Ac = () => {
     const closeModal = () => {
         setModalVisible(false);
     };
+    const handleAddButtonPress = () => {
+        setShowPayment(true); // Show the payment view when the add button is clicked
+    };
+
 
     const renderItem2 = ({ item }) => (
         <TouchableOpacity>
@@ -94,13 +100,10 @@ const Ac = () => {
                 <Image source={item.image} style={{ width: 100, height: 100 }} resizeMode="contain" />
                 <Text style={styles.name}>{item.name}</Text>
             </TouchableOpacity>
-
         </View>
     );
     return (
         <View>
-
-
             <ScrollView style={{ flexGrow: 1, paddingBottom: 50 }} showsVerticalScrollIndicator={false}>
                 <View>
                     <View style={{ backgroundColor: "#FFF" }}>
@@ -143,12 +146,17 @@ const Ac = () => {
                     </View>
                     <CardListComponent />
 
+
                 </View>
 
                 <WarrantyModal visible={modalVisible} onClose={closeModal} />
             </ScrollView>
-         
-
+            <View style={styles.paymentcard}>
+                <Text style={styles.text}>₹549</Text>
+                <TouchableOpacity style={styles.smallbutton}>
+                    <Text style={styles.textbut}>View card</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     );
 };

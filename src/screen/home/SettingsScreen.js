@@ -37,15 +37,16 @@ const SettingsScreen = () => {
 
 
     const [activeTab, setActiveTab] = useState(0);
+    const [showPayment, setShowPayment] = useState(false);
 
     const renderItem = ({ item, index }) => (
         <TouchableOpacity
             style={[styles.btn, activeTab === index && styles.activeTab]}
             onPress={() => {
                 setActiveTab(index); // Set active tab
+
                 handleTabPress(item.screenName); // Navigate to the selected screen
             }}
-
         >
             <Image source={item.image} style={{ width: 100, height: 100 }} resizeMode="contain" />
             <Text style={[styles.name, activeTab === index && { color: '#004E8C' }]}>{item.name}</Text>
@@ -94,6 +95,13 @@ const SettingsScreen = () => {
                 <View style={styles.additionalContent}>
                     {renderAdditionalContent(data[activeTab].name)}
                 </View>
+
+                {/* <View style={styles.paymentcard}>
+                    <Text style={styles.text}>₹549</Text>
+                    <TouchableOpacity style={styles.smallbutton}>
+                        <Text style={styles.textbut}>View card</Text>
+                    </TouchableOpacity>
+                </View> */}
             </ScrollView>
 
         </SafeAreaView>
@@ -118,13 +126,13 @@ const styles = StyleSheet.create({
         columnGap: 10,
         marginHorizontal: 10,
         // height: height * 0.18,
-        padding:10,
+        padding: 10,
         width: width * 0.4,
         justifyContent: "center",
         alignItems: "center",
         borderRadius: 10,
         marginTop: height * 0.03,
-        flex:1
+        flex: 1
     },
     activeTab: {
         backgroundColor: "#FFF", // Change to your active color
@@ -138,5 +146,14 @@ const styles = StyleSheet.create({
     },
     additionalContent: {
         marginTop: height * 0.03
+    },
+    paymentcard: {
+        width: width,
+        backgroundColor: "#FFF",
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        paddingHorizontal: 20,
+        padding: 10
     }
 });
