@@ -4,7 +4,6 @@ import ModalCompontent from '../../compontent/ModalCompontent';
 
 const { height, width } = Dimensions.get("screen")
 
-
 const CardListComponent = ({ navigation }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [quantityStates, setQuantityStates] = useState({});

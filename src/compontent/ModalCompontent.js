@@ -139,7 +139,7 @@ const ModalCompontent = ({ visible, onClose, item }) => {
 
     const renderItemallmix = ({ item }) => (
         <View style={{ marginBottom: 20, marginTop: 10, alignContent: "center", justifyContent: "center" }}>
-            <TouchableOpacity style={styles.btn1}>
+            <View style={styles.btn1}>
                 <Image source={item.image} style={{ width: 100, height: 100, borderRadius: 5 }} resizeMode="contain" />
                 <Text style={[styles.name, { width: width * 0.3 }]}>{item.name}</Text>
                 <View style={styles.ratingContainer}>
@@ -165,7 +165,7 @@ const ModalCompontent = ({ visible, onClose, item }) => {
                     )}
                 </View>
 
-            </TouchableOpacity>
+            </View>
         </View>
     );
     const renderItemallmix2 = ({ item }) => (
@@ -197,7 +197,7 @@ const ModalCompontent = ({ visible, onClose, item }) => {
                 <View style={styles.modalContent}>
                     <ScrollView showsVerticalScrollIndicator={false} style={{ flexGrow: 1, paddingBottom: 150, }}>
                         <View style={{ flexDirection: "row" }}>
-                            <Image source={images[currentIndex]} style={{ borderRadius: 10,width:width*0.9 }} />
+                            <Image source={images[currentIndex]} style={{ borderRadius: 10, width: width * 0.9 }} />
                         </View>
                         <Text style={styles.text}>Ac Repair (split/ window)</Text>
                         <View style={{ flexDirection: "row", alignItems: "center", columnGap: 10, marginTop: 10 }}>

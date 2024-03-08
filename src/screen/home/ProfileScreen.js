@@ -120,7 +120,6 @@ const ProfileScreen = () => {
                 onClose={() => setModalVisible(false)}
                 onLogout={handleLogout}
             />
-
         </SafeAreaView>
 
     )

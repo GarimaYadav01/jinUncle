@@ -49,9 +49,8 @@ import Services from '../screen/helpcenter/Services';
 import Pay from '../screen/helpcenter/Pay';
 import MyWallet from '../screen/helpcenter/MyWallet';
 import Servicedetails from '../screen/payments/Servicedetails';
-
+import Summary from '../screen/payments/Summary';
 const Stack = createNativeStackNavigator();
-
 const Navigation = () => {
     return (
         <NavigationContainer>
@@ -104,6 +103,7 @@ const Navigation = () => {
                 <Stack.Screen name="Pay" component={Pay} />
                 <Stack.Screen name="MyWallet" component={MyWallet} />
                 <Stack.Screen name="Servicedetails" component={Servicedetails} />
+                <Stack.Screen name="Summary" component={Summary} />
             </Stack.Navigator>
         </NavigationContainer>
     );

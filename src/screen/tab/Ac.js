@@ -4,9 +4,12 @@ import { ICONS } from "../../assets/themes";
 import Header2 from "../../compontent/Header2";
 import CardListComponent from "./CardListComponent";
 import WarrantyModal from "../../compontent/WarrantyModal";
+import { useNavigation } from "@react-navigation/native";
 const { height, width } = Dimensions.get("screen")
 
-const Ac = () => {
+const Ac = (props) => {
+    const navigation = useNavigation();
+
     // const coupon = [
     //     {
     //         id: "1",
@@ -44,6 +47,9 @@ const Ac = () => {
 
     //     }
     // ]
+
+
+
     const subcategory = [
         {
             id: "1",
@@ -153,7 +159,7 @@ const Ac = () => {
             </ScrollView>
             <View style={styles.paymentcard}>
                 <Text style={styles.text}>₹549</Text>
-                <TouchableOpacity style={styles.smallbutton}>
+                <TouchableOpacity style={styles.smallbutton} onPress={() => navigation.navigate("Summary")}>
                     <Text style={styles.textbut}>View card</Text>
                 </TouchableOpacity>
             </View>

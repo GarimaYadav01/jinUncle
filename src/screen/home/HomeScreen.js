@@ -15,7 +15,6 @@ const HomeScreen = (props) => {
     const toggleExpand = () => {
         setExpanded(!expanded);
     };
-
     const [currentIndex, setCurrentIndex] = useState(0);
     const [currentgifIndex, setCurrentgifIndex] = useState(0);
     const gif = [
@@ -91,7 +90,6 @@ const HomeScreen = (props) => {
             name: "Side by Side"
         }
     ]
-
     const subcategorywashingmachine = [
         {
             id: "1",
@@ -161,7 +159,6 @@ const HomeScreen = (props) => {
         }
     ]
 
-
     useEffect(() => {
         const interval = setInterval(() => {
             // Calculate the next index to scroll to
@@ -189,8 +186,6 @@ const HomeScreen = (props) => {
 
         return () => clearInterval(interval);
     }, []);
-
-
 
     const renderItem = ({ item }) => (
         <View style={{ marginBottom: 20, marginTop: 10 }}>
@@ -225,7 +220,7 @@ const HomeScreen = (props) => {
         <View style={{ marginBottom: 20, marginTop: 10 }}>
             <TouchableOpacity style={styles.btn}>
                 <Image source={item.image} style={{ width: 150, height: 150, borderRadius: 10 }} resizeMode="contain" />
-                <Text style={[styles.name, { width: width * 0.3 }]}>{item.name}</Text>
+                <Text style={[styles.name,]}>{item.name}</Text>
                 <View style={styles.ratingContainer}>
                     <Image source={item.icon} style={styles.starIcon} />
                     <Text style={styles.likes}>{item.likes}</Text>
@@ -234,8 +229,6 @@ const HomeScreen = (props) => {
             </TouchableOpacity>
         </View>
     );
-
-
 
     const [modalVisible, setModalVisible] = useState(false);
     const openModal = () => {
@@ -364,7 +357,10 @@ const HomeScreen = (props) => {
                             />
                         </View>
                     </View>
-                    <Image source={require("../../assets/gif/AC.gif")} style={{}} />
+                    <View style={styles.container}>
+                        <Image source={require("../../assets/gif/AC.gif")} style={styles.image} />
+                    </View>
+
                     {/* <View style={{ marginHorizontal: 20 }}> */}
                     {/* <TextinputComponent /> */}
 
@@ -567,6 +563,7 @@ const styles = StyleSheet.create({
         color: 'gray',
     },
     conn: {
-        fontFamily: "Roboto-Regular"
+        fontFamily: "Roboto-Regular",
+        color: "gray"
     }
 });
