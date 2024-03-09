@@ -208,7 +208,7 @@ const HomeScreen = (props) => {
     );
     const renderItemfridage = ({ item }) => (
         <View style={{ marginBottom: 20, marginTop: 10 }}>
-            <TouchableOpacity style={styles.btn}>
+            <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate("ContiuneShopping")}>
                 <Image source={item.image} style={{ width: 150, height: 150, borderRadius: 10 }} resizeMode="contain" />
                 <Text style={styles.name}>{item.name}</Text>
             </TouchableOpacity>
@@ -243,52 +243,51 @@ const HomeScreen = (props) => {
             id: "1",
             image: require("../../assets/banner/img2.png"),
             name: "Ac Repair & Serivce",
-            screen: "Accategory"
+            screen: "Subcategory"
 
         },
         {
             id: "2",
             image: require("../../assets/banner/img3.png"),
             name: "Refrigerator",
-            screen: "Fridagecategory"
+            screen: "Subcategory"
         },
         {
             id: "3",
             image: require("../../assets/banner/img-1.png"),
             name: "Washing Machine Reapir",
-            screen: "Washingmachinecategory"
+            screen: "Subcategory"
         },
         {
             id: "4",
             image: require("../../assets/banner/img-1.png"),
             name: "Service",
-            screen: "Washingmachinecategory"
+            screen: "Subcategory"
         },
         {
             id: "5",
             image: require("../../assets/banner/img-1.png"),
             name: "Repair & gas refill ",
-            screen: "Washingmachinecategory"
+            screen: "Subcategory"
         },
         {
             id: "6",
             image: require("../../assets/banner/img-1.png"),
             name: "Install & uninstall",
-            screen: "Washingmachinecategory"
+            screen: "Subcategory"
         },
         {
             id: "3",
             image: require("../../assets/banner/img-1.png"),
             name: "Split AC",
-            screen: "Washingmachinecategory"
+            screen: "Subcategory"
         },
         {
             id: "7",
             image: require("../../assets/banner/img-1.png"),
             name: "Window AC",
-            screen: "Washingmachinecategory"
+            screen: "Subcategory"
         },
-
 
     ];
     return (

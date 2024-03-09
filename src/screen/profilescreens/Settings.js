@@ -34,8 +34,11 @@ const Settings = ({ navigation }) => {
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View>
                     <View style={styles.container}>
-                        <Image source={require("../../assets/Newicon/whatsapp.png")} style={{ width: 30, height: 30, }} resizeMode="contain" />
-                        <Text style={styles.text}>Updates on WhatsApp {isEnabled ? 'ON' : 'OFF'}</Text>
+                        <View style={{ flexDirection: "row", columnGap: 10 }}>
+                            <Image source={require("../../assets/Newicon/whatsapp.png")} style={{ width: 30, height: 30, }} resizeMode="contain" />
+                            <Text style={styles.text}>Updates on WhatsApp {isEnabled ? 'ON' : 'OFF'}</Text>
+                        </View>
+
                         <Switch
                             trackColor={{ false: "#767577", true: "#81b0ff" }}
                             thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
@@ -112,7 +115,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: "center",
-        justifyContent: "center",
+        // justifyContent: "center",
         flexDirection: "row",
         marginTop: height * 0.04,
         paddingHorizontal: 25,
@@ -120,7 +123,7 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 20,
-        paddingRight: 27
+        // paddingRight: 27
     },
     modalContainer: {
         flex: 1,

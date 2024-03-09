@@ -31,7 +31,7 @@ const Account = () => {
             image: ICONS.arrow,
             screen: "Checksavedpayments"
         },
-        
+
 
     ]
     const handleMenuItemPress = (screen) => {

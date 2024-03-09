@@ -50,6 +50,10 @@ import Pay from '../screen/helpcenter/Pay';
 import MyWallet from '../screen/helpcenter/MyWallet';
 import Servicedetails from '../screen/payments/Servicedetails';
 import Summary from '../screen/payments/Summary';
+import Subcategory from '../screen/allcategory/Subcategory';
+import PaymentScreen from '../screen/allcategory/PaymentScreen';
+import Intergationpayment from '../screen/payments/Intergationpayment';
+import ContiuneShopping from '../screen/home/ContiuneShopping';
 const Stack = createNativeStackNavigator();
 const Navigation = () => {
     return (
@@ -104,6 +108,10 @@ const Navigation = () => {
                 <Stack.Screen name="MyWallet" component={MyWallet} />
                 <Stack.Screen name="Servicedetails" component={Servicedetails} />
                 <Stack.Screen name="Summary" component={Summary} />
+                <Stack.Screen name="Subcategory" component={Subcategory} />
+                <Stack.Screen name="PaymentScreen" component={PaymentScreen} />
+                <Stack.Screen name="Intergationpayment" component={Intergationpayment} />
+                <Stack.Screen name="ContiuneShopping" component={ContiuneShopping} />
             </Stack.Navigator>
         </NavigationContainer>
     );

@@ -77,22 +77,23 @@ const LoginScreen = (props) => {
               </View>
 
             </View>
-
             <Formik
-              initialValues={{ phoneNumber: '', }}
-              // validationSchema={validationSchema}
-              onSubmit={(values) => {
+              initialValues={{ phoneNumber: '' }}
+              validationSchema={validationSchema}
+              onSubmit={(values, actions) => {
                 // Handle form submission
                 console.log(values);
                 showMessage({
                   message: "Login successfully",
                   type: "success",
-                  icon: "success"
-                })
-                props.navigation.navigate("Otp")
+                  icon: "success",
+                });
+                actions.resetForm(); // Reset the form after submission
+                props.navigation.navigate("Otp");
               }}
             >
-              {({ handleChange, handleBlur, handleSubmit, touched, values, errors }) => (
+              {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
+
                 <View style={styles.contain}>
                   <View style={styles.container2}>
                     <CountryPicker
@@ -108,31 +109,39 @@ const LoginScreen = (props) => {
                     <TextInput
                       style={styles.input}
                       placeholder="Enter your phone number"
-                      value={phoneNumber}
-                      onChangeText={handleInputChange}
+
                       keyboardType="phone-pad"
                       placeholderTextColor={"gray"}
-                      onBlur={handleBlur('phoneNumber')}
+                      // onChangeText={handleInputChange("")}
                       maxLength={20}
+                      value={values.phoneNumber}
+                      onChangeText={handleChange('phoneNumber')}
+                      onBlur={handleBlur('phoneNumber')}
                     />
                   </View>
-                  {errors.phoneNumber && touched.phoneNumber && <Text style={styles.error}>{errors.phoneNumber}</Text>}
+                  {touched.phoneNumber && errors.phoneNumber &&
+                    <Text style={styles.error}>{errors.phoneNumber}</Text>
+                  }
+
                   <View style={{ marginTop: height * 0.03 }}>
                     <CustomButton
                       label={"Verify phone number"}
                       size={"large"}
                       onPress={handleSubmit}
-                      backgroundColor={isFilled ? "#004E8C" : "white"} // Change background color based on input
-                      color={isFilled ? "white" : "#004E8C"} // Change text color based on input
-                      disabled={!isFilled} // Disable button if input is not filled
+                      // backgroundColor={isFilled ? "#004E8C" : "white"} // Change background color based on input
+                      // color={isFilled ? "white" : "#004E8C"} // Change text color based on input
+                      // disabled={!isFilled} // Disable button if input is not filled
+                      backgroundColor={"#004E8C"}
+                      color={"white"}
                     />
                   </View>
                 </View>
+
+
+
               )}
             </Formik>
-
           </View>
-
         </ScrollView>
       </View>
     </SafeAreaView >

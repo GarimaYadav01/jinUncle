@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
         fontStyle: "normal",
         color: "#000",
         textAlign: "center",
-        fontFamily:"Roboto-BoldItalic"
+        fontFamily: "Roboto-BoldItalic"
 
     },
     images: {

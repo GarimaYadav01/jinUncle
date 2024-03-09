@@ -317,25 +317,24 @@ const Summary = (props) => {
                     <Text style={styles.service}>Payment summary</Text>
                     <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                         <Text style={styles.text2}>Item total</Text>
-                        <Text>₹1,297</Text>
+                        <Text style={styles.text2}>₹1,297</Text>
                     </View>
                     <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                        <Text>Item discount</Text>
-                        <Text>-₹100</Text>
+                        <Text style={styles.text2}>Item discount</Text>
+                        <Text style={styles.text2}>-₹100</Text>
                     </View>
                     <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                        <Text>Taxes and fee</Text>
-                        <Text>₹100</Text>
+                        <Text style={styles.text2}>Taxes and fee</Text>
+                        <Text style={styles.text2}>₹100</Text>
                     </View>
                 </View>
                 <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                     <Text style={{ color: "black", fontSize: 18, fontWeight: "700" }}>Total</Text>
                     <Text style={{ color: "black", fontSize: 18, fontWeight: "700" }}>₹1276</Text>
                 </View>
-                <View style={{ marginTop: 10 }}>
+                <View style={{ marginTop: height * 0.03 }}>
                     <CustomButton size={"large"} label={"Continue "} backgroundColor={"#004E8C"} color={"white"} onPress={() => props.navigation.navigate("Addcard")} />
                 </View>
-
             </ScrollView>
 
             <Seeall isVisible={modalVisible} onClose={closeModal} categories={categories} />
@@ -428,7 +427,8 @@ const styles = StyleSheet.create({
     },
     text2: {
         fontSize: 16,
-        color: "gray"
+        color: "gray",
+        lineHeight: 22
     },
     smallbutton: {
         height: height * 0.03,

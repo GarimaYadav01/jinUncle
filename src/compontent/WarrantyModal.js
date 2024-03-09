@@ -8,7 +8,7 @@ const WarrantyModal = ({ visible, onClose, item }) => {
     const navigation = useNavigation();
     return (
         <Modal visible={visible} transparent={true} animationType="slide">
-            <ScrollView style={{flex:1}} showsVerticalScrollIndicator={false}>
+            <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
                 <View style={styles.modalContainer}>
                     <View style={{ justifyContent: "flex-end", marginLeft: width * 0.8, paddingBottom: 20 }}>
                         <TouchableOpacity onPress={onClose}>
@@ -60,15 +60,15 @@ const WarrantyModal = ({ visible, onClose, item }) => {
                                 <Image source={require("../assets/Icon/music.png")} resizeMode='contain' style={{ width: 25, height: 25 }} />
                                 <Text style={[styles.text1, { width: width * 0.7 }]}>if you are charged different from the rate card, you reach out to our help center</Text>
                             </View>
-                            <View style={{ alignItems: "center" ,marginTop:height*0.01}}>
+                            <View style={{ alignItems: "center", marginTop: height * 0.01 }}>
                                 <Image source={require("../assets/Icon/check2.png")} style={{ width: 100, height: 100 }} />
                             </View>
-                            <TouchableOpacity onPress={() => navigation.navigate("Rateing") } style={styles.closeButton}>
-                        <Text style={[styles.subtext,{color:"#004E8C"}]}>View rate</Text>
-                    </TouchableOpacity>
+                            <TouchableOpacity onPress={() => navigation.navigate("Rateing")} style={styles.closeButton}>
+                                <Text style={[styles.subtext, { color: "#004E8C" }]}>View rate</Text>
+                            </TouchableOpacity>
                         </View>
 
-                       
+
                         {/* <View style={styles.container}>
                         <Video
                             source={require("../assets/vedio/AirCondi..mp4")}
@@ -99,12 +99,12 @@ const styles = StyleSheet.create({
         padding: 20,
         // borderRadius: 10,
         width: width,
-     height:height
+        height: height
     },
     closeButton: {
         marginTop: 10,
         // alignSelf: 'center',
-        marginHorizontal:20
+        marginHorizontal: 20
     },
     text: {
         fontSize: 27,
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
         padding: 20,
         backgroundColor: "#f0fff0",
         marginTop: height * 0.01,
-        borderRadius:10
+        borderRadius: 10
     },
     text1: {
         fontSize: 16,

@@ -1,23 +1,22 @@
+import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useRef } from "react";
 import { Modal, StyleSheet, Text, TouchableOpacity, View, Dimensions, FlatList, Image } from "react-native";
-
 const { width, height } = Dimensions.get("screen");
-
 const Seeall = ({ isVisible, onClose, categories }) => {
-    const flatListRef = useRef(null); // Ref for the FlatList
-
+    const flatListRef = useRef(null);
+    const navigation = useNavigation();
     useEffect(() => {
-        // Scroll the FlatList to the bottom when it's rendered and visible
         if (isVisible) {
-            // Delay scrolling for 500 milliseconds to allow the list to render
             const timer = setTimeout(() => {
                 flatListRef.current.scrollToEnd({ animated: true });
             }, 1000);
-
             return () => clearTimeout(timer);
         }
     }, [isVisible]);
-
+    const handleMenuItemPress = (screen) => {
+        navigation.navigate(screen);
+        console.log("Pressed item with screen:", screen);
+    };
     const renderItem = ({ item }) => (
         <View style={{ marginBottom: 20, marginTop: 10 }}>
             <TouchableOpacity style={styles.btn} onPress={() => handleMenuItemPress(item.screen)}>
@@ -26,7 +25,6 @@ const Seeall = ({ isVisible, onClose, categories }) => {
             </TouchableOpacity>
         </View>
     );
-
     return (
         <Modal
             visible={isVisible}
@@ -43,7 +41,7 @@ const Seeall = ({ isVisible, onClose, categories }) => {
                 <View style={styles.contentContainer}>
                     <Text style={styles.title}>Select a Category & Subcategory</Text>
                     <FlatList
-                        ref={flatListRef} // Assign the ref to the FlatList
+                        ref={flatListRef}
                         data={categories}
                         numColumns={2}
                         renderItem={renderItem}
@@ -103,16 +101,13 @@ const styles = StyleSheet.create({
         textAlign: "center"
     },
     btn: {
-        // backgroundColor: "#FFF",
         columnGap: 10,
         marginHorizontal: 10,
-        // height: height * 0.18,
         width: width * 0.4,
         justifyContent: "center",
         alignItems: "center",
         borderRadius: 10,
         padding: 10
-
     },
 });
 

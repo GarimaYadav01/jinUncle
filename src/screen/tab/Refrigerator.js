@@ -76,7 +76,7 @@ const Refrigerator = () => {
     const renderItem3 = ({ item }) => (
         <View style={{ marginBottom: 20, marginTop: 10 }}>
             <TouchableOpacity style={styles.btn1}>
-                <Image source={item.image} style={{ width: 100, height: 100 }} resizeMode="contain" />
+                <Image source={item.image} style={{ width: 150, height: 150, borderRadius: 10 }} resizeMode="contain" />
                 <Text style={styles.name}>{item.name}</Text>
             </TouchableOpacity>
 
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 20
     },
     btn1: {
-        backgroundColor: "#FFF",
+        // backgroundColor: "#FFF",
         columnGap: 10,
         marginHorizontal: 10,
         // height: height * 0.18,

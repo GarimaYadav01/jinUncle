@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { View, Modal, Text, TouchableOpacity, StyleSheet, Image, Dimension, Dimensions, ScrollView, FlatList, } from 'react-native';
 import { ICONS } from '../assets/themes';
+import { useNavigation } from '@react-navigation/native';
 const { height, width } = Dimensions.get("screen")
 
 
 const ModalCompontent = ({ visible, onClose, item }) => {
+    const navigation = useNavigation();
 
     const [currentIndex, setCurrentIndex] = useState(0);
     const [quantityStates, setQuantityStates] = useState({});
@@ -68,6 +70,25 @@ const ModalCompontent = ({ visible, onClose, item }) => {
 
         return () => clearInterval(interval);
     }, []);
+
+    const select = [
+        {
+            id: "1",
+            image: require("../assets/newimages/washingmachine1.png"),
+            name: "Window Ac",
+            icon: require("../assets/logo/star.png"),
+            likes: "4.85(60k reviews)",
+            starts: 549,
+        },
+        {
+            id: "2",
+            image: require("../assets/newimages/washingmachine2.png"),
+            name: "Split AC",
+            icon: require("../assets/logo/star.png"),
+            likes: "4.85(60k reviews)",
+            starts: 549,
+        },
+    ]
     const Allmix = [
         {
             id: "1",
@@ -168,6 +189,37 @@ const ModalCompontent = ({ visible, onClose, item }) => {
             </View>
         </View>
     );
+    const renderselectvariant = ({ item }) => (
+        <View style={{ marginBottom: 20, marginTop: 10, alignContent: "center", justifyContent: "center" }}>
+            <View style={styles.btn2}>
+                {/* <Image source={item.image} style={{ width: 100, height: 100, borderRadius: 5 }} resizeMode="contain" /> */}
+                <Text style={[styles.name, { width: width * 0.3 }]}>{item.name}</Text>
+                <View style={styles.ratingContainer}>
+                    <Image source={item.icon} style={styles.starIcon} />
+                    <Text style={{ color: "gray" }}>{item.likes}</Text>
+                </View>
+                <Text style={{ color: "black" }}>₹258</Text>
+                <View>
+                    {!quantityStates[item.id]?.showQuantityView ? (
+                        <TouchableOpacity style={styles.smallbutton} onPress={() => toggleVector(item.id)}>
+                            <Text style={styles.textbut}>Add</Text>
+                        </TouchableOpacity>
+                    ) : (
+                        <View style={styles.container1}>
+                            <TouchableOpacity onPress={() => handleDecrease(item.id)}>
+                                <Text style={styles.textbut}>-</Text>
+                            </TouchableOpacity>
+                            <Text style={styles.textbut}>{quantityStates[item.id]?.quantity}</Text>
+                            <TouchableOpacity onPress={() => handleIncrease(item.id)}>
+                                <Text style={styles.textbut}>+</Text>
+                            </TouchableOpacity>
+                        </View>
+                    )}
+                </View>
+
+            </View>
+        </View>
+    );
     const renderItemallmix2 = ({ item }) => (
         <View style={{ marginBottom: 20, marginTop: 10, alignContent: "center", justifyContent: "center" }}>
             <TouchableOpacity style={styles.btn1}>
@@ -217,6 +269,16 @@ const ModalCompontent = ({ visible, onClose, item }) => {
                         </TouchableOpacity>
 
                         <Text style={styles.text}>Select variant</Text>
+
+                        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
+                            <FlatList
+                                data={select}
+                                renderItem={renderselectvariant}
+                                keyExtractor={item => item.id}
+                                horizontal
+                                showsHorizontalScrollIndicator={false}
+                            />
+                        </View>
                         <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
                             <FlatList
                                 data={Allmix}
@@ -308,10 +370,14 @@ const ModalCompontent = ({ visible, onClose, item }) => {
                                 keyExtractor={(item, index) => index.toString()}
                             />
                         </View>
+                        <View style={styles.paymentcard}>
+                            <Text style={styles.text}>₹549</Text>
+                            <TouchableOpacity style={styles.smallbutton} onPress={() => navigation.navigate("Summary")}>
+                                <Text style={styles.textbut}>View card</Text>
+                            </TouchableOpacity>
+                        </View>
                         <View>
                         </View>
-
-
                     </ScrollView>
                 </View>
 
@@ -378,7 +444,6 @@ const styles = StyleSheet.create({
         width: width * 0.9,
         borderRadius: 10,
         borderWidth: 1,
-        // height: height * 0.06,
         padding: 10,
         backgroundColor: '#F5F5F5',
         borderColor: "#dededf",
@@ -394,6 +459,20 @@ const styles = StyleSheet.create({
         alignItems: "center",
         borderRadius: 10,
         padding: 10
+
+    },
+    btn2: {
+        // backgroundColor: "#FFF",
+        columnGap: 10,
+        marginHorizontal: 10,
+        // height: height * 0.18,
+        width: width * 0.4,
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 10,
+        padding: 15,
+        borderWidth: 1,
+        borderColor: "gray"
 
     },
     name: {
@@ -518,6 +597,14 @@ const styles = StyleSheet.create({
         width: width * 0.9,
         borderRadius: 20,
         marginTop: height * 0.01,
+    },
+    paymentcard: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        paddingHorizontal: 20,
+        backgroundColor: "#FFFF",
+        padding: 15,
+        alignContent: "center"
     },
 });
 
