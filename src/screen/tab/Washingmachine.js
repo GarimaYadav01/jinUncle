@@ -115,7 +115,7 @@ const Washingmachine = () => {
                     </View>
 
                 </View>
-                <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                <View style={{ justifyContent: 'center', alignItems: 'center', marginHorizontal: 20 }}>
                     <FlatList
                         data={subcategory}
                         renderItem={renderItem3}

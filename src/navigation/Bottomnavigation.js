@@ -8,6 +8,8 @@ import { Dimensions, Image } from 'react-native';
 import HomeScreen from '../screen/home/HomeScreen';
 import Profile from '../screen/auth/Profile';
 import LoginScreen from '../screen/auth/LoginScreen';
+import Notification from '../screen/tab/Notification';
+import Addcard from '../screen/tab/Addcard';
 const { width, height } = Dimensions.get("screen")
 const Tab = createBottomTabNavigator();
 
@@ -27,12 +29,18 @@ const Bottomnavigation = () => {
                     let iconName;
 
                     if (route.name === 'Home') {
-                        iconName = focused ? require('../assets/bottomnavigatiomnimage/homeactive.png') : require('../assets/bottomnavigatiomnimage/home.png');
+                        iconName = focused ? require('../assets/bottomnavigatiomnimage/homeactive2.png') : require('../assets/bottomnavigatiomnimage/home.png');
                     } else if (route.name === 'Services') {
-                        iconName = focused ? require('../assets/bottomnavigatiomnimage/public-serviceactive.png') : require('../assets/bottomnavigatiomnimage/public-service.png');
+                        iconName = focused ? require('../assets/bottomnavigatiomnimage/categoriesactive.png') : require('../assets/bottomnavigatiomnimage/categories.png');
 
                     } else if (route.name === 'garimayadav') {
-                        iconName = focused ? require('../assets/bottomnavigatiomnimage/useractive.png') : require('../assets/bottomnavigatiomnimage/user.png');
+                        iconName = focused ? require('../assets/bottomnavigatiomnimage/user5.png') : require('../assets/bottomnavigatiomnimage/user4.png');
+                    }
+                    else if (route.name === 'Notification') {
+                        iconName = focused ? require('../assets/bottomnavigatiomnimage/bellactive.png') : require('../assets/bottomnavigatiomnimage/bell.png');
+                    }
+                    else if (route.name === 'Addcard') {
+                        iconName = focused ? require('../assets/bottomnavigatiomnimage/checkout.png') : require('../assets/bottomnavigatiomnimage/checkout1.png');
                     }
                     return <Image source={iconName} style={{ width: 30, height: 30 }} />;
                 },
@@ -41,6 +49,8 @@ const Bottomnavigation = () => {
 
             <Tab.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
             <Tab.Screen name="Services" component={SettingsScreen} options={{ headerShown: false }} />
+            <Tab.Screen name="Notification" component={Notification} options={{ headerShown: false }} />
+            <Tab.Screen name="Addcard" component={Addcard} options={{ headerShown: false }} />
             <Tab.Screen name="garimayadav" component={ProfileScreen} options={{ headerShown: false }} />
         </Tab.Navigator>
     );

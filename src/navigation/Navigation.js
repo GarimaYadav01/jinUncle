@@ -54,6 +54,7 @@ import Subcategory from '../screen/allcategory/Subcategory';
 import PaymentScreen from '../screen/allcategory/PaymentScreen';
 import Intergationpayment from '../screen/payments/Intergationpayment';
 import ContiuneShopping from '../screen/home/ContiuneShopping';
+import AddressEdit from '../screen/tab/AddressEdit';
 const Stack = createNativeStackNavigator();
 const Navigation = () => {
     return (
@@ -112,6 +113,7 @@ const Navigation = () => {
                 <Stack.Screen name="PaymentScreen" component={PaymentScreen} />
                 <Stack.Screen name="Intergationpayment" component={Intergationpayment} />
                 <Stack.Screen name="ContiuneShopping" component={ContiuneShopping} />
+                <Stack.Screen name="AddressEdit" component={AddressEdit} />
             </Stack.Navigator>
         </NavigationContainer>
     );

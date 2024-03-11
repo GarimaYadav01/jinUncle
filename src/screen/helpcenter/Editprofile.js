@@ -5,17 +5,13 @@ import TextinputComponent from "../../compontent/TextinputComponent";
 import CustomButton from "../../compontent/Custombutton";
 import ApplyModal from "../../compontent/ApplyModal";
 import { showMessage } from "react-native-flash-message";
+import { useNavigation } from "@react-navigation/native";
 const { height, width } = Dimensions.get("screen")
 const Editprofile = () => {
-
-    const handlesubmit = () => {
-        showMessage({
-            message: "update sucessufully",
-            type: "success",
-            icon: "success"
-        })
+    const navigation = useNavigation();
+    const handleBack = () => {
+        navigation.goBack();
     }
-
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#FFF" }}>
             <Header title={"Edit profile"} />
@@ -26,11 +22,9 @@ const Editprofile = () => {
                     <TextinputComponent label={"Phone number"} placeholder={"Enter you phone number."} inputType={"phone"} />
                 </View>
                 <View style={{ marginTop: 20 }}>
-                    <CustomButton label={"Update Now"} size={"large"} onPress={handlesubmit} backgroundColor={"#004E8C"} color={"white"}/>
+                    <CustomButton label={"Update Now"} size={"large"} onPress={handleBack} backgroundColor={"#004E8C"} color={"white"} />
                 </View>
-
             </ScrollView>
-
         </SafeAreaView>
     );
 }

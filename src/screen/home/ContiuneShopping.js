@@ -8,11 +8,11 @@ const ContiuneShopping = () => {
     const navigation = useNavigation();
     return (
         <View style={styles.container}>
-            <Image source={require("../../assets/Icon/check2.png")} style={{ height: 200, width: 200 }} />
+            <Image source={require("../../assets/logo/jinnlogo.png")} style={styles.logo} resizeMode='contain' />
             <Text style={styles.title}>Booking Successful!</Text>
-            <Text style={{}}>Your booking has been confirmed.</Text>
+            <Text style={styles.text}>Your booking has been confirmed.</Text>
             {/* Add additional details about the booking */}
-            <View style={{ marginVertical: height * 0.03 }}>
+            <View style={{ marginTop: height * 0.09 }}>
                 <CustomButton label={"contiune"} size={"large"} backgroundColor={"#004E8C"} color={"white"} onPress={() => navigation.navigate("Bottomnavigation")} />
             </View>
 
@@ -29,7 +29,17 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: "bold",
         marginBottom: 20,
+        color: "black"
     },
+    logo: {
+        width: 250,
+        height: 250
+    },
+    text: {
+        fontSize: 17,
+        fontStyle: "normal",
+        color: "gray"
+    }
 });
 
 export default ContiuneShopping;

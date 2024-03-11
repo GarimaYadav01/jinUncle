@@ -141,7 +141,7 @@ const Ac = (props) => {
                         /> */}
                         </View>
                     </View>
-                    <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                    <View style={{ justifyContent: 'center', alignItems: 'center' ,marginHorizontal:20,marginTop:height*0.02}}>
                         <FlatList
                             data={subcategory}
                             renderItem={renderItem3}
@@ -150,7 +150,10 @@ const Ac = (props) => {
                             showsHorizontalScrollIndicator={false}
                         />
                     </View>
-                    <CardListComponent />
+                    <View style={{ marginVertical: height * 0.015 }}>
+                        <CardListComponent />
+                    </View>
+
 
 
                 </View>

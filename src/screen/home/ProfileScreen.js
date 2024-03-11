@@ -81,7 +81,7 @@ const ProfileScreen = () => {
         navigation.navigate("LoginScreen")
     };
     return (
-        <SafeAreaView style={{ flex: 1, }}  >
+        <SafeAreaView style={{ flex: 1, }} >
             <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
                 <View style={styles.con}>
                     <View style={{

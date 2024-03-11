@@ -499,6 +499,7 @@ const styles = StyleSheet.create({
     },
     image: {
         width: width * 0.89,
+        // height:height*0.1,
         borderRadius: 20
     },
     btn: {

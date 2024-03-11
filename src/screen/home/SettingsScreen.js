@@ -48,7 +48,7 @@ const SettingsScreen = () => {
                 handleTabPress(item.screenName); // Navigate to the selected screen
             }}
         >
-            <Image source={item.image} style={{ width: 100, height: 100 }} resizeMode="contain" />
+            <Image source={item.image} style={{ width: 150, height: 150, borderRadius: 20 }} resizeMode="contain" />
             <Text style={[styles.name, activeTab === index && { color: '#004E8C' }]}>{item.name}</Text>
         </TouchableOpacity>
     );
@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 20
     },
     btn: {
-        backgroundColor: "lightgray",
+        // backgroundColor: "lightgray",
         columnGap: 10,
         marginHorizontal: 10,
         // height: height * 0.18,
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     activeTab: {
-        backgroundColor: "#FFF", // Change to your active color
+        // backgroundColor: "#FFF", // Change to your active color
     },
     name: {
         fontSize: 16,

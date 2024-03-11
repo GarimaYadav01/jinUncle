@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { View, Modal, Text, TouchableOpacity, StyleSheet, Image, Dimension, Dimensions, ScrollView, FlatList, } from 'react-native';
 import { ICONS } from '../assets/themes';
 import { useNavigation } from '@react-navigation/native';
+import { showMessage } from 'react-native-flash-message';
+import PaymentModal from './PaymentModal';
 const { height, width } = Dimensions.get("screen")
 
 
@@ -10,6 +12,15 @@ const ModalCompontent = ({ visible, onClose, item }) => {
 
     const [currentIndex, setCurrentIndex] = useState(0);
     const [quantityStates, setQuantityStates] = useState({});
+    const [isvissbleModal, setIsVisibleModal] = useState({});
+
+    const openModal = () => {
+        setIsVisibleModal(true);
+    }
+
+    const closeModal = () => {
+        setIsVisibleModal(false);
+    }
 
 
     useEffect(() => {
@@ -54,6 +65,11 @@ const ModalCompontent = ({ visible, onClose, item }) => {
                 showQuantityView: !prevStates[id].showQuantityView
             }
         }));
+        showMessage({
+            message: "add to view card successfull",
+            type: "success",
+            icon: "success"
+        })
     };
 
     const images = [
@@ -200,21 +216,21 @@ const ModalCompontent = ({ visible, onClose, item }) => {
                 </View>
                 <Text style={{ color: "black" }}>₹258</Text>
                 <View>
-                    {!quantityStates[item.id]?.showQuantityView ? (
-                        <TouchableOpacity style={styles.smallbutton} onPress={() => toggleVector(item.id)}>
-                            <Text style={styles.textbut}>Add</Text>
-                        </TouchableOpacity>
-                    ) : (
-                        <View style={styles.container1}>
-                            <TouchableOpacity onPress={() => handleDecrease(item.id)}>
-                                <Text style={styles.textbut}>-</Text>
-                            </TouchableOpacity>
-                            <Text style={styles.textbut}>{quantityStates[item.id]?.quantity}</Text>
-                            <TouchableOpacity onPress={() => handleIncrease(item.id)}>
-                                <Text style={styles.textbut}>+</Text>
-                            </TouchableOpacity>
-                        </View>
-                    )}
+                    {/* {!quantityStates[item.id]?.showQuantityView ? ( */}
+                    <TouchableOpacity style={styles.smallbutton} onPress={() => toggleVector(item.id)}>
+                        <Text style={styles.textbut}>Add</Text>
+                    </TouchableOpacity>
+                    {/* // ) : (
+                    //     <View style={styles.container1}>
+                    //         <TouchableOpacity onPress={() => handleDecrease(item.id)}>
+                    //             <Text style={styles.textbut}>-</Text>
+                    //         </TouchableOpacity>
+                    //         <Text style={styles.textbut}>{quantityStates[item.id]?.quantity}</Text>
+                    //         <TouchableOpacity onPress={() => handleIncrease(item.id)}>
+                    //             <Text style={styles.textbut}>+</Text>
+                    //         </TouchableOpacity>
+                    //     </View>
+                    // )} */}
                 </View>
 
             </View>
@@ -231,7 +247,7 @@ const ModalCompontent = ({ visible, onClose, item }) => {
                 </View> */}
                 <Text style={{ color: "black" }}>₹258</Text>
 
-                <TouchableOpacity style={styles.smallbutton}>
+                <TouchableOpacity style={styles.smallbutton} onPress={openModal}>
                     <Text style={styles.textbut}>Add</Text>
                 </TouchableOpacity>
             </TouchableOpacity>
@@ -248,6 +264,9 @@ const ModalCompontent = ({ visible, onClose, item }) => {
                 </View>
                 <View style={styles.modalContent}>
                     <ScrollView showsVerticalScrollIndicator={false} style={{ flexGrow: 1, paddingBottom: 150, }}>
+
+                        <View>
+                        </View>
                         <View style={{ flexDirection: "row" }}>
                             <Image source={images[currentIndex]} style={{ borderRadius: 10, width: width * 0.9 }} />
                         </View>
@@ -338,20 +357,9 @@ const ModalCompontent = ({ visible, onClose, item }) => {
                         </TouchableOpacity> */}
 
 
-                        <Text style={styles.text}>
+                        {/* <Text style={styles.text}>
                             How it works
                         </Text>
-                        {/* <View style={{ marginVertical: height * 0.01, marginHorizontal: 20 }}>
-                            <Text style={styles.deep}>Deep cleaning</Text>
-                            <Text style={[styles.deep, { color: "gray", fontSize: 15 }]}>Deep cleaning of indoor & outdoor unit before the anti-rust protection is applied</Text>
-                            <Image source={require("../assets/gif/AC.gif")} style={{ height: height * 0.2, width: width * 0.9, borderRadius: 20, marginTop: height * 0.01 }} />
-                        </View>
-                        <View style={{ marginHorizontal: 20 }}>
-                            <Text style={styles.deep}>Anti-rust protection</Text>
-                            <Text style={[styles.deep, { color: "gray", fontSize: 15 }]}>Specialised anti-rust coating for copper colis to prevent gas leakage(Up to 1 year)</Text>
-                            <Image source={require("../assets/gif/AC.gif")} style={{ height: height * 0.2, width: width * 0.9, borderRadius: 20, marginTop: height * 0.01 }} />
-                        </View> */}
-
                         <View style={styles.container3}>
                             <FlatList
                                 data={data}
@@ -369,18 +377,12 @@ const ModalCompontent = ({ visible, onClose, item }) => {
                                 )}
                                 keyExtractor={(item, index) => index.toString()}
                             />
-                        </View>
-                        <View style={styles.paymentcard}>
-                            <Text style={styles.text}>₹549</Text>
-                            <TouchableOpacity style={styles.smallbutton} onPress={() => navigation.navigate("Summary")}>
-                                <Text style={styles.textbut}>View card</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View>
-                        </View>
+                        </View> */}
+
                     </ScrollView>
                 </View>
 
+                <PaymentModal isVisible={isvissbleModal} onClose={closeModal} />
             </View>
 
         </Modal>

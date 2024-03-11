@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: "#E6E6E6",
     // marginBottom: height * 0.02,
-    marginTop:height*0.01,
+    marginTop: height * 0.01,
     color: "black"
 
   },
@@ -100,12 +100,12 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     resizeMode: 'contain',
-    tintColor:"#FFF"
+    tintColor: "#FFF"
   },
   inputField: {
     flex: 1,
     // color: "#FFF"
-    
+
   },
   textInputLabel: {
     color: "#393838",

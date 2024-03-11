@@ -46,7 +46,7 @@ const PaymentScreen = () => {
             status={paymentOption === 'paypal' ? 'checked' : 'unchecked'}
             onPress={() => handlePaymentOptionChange('paypal')}
           />
-          <Text>PayPal</Text>
+          <Text style={styles.text}>PayPal</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.radioButton}
@@ -57,7 +57,7 @@ const PaymentScreen = () => {
             status={paymentOption === 'cash' ? 'checked' : 'unchecked'}
             onPress={() => handlePaymentOptionChange('cash')}
           />
-          <Text>Cash</Text>
+          <Text style={styles.text}>Cash</Text>
         </TouchableOpacity>
 
         {/* Additional field for payment details */}

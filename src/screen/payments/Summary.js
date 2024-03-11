@@ -4,6 +4,7 @@ import Header from "../../compontent/Header";
 import Seeall from "../../compontent/Seeall";
 import { ICONS } from "../../assets/themes";
 import CustomButton from "../../compontent/Custombutton";
+import TimeSlot from "../../compontent/TimeSlot";
 
 const { height, width } = Dimensions.get("screen");
 
@@ -199,7 +200,15 @@ const Summary = (props) => {
             starts: 549,
         }
     ]
+    const [modalVisible2, setModalVisible2] = useState(false);
+    const handleCardPress = () => {
+        // setSelectedItem(item);
+        setModalVisible2(true);
+    };
 
+    const closeModal2 = () => {
+        setModalVisible2(false);
+    };
     const renderItem = ({ item }) => (
         <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 10, alignItems: "center" }}>
             <Text>{item.name}</Text>
@@ -333,10 +342,10 @@ const Summary = (props) => {
                     <Text style={{ color: "black", fontSize: 18, fontWeight: "700" }}>₹1276</Text>
                 </View>
                 <View style={{ marginTop: height * 0.03 }}>
-                    <CustomButton size={"large"} label={"Continue "} backgroundColor={"#004E8C"} color={"white"} onPress={() => props.navigation.navigate("Addcard")} />
+                    <CustomButton size={"large"} label={"Continue "} backgroundColor={"#004E8C"} color={"white"} onPress={handleCardPress} />
                 </View>
             </ScrollView>
-
+            <TimeSlot isVisible={modalVisible2} onClose={closeModal2} />
             <Seeall isVisible={modalVisible} onClose={closeModal} categories={categories} />
         </SafeAreaView>
     );

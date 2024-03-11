@@ -121,7 +121,7 @@ const Refrigerator = () => {
                     </View>
 
                 </View>
-                <View style={{ justifyContent: 'center', alignItems: 'center', flexGrow: 1 }}>
+                <View style={{ justifyContent: 'center', alignItems: 'center', flexGrow: 1 ,marginHorizontal:20}}>
                     <FlatList
                         data={subcategory}
                         renderItem={renderItem3}
