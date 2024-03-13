@@ -90,7 +90,7 @@ const Washingmachine = () => {
                         <Text style={styles.text}>Washing Machine Repair</Text>
                         <View style={{ flexDirection: "row", alignItems: "center", columnGap: 10, marginTop: 10 }}>
                             <Image source={require("../../assets/logo/star.png")} style={{ width: 20, height: 20 }} resizeMode="contain" />
-                            <Text>4.83 (1.7M bookings)</Text>
+                            <Text style={{ color: "gray", fontSize: 16, fontWeight: "400" }}>4.48 (6.6 M bookings)</Text>
                         </View>
                         <TouchableOpacity style={styles.btn}>
                             <View style={{ flexDirection: "row", alignItems: "center", marginHorizontal: 20, marginTop: 10, columnGap: 10, justifyContent: "space-between" }}>

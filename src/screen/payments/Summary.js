@@ -211,7 +211,7 @@ const Summary = (props) => {
     };
     const renderItem = ({ item }) => (
         <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 10, alignItems: "center" }}>
-            <Text>{item.name}</Text>
+            <Text style={{ color: "gray", fontSize: 15 }}>{item.name}</Text>
             <View style={styles.container1}>
                 <TouchableOpacity onPress={() => handleDecrease(item.id)}>
                     <Text style={styles.textbut}>-</Text>
@@ -221,7 +221,7 @@ const Summary = (props) => {
                     <Text style={styles.textbut}>+</Text>
                 </TouchableOpacity>
             </View>
-            <Text>{item.price}</Text>
+            <Text style={{ color: "gray", fontSize: 15 }}>{item.price}</Text>
         </View>
     );
 

@@ -80,20 +80,21 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         marginBottom: 10,
         textAlign: "center",
-        marginVertical: height * 0.01
-
-    },
-    input: {
-        borderWidth: 1,
-        padding: Platform.OS === 'ios' ? 18 : 8,
-        width: width * 0.9,
-        backgroundColor: "#FFF",
-        borderColor: "#FFF",
-        marginVertical: height * 0.02,
-        borderRadius: 5,
+        marginVertical: height * 0.01,
         color: "black"
 
     },
+    // input: {
+    //     borderWidth: 1,
+    //     padding: Platform.OS === 'ios' ? 18 : 8,
+    //     width: width * 0.9,
+    //     backgroundColor: "#FFF",
+    //     borderColor: "#FFF",
+    //     marginVertical: height * 0.02,
+    //     borderRadius: 5,
+    //     color: "black"
+
+    // },
     line: {
         backgroundColor: "#9B9B9B",
         borderRadius: 10,
@@ -108,7 +109,8 @@ const styles = StyleSheet.create({
         fontSize: 18,
         alignSelf: "center",
         width: width * 0.7,
-        textAlign: "center"
+        textAlign: "center",
+        color: "gray"
 
     },
     input: {
@@ -118,6 +120,9 @@ const styles = StyleSheet.create({
         backgroundColor: "#FFF",
         borderColor: "#FFF",
         marginVertical: height * 0.01,
+        borderRadius: 10,
+        paddingBottom: height * 0.08,
+        color: "black"
     },
     btn: {
         paddingVertical: 10,
@@ -125,6 +130,7 @@ const styles = StyleSheet.create({
         borderColor: "#FFF",
         borderWidth: 1,
         width: width * 0.3,
+        // paddingBottom: height * 0.08
 
     }
 });

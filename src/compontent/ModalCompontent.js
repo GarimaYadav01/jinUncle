@@ -12,6 +12,7 @@ const ModalCompontent = ({ visible, onClose, item }) => {
 
     const [currentIndex, setCurrentIndex] = useState(0);
     const [quantityStates, setQuantityStates] = useState({});
+    const [quantityselectStates, setQuantityselectStates] = useState({});
     const [isvissbleModal, setIsVisibleModal] = useState({});
 
     const openModal = () => {
@@ -35,6 +36,7 @@ const ModalCompontent = ({ visible, onClose, item }) => {
         setQuantityStates(initialQuantityStates);
     }, []);
     const handleIncrease = (id) => {
+        setIsVisibleModal(true);
         setQuantityStates(prevStates => ({
             ...prevStates,
             [id]: {
@@ -45,6 +47,7 @@ const ModalCompontent = ({ visible, onClose, item }) => {
     };
 
     const handleDecrease = (id) => {
+        setIsVisibleModal(true);
         setQuantityStates(prevStates => ({
             ...prevStates,
             [id]: {
@@ -58,6 +61,7 @@ const ModalCompontent = ({ visible, onClose, item }) => {
         setShowQuantityView(true);
     };
     const toggleVector = (id) => {
+        setIsVisibleModal(true);
         setQuantityStates(prevStates => ({
             ...prevStates,
             [id]: {
@@ -105,6 +109,57 @@ const ModalCompontent = ({ visible, onClose, item }) => {
             starts: 549,
         },
     ]
+
+    useEffect(() => {
+        // Initialize quantity states for each item
+        const initialQuantityselectStates = {};
+        select.forEach(({ id }) => {
+            initialQuantityselectStates[id] = {
+                showQuantityView: false,
+                quantity: 1
+            };
+        });
+        setQuantityselectStates(initialQuantityselectStates);
+    }, []);
+
+    const handleIncreaseselect = (id) => {
+        setIsVisibleModal(true);
+        setQuantityselectStates(prevStates => ({
+            ...prevStates,
+            [id]: {
+                ...prevStates[id],
+                quantity: prevStates[id].quantity + 1
+            }
+        }));
+    };
+
+
+    const handleDecreaseselect = (id) => {
+        setIsVisibleModal(true);
+        setQuantityselectStates(prevStates => ({
+            ...prevStates,
+            [id]: {
+                ...prevStates[id],
+                quantity: Math.max(1, prevStates[id].quantity - 1)
+            }
+        }));
+    };
+    const toggleVectorselect = (id) => {
+        setIsVisibleModal(true);
+        setQuantityselectStates(prevStates => ({
+            ...prevStates,
+            [id]: {
+                ...prevStates[id],
+                showQuantityView: !prevStates[id].showQuantityView
+            }
+        }));
+        showMessage({
+            message: "add to view card successful",
+            type: "success",
+            icon: "success"
+        });
+    };
+
     const Allmix = [
         {
             id: "1",
@@ -216,21 +271,21 @@ const ModalCompontent = ({ visible, onClose, item }) => {
                 </View>
                 <Text style={{ color: "black" }}>₹258</Text>
                 <View>
-                    {/* {!quantityStates[item.id]?.showQuantityView ? ( */}
-                    <TouchableOpacity style={styles.smallbutton} onPress={() => toggleVector(item.id)}>
-                        <Text style={styles.textbut}>Add</Text>
-                    </TouchableOpacity>
-                    {/* // ) : (
-                    //     <View style={styles.container1}>
-                    //         <TouchableOpacity onPress={() => handleDecrease(item.id)}>
-                    //             <Text style={styles.textbut}>-</Text>
-                    //         </TouchableOpacity>
-                    //         <Text style={styles.textbut}>{quantityStates[item.id]?.quantity}</Text>
-                    //         <TouchableOpacity onPress={() => handleIncrease(item.id)}>
-                    //             <Text style={styles.textbut}>+</Text>
-                    //         </TouchableOpacity>
-                    //     </View>
-                    // )} */}
+                    {!quantityselectStates[item.id]?.showQuantityView ? (
+                        <TouchableOpacity style={styles.smallbutton} onPress={() => toggleVectorselect(item.id)}>
+                            <Text style={styles.textbut}>Add</Text>
+                        </TouchableOpacity>
+                    ) : (
+                        <View style={styles.container1}>
+                            <TouchableOpacity onPress={() => handleDecreaseselect(item.id)}>
+                                <Text style={styles.textbut}>-</Text>
+                            </TouchableOpacity>
+                            <Text style={styles.textbut}>{quantityselectStates[item.id]?.quantity}</Text>
+                            <TouchableOpacity onPress={() => handleIncreaseselect(item.id)}>
+                                <Text style={styles.textbut}>+</Text>
+                            </TouchableOpacity>
+                        </View>
+                    )}
                 </View>
 
             </View>

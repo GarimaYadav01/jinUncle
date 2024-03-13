@@ -46,7 +46,7 @@ const Secondreferral = () => {
                 </View>
                 <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginHorizontal: 16, marginTop: height * 0.04 }}>
                     <View>
-                        <Text style={[styles.text2, { fontSize: 20 }]}>Was this article helpful ?</Text>
+                        <Text style={[styles.text2, { fontSize: 20, color: "gray" }]}>Was this article helpful ?</Text>
                     </View>
                     <View style={{ flexDirection: "row", columnGap: 10 }}>
                         <TouchableOpacity
@@ -87,6 +87,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         marginBottom: 20,
         lineHeight: 22,
-        fontFamily: "Roboto-Regular"
+        fontFamily: "Roboto-Regular",
+        color: "gray"
     },
 });

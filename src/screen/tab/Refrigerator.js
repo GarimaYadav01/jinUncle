@@ -92,7 +92,7 @@ const Refrigerator = () => {
                         <Text style={styles.text}>Refrigerator & Service</Text>
                         <View style={{ flexDirection: "row", alignItems: "center", columnGap: 10, marginTop: 10 }}>
                             <Image source={require("../../assets/logo/star.png")} style={{ width: 20, height: 20 }} resizeMode="contain" />
-                            <Text>4.48 (988k bookings)</Text>
+                            <Text style={{ color: "gray", fontSize: 16, fontWeight: "400" }}>4.48 (6.6 M bookings)</Text>
                         </View>
                         <TouchableOpacity style={styles.btn}>
                             <View style={{ flexDirection: "row", alignItems: "center", marginTop: 10, columnGap: 10, justifyContent: "space-between", marginHorizontal: 10 }}>
@@ -121,7 +121,7 @@ const Refrigerator = () => {
                     </View>
 
                 </View>
-                <View style={{ justifyContent: 'center', alignItems: 'center', flexGrow: 1 ,marginHorizontal:20}}>
+                <View style={{ justifyContent: 'center', alignItems: 'center', flexGrow: 1, marginHorizontal: 20 }}>
                     <FlatList
                         data={subcategory}
                         renderItem={renderItem3}

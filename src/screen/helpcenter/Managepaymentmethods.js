@@ -25,10 +25,10 @@ const Managepaymentmethods = () => {
             <View style={styles.con}>
                 <Text style={styles.text}>We will debit to verify a new payment instrument this will be refunded after verification.</Text>
                 <View style={styles.container}>
-                    <Text>
+                    <Text style={{ color: "gray" }}>
                         Debit or Credit card
                     </Text>
-                    <TouchableOpacity  onPress={showModal}>
+                    <TouchableOpacity onPress={showModal}>
                         <View style={{ flexDirection: "row", alignItems: "center", marginTop: 10, }}>
                             <Image source={require("../../assets/Newicon/atm-card.png")} style={{ width: 30, height: 30 }} resizeMode="contain" />
                             <Text style={styles.text}>Add a card</Text>

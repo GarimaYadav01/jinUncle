@@ -1,10 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Dimensions, FlatList, Image, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Dimensions, FlatList, Image, ImageBackground, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import TextinputComponent from "../../compontent/TextinputComponent";
 import { useNavigation } from "@react-navigation/native";
 import Applyproma from "../../compontent/Applyproma";
 import ApplyModal from "../../compontent/ApplyModal";
 import Seeall from "../../compontent/Seeall";
+import Swiper from 'react-native-swiper'
 const { width, height } = Dimensions.get("screen")
 const HomeScreen = (props) => {
     const navigation = useNavigation();
@@ -199,7 +200,7 @@ const HomeScreen = (props) => {
 
     const renderItem2 = ({ item }) => (
         <View style={{ marginBottom: 20, marginTop: 10 }}>
-            <TouchableOpacity style={styles.btn} onPress={() => props.navigation.navigate("Servicedetails")}>
+            <TouchableOpacity style={styles.btn} >
                 <Image source={item.image} style={{ width: 150, height: 150, borderRadius: 10 }} resizeMode="contain" />
                 <Text style={styles.name}>{item.name}</Text>
             </TouchableOpacity>
@@ -208,7 +209,7 @@ const HomeScreen = (props) => {
     );
     const renderItemfridage = ({ item }) => (
         <View style={{ marginBottom: 20, marginTop: 10 }}>
-            <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate("ContiuneShopping")}>
+            <TouchableOpacity style={styles.btn} >
                 <Image source={item.image} style={{ width: 150, height: 150, borderRadius: 10 }} resizeMode="contain" />
                 <Text style={styles.name}>{item.name}</Text>
             </TouchableOpacity>
@@ -302,7 +303,7 @@ const HomeScreen = (props) => {
                     </TouchableOpacity>
                     <View>
                         <TouchableOpacity >
-                            <Image source={require("../../assets/Newicon/add.png")} resizeMode="contain" style={{ width: 30, height: 30, }} />
+                            <Image source={require("../../assets/gif/placeholder.png")} resizeMode="contain" style={{ width: 30, height: 30, }} />
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -321,15 +322,31 @@ const HomeScreen = (props) => {
                         />
                     </View>
                 </View>
-                {/* <View style={{ marginHorizontal: 20 }}>
-                    {/* <TextinputComponent /> */}
-                {/* <View style={styles.container1}>
-                    <Image source={images[currentIndex]} style={styles.image} resizeMode="contain" />
-                </View> */}
+
                 <View style={styles.container1}>
                     <Image source={gif[currentgifIndex]} style={styles.image} resizeMode="contain" />
                 </View>
-                {/* </View> */}
+
+
+                {/* <View style={{ marginVertical: height * 0.02 }}>
+                    <Swiper style={styles.wrapper} showsButtons={false} dotStyle={styles.dotStyle} activeDotStyle={styles.activeDotStyle}>
+                        <View style={styles.slideContainer}>
+                            <ImageBackground source={require("../../assets/newbanners/fridgeBannner2.png")} style={{ borderRadius: 50, width: width * 0.9, height: height * 0.2 }} resizeMode="contain" ></ImageBackground>
+                        </View>
+                        <View style={styles.slideContainer}>
+                            <Image source={require("../../assets/banner/ACBAnner.png")} style={{ borderRadius: 20, width: width * 0.9, height: height * 0.2 }} resizeMode="contain" />
+                        </View>
+                        <View style={styles.slideContainer}>
+                            <Image source={require("../../assets/banner/ACBAnner1.png")} style={{ borderRadius: 20, width: width * 0.9, height: height * 0.2 }} resizeMode="contain" />
+                        </View>
+                        <View style={styles.slideContainer}>
+                            <Image source={require("../../assets/banner/ACBAnner.png")} style={{ borderRadius: 20, width: width * 0.9, height: height * 0.2 }} resizeMode="contain" />
+                        </View>
+                        <View style={styles.slideContainer}>
+                            <Image source={require("../../assets/banner/ACBAnner1.png")} style={{ borderRadius: 20, width: width * 0.9, height: height * 0.2 }} resizeMode="contain" />
+                        </View>
+                    </Swiper>
+                </View> */}
                 <View style={styles.con}>
                     <Text style={styles.text}>Category</Text>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -356,12 +373,6 @@ const HomeScreen = (props) => {
                             />
                         </View>
                     </View>
-                    <View style={styles.container}>
-                        <Image source={require("../../assets/gif/AC.gif")} style={styles.image} />
-                    </View>
-
-                    {/* <View style={{ marginHorizontal: 20 }}> */}
-                    {/* <TextinputComponent /> */}
 
                     <View style={{ marginTop: 10 }}>
                         <Text style={styles.text}>
@@ -565,5 +576,43 @@ const styles = StyleSheet.create({
     conn: {
         fontFamily: "Roboto-Regular",
         color: "gray"
-    }
+    },
+    wrapper: {
+        height: height * 0.25,
+        // borderRadius:20
+    },
+    dotStyle: {
+        width: 8,
+        height: 8,
+        borderRadius: 4,
+        backgroundColor: '#D9D9D9',
+        margin: 3,
+    },
+    activeDotStyle: {
+        width: 8,
+        height: 8,
+        borderRadius: 4,
+        backgroundColor: '#004E8C',
+        margin: 3,
+    },
+    slide1: {
+        alignContent: "center",
+        alignSelf: "center",
+        borderRadius: 30
+    },
+    slideContainer: {
+        // borderWidth: 1,
+        borderColor: 'black',
+        borderRadius: 10,
+        overflow: 'hidden',
+        justifyContent: "center",
+        alignSelf: "center"
+    },
+
+    image1: {
+        width: width * 0.9,
+        height: height * 0.2,
+    },
+
+
 });

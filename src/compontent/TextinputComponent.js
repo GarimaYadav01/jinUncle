@@ -104,6 +104,7 @@ const styles = StyleSheet.create({
   },
   inputField: {
     flex: 1,
+    color: "black"
     // color: "#FFF"
 
   },

@@ -64,7 +64,7 @@ const Getting = (props) => {
                         {data.map(item => (
                             <View key={item.id} style={styles.item}>
                                 <TouchableOpacity style={{ flexDirection: "row" }} onPress={() => handleMenuItemPress(item.screen)}>
-                                    <Text style={[styles.text1, { width: width * 0.8, paddingBottom: 10 }]}>{item.name}</Text>
+                                    <Text style={[styles.text1, { width: width * 0.8, paddingBottom: 10, color: "gray" }]}>{item.name}</Text>
                                     <Image source={item.icon} style={styles.icon} />
                                 </TouchableOpacity>
                             </View>
@@ -126,6 +126,7 @@ const styles = StyleSheet.create({
         fontFamily: "Roboto-Regular",
         fontSize: 16,
         fontStyle: "normal",
+        color: "gray"
 
     },
     container1: {

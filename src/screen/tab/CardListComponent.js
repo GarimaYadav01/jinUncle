@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { FlatList, View, Text, Image, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 import ModalCompontent from '../../compontent/ModalCompontent';
+import PaymentModal from '../../compontent/PaymentModal';
 
 const { height, width } = Dimensions.get("screen")
 
@@ -8,6 +9,7 @@ const CardListComponent = ({ navigation }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [quantityStates, setQuantityStates] = useState({});
     const [payment, setPayment] = useState({});
+
     useEffect(() => {
         // Initialize quantity states for each item
         const initialQuantityStates = {};
@@ -21,6 +23,7 @@ const CardListComponent = ({ navigation }) => {
     }, []);
 
     const handleIncrease = (id) => {
+        setIsVisibleModal(true);
         setQuantityStates(prevStates => ({
             ...prevStates,
             [id]: {
@@ -30,6 +33,7 @@ const CardListComponent = ({ navigation }) => {
         }));
     };
     const handleDecrease = (id) => {
+        setIsVisibleModal(true);
         setQuantityStates(prevStates => ({
             ...prevStates,
             [id]: {
@@ -39,6 +43,7 @@ const CardListComponent = ({ navigation }) => {
         }));
     };
     const toggleVector = (id) => {
+
         setQuantityStates(prevStates => ({
             ...prevStates,
             [id]: {
@@ -46,7 +51,12 @@ const CardListComponent = ({ navigation }) => {
                 showQuantityView: !prevStates[id].showQuantityView
             }
         }));
+        setIsVisibleModal(true);
     };
+
+    const closeModal2 = () => {
+        setIsVisibleModal(false);
+    }
 
     const handlerender = ({ item }) => (
 
@@ -70,6 +80,7 @@ const CardListComponent = ({ navigation }) => {
                         </View>
                     )}
                 </View>
+
             </View>
 
             <View style={styles.content}>
@@ -87,10 +98,11 @@ const CardListComponent = ({ navigation }) => {
                 </TouchableOpacity>
 
             </View>
+
+
         </View>
 
     );
-
 
 
     const datacard = [
@@ -141,6 +153,7 @@ const CardListComponent = ({ navigation }) => {
 
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
+    const [isvissbleModal, setIsVisibleModal] = useState(false);
 
     const handleCardPress = (item) => {
         setSelectedItem(item);
@@ -160,7 +173,9 @@ const CardListComponent = ({ navigation }) => {
                 showsVerticalScrollIndicator={false}
 
             />
+
             <ModalCompontent visible={modalVisible} onClose={closeModal} item={selectedItem} />
+            <PaymentModal isVisible={isvissbleModal} onClose={closeModal2} />
             {/* 
             <View style={styles.paymentcard}>
                 <Text style={styles.text}>₹549</Text>
@@ -168,6 +183,8 @@ const CardListComponent = ({ navigation }) => {
                     <Text style={styles.textbut}>View card</Text>
                 </TouchableOpacity>
             </View> */}
+
+
         </View>
 
     );

@@ -34,10 +34,10 @@ const Saved = (props) => {
 
                         <Text style={styles.text1}>You can check your saved address using the following ways</Text>
                         <Text style={styles.text1}>
-                            1. while selecting the location on the app homescreen
+                            <Text style={{ color: "black", fontSize: 17, fontWeight: "bold" }}>1.</Text>  while selecting the location on the app homescreen
                         </Text>
 
-                        <Text style={styles.text1}>     2. Check address on the checkout screen before making payment</Text>
+                        <Text style={styles.text1}><Text style={{ color: "black", fontSize: 17, fontWeight: "bold" }}>2.</Text> Check address on the checkout screen before making payment</Text>
 
                         <Text style={styles.text1}>Alternatively,you can also click on the below link to check all saved address:</Text>
 
@@ -104,15 +104,16 @@ const styles = StyleSheet.create({
         fontStyle: "normal",
         fontSize: 20,
         color: "#000",
-        marginTop: height * 0.05,
-        textAlign: "center",
+        marginTop: height * 0.03,
+        // textAlign: "center",
         fontFamily: "Roboto-Black"
     },
     text1: {
         fontSize: 16,
         fontStyle: "normal",
-        textAlign: "center",
+        // textAlign: "center",
         marginVertical: height * 0.01,
+        color: "gray"
 
     },
     btn: {

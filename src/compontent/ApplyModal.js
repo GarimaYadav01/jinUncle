@@ -44,24 +44,28 @@ const ApplyModal = ({ isVisible, hideModal, handleSave, onClose }) => {
                             placeholder="Name on card"
                             style={styles.input}
                             onChangeText={(text) => setCardDetails({ ...cardDetails, name: text })}
+                            placeholderTextColor={"gray"}
                         />
                         <TextInput
                             placeholder="Card number"
                             style={styles.input}
                             keyboardType="phone-pad"
                             onChangeText={(text) => setCardDetails({ ...cardDetails, cardNumber: text })}
+                            placeholderTextColor={"gray"}
                         />
                         <TextInput
                             placeholder="Expiry Date"
                             style={styles.input}
                             keyboardType="phone-pad"
                             onChangeText={(text) => setCardDetails({ ...cardDetails, expiryDate: text })}
+                            placeholderTextColor={"gray"}
                         />
                         <TextInput
                             placeholder="CVV"
                             style={styles.input}
                             keyboardType="phone-pad"
                             onChangeText={(text) => setCardDetails({ ...cardDetails, cvv: text })}
+                            placeholderTextColor={"gray"}
                         />
                         <View style={{ flexDirection: "row", justifyContent: "center", columnGap: 10 }}>
                             <CheckBox
@@ -101,7 +105,8 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         marginBottom: 10,
         textAlign: "center",
-        marginVertical: height * 0.02
+        marginVertical: height * 0.02,
+        color:"gray"
 
     },
     input: {
@@ -128,7 +133,8 @@ const styles = StyleSheet.create({
     text: {
         fontFamily: "Roboto-Regular",
         fontSize: 14,
-        width: width * 0.8
+        width: width * 0.8,
+        color:"gray"
     }
 });
 

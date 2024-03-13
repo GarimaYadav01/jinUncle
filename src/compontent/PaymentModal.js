@@ -50,13 +50,13 @@ const styles = StyleSheet.create({
         paddingHorizontal:15
     },
     text: {
-        fontSize: 18,
+        fontSize: 25,
         fontWeight: 'bold',
         color:"black"
     },
     smallbutton: {
-        height: height * 0.03,
-        width: width * 0.25,
+        height: height * 0.04,
+        width: width * 0.27,
         borderRadius: 5,
         borderWidth: 1,
         justifyContent: "center",

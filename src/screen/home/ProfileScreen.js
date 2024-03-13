@@ -85,9 +85,9 @@ const ProfileScreen = () => {
             <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
                 <View style={styles.con}>
                     <View style={{
-                        marginTop: height * 0.05, marginLeft: width * 0.07
+                        marginTop: height * 0.06, marginLeft: width * 0.07
                     }}>
-                        <Text style={[styles.text, { fontSize: 25 }]}>
+                        <Text style={[styles.text, { fontSize: 25, color: "white" }]}>
                             Verified customer
                         </Text>
                         <Text style={styles.text}>
@@ -128,11 +128,11 @@ export default ProfileScreen;
 const styles = StyleSheet.create({
     text: {
         fontSize: 20,
-        color: "#000",
+        color: "white",
         // textAlign: "center"
     },
     con: {
-        backgroundColor: "#FFF",
+        backgroundColor: "#004E8C",
         // height: height * 0.15,
         width: width,
         alignSelf: "center",

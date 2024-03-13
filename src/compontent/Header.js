@@ -33,9 +33,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-start",
-    paddingVertical: Platform.OS === 'ios' ? 20 : StatusBar.currentHeight + 6,
+    paddingVertical: Platform.OS === 'ios' ? 20 : StatusBar.currentHeight,
     backgroundColor: "#004E8C",
     paddingHorizontal: 16,
+    // height:height*0.095
+
 
   },
 
@@ -47,15 +49,17 @@ const styles = StyleSheet.create({
   backIcon: {
     width: 24,
     height: 24,
+    marginTop: 15
     // tintColor: "#fff", 
   },
   title: {
     fontSize: 20,
     fontWeight: "bold",
-    fontFamily:"Roboto-Bold",
+    fontFamily: "Roboto-Bold",
     color: "#FFF",
     marginLeft: width * 0.1,
     textAlign: "center",
+    marginTop: 15
     // backgroundColor:"red"
   },
 });

@@ -110,7 +110,8 @@ export default Settings;
 const styles = StyleSheet.create({
     delete: {
         fontFamily: "Roboto-Regular",
-        fontSize: 20
+        fontSize: 20,
+        color: "gray"
     },
     container: {
         flex: 1,
@@ -123,6 +124,7 @@ const styles = StyleSheet.create({
     },
     text: {
         fontSize: 20,
+        color: "gray"
         // paddingRight: 27
     },
     modalContainer: {

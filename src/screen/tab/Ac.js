@@ -117,7 +117,7 @@ const Ac = (props) => {
                             <Text style={styles.text}>Ac Repair & Service</Text>
                             <View style={{ flexDirection: "row", alignItems: "center", columnGap: 10, marginTop: 10 }}>
                                 <Image source={require("../../assets/logo/star.png")} style={{ width: 20, height: 20 }} resizeMode="contain" />
-                                <Text>4.48 (6.6 M bookings)</Text>
+                                <Text style={{ color: "gray", fontSize: 16, fontWeight: "400" }}>4.48 (6.6 M bookings)</Text>
                             </View>
                             <TouchableOpacity style={styles.btn} onPress={handleCardPress}>
                                 <View style={{ flexDirection: "row", alignItems: "center", marginBottom: height * 0.01, columnGap: 10, justifyContent: "space-between", marginHorizontal: 10 }}>
@@ -141,7 +141,7 @@ const Ac = (props) => {
                         /> */}
                         </View>
                     </View>
-                    <View style={{ justifyContent: 'center', alignItems: 'center' ,marginHorizontal:20,marginTop:height*0.02}}>
+                    <View style={{ justifyContent: 'center', alignItems: 'center', marginHorizontal: 20, marginTop: height * 0.02 }}>
                         <FlatList
                             data={subcategory}
                             renderItem={renderItem3}
@@ -154,18 +154,11 @@ const Ac = (props) => {
                         <CardListComponent />
                     </View>
 
-
-
                 </View>
 
                 <WarrantyModal visible={modalVisible} onClose={closeModal} />
             </ScrollView>
-            <View style={styles.paymentcard}>
-                <Text style={styles.text}>₹549</Text>
-                <TouchableOpacity style={styles.smallbutton} onPress={() => navigation.navigate("Summary")}>
-                    <Text style={styles.textbut}>View card</Text>
-                </TouchableOpacity>
-            </View>
+
         </View>
     );
 };

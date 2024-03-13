@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   text: {
-    color: "gray",
+    color: "black",
     fontSize: 14,
     fontStyle: "normal"
   }

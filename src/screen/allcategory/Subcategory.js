@@ -12,12 +12,12 @@ const Subcategory = () => {
             <Header title={"Subcategory"} />
             <ScrollView style={{ flex: 1, paddingBottom: 50, marginTop: height * 0.04 }} showsVerticalScrollIndicator={false}>
                 <CardListComponent />
-                <View style={styles.paymentcard}>
+                {/* <View style={styles.paymentcard}>
                     <Text style={styles.text}>₹549</Text>
                     <TouchableOpacity style={styles.smallbutton} onPress={() => navigation.navigate("Summary")}>
                         <Text style={styles.textbut}>View card</Text>
                     </TouchableOpacity>
-                </View>
+                </View> */}
             </ScrollView>
         </SafeAreaView>
 

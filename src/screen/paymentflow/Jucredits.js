@@ -43,7 +43,7 @@ const Jucredits = (props) => {
 
                 </View>
                 <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginHorizontal: 16, marginTop: height * 0.04 }}>
-                    <Text style={[styles.text2, { fontSize: 20 }]}>Was this article helpful ?</Text>
+                    <Text style={[styles.text2, { fontSize: 20 ,color:"gray"}]}>Was this article helpful ?</Text>
                     <TouchableOpacity onPress={showModal}>
                         <Image source={require("../../assets/Newicon/like.png")} resizeMode="contain" style={{ width: 20, height: 20, marginLeft: width * 0.2 }} />
                     </TouchableOpacity>

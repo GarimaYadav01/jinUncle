@@ -8,8 +8,6 @@ import AddressModal from "./AddressModal";
 
 const { width, height } = Dimensions.get("screen");
 const TimeSlot = ({ isVisible, onClose, categories }) => {
-
-
     const navigation = useNavigation();
     const [selectedDay, setSelectedDay] = useState(null);
     const [selectedItem, setSelectedItem] = useState(null);
@@ -73,7 +71,7 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
             onPress={() => handleItemSelect(item.id)}
         >
             <Text style={[
-
+                styles.text1,
                 selectedItem === item.id ? styles.selecttext : null
             ]}>{item.time}</Text>
         </TouchableOpacity>
@@ -217,7 +215,7 @@ const styles = StyleSheet.create({
     //   },
     text1: {
         fontSize: 16,
-        color: '#333',
+        color: 'black',
     },
     selectedDay: {
         backgroundColor: '#004E8C',

@@ -97,16 +97,11 @@ const Accategory = () => {
         <SafeAreaView style={{ flex: 1 }}>
 
             <ScrollView style={{ flexGrow: 1, paddingBottom: 50 }} showsVerticalScrollIndicator={false}>
-
-
                 <View >
-                    {/* <TextinputComponent /> */}
-                    {/* <View style={styles.container1}> */}
-
-                    <ImageBackground source={images[currentIndex]} style={styles.image1} >
-                        <Header2 />
-                    </ImageBackground>
-                    {/* </View> */}
+                    <Header2 />
+                    <View style={{ marginVertical: height * 0.02 }}>
+                        <Image source={images[currentIndex]} style={styles.image1} />
+                    </View>
                 </View>
                 <Ac />
             </ScrollView>
@@ -119,9 +114,10 @@ export default Accategory;
 const styles = StyleSheet.create({
 
     image1: {
-        width: width,
+        width: width * 0.93,
         // borderRadius: 10,
-        height: height * 0.2,
-        alignSelf: "center"
+        height: height * 0.18,
+        alignSelf: "center",
+        borderRadius: 10
     },
 });

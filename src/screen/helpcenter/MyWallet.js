@@ -66,14 +66,16 @@ const styles = StyleSheet.create({
         width: width * 0.7,
         // textAlign: "center",
         marginTop: height * 0.01,
-        marginLeft: width * 0.05
+        marginLeft: width * 0.05,
+        color: "gray"
     },
     subtext: {
         fontSize: 16,
         fontStyle: "normal",
         // textAlign: "center",
         fontFamily: "Roboto-Bold",
-        lineHeight: 24
+        lineHeight: 24,
+        color: "gray"
     },
     subtext2: {
         fontSize: 16,
@@ -98,8 +100,12 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     headerText: {
+
         fontSize: 16,
         fontWeight: 'bold',
-        marginTop: height * 0.02
+        marginTop: height * 0.02,
+        color: "black"
+
+
     },
 })

@@ -37,22 +37,23 @@ const Header2 = ({ title }) => {
 
     return (
         <View style={styles.container}>
-            <View style={{ flexDirection: "row",columnGap:10 }}>
+            <View style={{ flexDirection: "row", columnGap: 10 }}>
                 <TouchableOpacity onPress={handleBackPress}>
-                    <Image source={require("../assets/logo/back-button.png")} style={styles.icon} />
+                    <Image source={require("../assets/logo/back-button.png")} style={styles.icon} tintColor={"white"} />
                 </TouchableOpacity>
                 <Text style={styles.title}>{title}</Text>
             </View>
-            <View style={{flexDirection:"row"}}>
+            <View style={{ flexDirection: "row",columnGap:10 }}>
                 <TouchableOpacity onPress={handleSharePress}>
-                    <Image source={require("../assets/logo/share.png")} style={[styles.icon,]} />
+                    <Image source={require("../assets/logo/share.png")} style={[styles.icon,]} tintColor={"white"}/>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={handleSearchPress}>
                     <Image
                         source={require("../assets/banner/magnifying-glass.png")}
                         style={styles.icon}
                         resizeMode="contain"
-                      
+                        tintColor={"white"}
+
                     />
                 </TouchableOpacity>
             </View>
@@ -67,22 +68,25 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         paddingHorizontal: 15,
-        height:height*0.08,
+        height: height * 0.09,
         paddingTop: 10,
         paddingBottom: 5,
-        backgroundColor: 'transparent', // Header background color
-        // borderBottomWidth: 1,
+        backgroundColor: '#004E8C', // Header background color
+        borderBottomWidth: 1,
+        borderBottomColor: "#004E8C"
+
         // borderBottomColor: '#ccc', // Border color
     },
     title: {
         fontSize: 18,
         fontWeight: 'bold',
-        
+
     },
     icon: {
         width: 24,
         height: 24,
         marginHorizontal: 5,
+        marginTop:20
     },
 });
 
