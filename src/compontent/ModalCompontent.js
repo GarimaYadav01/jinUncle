@@ -312,9 +312,9 @@ const ModalCompontent = ({ visible, onClose, item }) => {
     return (
         <Modal visible={visible} transparent={true} animationType="slide">
             <View style={styles.modalContainer}>
-                <View style={{ justifyContent: "flex-end", marginLeft: width * 0.8, paddingBottom: 20, marginTop: height * 0.05, }}>
+                <View style={{ justifyContent: "flex-end", marginLeft: width * 0.8, paddingBottom: 20, marginTop: height * 0.2, }}>
                     <TouchableOpacity onPress={onClose}>
-                        <Image source={require("../assets/Icon/x-mark.png")} style={{ width: 40, height: 40 }} tintColor={"white"} />
+                        <Image source={require("../assets/Icon/x-mark.png")} style={{ width: 40, height: 40, marginTop: 10 }} tintColor={"white"} />
                     </TouchableOpacity>
                 </View>
                 <View style={styles.modalContent}>
@@ -460,6 +460,7 @@ const styles = StyleSheet.create({
         width: width,
         borderTopLeftRadius: 10,
         borderTopRightRadius: 10,
+        marginTop: 10,
         flexGrow: 1,
         // marginHorizontal: 20,
         paddingBottom: 100

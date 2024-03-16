@@ -110,7 +110,7 @@ const Navigation = () => {
                 <Stack.Screen name="Summary" component={Summary} />
                 <Stack.Screen name="Subcategory" component={Subcategory} />
                 <Stack.Screen name="PaymentScreen" component={PaymentScreen} />
-             
+
                 <Stack.Screen name="ContiuneShopping" component={ContiuneShopping} />
                 <Stack.Screen name="AddressEdit" component={AddressEdit} />
             </Stack.Navigator>
