@@ -6,6 +6,8 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import CountryPicker from 'react-native-country-picker-modal';
 import { showMessage } from 'react-native-flash-message';
+import axios from 'axios';
+import { Loginapi } from '../../apiconfig/Apiconfig';
 
 const { width, height } = Dimensions.get("screen");
 
@@ -13,14 +15,58 @@ const LoginScreen = (props) => {
   const [countryCode, setCountryCode] = useState('US');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isFilled, setIsFilled] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleLogin = async () => {
+    setIsLoading(true);
+    try {
+      const myHeaders = new Headers();
+      myHeaders.append("token", "WlhsS01XTXlWbmxZTW14clNXcHZhVTFVVVdsTVEwcDNXVmhPZW1ReU9YbGFRMGsyU1d0R2EySlhiSFZKVTFFd1RrUlJlVTVFUlhsT1EwWkJTMmxaYkVscGQybGhSemt4WTI1TmFVOXFVVFJNUTBwcldWaFNiRmd6VW5CaVYxVnBUMmxKZVUxRVNUQk1WRUY2VEZSRk1rbEVSWGxQYWswMFQycEZOVWxwZDJsamJUbHpXbE5KTmtscVNXbE1RMHByV2xoYWNGa3lWbVpoVjFGcFQyMDFNV0pIZURrPQ==");
+      myHeaders.append("Cookie", "ci_session=2ba4714d71d91ec966b5478516d5fb1cecc1e2c7");
+
+      const formdata = new FormData();
+      formdata.append("country_code", "+91");
+      formdata.append("mobile", phoneNumber);
+      formdata.append("device_id", "654654654");
+      formdata.append("firebase_token", "f5s6a4f65as4f654sa56f4sa65fsaafafafa");
+
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: formdata,
+        redirect: "follow"
+      };
+
+      const response = await fetch("https://aduetechnologies.com/jinuncle/api/auth/login", requestOptions);
+      const result = await response.text();
+      console.log("result------>", result);
+      if (response.status == 200) {
+        showMessage({
+          message: response.message,
+          type: "success",
+          icon: "success"
+        })
+
+        props.navigation.navigate("Otp", { phoneNumber: phoneNumber })
+
+
+      }
+
+      // Handle the result here, e.g., check for success/failure and navigate accordingly
+    } catch (error) {
+      console.error(error);
+      // Handle errors, e.g., display an error message
+      Alert.alert("Error", "Failed to log in. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
 
   const handleInputChange = (text) => {
     setPhoneNumber(text);
     setIsFilled(text.trim() !== '');
   };
-
-
 
   const onSelectCountry = (country) => {
     setCountryCode(country.cca2);
@@ -58,7 +104,6 @@ const LoginScreen = (props) => {
 
   return (
     <SafeAreaView style={styles.container}>
-
       <View style={{ backgroundColor: "#FFF", flex: 1 }}>
         <StatusBar backgroundColor="transparent" translucent={true} />
         <ScrollView>
@@ -75,28 +120,28 @@ const LoginScreen = (props) => {
                 <Text style={styles.text}>Your Home Service Expert</Text>
                 <Text style={[styles.text, { color: "#004E8C" }]}>Quick <Text>.</Text><Text>Affordable<Text>.</Text><Text>Trusted</Text></Text></Text>
               </View>
-
             </View>
             <Formik
               initialValues={{ phoneNumber: '' }}
               validationSchema={validationSchema}
               onSubmit={(values, actions) => {
                 // Handle form submission
-                console.log(values);
-                showMessage({
-                  message: "Login successfully",
-                  type: "success",
-                  icon: "success",
-                });
-                actions.resetForm(); // Reset the form after submission
-                props.navigation.navigate("Otp");
+                handleLogin();
+                // console.log(values);
+                // showMessage({
+                //   message: "Login successfully",
+                //   type: "success",
+                //   icon: "success",
+                // });
+                // actions.resetForm(); // Reset the form after submission
+                // props.navigation.navigate("Otp");
               }}
             >
               {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
 
                 <View style={styles.contain}>
                   <View style={styles.container2}>
-                    <CountryPicker
+                    {/* <CountryPicker
                       withFlag
                       withCallingCode
                       withCallingCodeButton
@@ -105,15 +150,18 @@ const LoginScreen = (props) => {
                       onSelect={onSelectCountry}
                       countryCode={countryCode}
                       containerButtonStyle={styles.countryPicker}
-                    />
+                    /> */}
+                    <View style={{ columnGap: 10, flexDirection: "row" }}>
+                      <Image source={require("../../assets/Icon/Flag.png")} style={{ height: 20, width: 20, borderRadius: 10 }} />
+                      <Text>+91</Text>
+                    </View>
                     <TextInput
                       style={styles.input}
                       placeholder="Enter your phone number"
-
                       keyboardType="phone-pad"
                       placeholderTextColor={"gray"}
                       // onChangeText={handleInputChange("")}
-                      maxLength={20}
+                      maxLength={10}
                       value={values.phoneNumber}
                       onChangeText={handleChange('phoneNumber')}
                       onBlur={handleBlur('phoneNumber')}
@@ -136,9 +184,6 @@ const LoginScreen = (props) => {
                     />
                   </View>
                 </View>
-
-
-
               )}
             </Formik>
           </View>
@@ -218,7 +263,8 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     marginTop: 10,
     borderColor: "gray",
-    borderWidth: 1
+    borderWidth: 1,
+
   },
   input: {
     flex: 1,

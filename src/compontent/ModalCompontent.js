@@ -436,8 +436,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
-
-
     },
     modalContent: {
         backgroundColor: 'white',

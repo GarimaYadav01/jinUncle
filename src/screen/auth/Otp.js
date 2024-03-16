@@ -1,40 +1,101 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, StatusBar, Image, Dimensions, TextInput, TouchableOpacity, Platform, ScrollView, ImageBackground } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, StatusBar, Image, Dimensions, TextInput, TouchableOpacity, Platform, ScrollView, ImageBackground, Alert } from 'react-native';
 import TextinputComponent from '../../compontent/TextinputComponent';
 import CustomButton from '../../compontent/Custombutton';
 import CodeInput from 'react-native-code-input';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { showMessage } from 'react-native-flash-message';
+import axios from 'axios';
+import { useNavigation } from '@react-navigation/native';
+// import AsyncStorage from 'react-native-async-storage/async-storage';
 const { width, height } = Dimensions.get("screen")
 
 const Otp = (props) => {
+    const phoneNumber = props.route.params.phoneNumber;
+    console.log("Phone Number:", phoneNumber);
     const [code, setCode] = useState('');
     const [isCodeEntered, setIsCodeEntered] = useState(false);
+    const navigation = useNavigation();
 
     const onCodeFilled = (code) => {
         setCode(code);
         setIsCodeEntered(true);
     };
+    const handleVerfiotp = async () => {
+        try {
+            const myHeaders = new Headers();
+            // myHeaders.append("token", "WlhsS01XTXlWbmxZTW14clNXcHZhVTFVVVdsTVEwcDNXVmhPZW1ReU9YbGFRMGsyU1d0R2EySlhiSFZKVTFFd1RrUlJlVTVFUlhsT1EwWkJTMmxaYkVscGQybGhSemt4WTI1TmFVOXFVVFJNUTBwcldWaFNiRmd6VW5CaVYxVnBUMmxKZVUxRVNUQk1WRUY2VEZSRk1rbEVSWGxQYWswMFQycEZOVWxwZDJsamJUbHpXbE5KTmtscVNXbE1RMHByV2xoYWNGa3lWbVpoVjFGcFQyMDFNV0pIZURrPQ==");
 
-    // const onCodeFilled = (code) => {
-    //     // Handle the completed OTP code
-    //     console.log('OTP Code:', code);
-    // };
 
-    const handlesubmit = () => {
-        showMessage({
-            message: "otp verfiy successfully.",
-            type: "success",
-            icon: "success"
-        });
-        props.navigation.navigate("Location")
+            const formdata = new FormData();
+            formdata.append("mobile", phoneNumber);
+            formdata.append("type", "2");
+            formdata.append("otp", code);
+
+            const requestOptions = {
+                method: "POST",
+                // headers: myHeaders,
+                body: formdata,
+                redirect: "follow"
+            };
+
+            const response = await fetch("https://aduetechnologies.com/jinuncle/api/auth/otp_verify", requestOptions);
+            const result = await response.json(); // Assuming the response is JSON
+            console.log("jkdsg---->", result);
+            if (response.status === 200) {
+                // Store the token in AsyncStorage
+                // await AsyncStorage.setItem('accessToken', result.data.access_token);
+
+                showMessage({
+                    message: "OTP verified successfully",
+                    type: "success",
+                    icon: "success"
+                });
+                navigation.navigate("Location");
+            }
+        } catch (error) {
+            console.error("dffjjdkfkl------>", error);
+        }
     }
+    const handleResendOTP = async () => {
+        try {
+
+
+            const formdata = new FormData();
+            formdata.append("mobile", phoneNumber);
+
+            const requestOptions = {
+                method: "POST",
+
+                body: formdata,
+                redirect: "follow"
+            };
+
+            const response = await fetch("https://aduetechnologies.com/jinuncle/api/auth/resend_otp", requestOptions);
+            const result = await response.text();
+
+            console.log(result);
+
+            if (response.status === 200) {
+
+                showMessage({
+                    message: response.message,
+                    type: "success",
+                    icon: "success"
+                })
+            }
+        } catch (error) {
+            console.error(error);
+            Alert.alert("Error", "Failed to resend OTP. Please try again.");
+        }
+    };
     const [timer, setTimer] = useState(180);
     const [isTimerRunning, setIsTimerRunning] = useState(false);
     const [isResendVisible, setIsResendVisible] = useState(true);
     const startTimer = () => {
         setIsTimerRunning(true);
+        handleResendOTP();
         setIsResendVisible(false); // Hide resend button when timer starts
         setTimer(180); // Reset timer to initial value
     };
@@ -105,7 +166,7 @@ const Otp = (props) => {
                 <CustomButton
                     size={"large"}
                     label={"Continue"}
-                    onPress={handlesubmit}
+                    onPress={handleVerfiotp}
                     backgroundColor={isCodeEntered ? "#004E8C" : "white"}
                     color={isCodeEntered ? "white" : "#004E8C"}
                     disabled={!isCodeEntered}
