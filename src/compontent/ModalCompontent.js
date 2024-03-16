@@ -5,25 +5,18 @@ import { useNavigation } from '@react-navigation/native';
 import { showMessage } from 'react-native-flash-message';
 import PaymentModal from './PaymentModal';
 const { height, width } = Dimensions.get("screen")
-
-
 const ModalCompontent = ({ visible, onClose, item }) => {
     const navigation = useNavigation();
-
     const [currentIndex, setCurrentIndex] = useState(0);
     const [quantityStates, setQuantityStates] = useState({});
     const [quantityselectStates, setQuantityselectStates] = useState({});
     const [isvissbleModal, setIsVisibleModal] = useState({});
-
     const openModal = () => {
         setIsVisibleModal(true);
     }
-
     const closeModal = () => {
         setIsVisibleModal(false);
     }
-
-
     useEffect(() => {
         // Initialize quantity states for each item
         const initialQuantityStates = {};
@@ -132,8 +125,6 @@ const ModalCompontent = ({ visible, onClose, item }) => {
             }
         }));
     };
-
-
     const handleDecreaseselect = (id) => {
         setIsVisibleModal(true);
         setQuantityselectStates(prevStates => ({
@@ -159,7 +150,6 @@ const ModalCompontent = ({ visible, onClose, item }) => {
             icon: "success"
         });
     };
-
     const Allmix = [
         {
             id: "1",
@@ -378,9 +368,6 @@ const ModalCompontent = ({ visible, onClose, item }) => {
                             <Text style={{ color: "#004E8C", fontSize: 22, fontWeight: "bold" }}>JU Cover</Text>
                         </View>
                         <View style={{ flexDirection: "row", columnGap: 10 }}>
-
-
-
                             <View style={styles.warrantybutton}>
                                 <Image source={require("../assets/bottomnavigatiomnimage/waranty.png")} style={{
                                     width: 60,
@@ -396,7 +383,6 @@ const ModalCompontent = ({ visible, onClose, item }) => {
                                 }} />
                                 <Text style={[styles.text1, { fontWeight: "bold" }]}>No questions asked claim</Text>
                             </View>
-
                             <View style={styles.warrantybutton}>
                                 <Image source={require("../assets/bottomnavigatiomnimage/verified.png")} style={{
                                     width: 60,
