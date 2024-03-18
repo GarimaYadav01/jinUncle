@@ -4,10 +4,15 @@ import { ICONS } from "../../assets/themes";
 import CustomButton from "../../compontent/Custombutton";
 import { useNavigation } from "@react-navigation/native";
 import LogoutModal from "../../compontent/LogoutModal";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import LoaderScreen from "../../compontent/LoaderScreen";
+import { showMessage } from "react-native-flash-message";
 const { height, width } = Dimensions.get("screen")
 
 const ProfileScreen = () => {
     const navigation = useNavigation();
+
+    const [isLoading, setIsLoading] = useState();
     const buttonData = [
         {
             id: "1",
@@ -27,12 +32,6 @@ const ProfileScreen = () => {
             image: ICONS.arrow,
             screen: "MyWallet"
         },
-        // {
-        //     id: "4",
-        //     lable: "Plus membership",
-        //     image: ICONS.arrow,
-        //     screen: "Mybooking"
-        // },
         {
             id: "5",
             lable: "My rating",
@@ -71,15 +70,51 @@ const ProfileScreen = () => {
         },
     ]
     const handleMenuItemPress = (screen) => {
-        // Navigate to the specified screen
         navigation.navigate(screen);
     };
-    const [modalVisible, setModalVisible] = useState(false);
+    const handleLogout = async () => {
+        setIsLoading(true);
+        try {
+            const myHeaders = new Headers();
+            myHeaders.append("token", "WlhsS01XTXlWbmxZTW14clNXcHZhVTFVVVdsTVEwcDNXVmhPZW1ReU9YbGFRMGsyU1d0R2EySlhiSFZKVTFFd1RrUlJlVTVFUlhsT1EwWkJTMmxaYkVscGQybGhSemt4WTI1TmFVOXFVVFJNUTBwcldWaFNiRmd6VW5CaVYxVnBUMmxKZVUxRVNUQk1WRUY2VEZSRk1rbEVSWGxQYWswMFQycEZOVWxwZDJsamJUbHpXbE5KTmtscVNXbE1RMHByV2xoYWNGa3lWbVpoVjFGcFQyMDFNV0pIZURrPQ==");
+            myHeaders.append("Cookie", "ci_session=1136fffb894fac38c530a22571c68521774899b2");
 
-    const handleLogout = () => {
-        setModalVisible(false);
-        navigation.navigate("LoginScreen")
+            const requestOptions = {
+                method: "POST",
+                headers: myHeaders,
+                redirect: "follow"
+            };
+
+            const response = await fetch("https://aduetechnologies.com/jinuncle/api/auth/logout", requestOptions);
+            const data = await response.text();
+
+            console.log("Logout response:", data);
+
+            // Clear the token from AsyncStorage
+            await AsyncStorage.removeItem('token');
+            console.log('Logout successful');
+            setIsLoading(false);
+            setModalVisible(false);
+            navigation.navigate("LoginScreen")
+            showMessage({
+                message: "Logout suceesfully ",
+                type: "success",
+                icon: "success"
+            })
+            // onClose();
+        } catch (error) {
+            console.error('Error logging out:', error);
+            setIsLoading(false);
+        }
     };
+    const [modalVisible, setModalVisible] = useState(false);
+    // const handleLogout = () => {
+    //     setModalVisible(false);
+    //     navigation.navigate("LoginScreen")
+    // };
+
+
+
     return (
         <SafeAreaView style={{ flex: 1, }} >
             <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
@@ -120,6 +155,7 @@ const ProfileScreen = () => {
                 onClose={() => setModalVisible(false)}
                 onLogout={handleLogout}
             />
+            {isLoading && <LoaderScreen isLoading={isLoading} />}
         </SafeAreaView>
 
     )

@@ -8,50 +8,44 @@ import CountryPicker from 'react-native-country-picker-modal';
 import { showMessage } from 'react-native-flash-message';
 import axios from 'axios';
 import { Loginapi } from '../../apiconfig/Apiconfig';
+import { useNavigation } from '@react-navigation/native';
+import LoaderScreen from '../../compontent/LoaderScreen';
 
 const { width, height } = Dimensions.get("screen");
 
 const LoginScreen = (props) => {
-  const [countryCode, setCountryCode] = useState('US');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [isFilled, setIsFilled] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const navigation = useNavigation();
+  const [countryCode] = useState('+91');
+  const [phoneNumber, setPhoneNumber] = useState(''); // Define phoneNumber state
 
-  const handleLogin = async () => {
+  const [isLoading, setIsLoading] = useState(false);
+  console.log("pohonenumber------->", phoneNumber)
+
+  const handleLogin = async (values) => {
     setIsLoading(true);
     try {
-      const myHeaders = new Headers();
-      myHeaders.append("token", "WlhsS01XTXlWbmxZTW14clNXcHZhVTFVVVdsTVEwcDNXVmhPZW1ReU9YbGFRMGsyU1d0R2EySlhiSFZKVTFFd1RrUlJlVTVFUlhsT1EwWkJTMmxaYkVscGQybGhSemt4WTI1TmFVOXFVVFJNUTBwcldWaFNiRmd6VW5CaVYxVnBUMmxKZVUxRVNUQk1WRUY2VEZSRk1rbEVSWGxQYWswMFQycEZOVWxwZDJsamJUbHpXbE5KTmtscVNXbE1RMHByV2xoYWNGa3lWbVpoVjFGcFQyMDFNV0pIZURrPQ==");
-      myHeaders.append("Cookie", "ci_session=2ba4714d71d91ec966b5478516d5fb1cecc1e2c7");
-
       const formdata = new FormData();
-      formdata.append("country_code", "+91");
+      formdata.append("country_code", countryCode);
       formdata.append("mobile", phoneNumber);
       formdata.append("device_id", "654654654");
-      formdata.append("firebase_token", "f5s6a4f65as4f654sa56f4sa65fsaafafafa");
-
+      // formdata.append("firebase_token", "f5s6a4f65as4f654sa56f4sa65fsaafafafa");
       const requestOptions = {
         method: "POST",
-        headers: myHeaders,
+        // headers: myHeaders,
         body: formdata,
         redirect: "follow"
       };
-
       const response = await fetch("https://aduetechnologies.com/jinuncle/api/auth/login", requestOptions);
       const result = await response.text();
       console.log("result------>", result);
       if (response.status == 200) {
         showMessage({
-          message: response.message,
+          message: "Otp send successfully",
           type: "success",
           icon: "success"
         })
-
-        props.navigation.navigate("Otp", { phoneNumber: phoneNumber })
-
-
+        navigation.navigate('Otp', { phoneNumber: phoneNumber });
       }
-
       // Handle the result here, e.g., check for success/failure and navigate accordingly
     } catch (error) {
       console.error(error);
@@ -60,16 +54,6 @@ const LoginScreen = (props) => {
     } finally {
       setIsLoading(false);
     }
-  };
-
-
-  const handleInputChange = (text) => {
-    setPhoneNumber(text);
-    setIsFilled(text.trim() !== '');
-  };
-
-  const onSelectCountry = (country) => {
-    setCountryCode(country.cca2);
   };
 
   const validationSchema = Yup.object().shape({
@@ -125,32 +109,12 @@ const LoginScreen = (props) => {
               initialValues={{ phoneNumber: '' }}
               validationSchema={validationSchema}
               onSubmit={(values, actions) => {
-                // Handle form submission
-                handleLogin();
-                // console.log(values);
-                // showMessage({
-                //   message: "Login successfully",
-                //   type: "success",
-                //   icon: "success",
-                // });
-                // actions.resetForm(); // Reset the form after submission
-                // props.navigation.navigate("Otp");
+                handleLogin(values); // Pass the values object containing the form field values
               }}
             >
               {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
-
                 <View style={styles.contain}>
                   <View style={styles.container2}>
-                    {/* <CountryPicker
-                      withFlag
-                      withCallingCode
-                      withCallingCodeButton
-                      withFilter
-                      withEmoji
-                      onSelect={onSelectCountry}
-                      countryCode={countryCode}
-                      containerButtonStyle={styles.countryPicker}
-                    /> */}
                     <View style={{ columnGap: 10, flexDirection: "row" }}>
                       <Image source={require("../../assets/Icon/Flag.png")} style={{ height: 20, width: 20, borderRadius: 10 }} />
                       <Text>+91</Text>
@@ -160,25 +124,23 @@ const LoginScreen = (props) => {
                       placeholder="Enter your phone number"
                       keyboardType="phone-pad"
                       placeholderTextColor={"gray"}
-                      // onChangeText={handleInputChange("")}
                       maxLength={10}
-                      value={values.phoneNumber}
-                      onChangeText={handleChange('phoneNumber')}
-                      onBlur={handleBlur('phoneNumber')}
+                      value={phoneNumber}
+                      onChangeText={(value) => {
+                        handleChange('phoneNumber')(value);
+                        setPhoneNumber(value);
+                      }}
+                      name="phoneNumber"
                     />
                   </View>
                   {touched.phoneNumber && errors.phoneNumber &&
                     <Text style={styles.error}>{errors.phoneNumber}</Text>
                   }
-
                   <View style={{ marginTop: height * 0.03 }}>
                     <CustomButton
                       label={"Verify phone number"}
                       size={"large"}
                       onPress={handleSubmit}
-                      // backgroundColor={isFilled ? "#004E8C" : "white"} // Change background color based on input
-                      // color={isFilled ? "white" : "#004E8C"} // Change text color based on input
-                      // disabled={!isFilled} // Disable button if input is not filled
                       backgroundColor={"#004E8C"}
                       color={"white"}
                     />
@@ -189,9 +151,11 @@ const LoginScreen = (props) => {
           </View>
         </ScrollView>
       </View>
+      {isLoading && <LoaderScreen isLoading={isLoading} />}
     </SafeAreaView >
   );
 };
+
 
 const styles = StyleSheet.create({
   container: {

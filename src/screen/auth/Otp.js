@@ -8,13 +8,17 @@ import * as Yup from 'yup';
 import { showMessage } from 'react-native-flash-message';
 import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
+import LoaderScreen from '../../compontent/LoaderScreen';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // import AsyncStorage from 'react-native-async-storage/async-storage';
 const { width, height } = Dimensions.get("screen")
 
 const Otp = (props) => {
-    const phoneNumber = props.route.params.phoneNumber;
-    console.log("Phone Number:", phoneNumber);
+    const phoneNumber = props?.route?.params?.phoneNumber;
+    console.log("Phone Number-->", props?.route?.params?.phoneNumber);
+    console.log("Route Params:", props.route.params);
     const [code, setCode] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
     const [isCodeEntered, setIsCodeEntered] = useState(false);
     const navigation = useNavigation();
 
@@ -23,71 +27,81 @@ const Otp = (props) => {
         setIsCodeEntered(true);
     };
     const handleVerfiotp = async () => {
-        try {
-            const myHeaders = new Headers();
-            // myHeaders.append("token", "WlhsS01XTXlWbmxZTW14clNXcHZhVTFVVVdsTVEwcDNXVmhPZW1ReU9YbGFRMGsyU1d0R2EySlhiSFZKVTFFd1RrUlJlVTVFUlhsT1EwWkJTMmxaYkVscGQybGhSemt4WTI1TmFVOXFVVFJNUTBwcldWaFNiRmd6VW5CaVYxVnBUMmxKZVUxRVNUQk1WRUY2VEZSRk1rbEVSWGxQYWswMFQycEZOVWxwZDJsamJUbHpXbE5KTmtscVNXbE1RMHByV2xoYWNGa3lWbVpoVjFGcFQyMDFNV0pIZURrPQ==");
+        const formdata = new FormData();
+        formdata.append("mobile", phoneNumber);
+        formdata.append("type", "2");
+        formdata.append("otp", code);
+        setIsLoading(true);
 
+        fetch('https://aduetechnologies.com/jinuncle/api/auth/otp_verify', {
+            method: 'POST',
+            body: formdata,
+        })
+            .then((response) => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Network response was not ok');
+                }
+            })
+            .then(async (json) => {
+                console.log("jdkfdlk---->", json.status);
+                if (json.status == 200) {
+                    setIsLoading(false);
 
-            const formdata = new FormData();
-            formdata.append("mobile", phoneNumber);
-            formdata.append("type", "2");
-            formdata.append("otp", code);
+                    // Set the access token in AsyncStorage
+                    await AsyncStorage.setItem('token', json.data.access_token);
+                    console.log("dffbdmf--->",json.data.access_token)
 
-            const requestOptions = {
-                method: "POST",
-                // headers: myHeaders,
-                body: formdata,
-                redirect: "follow"
-            };
-
-            const response = await fetch("https://aduetechnologies.com/jinuncle/api/auth/otp_verify", requestOptions);
-            const result = await response.json(); // Assuming the response is JSON
-            console.log("jkdsg---->", result);
-            if (response.status === 200) {
-                // Store the token in AsyncStorage
-                // await AsyncStorage.setItem('accessToken', result.data.access_token);
-
+                    showMessage({
+                        message: json.message,
+                        type: 'success',
+                        icon: 'success'
+                    });
+                    navigation.navigate('Location');
+                } else {
+                    showMessage({
+                        message: json.message,
+                        type: "warning",
+                        icon: "warning"
+                    });
+                    setIsLoading(false);
+                }
+            })
+            .catch((error) => {
+                console.error(error);
                 showMessage({
-                    message: "OTP verified successfully",
-                    type: "success",
-                    icon: "success"
+                    message: 'An error occurred. Please try again.',
+                    type: "warning",
+                    icon: "warning"
                 });
-                navigation.navigate("Location");
-            }
-        } catch (error) {
-            console.error("dffjjdkfkl------>", error);
-        }
-    }
+                setIsLoading(false);
+            });
+    };
+
+
     const handleResendOTP = async () => {
         try {
-
-
             const formdata = new FormData();
             formdata.append("mobile", phoneNumber);
-
             const requestOptions = {
                 method: "POST",
-
                 body: formdata,
                 redirect: "follow"
             };
-
             const response = await fetch("https://aduetechnologies.com/jinuncle/api/auth/resend_otp", requestOptions);
             const result = await response.text();
-
             console.log(result);
-
-            if (response.status === 200) {
-
+            if (result.status == 200) {
+                console.log(jhdkfjkdlkdl)
                 showMessage({
-                    message: response.message,
+                    message: result?.message,
                     type: "success",
                     icon: "success"
                 })
             }
         } catch (error) {
             console.error(error);
-            Alert.alert("Error", "Failed to resend OTP. Please try again.");
         }
     };
     const [timer, setTimer] = useState(180);
@@ -172,6 +186,8 @@ const Otp = (props) => {
                     disabled={!isCodeEntered}
                 />
             </ScrollView>
+
+            {isLoading && <LoaderScreen isLoading={isLoading} />}
         </SafeAreaView>
     );
 };

@@ -4,6 +4,9 @@ import { View, Text, Modal, Button, StyleSheet, Image, TouchableOpacity, Dimensi
 
 const { height, width } = Dimensions.get("screen")
 const LogoutModal = ({ visible, onClose, onLogout }) => {
+  const logout = async () => {
+
+  }
   return (
     <Modal
       animationType="slide"
@@ -21,8 +24,8 @@ const LogoutModal = ({ visible, onClose, onLogout }) => {
                 Cancel
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={onLogout}  style={styles.btn}>
-              <Text  style={styles.text}>
+            <TouchableOpacity onPress={onLogout} style={styles.btn}>
+              <Text style={styles.text}>
                 Logout
               </Text>
             </TouchableOpacity>
@@ -61,18 +64,18 @@ const styles = StyleSheet.create({
     fontSize: 18
   },
   btn: {
-    width:width*0.3,
-    height:height*0.06,
-    borderWidth:1,
+    width: width * 0.3,
+    height: height * 0.06,
+    borderWidth: 1,
     backgroundColor: "#004E8C",
-    borderColor:"#f5fffa",
-    justifyContent:"center",
-    alignItems:"center",
-    borderRadius:10
+    borderColor: "#f5fffa",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10
   },
-  text:{
-    color:"#FFF",
-    fontFamily:"Roboto-BoldItalic",
-    fontSize:16
+  text: {
+    color: "#FFF",
+    fontFamily: "Roboto-BoldItalic",
+    fontSize: 16
   }
 });
