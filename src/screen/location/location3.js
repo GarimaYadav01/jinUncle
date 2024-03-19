@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Dimensions, Image, ImageBackground, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View } from "react-native";
 import CustomButton from "../../compontent/Custombutton";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const { width, height } = Dimensions.get("screen")
 const location2 = () => {
     const navigation = useNavigation();
@@ -13,20 +14,17 @@ const location2 = () => {
         return () => clearTimeout(timeout);
     }, [navigation]);
 
-    const [location, setLocation] = useState([]);
+    // const [location, setLocation] = useState([]);
 
     // useEffect(() => {
     //     handleGetlocation();
     // }, [])
 
     // const handleGetlocation = async () => {
-    //     const myHeaders = new Headers();
-    //     myHeaders.append("token", "WlhsS01XTXlWbmxZTW14clNXcHZhVTFVVVdsTVEwcDNXVmhPZW1ReU9YbGFRMGsyU1d0R2EySlhiSFZKVTFFd1RrUlJlVTVFUlhsT1EwWkJTMmxaYkVscGQybGhSemt4WTI1TmFVOXFVVFJNUTBwcldWaFNiRmd6VW5CaVYxVnBUMmxKZVUxRVNUQk1WRUY2VEZSRk1rbEVSWGxQYWswMFQycEZOVWxwZDJsamJUbHpXbE5KTmtscVNXbE1RMHByV2xoYWNGa3lWbVpoVjFGcFQyMDFNV0pIZURrPQ==");
-    //     // myHeaders.append("Cookie", "ci_session=b6d08925c92e304724acee04b2b9f42325c8cd4d");
-
+    //     const token = await AsyncStorage.getItem('token');
     //     fetch("https://aduetechnologies.com/jinuncle/api/user/get_current_location", {
     //         method: "GET",
-    //         headers: myHeaders,
+    //         headers: token,
     //         redirect: "follow"
     //     })
     //         .then((response) => {
@@ -36,7 +34,7 @@ const location2 = () => {
     //                 throw new Error('Network response was not ok');
     //             }
     //         }).then((json) => {
-    //             console.log("jdkfdlk---->", json.status);
+    //             console.log("jdkfdlk---->", json);
     //             // if (json.status == 200) {
     //             //     setIsLoading(false);
     //             //     // showMessage({
@@ -59,22 +57,22 @@ const location2 = () => {
     //         });
 
     // }
-    // useEffect(() => {
-    //     const myHeaders = new Headers();
-    //     myHeaders.append("token", "WlhsS01XTXlWbmxZTW14clNXcHZhVTFVVVdsTVEwcDNXVmhPZW1ReU9YbGFRMGsyU1d0R2EySlhiSFZKVTFFd1RrUlJlVTVFUlhsT1EwWkJTMmxaYkVscGQybGhSemt4WTI1TmFVOXFVVFJNUTBwcldWaFNiRmd6VW5CaVYxVnBUMmxKZVUxRVNUQk1WRUY2VEZSRk1rbEVSWGxQYWswMFQycEZOVWxwZDJsamJUbHpXbE5KTmtscVNXbE1RMHByV2xoYWNGa3lWbVpoVjFGcFQyMDFNV0pIZURrPQ==");
-    //     // myHeaders.append("Cookie", "ci_session=b6d08925c92e304724acee04b2b9f42325c8cd4d");
+    useEffect(() => {
+        const myHeaders = new Headers();
+        myHeaders.append("token", "WlhsS01XTXlWbmxZTW14clNXcHZhVTFVVVdsTVEwcDNXVmhPZW1ReU9YbGFRMGsyU1d0R2EySlhiSFZKVTFFd1RrUlJlVTVFUlhsT1EwWkJTMmxaYkVscGQybGhSemt4WTI1TmFVOXFVVFJNUTBwcldWaFNiRmd6VW5CaVYxVnBUMmxKZVUxRVNUQk1WRUY2VEZSRk1rbEVSWGxQYWswMFQycEZOVWxwZDJsamJUbHpXbE5KTmtscVNXbE1RMHByV2xoYWNGa3lWbVpoVjFGcFQyMDFNV0pIZURrPQ==");
+        // myHeaders.append("Cookie", "ci_session=b6d08925c92e304724acee04b2b9f42325c8cd4d");
 
-    //     const requestOptions = {
-    //         method: "POST",
-    //         headers: myHeaders,
-    //         redirect: "follow"
-    //     };
+        const requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            redirect: "follow"
+        };
 
-    //     fetch("https://aduetechnologies.com/jinuncle/api/user/get_current_location", requestOptions)
-    //         .then((response) => response.text())
-    //         .then((result) => console.log(result))
-    //         .catch((error) => console.error(error));
-    // }, []);
+        fetch("https://aduetechnologies.com/jinuncle/api/user/get_current_location", requestOptions)
+            .then((response) => response.text())
+            .then((result) => console.log(result))
+            .catch((error) => console.error(error));
+    }, []);
 
 
     return (
@@ -102,7 +100,6 @@ const styles = StyleSheet.create({
         flex: 1,
         // backgroundColor: "#FFFFFF"
     },
-
     img: {
         width: width,
         height: height

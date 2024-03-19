@@ -3,7 +3,7 @@ import { Dimensions, Image, ImageBackground, SafeAreaView, ScrollView, StatusBar
 import CustomButton from "../../compontent/Custombutton";
 import { useNavigation } from "@react-navigation/native";
 const { width, height } = Dimensions.get("screen")
-const location2 = () => {
+const Location2 = () => {
     const navigation = useNavigation();
 
     useEffect(() => {
@@ -22,15 +22,13 @@ const location2 = () => {
                     <Text style={styles.text}>
                         Fetching your location
                     </Text>
-
                 </View>
-
             </ScrollView>
         </SafeAreaView>
 
     )
 }
-export default location2;
+export default Location2;
 
 const styles = StyleSheet.create({
     container: {
@@ -47,7 +45,7 @@ const styles = StyleSheet.create({
         fontStyle: "normal",
         color: "#000",
         textAlign: "center",
-        fontFamily:"Roboto-BoldItalic"
+        fontFamily: "Roboto-BoldItalic"
 
     },
     images: {

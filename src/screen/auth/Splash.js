@@ -22,7 +22,7 @@ const Splash = () => {
         const checkToken = async () => {
             const tokenExists = await getToken();
             if (tokenExists) {
-                navigation.replace('Bottomnavigation');
+                navigation.replace('Location2');
             } else {
                 navigation.replace('LoginScreen');
             }

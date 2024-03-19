@@ -9,7 +9,6 @@ import Otp from '../screen/auth/Otp';
 import SignupScreen from '../screen/auth/SignupScreen';
 import Resetpassword from '../screen/auth/Resetpassword';
 import Location from '../screen/location/Location';
-import location2 from '../screen/location/location2';
 import Location3 from '../screen/location/location3';
 import Mybooking from '../screen/profilescreens/Mybooking';
 import Aboutus from '../screen/profilescreens/Aboutus';
@@ -54,6 +53,7 @@ import Subcategory from '../screen/allcategory/Subcategory';
 import PaymentScreen from '../screen/allcategory/PaymentScreen';
 import ContiuneShopping from '../screen/home/ContiuneShopping';
 import AddressEdit from '../screen/tab/AddressEdit';
+import Location2 from '../screen/location/Location2';
 const Stack = createNativeStackNavigator();
 const Navigation = () => {
     return (
@@ -67,7 +67,7 @@ const Navigation = () => {
                 <Stack.Screen name="LoginScreen" component={LoginScreen} />
                 <Stack.Screen name="Resetpassword" component={Resetpassword} />
                 <Stack.Screen name="Location" component={Location} />
-                <Stack.Screen name="Location2" component={location2} />
+                <Stack.Screen name="Location2" component={Location2} />
                 <Stack.Screen name="Location3" component={Location3} />
                 <Stack.Screen name="Mybooking" component={Mybooking} />
                 <Stack.Screen name="Aboutus" component={Aboutus} />

@@ -47,12 +47,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        paddingHorizontal:15
+        paddingHorizontal: 15
     },
     text: {
         fontSize: 25,
         fontWeight: 'bold',
-        color:"black"
+        color: "black"
     },
     smallbutton: {
         height: height * 0.04,
