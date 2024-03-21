@@ -54,6 +54,7 @@ import PaymentScreen from '../screen/allcategory/PaymentScreen';
 import ContiuneShopping from '../screen/home/ContiuneShopping';
 import AddressEdit from '../screen/tab/AddressEdit';
 import Location2 from '../screen/location/Location2';
+import Paypal from '../screen/payments/Paypal';
 const Stack = createNativeStackNavigator();
 const Navigation = () => {
     return (
@@ -68,6 +69,7 @@ const Navigation = () => {
                 <Stack.Screen name="Resetpassword" component={Resetpassword} />
                 <Stack.Screen name="Location" component={Location} />
                 <Stack.Screen name="Location2" component={Location2} />
+                <Stack.Screen name="Paypal" component={Paypal} />
                 <Stack.Screen name="Location3" component={Location3} />
                 <Stack.Screen name="Mybooking" component={Mybooking} />
                 <Stack.Screen name="Aboutus" component={Aboutus} />

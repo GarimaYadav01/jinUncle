@@ -10,11 +10,13 @@ const ModalCompontent = ({ visible, onClose, item }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [quantityStates, setQuantityStates] = useState({});
     const [quantityselectStates, setQuantityselectStates] = useState({});
-    const [isvissbleModal, setIsVisibleModal] = useState({});
+    const [isvissbleModal, setIsVisibleModal] = useState(false);
     const openModal = () => {
+        // onClose();
         setIsVisibleModal(true);
     }
     const closeModal = () => {
+        onClose();
         setIsVisibleModal(false);
     }
     useEffect(() => {

@@ -5,6 +5,7 @@ import { ICONS } from "../assets/themes";
 import CustomButton from "./Custombutton";
 import { tuple } from "yup";
 import AddressModal from "./AddressModal";
+import RazorpayCheckout from 'react-native-razorpay';
 
 const { width, height } = Dimensions.get("screen");
 const TimeSlot = ({ isVisible, onClose, categories }) => {
@@ -31,6 +32,12 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
         { id: '6', time: '07:30 PM' },
         // Add more times as needed
     ];
+
+
+    const handleViewCard = () => {
+        onClose();
+        navigation.navigate("Paypal");
+    };
 
     const handleItemSelect = (itemId) => {
         setSelectedItem(itemId);
@@ -77,6 +84,44 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
         </TouchableOpacity>
     );
 
+
+
+
+
+    const handlePayment = async () => {
+        try {
+            const options = {
+                description: 'Payment for goods',
+                image: 'https://your_image_url.png',
+                currency: 'INR', // Currency code (e.g., INR, USD)
+                key: 'rzp_test_uhu2i0SIc40SxY', // Your Razorpay key
+                amount: '10000', // Payment amount in paise (e.g., for ₹100.00, provide 10000)
+                name: 'Your App Name',
+                prefill: {
+                    email: 'example@example.com', // User's email
+                    contact: '1234567890', // User's phone number
+                    name: 'John Doe', // User's name
+                },
+                theme: { color: '#F37254' } // Color theme
+            };
+
+            RazorpayCheckout.open(options)
+                .then((data) => {
+                    // Handle success
+                    console.log('Payment success:', data);
+                    alert('Payment success');
+                })
+                .catch((error) => {
+                    // Handle failure
+                    console.error('Payment failed:', error);
+                    alert('Payment failed');
+                });
+        } catch (error) {
+            console.error('Error processing payment:', error);
+            alert('Error processing payment');
+        }
+    };
+
     return (
         <Modal
             visible={isVisible}
@@ -103,17 +148,13 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
                                 <Image source={ICONS.arrow} style={{ height: 20, width: 20 }} />
                             </View>
                         </TouchableOpacity>
-
-
                         <View>
                             <Text style={[styles.title, { marginTop: height * 0.02 }]}>When should the professional arrive ?</Text>
                             <Text style={styles.text}>Your service will take approx 2 hrs</Text>
                         </View>
-
                         <View style={styles.com}>
                             <Text style={styles.title}>Get service later</Text>
                             <Text style={styles.text}>Serivce at the earliest available time slot</Text>
-
                             <FlatList
                                 data={weekdays}
                                 renderItem={renderItem}
@@ -122,7 +163,6 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
                                 contentContainerStyle={{ columnGap: 10 }}
                                 showsHorizontalScrollIndicator={false}
                             />
-
                             <View>
                                 <Text style={[styles.title, { marginTop: 10 }]}>Select start time of service</Text>
                                 <FlatList
@@ -136,17 +176,12 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
                                     showsHorizontalScrollIndicator={false}
                                 />
                             </View>
-
                         </View>
                         <View style={{ marginTop: height * 0.02 }}>
-                            <CustomButton size={"large"} label={"Proceed to checkout"} backgroundColor={"#004E8C"} color={"white"} onPress={() => navigation.navigate("PaymentScreen")} />
-
+                            <CustomButton size={"large"} label={"Proceed to checkout"} backgroundColor={"#004E8C"} color={"white"} onPress={handleViewCard} />
                         </View>
-
                     </ScrollView>
-
                 </View>
-
             </View>
             <AddressModal
                 visible={modalVisible}
@@ -178,9 +213,7 @@ const styles = StyleSheet.create({
         color: "#000",
         fontWeight: "bold",
         fontFamily: "Roboto-BoldItalic",
-
     },
-
     text: {
         fontFamily: "Roboto-Medium",
         fontSize: 15,

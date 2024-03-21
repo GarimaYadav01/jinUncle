@@ -7,6 +7,11 @@ const { height, width } = Dimensions.get("screen")
 const PaymentModal = ({ isVisible, onClose }) => {
     const navigation = useNavigation();
 
+    const handleViewCard = () => {
+        onClose();
+        navigation.navigate("Summary");
+    };
+
     return (
         <Modal
             isVisible={isVisible}
@@ -22,7 +27,7 @@ const PaymentModal = ({ isVisible, onClose }) => {
             <View style={styles.modalContent}>
                 <View style={styles.paymentcard}>
                     <Text style={styles.text}>₹549</Text>
-                    <TouchableOpacity style={styles.smallbutton} onPress={() => navigation.navigate("Summary")}>
+                    <TouchableOpacity style={styles.smallbutton} onPress={handleViewCard}>
                         <Text style={styles.textbut}>View card</Text>
                     </TouchableOpacity>
                 </View>

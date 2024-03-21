@@ -33,7 +33,7 @@ const location2 = () => {
     //             } else {
     //                 throw new Error('Network response was not ok');
     //             }
-    //         }).then((json) => {
+    //         }).then((json) => { 
     //             console.log("jdkfdlk---->", json);
     //             // if (json.status == 200) {
     //             //     setIsLoading(false);

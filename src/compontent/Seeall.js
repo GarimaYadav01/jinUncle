@@ -14,6 +14,7 @@ const Seeall = ({ isVisible, onClose, categories }) => {
         }
     }, [isVisible]);
     const handleMenuItemPress = (screen) => {
+        onClose();
         navigation.navigate(screen);
         console.log("Pressed item with screen:", screen);
     };
