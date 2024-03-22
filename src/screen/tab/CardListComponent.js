@@ -1,15 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, View, Text, Image, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import { FlatList, View, Text, Image, StyleSheet, Dimensions, TouchableOpacity, Animated } from 'react-native';
 import ModalCompontent from '../../compontent/ModalCompontent';
 import PaymentModal from '../../compontent/PaymentModal';
-
+import { useNavigation } from '@react-navigation/native';
 const { height, width } = Dimensions.get("screen")
-
-const CardListComponent = ({ navigation }) => {
+const CardListComponent = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [quantityStates, setQuantityStates] = useState({});
     const [payment, setPayment] = useState({});
-
     useEffect(() => {
         // Initialize quantity states for each item
         const initialQuantityStates = {};
@@ -43,7 +41,6 @@ const CardListComponent = ({ navigation }) => {
         }));
     };
     const toggleVector = (id) => {
-
         setQuantityStates(prevStates => ({
             ...prevStates,
             [id]: {
@@ -59,7 +56,6 @@ const CardListComponent = ({ navigation }) => {
     }
 
     const handlerender = ({ item }) => (
-
         <View style={styles.card}>
             <View>
                 <Image source={item.images} style={styles.image} />
@@ -80,7 +76,6 @@ const CardListComponent = ({ navigation }) => {
                         </View>
                     )}
                 </View>
-
             </View>
 
             <View style={styles.content}>
@@ -96,14 +91,9 @@ const CardListComponent = ({ navigation }) => {
                 <TouchableOpacity onPress={() => handleCardPress(item)}>
                     <Text style={{ color: "#004E8C", marginTop: 10, fontWeight: "800", fontSize: 14 }}>{item.view}</Text>
                 </TouchableOpacity>
-
             </View>
-
-
         </View>
-
     );
-
 
     const datacard = [
         {
@@ -115,8 +105,6 @@ const CardListComponent = ({ navigation }) => {
             label: "Deep cleaning of indoor & outdoor unit with Advanced foam & Power-jet Technology",
             images: require("../../assets/banner/img3.png"),
             view: "View details"
-
-
         },
         {
             id: "2",
@@ -148,12 +136,22 @@ const CardListComponent = ({ navigation }) => {
             images: require("../../assets/banner/img-1.png"),
             view: "View details"
         }
-
     ]
-
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
     const [isvissbleModal, setIsVisibleModal] = useState(false);
+    const navigation = useNavigation();
+    const [isOpen, setIsOpen] = useState(false);
+    const togglePopup = () => {
+        setIsOpen(!isOpen);
+    };
+    const translateY = new Animated.Value(height);
+    const animatePopup = () => {
+        Animated.spring(translateY, {
+            toValue: isOpen ? height : height - 200,
+            useNativeDriver: true,
+        }).start();
+    };
 
     const handleCardPress = (item) => {
         setSelectedItem(item);
@@ -164,6 +162,11 @@ const CardListComponent = ({ navigation }) => {
         setModalVisible(false);
     };
 
+
+    const handleViewCard = () => {
+        // onClose();
+        navigation.navigate("Summary");
+    };
     return (
         <View>
             <FlatList
@@ -175,16 +178,28 @@ const CardListComponent = ({ navigation }) => {
             />
 
             <ModalCompontent visible={modalVisible} onClose={closeModal} item={selectedItem} />
-            <PaymentModal isVisible={isvissbleModal} onClose={closeModal2} />
-            {/* 
-            <View style={styles.paymentcard}>
-                <Text style={styles.text}>₹549</Text>
-                <TouchableOpacity style={styles.smallbutton}>
-                    <Text style={styles.textbut}>View card</Text>
-                </TouchableOpacity>
-            </View> */}
-
-
+            <View
+            // style={styles.container}
+            >
+                <Animated.View
+                    style={[
+                        styles.popup,
+                        {
+                            transform: [{ translateY }],
+                        },
+                    ]}
+                    onLayout={animatePopup}
+                >
+                    <View style={styles.modalContent2}>
+                        <View style={styles.paymentcard}>
+                            <Text style={styles.text}>₹549</Text>
+                            <TouchableOpacity style={styles.smallbutton} onPress={handleViewCard}>
+                                <Text style={styles.textbut}>View card</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </Animated.View>
+            </View>
         </View>
 
     );
@@ -242,8 +257,8 @@ const styles = StyleSheet.create({
         // backgroundColor:"red"
     },
     smallbutton: {
-        height: height * 0.03,
-        width: width * 0.2,
+        height: height * 0.04,
+        width: width * 0.22,
         borderRadius: 5,
         borderWidth: 1,
         justifyContent: "center",
@@ -263,12 +278,13 @@ const styles = StyleSheet.create({
         backgroundColor: "#004E8C",
         borderColor: "#004E8C",
         marginTop: height * 0.01,
-        height: height * 0.03,
-        width: width * 0.2,
+        height: height * 0.04,
+        width: width * 0.22,
         borderRadius: 5,
         borderWidth: 1,
         alignContent: "center",
-        columnGap: 20
+        columnGap: 20,
+        alignItems: "center"
     },
     paymentcard: {
         width: width,

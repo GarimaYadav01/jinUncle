@@ -194,7 +194,6 @@ const HomeScreen = (props) => {
                 <Image source={item.image} style={{ width: 150, height: 150, borderRadius: 10 }} resizeMode="contain" />
                 <Text style={styles.name}>{item.name}</Text>
             </TouchableOpacity>
-
         </View>
     );
 
@@ -204,12 +203,11 @@ const HomeScreen = (props) => {
                 <Image source={item.image} style={{ width: 150, height: 150, borderRadius: 10 }} resizeMode="contain" />
                 <Text style={styles.name}>{item.name}</Text>
             </TouchableOpacity>
-
         </View>
     );
     const renderItemfridage = ({ item }) => (
         <View style={{ marginBottom: 20, marginTop: 10 }}>
-            <TouchableOpacity style={styles.btn} >
+            <TouchableOpacity style={styles.btn}>
                 <Image source={item.image} style={{ width: 150, height: 150, borderRadius: 10 }} resizeMode="contain" />
                 <Text style={styles.name}>{item.name}</Text>
             </TouchableOpacity>
@@ -407,7 +405,6 @@ const HomeScreen = (props) => {
                     <View style={styles.container1}>
                         <Image source={images[currentIndex]} style={styles.image} />
                     </View>
-
                     <View style={{ marginTop: 10, backgroundColor: "white", borderWidth: 1, borderColor: "#FFF", padding: 5, borderRadius: 10 }}>
 
                         <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
@@ -418,9 +415,6 @@ const HomeScreen = (props) => {
                                 <Text style={[styles.text, { color: "#004E8C", fontSize: 17 }]}>See all</Text>
                             </TouchableOpacity>
                         </View>
-
-
-
                         <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
                             <FlatList
                                 ref={flatListRef}
@@ -439,35 +433,26 @@ const HomeScreen = (props) => {
                             />
                         </View>
                     </View>
-
                 </View>
-
             </ScrollView>
             <Seeall isVisible={modalVisible} onClose={closeModal} categories={categories} />
-
         </SafeAreaView>
-
     )
 }
 export default HomeScreen;
-
 const styles = StyleSheet.create({
     text: {
         fontSize: 22,
         color: "#000",
         fontWeight: "bold",
         fontFamily: "Roboto-BoldItalic"
-
-        // textAlign: "center"
     },
     con: {
         marginTop: 10,
         marginHorizontal: 20
-
     },
     container: {
         flexGrow: 1,
-        // paddingBottom: 50
     },
     img: {
         height: 150,

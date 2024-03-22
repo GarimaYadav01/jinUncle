@@ -55,6 +55,7 @@ import ContiuneShopping from '../screen/home/ContiuneShopping';
 import AddressEdit from '../screen/tab/AddressEdit';
 import Location2 from '../screen/location/Location2';
 import Paypal from '../screen/payments/Paypal';
+import BottomPopup from '../compontent/BottomPopup';
 const Stack = createNativeStackNavigator();
 const Navigation = () => {
     return (
@@ -112,7 +113,7 @@ const Navigation = () => {
                 <Stack.Screen name="Summary" component={Summary} />
                 <Stack.Screen name="Subcategory" component={Subcategory} />
                 <Stack.Screen name="PaymentScreen" component={PaymentScreen} />
-
+                <Stack.Screen name="BottomPopup" component={BottomPopup} />
                 <Stack.Screen name="ContiuneShopping" component={ContiuneShopping} />
                 <Stack.Screen name="AddressEdit" component={AddressEdit} />
             </Stack.Navigator>

@@ -12,7 +12,6 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
     const navigation = useNavigation();
     const [selectedDay, setSelectedDay] = useState(null);
     const [selectedItem, setSelectedItem] = useState(null);
-
     const weekdays = [
         { id: '1', name: 'Mon' },
         { id: '2', name: 'Tue' },
@@ -22,7 +21,6 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
         { id: '6', name: 'Sat' },
         { id: '7', name: 'Sun' },
     ];
-
     const times = [
         { id: '1', time: '06:30 PM' },
         { id: '2', time: '07:00 PM' },
@@ -32,13 +30,10 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
         { id: '6', time: '07:30 PM' },
         // Add more times as needed
     ];
-
-
     const handleViewCard = () => {
         onClose();
         navigation.navigate("Paypal");
     };
-
     const handleItemSelect = (itemId) => {
         setSelectedItem(itemId);
     };
@@ -47,7 +42,6 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
         setModalVisible(false);
         navigation.navigate("LoginScreen")
     };
-
     // Function to handle item selection
     const handleDaySelect = (dayId) => {
         setSelectedDay(dayId);
@@ -83,10 +77,6 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
             ]}>{item.time}</Text>
         </TouchableOpacity>
     );
-
-
-
-
 
     const handlePayment = async () => {
         try {

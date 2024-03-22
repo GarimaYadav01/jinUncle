@@ -2,37 +2,41 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import Modal from 'react-native-modal';
 import { useNavigation } from '@react-navigation/native';
-const { height, width } = Dimensions.get("screen")
-
+const { height, width } = Dimensions.get("screen");
 const PaymentModal = ({ isVisible, onClose }) => {
     const navigation = useNavigation();
-
     const handleViewCard = () => {
         onClose();
         navigation.navigate("Summary");
     };
 
     return (
-        <Modal
-            isVisible={isVisible}
-            style={styles.modal}
-            swipeDirection={['down']}
-            onSwipeComplete={onClose}
-            onBackdropPress={onClose}
-            onBackButtonPress={onClose}
-            animationIn="slideInUp"
-            animationOut="slideOutDown"
-            backdropOpacity={0.5}
-        >
-            <View style={styles.modalContent}>
-                <View style={styles.paymentcard}>
-                    <Text style={styles.text}>₹549</Text>
-                    <TouchableOpacity style={styles.smallbutton} onPress={handleViewCard}>
-                        <Text style={styles.textbut}>View card</Text>
-                    </TouchableOpacity>
+        <View >
+            <Modal
+                isVisible={isVisible}
+                style={styles.modal}
+                swipeDirection={['down']}
+                // onSwipeComplete={onClose}
+                // onBackdropPress={onClose}
+                // onBackButtonPress={onClose}
+                animationIn="slideInUp"
+                animationOut="slideOutDown"
+                backdropOpacity={0.5}
+                backdropColor='transparent'
+                backdropTransitionInTiming={0}
+                backdropTransitionOutTiming={0}
+
+            >
+                <View style={styles.modalContent}>
+                    <View style={styles.paymentcard}>
+                        <Text style={styles.text}>₹549</Text>
+                        <TouchableOpacity style={styles.smallbutton} onPress={handleViewCard}>
+                            <Text style={styles.textbut}>View card</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-            </View>
-        </Modal>
+            </Modal>
+        </View>
     );
 };
 

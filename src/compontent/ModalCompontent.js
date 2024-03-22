@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { View, Modal, Text, TouchableOpacity, StyleSheet, Image, Dimension, Dimensions, ScrollView, FlatList, } from 'react-native';
+import { View, Modal, Text, TouchableOpacity, StyleSheet, Image, Dimension, Dimensions, ScrollView, FlatList, Animated } from 'react-native';
 import { ICONS } from '../assets/themes';
 import { useNavigation } from '@react-navigation/native';
 import { showMessage } from 'react-native-flash-message';
 import PaymentModal from './PaymentModal';
+import BottomPopup from './BottomPopup';
 const { height, width } = Dimensions.get("screen")
 const ModalCompontent = ({ visible, onClose, item }) => {
     const navigation = useNavigation();
@@ -11,12 +12,28 @@ const ModalCompontent = ({ visible, onClose, item }) => {
     const [quantityStates, setQuantityStates] = useState({});
     const [quantityselectStates, setQuantityselectStates] = useState({});
     const [isvissbleModal, setIsVisibleModal] = useState(false);
+    const handleViewCard = () => {
+        onClose();
+        navigation.navigate("Summary");
+    };
+
+    const [isOpen, setIsOpen] = useState(false);
+    const togglePopup = () => {
+        setIsOpen(!isOpen);
+    };
+    const translateY = new Animated.Value(height);
+    const animatePopup = () => {
+        Animated.spring(translateY, {
+            toValue: isOpen ? height : height - 200,
+            useNativeDriver: true,
+        }).start();
+    };
     const openModal = () => {
         // onClose();
         setIsVisibleModal(true);
     }
     const closeModal = () => {
-        onClose();
+        // onClose();
         setIsVisibleModal(false);
     }
     useEffect(() => {
@@ -31,7 +48,7 @@ const ModalCompontent = ({ visible, onClose, item }) => {
         setQuantityStates(initialQuantityStates);
     }, []);
     const handleIncrease = (id) => {
-        setIsVisibleModal(true);
+        // setIsVisibleModal(true);
         setQuantityStates(prevStates => ({
             ...prevStates,
             [id]: {
@@ -42,7 +59,7 @@ const ModalCompontent = ({ visible, onClose, item }) => {
     };
 
     const handleDecrease = (id) => {
-        setIsVisibleModal(true);
+        // setIsVisibleModal(true);
         setQuantityStates(prevStates => ({
             ...prevStates,
             [id]: {
@@ -56,7 +73,7 @@ const ModalCompontent = ({ visible, onClose, item }) => {
         setShowQuantityView(true);
     };
     const toggleVector = (id) => {
-        setIsVisibleModal(true);
+        togglePopup();
         setQuantityStates(prevStates => ({
             ...prevStates,
             [id]: {
@@ -116,9 +133,8 @@ const ModalCompontent = ({ visible, onClose, item }) => {
         });
         setQuantityselectStates(initialQuantityselectStates);
     }, []);
-
     const handleIncreaseselect = (id) => {
-        setIsVisibleModal(true);
+        // setIsVisibleModal(true);
         setQuantityselectStates(prevStates => ({
             ...prevStates,
             [id]: {
@@ -128,7 +144,7 @@ const ModalCompontent = ({ visible, onClose, item }) => {
         }));
     };
     const handleDecreaseselect = (id) => {
-        setIsVisibleModal(true);
+        // setIsVisibleModal(true);
         setQuantityselectStates(prevStates => ({
             ...prevStates,
             [id]: {
@@ -138,7 +154,8 @@ const ModalCompontent = ({ visible, onClose, item }) => {
         }));
     };
     const toggleVectorselect = (id) => {
-        setIsVisibleModal(true);
+        // setIsVisibleModal(true);
+        togglePopup();
         setQuantityselectStates(prevStates => ({
             ...prevStates,
             [id]: {
@@ -279,7 +296,6 @@ const ModalCompontent = ({ visible, onClose, item }) => {
                         </View>
                     )}
                 </View>
-
             </View>
         </View>
     );
@@ -293,12 +309,10 @@ const ModalCompontent = ({ visible, onClose, item }) => {
                     <Text style={styles.likes}>{item.likes}</Text>
                 </View> */}
                 <Text style={{ color: "black" }}>₹258</Text>
-
                 <TouchableOpacity style={styles.smallbutton} onPress={openModal}>
                     <Text style={styles.textbut}>Add</Text>
                 </TouchableOpacity>
             </TouchableOpacity>
-
         </View>
     );
     return (
@@ -311,9 +325,6 @@ const ModalCompontent = ({ visible, onClose, item }) => {
                 </View>
                 <View style={styles.modalContent}>
                     <ScrollView showsVerticalScrollIndicator={false} style={{ flexGrow: 1, paddingBottom: 150, }}>
-
-                        <View>
-                        </View>
                         <View style={{ flexDirection: "row" }}>
                             <Image source={images[currentIndex]} style={{ borderRadius: 10, width: width * 0.9 }} />
                         </View>
@@ -364,7 +375,6 @@ const ModalCompontent = ({ visible, onClose, item }) => {
                                 showsHorizontalScrollIndicator={false}
                             />
                         </View>
-
                         <View style={{ flexDirection: "row", alignItems: "center", columnGap: 10 }}>
                             <Image source={require("../assets/Icon/check.png")} resizeMode="contain" style={{ width: 20, height: 20 }} />
                             <Text style={{ color: "#004E8C", fontSize: 22, fontWeight: "bold" }}>JU Cover</Text>
@@ -377,7 +387,6 @@ const ModalCompontent = ({ visible, onClose, item }) => {
                                 }} />
                                 <Text style={[styles.text1, { fontWeight: "bold" }]}>JU warranty</Text>
                             </View>
-
                             <View style={styles.warrantybutton}>
                                 <Image source={require("../assets/bottomnavigatiomnimage/refund.png")} style={{
                                     width: 60,
@@ -393,39 +402,31 @@ const ModalCompontent = ({ visible, onClose, item }) => {
                                 <Text style={[styles.text1, { fontWeight: "bold" }]}>UC verified quotes</Text>
                             </View>
                         </View>
-                        {/* 
-                        <TouchableOpacity style={styles.btnlearn}>
-                            <Text style={{ color: "gray", fontStyle: "normal", fontSize: 16 }}>Learn about claims process</Text>
-                            <Image source={ICONS.arrow} style={{ width: 40, height: 40 }} />
-                        </TouchableOpacity> */}
-
-
-                        {/* <Text style={styles.text}>
-                            How it works
-                        </Text>
-                        <View style={styles.container3}>
-                            <FlatList
-                                data={data}
-                                renderItem={({ item, index }) => (
-                                    <View style={styles.stepContainer}>
-                                        <View style={styles.progressContainer}>
-                                            {index > 0 && <View style={styles.progressLine} />}
-                                        </View>
-                                        <View style={styles.stepContent}>
-                                            <Text style={styles.title}>{item.title}</Text>
-                                            <Text style={styles.description}>{item.description}</Text>
-                                            <Image source={item.image} style={styles.image} />
-                                        </View>
-                                    </View>
-                                )}
-                                keyExtractor={(item, index) => index.toString()}
-                            />
-                        </View> */}
-
                     </ScrollView>
                 </View>
-
-                <PaymentModal isVisible={isvissbleModal} onClose={closeModal} />
+                {/* <PaymentModal isVisible={isvissbleModal} onClose={closeModal} /> */}
+            </View>
+            <View
+            // style={styles.container}
+            >
+                <Animated.View
+                    style={[
+                        styles.popup,
+                        {
+                            transform: [{ translateY }],
+                        },
+                    ]}
+                    onLayout={animatePopup}
+                >
+                    <View style={styles.modalContent2}>
+                        <View style={styles.paymentcard}>
+                            <Text style={styles.text}>₹549</Text>
+                            <TouchableOpacity style={styles.smallbutton} onPress={handleViewCard}>
+                                <Text style={styles.textbut}>View card</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </Animated.View>
             </View>
 
         </Modal>
@@ -564,12 +565,13 @@ const styles = StyleSheet.create({
         backgroundColor: "#004E8C",
         borderColor: "#004E8C",
         marginTop: height * 0.01,
-        height: height * 0.03,
+        height: height * 0.035,
         width: width * 0.25,
         borderRadius: 5,
         borderWidth: 1,
         alignContent: "center",
-        columnGap: 20
+        columnGap: 20,
+        alignItems: "center"
     },
     warrantybutton: {
         padding: 10,
@@ -649,6 +651,57 @@ const styles = StyleSheet.create({
         backgroundColor: "#FFFF",
         padding: 15,
         alignContent: "center"
+    },
+    button: {
+        backgroundColor: 'blue',
+        padding: 10,
+        borderRadius: 5,
+    },
+    buttonText: {
+        color: 'white',
+        fontWeight: 'bold',
+    },
+    popup: {
+        position: 'absolute',
+        bottom: 0,
+        width: '100%',
+        backgroundColor: 'white',
+        padding: 20,
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+    },
+    modalContent: {
+        backgroundColor: 'white',
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
+        padding: 20,
+        paddingTop: 10,
+    },
+    paymentcard: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingHorizontal: 15
+    },
+    text: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        color: "black"
+    },
+    smallbutton: {
+        height: height * 0.04,
+        width: width * 0.27,
+        borderRadius: 5,
+        borderWidth: 1,
+        justifyContent: "center",
+        alignContent: "center",
+        backgroundColor: "#004E8C",
+        borderColor: "#004E8C",
+        marginTop: height * 0.01
+    },
+    textbut: {
+        textAlign: "center",
+        color: "white"
     },
 });
 
