@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Dimensions, FlatList, Image, ImageBackground, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import TextinputComponent from "../../compontent/TextinputComponent";
 import { useNavigation } from "@react-navigation/native";
@@ -6,9 +6,24 @@ import Applyproma from "../../compontent/Applyproma";
 import ApplyModal from "../../compontent/ApplyModal";
 import Seeall from "../../compontent/Seeall";
 import Swiper from 'react-native-swiper'
+import AuthContext from "../context/AuthContext";
 const { width, height } = Dimensions.get("screen")
 const HomeScreen = (props) => {
     const navigation = useNavigation();
+    const { handlegetcategory, handleGetlocation, location } = useContext(AuthContext);
+    console.log("location------>", location)
+
+    useEffect(() => {
+        handlegetcategory();
+
+    }, [props.navigate])
+
+    useEffect(() => {
+        handleGetlocation();
+
+    }, [props.navigate])
+    // console.log("handlegetcategory------>", handlegetcategory)
+
     const [index, setIndex] = useState(0);
     const flatListRef = useRef(null);
     const [expanded, setExpanded] = useState(false);
@@ -162,13 +177,10 @@ const HomeScreen = (props) => {
 
     useEffect(() => {
         const interval = setInterval(() => {
-            // Calculate the next index to scroll to
             const nextIndex = (index + 1) % Allmix.length;
-            // Scroll to the next index
             flatListRef.current.scrollToIndex({ animated: true, index: nextIndex });
-            // Update the index state
             setIndex(nextIndex);
-        }, 3000); // Adjust the interval duration as needed
+        }, 3000);
 
         return () => clearInterval(interval);
     }, [index]); // Re-run effect when index changes
@@ -233,7 +245,6 @@ const HomeScreen = (props) => {
     const openModal = () => {
         setModalVisible(true);
     };
-
     const closeModal = () => {
         setModalVisible(false);
     };
@@ -287,7 +298,6 @@ const HomeScreen = (props) => {
             name: "Window AC",
             screen: "Subcategory"
         },
-
     ];
     return (
         <SafeAreaView style={{ flex: 1, paddingBottom: 20, backgroundColor: "#FFF" }}>
@@ -296,7 +306,7 @@ const HomeScreen = (props) => {
                     {/* <Image source={require("../../assets/Newicon/location.png")} style={styles.images} /> */}
                     <Image source={require("../../assets/logo/jinnlogo.png")} style={styles.images} />
                     <TouchableOpacity>
-                        <Text style={styles.text}>Janakpuri District Center</Text>
+                        <Text style={styles.text}>{location}</Text>
                         <Text style={[styles.text, { fontSize: 14, color: "#c0c0c0", fontFamily: "Roboto-Regular", }]}>Janakpuri-Delhi- 110058-india</Text>
                     </TouchableOpacity>
                     <View>

@@ -51,7 +51,7 @@ const Otp = (props) => {
 
                     // Set the access token in AsyncStorage
                     await AsyncStorage.setItem('token', json.data.access_token);
-                    console.log("dffbdmf--->",json.data.access_token)
+                    console.log("dffbdmf--->", json.data.access_token)
 
                     showMessage({
                         message: json.message,
@@ -111,7 +111,7 @@ const Otp = (props) => {
         setIsTimerRunning(true);
         handleResendOTP();
         setIsResendVisible(false); // Hide resend button when timer starts
-        setTimer(180); // Reset timer to initial value
+        setTimer(180);
     };
 
     // Function to stop the timer
