@@ -10,19 +10,20 @@ import AuthContext from "../context/AuthContext";
 const { width, height } = Dimensions.get("screen")
 const HomeScreen = (props) => {
     const navigation = useNavigation();
-    const { handlegetcategory, handleGetlocation, location } = useContext(AuthContext);
-    console.log("location------>", location)
-
+    const { fetchData, handleGetlocation, location, iscategories, fetchDataCategory, categoryDetail, fetchSubCategories, issubCategories } = useContext(AuthContext);
+    // console.log("iscategories------>", issubCategories);
+    // console.log("iscategoriesdff------>", iscategories);
+    // console.log("categoryDetail------>", categoryDetail);
     useEffect(() => {
-        handlegetcategory();
-
-    }, [props.navigate])
-
-    useEffect(() => {
-        handleGetlocation();
-
-    }, [props.navigate])
-    // console.log("handlegetcategory------>", handlegetcategory)
+        const handleFocus = () => {
+            handleGetlocation();
+            fetchData();
+            fetchDataCategory();
+            fetchSubCategories();
+        };
+        const unsubscribeFocus = navigation.addListener('focus', handleFocus);
+        return unsubscribeFocus;
+    }, []);
 
     const [index, setIndex] = useState(0);
     const flatListRef = useRef(null);
@@ -51,7 +52,6 @@ const HomeScreen = (props) => {
             image: require("../../assets/banner/img2.png"),
             name: "Ac",
             screen: "Accategory"
-
         },
         {
             id: "2",
@@ -174,7 +174,6 @@ const HomeScreen = (props) => {
             starts: 549,
         }
     ]
-
     useEffect(() => {
         const interval = setInterval(() => {
             const nextIndex = (index + 1) % Allmix.length;
@@ -183,7 +182,7 @@ const HomeScreen = (props) => {
         }, 3000);
 
         return () => clearInterval(interval);
-    }, [index]); // Re-run effect when index changes
+    }, [index]);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -200,14 +199,30 @@ const HomeScreen = (props) => {
         return () => clearInterval(interval);
     }, []);
 
-    const renderItem = ({ item }) => (
-        <View style={{ marginBottom: 20, marginTop: 10 }}>
-            <TouchableOpacity style={styles.btn} onPress={() => handleMenuItemPress(item.screen)}>
-                <Image source={item.image} style={{ width: 150, height: 150, borderRadius: 10 }} resizeMode="contain" />
-                <Text style={styles.name}>{item.name}</Text>
-            </TouchableOpacity>
-        </View>
-    );
+    const renderItem = ({ item }) => {
+        let imageData;
+        try {
+            imageData = JSON.parse(item.image)[0];
+            console.log("Parsed image data:", imageData);
+        } catch (error) {
+            console.error("Error parsing image data:", error);
+            return null;
+        }
+
+        // Extract image path from the image data
+        const imagePath = imageData.image_path;
+
+
+
+        return (
+            <View style={{ marginBottom: 20, marginTop: 10 }}>
+                <TouchableOpacity style={styles.btn} onPress={() => handleMenuItemPress(item.screen)}>
+                    <Image source={{ uri: imagePath }} style={{ width: 150, height: 150, borderRadius: 10 }} resizeMode="contain" />
+                    <Text style={styles.name}>{item.name}</Text>
+                </TouchableOpacity>
+            </View>
+        );
+    };
 
     const renderItem2 = ({ item }) => (
         <View style={{ marginBottom: 20, marginTop: 10 }}>
@@ -217,6 +232,8 @@ const HomeScreen = (props) => {
             </TouchableOpacity>
         </View>
     );
+
+
     const renderItemfridage = ({ item }) => (
         <View style={{ marginBottom: 20, marginTop: 10 }}>
             <TouchableOpacity style={styles.btn}>
@@ -254,7 +271,6 @@ const HomeScreen = (props) => {
             image: require("../../assets/banner/img2.png"),
             name: "Ac Repair & Serivce",
             screen: "Subcategory"
-
         },
         {
             id: "2",
@@ -330,47 +346,31 @@ const HomeScreen = (props) => {
                         />
                     </View>
                 </View>
-
                 <View style={styles.container1}>
                     <Image source={gif[currentgifIndex]} style={styles.image} resizeMode="contain" />
                 </View>
-
-
-                {/* <View style={{ marginVertical: height * 0.02 }}>
-                    <Swiper style={styles.wrapper} showsButtons={false} dotStyle={styles.dotStyle} activeDotStyle={styles.activeDotStyle}>
-                        <View style={styles.slideContainer}>
-                            <ImageBackground source={require("../../assets/newbanners/fridgeBannner2.png")} style={{ borderRadius: 50, width: width * 0.9, height: height * 0.2 }} resizeMode="contain" ></ImageBackground>
-                        </View>
-                        <View style={styles.slideContainer}>
-                            <Image source={require("../../assets/banner/ACBAnner.png")} style={{ borderRadius: 20, width: width * 0.9, height: height * 0.2 }} resizeMode="contain" />
-                        </View>
-                        <View style={styles.slideContainer}>
-                            <Image source={require("../../assets/banner/ACBAnner1.png")} style={{ borderRadius: 20, width: width * 0.9, height: height * 0.2 }} resizeMode="contain" />
-                        </View>
-                        <View style={styles.slideContainer}>
-                            <Image source={require("../../assets/banner/ACBAnner.png")} style={{ borderRadius: 20, width: width * 0.9, height: height * 0.2 }} resizeMode="contain" />
-                        </View>
-                        <View style={styles.slideContainer}>
-                            <Image source={require("../../assets/banner/ACBAnner1.png")} style={{ borderRadius: 20, width: width * 0.9, height: height * 0.2 }} resizeMode="contain" />
-                        </View>
-                    </Swiper>
-                </View> */}
                 <View style={styles.con}>
                     <Text style={styles.text}>Category</Text>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                        <FlatList
-                            data={data}
-                            renderItem={renderItem}
-                            keyExtractor={item => item.id}
-                            horizontal
-                            showsHorizontalScrollIndicator={false}
-                        />
+                        {!iscategories.length && (
+                            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                                <Text>No data found</Text>
+                            </View>
+                        )}
+                        {iscategories.length > 0 && (
+                            <FlatList
+                                data={iscategories}
+                                renderItem={renderItem}
+                                keyExtractor={item => item.id}
+                                horizontal
+                                showsHorizontalScrollIndicator={false}
+                            />
+                        )}
                     </View>
                     <View>
                         <Text style={styles.text}>
                             AC Repair & service
                         </Text>
-
                         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                             <FlatList
                                 data={subcategory}
@@ -381,12 +381,10 @@ const HomeScreen = (props) => {
                             />
                         </View>
                     </View>
-
                     <View style={{ marginTop: 10 }}>
                         <Text style={styles.text}>
                             Refrigerator Repair & service
                         </Text>
-
                         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                             <FlatList
                                 data={subcategoryfridge}
@@ -401,7 +399,6 @@ const HomeScreen = (props) => {
                         <Text style={styles.text}>
                             WashingMachine Repair & service
                         </Text>
-
                         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                             <FlatList
                                 data={subcategorywashingmachine}

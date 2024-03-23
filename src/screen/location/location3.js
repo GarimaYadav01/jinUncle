@@ -1,12 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Dimensions, Image, ImageBackground, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View } from "react-native";
 import CustomButton from "../../compontent/Custombutton";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import AuthContext from "../context/AuthContext";
 const { width, height } = Dimensions.get("screen")
-const location2 = () => {
-    const {}
+const location3 = () => {
+    const { handleGetlocation, location, } = useContext(AuthContext);
+    console.log("location---->", location)
     const navigation = useNavigation();
+
+    useEffect(() => {
+        const handleFocus = () => {
+            handleGetlocation();
+        };
+        const unsubscribeFocus = navigation.addListener('focus', handleFocus);
+        return unsubscribeFocus;
+    }, []);
     useEffect(() => {
         const timeout = setTimeout(() => {
             navigation.replace('Bottomnavigation');
@@ -16,31 +26,6 @@ const location2 = () => {
     }, [navigation]);
 
 
-
-    useEffect(() => {
-        handleGetlocation();
-    }, [])
-
-    const handleGetlocation = async () => {
-        // const myHeaders = new Headers();
-        // myHeaders.append("token", "WlhsS01XTXlWbmxZTW14clNXcHZhVTFVVVdsTVEwcDNXVmhPZW1ReU9YbGFRMGsyU1d0R2EySlhiSFZKVTFFd1RrUlJlVTVFUlhsT1EwWkJTMmxaYkVscGQybGhSemt4WTI1TmFVOXFVVFJNUTBwcldWaFNiRmd6VW5CaVYxVnBUMmxKZVUxRVNUQk1WRUY2VEZSRk1rbEVSWGxQYWswMFQycEZOVWxwZDJsamJUbHpXbE5KTmtscVNXbE1RMHByV2xoYWNGa3lWbVpoVjFGcFQyMDFNV0pIZURrPQ==");
-
-
-        const requestOptions = {
-            method: "POST",
-            headers: myHeaders,
-            redirect: "follow"
-        };
-
-        fetch("https://aduetechnologies.com/jinuncle/api/user/get_current_location", requestOptions)
-            .then((response) => response.text())
-            .then((result) => console.log(result))
-            .catch((error) => console.error(error));
-
-    }
-
-
-
     return (
         <SafeAreaView style={{ backgroundColor: "#FFF", flex: 1 }}>
             <StatusBar backgroundColor="transparent" translucent={true} />
@@ -48,18 +33,16 @@ const location2 = () => {
                 <View style={{ alignSelf: "center", justifyContent: "center", marginTop: height * 0.3 }}>
                     <Image source={require("../../assets/Newicon/location.png")} style={styles.images} />
                     {/* <Image source={require("../../assets/logo/jinnlogo.png")} style={styles.images} /> */}
-
                     <Text style={styles.text}>
-                        Kirti Shikhar Tower, 1020, 10th floor, Janakpuri District Center, Janakpuri, New Delhi, Delhi 110059
+                        {/* Kirti Shikhar Tower, 1020, 10th floor, Janakpuri District Center, Janakpuri, New Delhi, Delhi 110059 */}
+                        {location}
                     </Text>
                 </View>
-
             </ScrollView>
         </SafeAreaView>
-
     )
 }
-export default location2;
+export default location3;
 
 const styles = StyleSheet.create({
     container: {
