@@ -10,6 +10,7 @@ const { height, width } = Dimensions.get("screen")
 const Ac = (props) => {
     const navigation = useNavigation();
 
+    // const  {}
     // const coupon = [
     //     {
     //         id: "1",

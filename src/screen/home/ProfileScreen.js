@@ -113,10 +113,8 @@ const ProfileScreen = () => {
     //     navigation.navigate("LoginScreen")
     // };
 
-
-
     return (
-        <SafeAreaView style={{ flex: 1, }} >
+        <SafeAreaView style={{ flex: 1, backgroundColor: "#FFF", paddingBottom: 20 }} >
             <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
                 <View style={styles.con}>
                     <View style={{
@@ -149,6 +147,21 @@ const ProfileScreen = () => {
                     <Text style={styles.label}>Logout</Text>
 
                 </TouchableOpacity>
+
+                <View style={styles.btn}>
+                    <View style={{ flexDirection: "row", justifyContent: "space-between", }}>
+                        <View>
+                            <Text style={styles.text2}>Refer & earn  ₹100</Text>
+                            <Text style={styles.text1}>Get ₹100 when your friend completes their first booking</Text>
+                        </View>
+                        <View>
+                            <Image source={require("../../assets/gif/giftbox.png")} resizeMode="contain" style={{ width: 70, height: 70 }} />
+                        </View>
+                    </View>
+                    <TouchableOpacity style={styles.btnsmal} onPress={() => navigation.navigate("Refer")}>
+                        <Text style={styles.refer}>Refer now</Text>
+                    </TouchableOpacity>
+                </View>
             </ScrollView>
             <LogoutModal
                 visible={modalVisible}
@@ -184,7 +197,7 @@ const styles = StyleSheet.create({
     },
     container: {
         flexGrow: 1,
-        // paddingBottom: 50
+        paddingBottom: 100
     },
     img: {
         height: 150,
@@ -217,4 +230,44 @@ const styles = StyleSheet.create({
     //     alignItems: 'center',
     //     justifyContent: 'center',
     //   },
+    text1: {
+        color: "black",
+        fontSize: 15,
+        width: width * 0.4
+    },
+    text2: {
+        color: "black",
+        fontSize: 17,
+        // width: width * 0.4,
+        fontWeight: "bold"
+    },
+    btn: {
+        // flexDirection: "row",
+        backgroundColor: "#e6e6fa",
+        borderWidth: 1,
+        width: width * 0.9,
+        padding: 10,
+        borderColor: "#e6e6fa",
+        borderRadius: 10,
+        // justifyContent: "space-between",
+        alignSelf: "center",
+        marginTop: height * 0.02,
+        paddingHorizontal: 25
+    },
+    btnsmal: {
+        width: width * 0.3,
+        borderWidth: 1,
+        justifyContent: "center",
+        backgroundColor: "#004E8C",
+        borderColor: "#004E8C",
+        borderRadius: 5,
+        padding: 5,
+        marginTop: 10
+    },
+
+    refer: {
+        color: "white",
+        fontSize: 15,
+        textAlign: "center"
+    }
 });

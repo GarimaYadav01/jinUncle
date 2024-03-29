@@ -35,7 +35,7 @@ const LoginScreen = (props) => {
         body: formdata,
         redirect: "follow"
       };
-      const response = await fetch("https://aduetechnologies.com/jinuncle/api/auth/login", requestOptions);
+      const response = await fetch(Loginapi, requestOptions);
       const result = await response.text();
       console.log("result------>", result);
       if (response.status == 200) {

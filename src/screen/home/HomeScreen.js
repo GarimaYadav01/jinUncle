@@ -7,28 +7,28 @@ import ApplyModal from "../../compontent/ApplyModal";
 import Seeall from "../../compontent/Seeall";
 import Swiper from 'react-native-swiper'
 import AuthContext from "../context/AuthContext";
+import LoaderScreen from "../../compontent/LoaderScreen";
 const { width, height } = Dimensions.get("screen")
 const HomeScreen = (props) => {
     const navigation = useNavigation();
-    const { fetchData, handleGetlocation, location, iscategories, fetchDataCategory, categoryDetail, fetchSubCategories, issubCategories } = useContext(AuthContext);
+    const { fetchData, handleGetlocation, location, iscategories, fetchDataCategory, categoryDetail, fetchSubCategories, issubCategories, isLoading, getProfile } = useContext(AuthContext);
     // console.log("iscategories------>", issubCategories);
     // console.log("iscategoriesdff------>", iscategories);
-    // console.log("categoryDetail------>", categoryDetail);
+    // console.log("categoryDetail------>", getProfile);
     useEffect(() => {
         const handleFocus = () => {
             handleGetlocation();
             fetchData();
             fetchDataCategory();
             fetchSubCategories();
+            getProfile();
         };
         const unsubscribeFocus = navigation.addListener('focus', handleFocus);
         return unsubscribeFocus;
     }, []);
-
     const [index, setIndex] = useState(0);
     const flatListRef = useRef(null);
     const [expanded, setExpanded] = useState(false);
-
     const toggleExpand = () => {
         setExpanded(!expanded);
     };
@@ -66,11 +66,10 @@ const HomeScreen = (props) => {
             screen: "Washingmachinecategory"
         }
     ]
-    const handleMenuItemPress = (screen) => {
-        // Navigate to the specified screen
-        navigation.navigate(screen);
+    const handleMenuItemPress = (screen, id, name) => {
+        // Navigate to the desired screen using navigation.navigate()
+        navigation.navigate(screen, { itemId: id, itemName: name });
     };
-
     const subcategory = [
         {
             id: "1",
@@ -88,7 +87,6 @@ const HomeScreen = (props) => {
             name: "service"
         }
     ]
-
     const subcategoryfridge = [
         {
             id: "1",
@@ -123,7 +121,6 @@ const HomeScreen = (props) => {
             name: "Side by Side"
         }
     ]
-
     const Allmix = [
         {
             id: "1",
@@ -203,20 +200,18 @@ const HomeScreen = (props) => {
         let imageData;
         try {
             imageData = JSON.parse(item.image)[0];
-            console.log("Parsed image data:", imageData);
+            // console.log("Parsed image data:", imageData);
         } catch (error) {
-            console.error("Error parsing image data:", error);
+            // console.error("Error parsing image data:", error);
             return null;
         }
 
         // Extract image path from the image data
         const imagePath = imageData.image_path;
 
-
-
         return (
             <View style={{ marginBottom: 20, marginTop: 10 }}>
-                <TouchableOpacity style={styles.btn} onPress={() => handleMenuItemPress(item.screen)}>
+                <TouchableOpacity style={styles.btn} onPress={() => handleMenuItemPress(item.screen, item.id, item.name)}>
                     <Image source={{ uri: imagePath }} style={{ width: 150, height: 150, borderRadius: 10 }} resizeMode="contain" />
                     <Text style={styles.name}>{item.name}</Text>
                 </TouchableOpacity>
@@ -224,25 +219,48 @@ const HomeScreen = (props) => {
         );
     };
 
-    const renderItem2 = ({ item }) => (
-        <View style={{ marginBottom: 20, marginTop: 10 }}>
-            <TouchableOpacity style={styles.btn} >
-                <Image source={item.image} style={{ width: 150, height: 150, borderRadius: 10 }} resizeMode="contain" />
-                <Text style={styles.name}>{item.name}</Text>
-            </TouchableOpacity>
-        </View>
-    );
+    const renderItem2 = ({ item }) => {
+        let imageData;
+        try {
+            imageData = JSON.parse(item.image)[0];
+            // console.log("Parsed image data:", imageData);
+        } catch (error) {
+            // console.error("Error parsing image data:", error);
+            return null;
+        }
 
+        // Extract image path from the image data
+        const imagePath = imageData.image_path;
+        return (
+            <View style={{ marginBottom: 20, marginTop: 10 }}>
+                <TouchableOpacity style={styles.btn} >
+                    <Image source={{ uri: imagePath }} style={{ width: 150, height: 150, borderRadius: 10 }} resizeMode="contain" />
+                    <Text style={styles.name}>{item.name}</Text>
+                </TouchableOpacity>
+            </View>
+        );
+    };
 
-    const renderItemfridage = ({ item }) => (
-        <View style={{ marginBottom: 20, marginTop: 10 }}>
-            <TouchableOpacity style={styles.btn}>
-                <Image source={item.image} style={{ width: 150, height: 150, borderRadius: 10 }} resizeMode="contain" />
-                <Text style={styles.name}>{item.name}</Text>
-            </TouchableOpacity>
-
-        </View>
-    );
+    const renderItemfridage = ({ item }) => {
+        let imageData;
+        try {
+            imageData = JSON.parse(item.image)[0];
+            // console.log("Parsed image data:", imageData);
+        } catch (error) {
+            // console.error("Error parsing image data:", error);
+            return null;
+        }
+        // Extract image path from the image data
+        const imagePath = imageData.image_path;
+        return (
+            <View style={{ marginBottom: 20, marginTop: 10 }}>
+                <TouchableOpacity style={styles.btn}>
+                    <Image source={{ uri: imagePath }} style={{ width: 150, height: 150, borderRadius: 10 }} resizeMode="contain" />
+                    <Text style={styles.name}>{item.name}</Text>
+                </TouchableOpacity>
+            </View>
+        );
+    };
 
     const renderItemallmix = ({ item }) => (
         <View style={{ marginBottom: 20, marginTop: 10 }}>
@@ -331,7 +349,6 @@ const HomeScreen = (props) => {
                         </TouchableOpacity>
                     </View>
                 </View>
-
                 <View style={styles.container}>
                     <View style={styles.searchContainer}>
                         <Image
@@ -373,7 +390,7 @@ const HomeScreen = (props) => {
                         </Text>
                         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                             <FlatList
-                                data={subcategory}
+                                data={issubCategories}
                                 renderItem={renderItem2}
                                 keyExtractor={item => item.id}
                                 horizontal
@@ -387,7 +404,7 @@ const HomeScreen = (props) => {
                         </Text>
                         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                             <FlatList
-                                data={subcategoryfridge}
+                                data={issubCategories}
                                 renderItem={renderItemfridage}
                                 keyExtractor={item => item.id}
                                 horizontal
@@ -401,7 +418,7 @@ const HomeScreen = (props) => {
                         </Text>
                         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                             <FlatList
-                                data={subcategorywashingmachine}
+                                data={issubCategories}
                                 renderItem={renderItemfridage}
                                 keyExtractor={item => item.id}
                                 horizontal
@@ -413,7 +430,6 @@ const HomeScreen = (props) => {
                         <Image source={images[currentIndex]} style={styles.image} />
                     </View>
                     <View style={{ marginTop: 10, backgroundColor: "white", borderWidth: 1, borderColor: "#FFF", padding: 5, borderRadius: 10 }}>
-
                         <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
                             <Text style={styles.text}>
                                 Most booked  services
@@ -442,6 +458,7 @@ const HomeScreen = (props) => {
                     </View>
                 </View>
             </ScrollView>
+            {isLoading && <LoaderScreen isLoading={isLoading} />}
             <Seeall isVisible={modalVisible} onClose={closeModal} categories={categories} />
         </SafeAreaView>
     )
@@ -476,12 +493,12 @@ const styles = StyleSheet.create({
         // backgroundColor: "#FFF",
         justifyContent: "space-between",
         paddingHorizontal: 20
-
     },
     label: {
         fontSize: 20,
         marginRight: 10,
-        color: "#000"
+        color: "#000",
+        fontFamily: "Roboto-Bold"
     },
     icon: {
         width: 20,
@@ -498,7 +515,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: height * 0.03,
         borderRadius: 30
-
     },
     image: {
         width: width * 0.89,
@@ -515,7 +531,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         borderRadius: 10,
         padding: 10
-
     },
     name: {
         fontSize: 17,
@@ -600,11 +615,9 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignSelf: "center"
     },
-
     image1: {
         width: width * 0.9,
         height: height * 0.2,
     },
-
 
 });

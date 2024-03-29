@@ -56,6 +56,7 @@ import AddressEdit from '../screen/tab/AddressEdit';
 import Location2 from '../screen/location/Location2';
 import Paypal from '../screen/payments/Paypal';
 import BottomPopup from '../compontent/BottomPopup';
+import Refer from '../screen/tab/Refer';
 const Stack = createNativeStackNavigator();
 const Navigation = () => {
     return (
@@ -116,6 +117,7 @@ const Navigation = () => {
                 <Stack.Screen name="BottomPopup" component={BottomPopup} />
                 <Stack.Screen name="ContiuneShopping" component={ContiuneShopping} />
                 <Stack.Screen name="AddressEdit" component={AddressEdit} />
+                <Stack.Screen name="Refer" component={Refer} />
             </Stack.Navigator>
         </NavigationContainer>
     );

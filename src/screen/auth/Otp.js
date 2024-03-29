@@ -10,6 +10,7 @@ import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import LoaderScreen from '../../compontent/LoaderScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Resendotp, otpverify } from '../../apiconfig/Apiconfig';
 // import AsyncStorage from 'react-native-async-storage/async-storage';
 const { width, height } = Dimensions.get("screen")
 
@@ -33,7 +34,7 @@ const Otp = (props) => {
         formdata.append("otp", code);
         setIsLoading(true);
 
-        fetch('https://aduetechnologies.com/jinuncle/api/auth/otp_verify', {
+        fetch(otpverify, {
             method: 'POST',
             body: formdata,
         })
@@ -79,7 +80,6 @@ const Otp = (props) => {
             });
     };
 
-
     const handleResendOTP = async () => {
         try {
             const formdata = new FormData();
@@ -89,7 +89,7 @@ const Otp = (props) => {
                 body: formdata,
                 redirect: "follow"
             };
-            const response = await fetch("https://aduetechnologies.com/jinuncle/api/auth/resend_otp", requestOptions);
+            const response = await fetch(Resendotp, requestOptions);
             const result = await response.text();
             console.log(result);
             if (result.status == 200) {
