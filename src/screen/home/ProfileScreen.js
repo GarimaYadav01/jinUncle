@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Dimensions, FlatList, Image, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { ICONS } from "../../assets/themes";
 import CustomButton from "../../compontent/Custombutton";
@@ -7,10 +7,17 @@ import LogoutModal from "../../compontent/LogoutModal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import LoaderScreen from "../../compontent/LoaderScreen";
 import { showMessage } from "react-native-flash-message";
+import AuthContext from "../context/AuthContext";
 const { height, width } = Dimensions.get("screen")
 
 const ProfileScreen = () => {
     const navigation = useNavigation();
+    const { isgetprofile, getProfile } = useContext(AuthContext);
+    console.log("getprofile------fetch--->", isgetprofile);
+
+    useEffect(() => {
+        getProfile();
+    })
 
     const [isLoading, setIsLoading] = useState();
     const buttonData = [
@@ -75,16 +82,12 @@ const ProfileScreen = () => {
     const handleLogout = async () => {
         setIsLoading(true);
         try {
-            const myHeaders = new Headers();
-            myHeaders.append("token", "WlhsS01XTXlWbmxZTW14clNXcHZhVTFVVVdsTVEwcDNXVmhPZW1ReU9YbGFRMGsyU1d0R2EySlhiSFZKVTFFd1RrUlJlVTVFUlhsT1EwWkJTMmxaYkVscGQybGhSemt4WTI1TmFVOXFVVFJNUTBwcldWaFNiRmd6VW5CaVYxVnBUMmxKZVUxRVNUQk1WRUY2VEZSRk1rbEVSWGxQYWswMFQycEZOVWxwZDJsamJUbHpXbE5KTmtscVNXbE1RMHByV2xoYWNGa3lWbVpoVjFGcFQyMDFNV0pIZURrPQ==");
-            myHeaders.append("Cookie", "ci_session=1136fffb894fac38c530a22571c68521774899b2");
-
+            const token = await AsyncStorage.getItem('token');
             const requestOptions = {
                 method: "POST",
-                headers: myHeaders,
+                headers: token,
                 redirect: "follow"
             };
-
             const response = await fetch("https://aduetechnologies.com/jinuncle/api/auth/logout", requestOptions);
             const data = await response.text();
 
@@ -124,7 +127,7 @@ const ProfileScreen = () => {
                             Verified customer
                         </Text>
                         <Text style={styles.text}>
-                            +91 7364778488
+                            +91{isgetprofile?.mobile || 'N/A'}
                         </Text>
                     </View>
                     <TouchableOpacity style={{ marginTop: height * 0.06, marginRight: width * 0.1 }}>

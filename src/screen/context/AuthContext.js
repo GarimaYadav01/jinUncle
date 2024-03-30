@@ -33,13 +33,10 @@ export const AuthProvider = ({ children }) => {
                 body: formdata,
                 redirect: "follow"
             };
-
             const response = await fetch(categoriesapi, requestOptions);
             console.log("Response:", response);
-
             const result = await response.text();
             console.log("Result:", result);
-
             if (response.status === 200) {
                 const parsedResult = JSON.parse(result); // Parse response as JSON
                 setIsCategories(parsedResult.data);
@@ -112,13 +109,10 @@ export const AuthProvider = ({ children }) => {
     const fetchSubCategories = async () => {
         try {
             setIsLoading(true);
+
             const token = await AsyncStorage.getItem('token');
-            // const headers = {
-            //     // 'Content-Type': 'application/json',
-            //     'token': token
-            // };
             const myHeaders = new Headers();
-            myHeaders.append("token", "WlhsS01XTXlWbmxZTW14clNXcHZhVTFVVVdsTVEwcDNXVmhPZW1ReU9YbGFRMGsyU1d0R2EySlhiSFZKVTFFd1RrUlJlVTVFUlhsT1EwWkJTMmxaYkVscGQybGhSemt4WTI1TmFVOXFVVFJNUTBwcldWaFNiRmd6VW5CaVYxVnBUMmxKZVUxRVNUQk1WRUY2VEZSSmVVbEVSVEpQYWtreVQycE5lRWxwZDJsamJUbHpXbE5KTmtscVNXbE1RMHByV2xoYWNGa3lWbVpoVjFGcFQyMDFNV0pIZURrPQ==");
+            myHeaders.append("token", token);
             myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
 
             const formdata = new FormData();
@@ -148,10 +142,10 @@ export const AuthProvider = ({ children }) => {
 
     const getProfile = async () => {
         try {
+            const token = await AsyncStorage.getItem('token');
             const myHeaders = new Headers();
-            myHeaders.append("token", "WlhsS01XTXlWbmxZTW14clNXcHZhVTFVVVdsTVEwcDNXVmhPZW1ReU9YbGFRMGsyU1d0R2EySlhiSFZKVTFFd1RrUlJlVTVFUlhsT1EwWkJTMmxaYkVscGQybGhSemt4WTI1TmFVOXFVVFJNUTBwcldWaFNiRmd6VW5CaVYxVnBUMmxKZVUxRVNUQk1WRUY2VEZSSmVVbEVSVEpQYWtreVQycE5lRWxwZDJsamJUbHpXbE5KTmtscVNXbE1RMHByV2xoYWNGa3lWbVpoVjFGcFQyMDFNV0pIZURrPQ==");
+            myHeaders.append("token", token);
             myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
-            // const formdata = new FormData();
             const requestOptions = {
                 method: "GET",
                 headers: myHeaders,
@@ -161,8 +155,8 @@ export const AuthProvider = ({ children }) => {
 
             const response = await fetch(getprofile, requestOptions);
             const result = await response.json();
-            // const result = await response.json();
-            if (result.status == 200) {
+
+            if (response.status == 200) {
                 setIsGetprofile(result.data);
                 console.log("Result from ---------->", result.data);
             }

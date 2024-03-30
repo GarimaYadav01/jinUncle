@@ -32,7 +32,7 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
     ];
     const handleViewCard = () => {
         onClose();
-        navigation.navigate("Paypal");
+        navigation.navigate("PaymentScreen");
     };
     const handleItemSelect = (itemId) => {
         setSelectedItem(itemId);

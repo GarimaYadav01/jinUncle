@@ -25,7 +25,6 @@ const PaymentModal = ({ isVisible, onClose }) => {
                 backdropColor='transparent'
                 backdropTransitionInTiming={0}
                 backdropTransitionOutTiming={0}
-
             >
                 <View style={styles.modalContent}>
                     <View style={styles.paymentcard}>
