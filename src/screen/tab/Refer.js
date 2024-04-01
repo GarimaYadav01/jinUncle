@@ -1,4 +1,4 @@
-import { Dimensions, Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View, Alert } from 'react-native'
+import { Dimensions, Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View, Alert, Linking } from 'react-native'
 import React, { useContext } from 'react'
 import Header from '../../compontent/Header'
 import SendIntentAndroid from 'react-native-send-intent';
@@ -10,16 +10,23 @@ const Refer = () => {
 
     const { isgetprofile } = useContext(AuthContext);
     console.log("isgetprofile--->", isgetprofile)
-    const shareToWhatsApp = async () => {
-        try {
-            const phoneNumber = '1234567890'; // Replace with the phone number you want to send the message to
-            const text = 'Your message here';
-            const url = `https://wa.me/${isgetprofile.mobile}?text=${encodeURIComponent(text)}`;
-            await SendIntent.openApp("whatsapp", url);
-        } catch (error) {
-            console.error('Error sharing to WhatsApp:', error);
-        }
+
+    const handleWhatsappPress = () => {
+        const phoneNumber = "1234567890";
+        const message = "Hello from my app!";
+        const whatsappUrl = `whatsapp://send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
+
+        Linking.canOpenURL(whatsappUrl)
+            .then((supported) => {
+                if (supported) {
+                    return Linking.openURL(whatsappUrl);
+                } else {
+                    console.error("WhatsApp is not installed on this device");
+                }
+            })
+            .catch((err) => console.error("An error occurred", err));
     };
+
     const copyLinkToClipboard = async () => {
         try {
             const link = 'https://example.com'; // Replace this with your actual link
@@ -39,15 +46,15 @@ const Refer = () => {
                     <Text style={[styles.text, { alignSelf: "center", marginTop: height * 0.03 }]}>Refer via</Text>
                     <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-around", marginTop: 10 }}>
                         <View style={{ marginTop: height * 0.03 }}>
-                            <TouchableOpacity onPress={shareToWhatsApp}>
-                                <Image source={require("../../assets/gif/whatsapp.png")} style={{ width: 40, height: 40 }} />
+                            <TouchableOpacity onPress={handleWhatsappPress}>
+                                <Image source={require("../../assets/gif/whatsapp.png")} style={{ width: 40, height: 40, marginLeft: 10 }} />
                                 <Text style={styles.tex}>whatsapp</Text>
                             </TouchableOpacity>
                         </View>
 
                         <View style={{ marginTop: height * 0.03, alignSelf: "center" }}>
                             <TouchableOpacity onPress={copyLinkToClipboard}>
-                                <Image source={require("../../assets/gif/link.png")} style={{ width: 45, height: 45 }} />
+                                <Image source={require("../../assets/gif/link.png")} style={{ width: 45, height: 45, marginLeft: 10 }} />
                                 <Text style={styles.tex}>Copy link</Text>
                             </TouchableOpacity>
                         </View>
@@ -79,6 +86,7 @@ const styles = StyleSheet.create({
     tex: {
         color: "gray",
         fontSize: 15,
-        lineHeight: 22
+        lineHeight: 22,
+        marginRight: 30
     }
 })

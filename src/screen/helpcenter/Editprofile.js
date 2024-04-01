@@ -38,10 +38,16 @@ const Editprofile = () => {
             const result = await response.text();
             if (result.status == 200) {
                 navigation.goBack();
+                showMessage({
+                    message: "Update profile",
+                    type: "success",
+                    icon: "success"
+
+                })
             }
             console.log("Responseeditprofile----->", result);
         } catch (error) {
-            console.error(error);
+            console.error("Editprofileerror------>", error);
         }
     };
 
@@ -64,7 +70,7 @@ const Editprofile = () => {
                         handleEditprofile(values);
                     }}
                 >
-                    {({ handleChange, handleBlur, handleSubmit, values, errors }) => (
+                    {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
                         <View style={{ alignContent: "center", alignSelf: "center", marginTop: height * 0.04 }}>
                             <TextinputComponent
                                 label={"Name"}
@@ -75,6 +81,7 @@ const Editprofile = () => {
                                 value={values.name}
                                 error={errors.name}
                             />
+                            {touched.name && errors.name && <Text style={{ color: "red", fontSize: 14 }}>{errors.name}</Text>}
                             <TextinputComponent
                                 label={"Email"}
                                 placeholder={"Enter your email."}
@@ -84,6 +91,7 @@ const Editprofile = () => {
                                 value={values.email}
                                 error={errors.email}
                             />
+                            {touched.email && errors.email && <Text style={{ color: "red", fontSize: 14 }}>{errors.email}</Text>}
                             <TextinputComponent
                                 label={"Phone number"}
                                 placeholder={"Enter your phone number."}
@@ -93,6 +101,7 @@ const Editprofile = () => {
                                 value={values.phone}
                                 error={errors.phone}
                             />
+                            {touched.phone && errors.phone && <Text style={{ color: "red", fontSize: 14 }}>{errors.phone}</Text>}
                             <View style={{ marginTop: 20 }}>
                                 <CustomButton
                                     label={"Update Now"}

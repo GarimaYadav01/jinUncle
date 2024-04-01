@@ -79,9 +79,7 @@ const LoginScreen = (props) => {
       }
       return false;
     };
-
     const backHandler = BackHandler.addEventListener("hardwareBackPress", backAction);
-
     return () => backHandler.remove();
   }, [props.navigation]);
 
@@ -168,7 +166,6 @@ const styles = StyleSheet.create({
     color: "black",
     fontFamily: "Roboto-BoldItalic",
     textAlign: "center"
-
   },
   container1: {
     flex: 1,

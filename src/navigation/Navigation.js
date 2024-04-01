@@ -57,6 +57,7 @@ import Location2 from '../screen/location/Location2';
 import Paypal from '../screen/payments/Paypal';
 import BottomPopup from '../compontent/BottomPopup';
 import Refer from '../screen/tab/Refer';
+
 const Stack = createNativeStackNavigator();
 const Navigation = () => {
     return (
