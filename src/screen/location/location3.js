@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import AuthContext from "../context/AuthContext";
 const { width, height } = Dimensions.get("screen")
-const location3 = () => {
+const Location3 = () => {
     const { handleGetlocation, location, } = useContext(AuthContext);
     console.log("location---->", location)
     const navigation = useNavigation();
@@ -25,7 +25,6 @@ const location3 = () => {
         return () => clearTimeout(timeout);
     }, [navigation]);
 
-
     return (
         <SafeAreaView style={{ backgroundColor: "#FFF", flex: 1 }}>
             <StatusBar backgroundColor="transparent" translucent={true} />
@@ -42,7 +41,7 @@ const location3 = () => {
         </SafeAreaView>
     )
 }
-export default location3;
+export default Location3;
 
 const styles = StyleSheet.create({
     container: {

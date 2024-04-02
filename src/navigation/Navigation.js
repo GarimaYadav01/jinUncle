@@ -9,7 +9,7 @@ import Otp from '../screen/auth/Otp';
 import SignupScreen from '../screen/auth/SignupScreen';
 import Resetpassword from '../screen/auth/Resetpassword';
 import Location from '../screen/location/Location';
-import Location3 from '../screen/location/location3';
+import Location3 from '../screen/location/Location3';
 import Mybooking from '../screen/profilescreens/Mybooking';
 import Aboutus from '../screen/profilescreens/Aboutus';
 import Helpcenter from '../screen/profilescreens/Helpcenter';

@@ -62,9 +62,9 @@ const Refer = () => {
                     <View style={{ marginTop: height * 0.04 }}>
                         <Text style={styles.text}>How it works?</Text>
                         <View>
-                            <Text style={styles.tex}>1.invite your friends & get rewarded</Text>
-                            <Text style={styles.tex}>2.they get 100 on their service is completed</Text>
-                            <Text style={styles.tex}>3.you get 100 once their service is completed</Text>
+                            <Text style={styles.tex}><Text style={{ color: "black", fontSize: 17, fontWeight: "bold" }}>1.</Text>invite your friends & get rewarded</Text>
+                            <Text style={styles.tex}><Text style={{ color: "black", fontSize: 17, fontWeight: "bold" }}>2.</Text>they get 100 on their service is completed</Text>
+                            <Text style={styles.tex}><Text style={{ color: "black", fontSize: 17, fontWeight: "bold" }}>3.</Text>you get 100 once their service is completed</Text>
 
                         </View>
                     </View>
@@ -87,6 +87,7 @@ const styles = StyleSheet.create({
         color: "gray",
         fontSize: 15,
         lineHeight: 22,
-        marginRight: 30
+        marginRight: 30,
+        marginTop: 10
     }
 })

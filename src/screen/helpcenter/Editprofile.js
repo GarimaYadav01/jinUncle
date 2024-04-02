@@ -6,7 +6,7 @@ import CustomButton from "../../compontent/Custombutton";
 import ApplyModal from "../../compontent/ApplyModal";
 import { showMessage } from "react-native-flash-message";
 import { useNavigation } from "@react-navigation/native";
-import { getprofile } from "../../apiconfig/Apiconfig";
+import { Editprofileapi, getprofile } from "../../apiconfig/Apiconfig";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import AuthContext from "../context/AuthContext";
 import { Formik } from 'formik';
@@ -15,9 +15,9 @@ import * as Yup from 'yup';
 const { height, width } = Dimensions.get("screen");
 
 const Editprofile = () => {
-    const { isgetprofile } = useContext(AuthContext);
+    const { isgetprofile, isLoading } = useContext(AuthContext);
+    console.log("gdgdkjd---->", isgetprofile)
     const navigation = useNavigation();
-
     const handleEditprofile = async (values) => {
         try {
             const token = await AsyncStorage.getItem('token');
@@ -27,22 +27,22 @@ const Editprofile = () => {
             const formdata = new FormData();
             formdata.append("name", values.name);
             formdata.append("email", values.email);
-            formdata.append("phone", values.phone); // Add phone number
+            formdata.append("phone", values.phone);
+
+            // Replace getprofile with the correct endpoint for updating profile
             const requestOptions = {
                 method: "POST",
                 headers: myHeaders,
                 body: formdata,
                 redirect: "follow"
             };
-            const response = await fetch(getprofile, requestOptions);
+            const response = await fetch(Editprofileapi, requestOptions); // Replace updateProfileEndpoint with the correct endpoint
             const result = await response.text();
-            if (result.status == 200) {
-                navigation.goBack();
+            if (response.status == 200) {
                 showMessage({
                     message: "Update profile",
                     type: "success",
                     icon: "success"
-
                 })
             }
             console.log("Responseeditprofile----->", result);
