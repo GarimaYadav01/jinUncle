@@ -8,11 +8,12 @@ import Seeall from "../../compontent/Seeall";
 import Swiper from 'react-native-swiper'
 import AuthContext from "../context/AuthContext";
 import LoaderScreen from "../../compontent/LoaderScreen";
+import { imagebaseurl } from "../../apiconfig/Apiconfig";
 const { width, height } = Dimensions.get("screen")
 const HomeScreen = (props) => {
     const navigation = useNavigation();
-    const { fetchData, handleGetlocation, location, iscategories, fetchDataCategory, categoryDetail, fetchSubCategories, issubCategories, isLoading, getProfile } = useContext(AuthContext);
-    // console.log("iscategories------>", issubCategories);
+    const { fetchData, handleGetlocation, location, iscategories, fetchDataCategory, categoryDetail, fetchSubCategories, issubCategories, isLoading, getProfile, getsubCategoryhandle, issubcategorydetails } = useContext(AuthContext);
+    console.log("issubcategorydetailsissubcategorydetails------>", issubcategorydetails);
     // console.log("iscategoriesdff------>", iscategories);
     // console.log("categoryDetail------>", getProfile);
     useEffect(() => {
@@ -22,7 +23,9 @@ const HomeScreen = (props) => {
             fetchDataCategory();
             fetchSubCategories();
             getProfile();
+            getsubCategoryhandle();
         };
+        handleFocus();
         const unsubscribeFocus = navigation.addListener('focus', handleFocus);
         return unsubscribeFocus;
     }, []);
@@ -200,37 +203,27 @@ const HomeScreen = (props) => {
         let imageData;
         try {
             imageData = JSON.parse(item.image)[0];
-            // console.log("Parsed image data:", imageData);
         } catch (error) {
-            // console.error("Error parsing image data:", error);
             return null;
         }
-
-        // Extract image path from the image data
-        const imagePath = imageData.image_path;
-
+        const imagePath = imagebaseurl + imageData.image_path;
         return (
             <View style={{ marginBottom: 20, marginTop: 10 }}>
-                <TouchableOpacity style={styles.btn} onPress={() => handleMenuItemPress(item.screen, item.id, item.name)}>
+                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate("Accategory")}>
                     <Image source={{ uri: imagePath }} style={{ width: 150, height: 150, borderRadius: 10 }} resizeMode="contain" />
                     <Text style={styles.name}>{item.name}</Text>
                 </TouchableOpacity>
             </View>
         );
     };
-
     const renderItem2 = ({ item }) => {
         let imageData;
         try {
             imageData = JSON.parse(item.image)[0];
-            // console.log("Parsed image data:", imageData);
         } catch (error) {
-            // console.error("Error parsing image data:", error);
             return null;
         }
-
-        // Extract image path from the image data
-        const imagePath = imageData.image_path;
+        const imagePath = imagebaseurl + imageData.image_path;
         return (
             <View style={{ marginBottom: 20, marginTop: 10 }}>
                 <TouchableOpacity style={styles.btn} >
@@ -240,18 +233,14 @@ const HomeScreen = (props) => {
             </View>
         );
     };
-
     const renderItemfridage = ({ item }) => {
         let imageData;
         try {
             imageData = JSON.parse(item.image)[0];
-            // console.log("Parsed image data:", imageData);
         } catch (error) {
-            // console.error("Error parsing image data:", error);
             return null;
         }
-        // Extract image path from the image data
-        const imagePath = imageData.image_path;
+        const imagePath = imagebaseurl + imageData.image_path;
         return (
             <View style={{ marginBottom: 20, marginTop: 10 }}>
                 <TouchableOpacity style={styles.btn}>

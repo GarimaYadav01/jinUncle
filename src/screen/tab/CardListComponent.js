@@ -60,12 +60,12 @@ const CardListComponent = () => {
             <View>
                 <Image source={item.images} style={styles.image} />
                 <View>
-                    {!quantityStates[item.id]?.showQuantityView ? (
-                        <TouchableOpacity style={styles.smallbutton} onPress={() => toggleVector(item.id)}>
-                            <Text style={styles.textbut}>Add</Text>
-                        </TouchableOpacity>
-                    ) : (
-                        <View style={styles.container1}>
+                    {/* {!quantityStates[item.id]?.showQuantityView ? ( */}
+                    <TouchableOpacity style={styles.smallbutton} onPress={() => handleCardPress(item)}>
+                        <Text style={styles.textbut}>Add</Text>
+                    </TouchableOpacity>
+                    {/* ) : ( */}
+                    {/* <View style={styles.container1}>
                             <TouchableOpacity onPress={() => handleDecrease(item.id)}>
                                 <Text style={styles.textbut}>-</Text>
                             </TouchableOpacity>
@@ -74,7 +74,7 @@ const CardListComponent = () => {
                                 <Text style={styles.textbut}>+</Text>
                             </TouchableOpacity>
                         </View>
-                    )}
+                    )} */}
                 </View>
             </View>
 
@@ -162,7 +162,6 @@ const CardListComponent = () => {
         setModalVisible(false);
     };
 
-
     const handleViewCard = () => {
         // onClose();
         navigation.navigate("Summary");
@@ -176,32 +175,8 @@ const CardListComponent = () => {
                 showsVerticalScrollIndicator={false}
 
             />
-
             <ModalCompontent visible={modalVisible} onClose={closeModal} item={selectedItem} />
-            <View
-            // style={styles.container}
-            >
-                <Animated.View
-                    style={[
-                        styles.popup,
-                        {
-                            transform: [{ translateY }],
-                        },
-                    ]}
-                    onLayout={animatePopup}
-                >
-                    <View style={styles.modalContent2}>
-                        <View style={styles.paymentcard}>
-                            <Text style={styles.text}>₹549</Text>
-                            <TouchableOpacity style={styles.smallbutton} onPress={handleViewCard}>
-                                <Text style={styles.textbut}>View card</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
-                </Animated.View>
-            </View>
         </View>
-
     );
 };
 

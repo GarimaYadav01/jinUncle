@@ -4,8 +4,12 @@ import React, { useState } from 'react';
 import { View, Text, Modal, Button, StyleSheet, Image, TouchableOpacity, Dimensions } from 'react-native';
 
 const { height, width } = Dimensions.get("screen")
-const AddressModal = ({ visible, onClose, onLogout }) => {
+const AddressModal = ({ visible, onClose, }) => {
     const navigation = useNavigation();
+    const handlesubmit = () => {
+        onClose();
+        navigation.navigate("AddressEdit")
+    }
     return (
         <Modal
             animationType="slide"
@@ -14,54 +18,32 @@ const AddressModal = ({ visible, onClose, onLogout }) => {
             onRequestClose={onClose}
         >
             <View style={styles.centeredView}>
+
                 <View style={styles.modalView}>
                     <View style={{ justifyContent: "flex-end", marginLeft: width * 0.85 }}>
                         <TouchableOpacity onPress={onClose}>
-
                             <Image source={require("../assets/Icon/cross.png")} resizeMode="contain" style={{ width: 30, height: 30 }} />
                         </TouchableOpacity>
                     </View>
-
                     <Text style={styles.modalText}>Saved address</Text>
-                    <TouchableOpacity onPress={() => navigation.navigate("AddressEdit")}>
+                    <TouchableOpacity onPress={handlesubmit}>
                         <View style={{ flexDirection: "row", columnGap: 10, borderBottomWidth: 1, borderBottomColor: "lightgray", paddingBottom: 10 }}>
-
-
                             <Text style={styles.text}>+</Text>
                             <Text style={styles.text}>Add another address</Text>
-
-
                         </View>
                     </TouchableOpacity>
-
                     <View style={{ marginTop: height * 0.02 }}>
                         <View style={{ flexDirection: "row", columnGap: 10, alignItems: "center", justifyContent: "space-between" }}>
                             <View style={{ flexDirection: "row", columnGap: 10 }}>
                                 <Text style={{ fontSize: 30, fontWeight: "bold", color: "black" }}>*</Text>
                                 <Text style={styles.modalText}>Home</Text>
                             </View>
-
                             <TouchableOpacity>
                                 <Image source={require("../assets/subimages/dots.png")} style={{ width: 15, height: 15 }} />
                             </TouchableOpacity>
                         </View>
-
-
                         <Text style={{ fontSize: 15, color: "gray", paddingBottom: 10 }}>Kriti Shikar,District Centre,Janakpuri ,Delhi,110058,india</Text>
                     </View>
-
-                    {/* <View style={{ flexDirection: "row", justifyContent: "space-between", alignSelf: "center" }}>
-                        <TouchableOpacity onPress={onClose} style={styles.btn}>
-                            <Text style={styles.text}>
-                                Cancel
-                            </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={onLogout} style={styles.btn}>
-                            <Text style={styles.text}>
-                                Logout
-                            </Text>
-                        </TouchableOpacity>
-                    </View> */}
                 </View>
             </View>
         </Modal>

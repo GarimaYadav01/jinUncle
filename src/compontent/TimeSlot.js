@@ -38,11 +38,11 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
         setSelectedItem(itemId);
     };
     const [modalVisible, setModalVisible] = useState(false);
-    const handleLogout = () => {
-        setModalVisible(false);
-        navigation.navigate("LoginScreen")
-    };
-    // Function to handle item selection
+
+    const openmodal = () => {
+        setModalVisible(true);
+    }
+
     const handleDaySelect = (dayId) => {
         setSelectedDay(dayId);
     };
@@ -77,41 +77,6 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
             ]}>{item.time}</Text>
         </TouchableOpacity>
     );
-
-    const handlePayment = async () => {
-        try {
-            const options = {
-                description: 'Payment for goods',
-                image: 'https://your_image_url.png',
-                currency: 'INR', // Currency code (e.g., INR, USD)
-                key: 'rzp_test_uhu2i0SIc40SxY', // Your Razorpay key
-                amount: '10000', // Payment amount in paise (e.g., for ₹100.00, provide 10000)
-                name: 'Your App Name',
-                prefill: {
-                    email: 'example@example.com', // User's email
-                    contact: '1234567890', // User's phone number
-                    name: 'John Doe', // User's name
-                },
-                theme: { color: '#F37254' } // Color theme
-            };
-
-            RazorpayCheckout.open(options)
-                .then((data) => {
-                    // Handle success
-                    console.log('Payment success:', data);
-                    alert('Payment success');
-                })
-                .catch((error) => {
-                    // Handle failure
-                    console.error('Payment failed:', error);
-                    alert('Payment failed');
-                });
-        } catch (error) {
-            console.error('Error processing payment:', error);
-            alert('Error processing payment');
-        }
-    };
-
     return (
         <Modal
             visible={isVisible}
@@ -128,7 +93,7 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
 
                 <View style={styles.contentContainer}>
                     <ScrollView >
-                        <TouchableOpacity onPress={() => setModalVisible(true)}>
+                        <TouchableOpacity onPress={openmodal}>
                             <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", borderBottomWidth: 1, borderBottomColor: "lightgray", paddingBottom: 15 }}>
                                 <View style={{ flexDirection: "row", columnGap: 10, }}>
                                     <Image source={require("../assets/bottomnavigatiomnimage/homeactive.png")} style={{ height: 20, width: 20 }} />
@@ -176,7 +141,7 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
             <AddressModal
                 visible={modalVisible}
                 onClose={() => setModalVisible(false)}
-                onLogout={handleLogout}
+
             />
 
         </Modal>

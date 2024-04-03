@@ -1,6 +1,6 @@
 import axios, { formToJSON } from 'axios';
 import React, { createContext, useEffect, useState } from 'react';
-import { categoridetails, categoriesapi, getcurrentlocation, getprofile, sub_category } from '../../apiconfig/Apiconfig';
+import { categoridetails, categoriesapi, getcurrentlocation, getprofile, sub_category, sub_categorydetails } from '../../apiconfig/Apiconfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
@@ -11,6 +11,7 @@ export const AuthProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [location, setLocation] = useState([]);
     const [isgetprofile, setIsGetprofile] = useState([]);
+    const [issubcategorydetails, setIsSubCategoriesdetails] = useState([]);
     const login = (userData) => {
         setUser(userData);
     };
@@ -109,7 +110,6 @@ export const AuthProvider = ({ children }) => {
     const fetchSubCategories = async () => {
         try {
             setIsLoading(true);
-
             const token = await AsyncStorage.getItem('token');
             const myHeaders = new Headers();
             myHeaders.append("token", token);
@@ -138,8 +138,6 @@ export const AuthProvider = ({ children }) => {
             setIsLoading(false);
         }
     };
-
-
     const getProfile = async () => {
         try {
             const token = await AsyncStorage.getItem('token');
@@ -152,10 +150,8 @@ export const AuthProvider = ({ children }) => {
                 // body: formdata,
                 redirect: "follow"
             };
-
             const response = await fetch(getprofile, requestOptions);
             const result = await response.json();
-
             if (response.status == 200) {
                 setIsGetprofile(result.data);
                 console.log("Result from ---------->", result.data);
@@ -165,6 +161,34 @@ export const AuthProvider = ({ children }) => {
             console.log("Error fetching profile-------->", error);
         }
     };
+
+    const getsubCategoryhandle = async () => {
+        try {
+            setIsLoading(true);
+            const token = await AsyncStorage.getItem('token');
+            const myHeaders = new Headers();
+            myHeaders.append("token", token);
+            myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
+            const formdata = new FormData();
+            formdata.append("id", "7");
+            const requestOptions = {
+                method: "POST",
+                headers: myHeaders,
+                body: formdata,
+                redirect: "follow"
+            };
+            const response = await fetch("https://aduetechnologies.com/jinuncle/api/sub_category/detail", requestOptions);
+            const result = await response.text();
+            console.log("subcategorydetails----->", result);
+            if (result.status == 200) {
+                setIsSubCategoriesdetails(result.data);
+            }
+            // Parse the result if needed
+            setIsLoading(false);
+        } catch (error) {
+            console.log("errorsubcategorrydetails------>", error);
+        }
+    }
 
     return (
         <AuthContext.Provider
@@ -185,6 +209,8 @@ export const AuthProvider = ({ children }) => {
                 isLoading,
                 getProfile,
                 isgetprofile,
+                getsubCategoryhandle,
+                issubcategorydetails
             }}
         >
             {children}

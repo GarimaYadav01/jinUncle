@@ -5,9 +5,7 @@ import Seeall from "../../compontent/Seeall";
 import { ICONS } from "../../assets/themes";
 import CustomButton from "../../compontent/Custombutton";
 import TimeSlot from "../../compontent/TimeSlot";
-
 const { height, width } = Dimensions.get("screen");
-
 const Summary = (props) => {
     const [index, setIndex] = useState(0);
     const flatListRef = useRef(null);
@@ -16,27 +14,29 @@ const Summary = (props) => {
     const [quantityStates, setQuantityStates] = useState({});
     useEffect(() => {
         const interval = setInterval(() => {
-            // Calculate the next index to scroll to
             const nextIndex = (index + 1) % Allmix.length;
-            // Scroll to the next index
             flatListRef.current.scrollToIndex({ animated: true, index: nextIndex });
-            // Update the index state
             setIndex(nextIndex);
-        }, 3000); // Adjust the interval duration as needed
-
+        }, 3000);
         return () => clearInterval(interval);
-    }, [index]); // Re-run effect when index changes
-    // useEffect(() => {
-    //     const interval = setInterval(() => {
-    //         setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-    //     }, 3000);
-
-    //     return () => clearInterval(interval);
-    // }, []);
-
+    }, [index]);
     const data = [
-        { id: 1, name: 'Less/ no cooling', price: '299' },
-        { id: 2, name: 'Gas leak fix & refill', price: '2,500' }
+        {
+            id: 1,
+            name: 'Less/ no cooling',
+            image: require("../../assets/banner/img3.png"),
+            price: '₹299',
+            quantity: "2",
+            categroy: "split Ac"
+        },
+        {
+            id: 2,
+            name: 'Gas leak fix & refill',
+            image: require("../../assets/banner/img3.png"),
+            price: '₹2,500',
+            quantity: "3",
+            categroy: "window Ac"
+        }
     ];
 
     // Initialize quantity for each item
@@ -47,7 +47,6 @@ const Summary = (props) => {
         });
         setQuantityStates(initialQuantityStates);
     }
-
     const handleIncrease = (id) => {
         setQuantityStates(prevStates => ({
             ...prevStates,
@@ -77,7 +76,6 @@ const Summary = (props) => {
             }
         }));
     };
-
     useEffect(() => {
         // Initialize quantity states for each item
         const initialQuantityStates = {};
@@ -92,7 +90,6 @@ const Summary = (props) => {
     const openModal = () => {
         setModalVisible(true);
     };
-
     const closeModal = () => {
         setModalVisible(false);
     };
@@ -146,10 +143,7 @@ const Summary = (props) => {
             name: "Window AC",
             screen: "Washingmachinecategory"
         },
-
-
     ];
-
     const Allmix = [
         {
             id: "1",
@@ -181,7 +175,7 @@ const Summary = (props) => {
             name: "Repair & gas refill",
             icon: require("../../assets/logo/star.png"),
             likes: "4.85(60k reviews)",
-            starts: 549,
+            starts: "₹549",
         },
         {
             id: "5",
@@ -205,23 +199,20 @@ const Summary = (props) => {
         // setSelectedItem(item);
         setModalVisible2(true);
     };
-
     const closeModal2 = () => {
         setModalVisible2(false);
     };
     const renderItem = ({ item }) => (
-        <View style={{ flexDirection: "row", justifyContent: "space-between", paddingVertical: 10, alignItems: "center" }}>
-            <Text style={{ color: "gray", fontSize: 15 }}>{item.name}</Text>
-            <View style={styles.container1}>
-                <TouchableOpacity onPress={() => handleDecrease(item.id)}>
-                    <Text style={styles.textbut}>-</Text>
-                </TouchableOpacity>
-                <Text style={styles.textbut}>{quantityStates[item.id]?.quantity}</Text>
-                <TouchableOpacity onPress={() => handleIncrease(item.id)}>
-                    <Text style={styles.textbut}>+</Text>
-                </TouchableOpacity>
+        <View style={styles.connter}>
+            <View>
+                <Image source={item.image} style={{ width: 100, height: 100, borderRadius: 10 }} />
             </View>
-            <Text style={{ color: "gray", fontSize: 15 }}>{item.price}</Text>
+            <View style={{ marginLeft: 20 }}>
+                <Text style={styles.nameee}>{item.name}</Text>
+                <Text style={{ color: "gray", fontSize: 15 }}>{item.price}</Text>
+                <Text>quantity:{item.quantity}</Text>
+            </View>
+
         </View>
     );
 
@@ -259,20 +250,14 @@ const Summary = (props) => {
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#FFF" }}>
             <Header title={"Summary"} />
-
             <ScrollView style={{ marginHorizontal: 20 }} showsVerticalScrollIndicator={false}>
-
-
                 <FlatList
                     data={data}
                     renderItem={renderItem}
                     keyExtractor={(item, index) => index.toString()}
                     showsVerticalScrollIndicator={false}
                 />
-
-
                 <View style={{ marginTop: 10, backgroundColor: "white", borderWidth: 1, borderColor: "#FFF", padding: 5, borderRadius: 10 }}>
-
                     <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
                         <Text style={styles.text}>
                             Frequently added together
@@ -281,9 +266,6 @@ const Summary = (props) => {
                             <Text style={[styles.text, { color: "#004E8C", fontSize: 17 }]}>See all</Text>
                         </TouchableOpacity>
                     </View>
-
-
-
                     <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
                         <FlatList
                             ref={flatListRef}
@@ -301,7 +283,6 @@ const Summary = (props) => {
                             }}
                         />
                     </View>
-
                     <View>
                         <Text style={styles.service}>
                             Service Preferences
@@ -310,18 +291,14 @@ const Summary = (props) => {
                             <Text style={[styles.text1, { color: "black" }]}>Avoid calling before reaching thr location</Text>
                         </View>
                     </View>
-
                     <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                         <Text style={styles.text1}>Coupons and offers</Text>
-
                         <View style={{ flexDirection: "row", alignItems: "center", alignSelf: "center" }}>
                             <Text style={{ color: "#004E8C", fontSize: 17 }}>2 offers</Text>
                             <Image source={ICONS.arrow} style={{ height: 20, width: 20 }} />
                         </View>
-
                     </View>
                 </View>
-
                 <View style={styles.com}>
                     <Text style={styles.service}>Payment summary</Text>
                     <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
@@ -454,6 +431,28 @@ const styles = StyleSheet.create({
         textAlign: "center",
         color: "white"
     },
+
+    connter: {
+        flexDirection: "row",
+        // justifyContent: "space-between",
+        paddingVertical: 10,
+        alignItems: "center",
+        // backgroundColor: "#fffaf0",
+        borderWidth: 1,
+        marginTop: height * 0.03,
+        borderColor: "#fffaf0",
+        width: width * 0.9,
+        // height: height * 0.1
+        paddingHorizontal: 20
+    },
+    nameee: {
+        fontFamily: "Roboto-Medium",
+        fontSize: 17,
+        fontWeight: "500",
+        fontStyle: "normal",
+        color: "black"
+
+    }
 });
 
 export default Summary;
