@@ -12,9 +12,9 @@ import { imagebaseurl } from "../../apiconfig/Apiconfig";
 const { width, height } = Dimensions.get("screen")
 const HomeScreen = (props) => {
     const navigation = useNavigation();
-    const { fetchData, handleGetlocation, location, iscategories, fetchDataCategory, categoryDetail, fetchSubCategories, issubCategories, isLoading, getProfile, getsubCategoryhandle, issubcategorydetails } = useContext(AuthContext);
-    console.log("issubcategorydetailsissubcategorydetails------>", issubcategorydetails);
-    // console.log("iscategoriesdff------>", iscategories);
+    const { fetchData, handleGetlocation, location, iscategories, fetchDataCategory, categoryDetail, fetchSubCategories, issubCategories, isLoading, getProfile, getsubCategoryhandle, issubcategorydetails, handlegetservice, servericeget } = useContext(AuthContext);
+    console.log("issubcategorydetails------>", categoryDetail);
+    console.log("servericeget--servericeget----->--->", servericeget);
     // console.log("categoryDetail------>", getProfile);
     useEffect(() => {
         const handleFocus = () => {
@@ -24,6 +24,7 @@ const HomeScreen = (props) => {
             fetchSubCategories();
             getProfile();
             getsubCategoryhandle();
+            handlegetservice();
         };
         handleFocus();
         const unsubscribeFocus = navigation.addListener('focus', handleFocus);

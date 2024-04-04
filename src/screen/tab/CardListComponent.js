@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { FlatList, View, Text, Image, StyleSheet, Dimensions, TouchableOpacity, Animated } from 'react-native';
 import ModalCompontent from '../../compontent/ModalCompontent';
 import PaymentModal from '../../compontent/PaymentModal';
 import { useNavigation } from '@react-navigation/native';
+import AuthContext from '../context/AuthContext';
+import { imagebaseurl } from '../../apiconfig/Apiconfig';
 const { height, width } = Dimensions.get("screen")
 const CardListComponent = () => {
+    const { servericeget } = useContext(AuthContext)
+    console.log("servericegethfhjff----->", servericeget)
     const [currentIndex, setCurrentIndex] = useState(0);
     const [quantityStates, setQuantityStates] = useState({});
     const [payment, setPayment] = useState({});
@@ -55,45 +59,42 @@ const CardListComponent = () => {
         setIsVisibleModal(false);
     }
 
-    const handlerender = ({ item }) => (
-        <View style={styles.card}>
-            <View>
-                <Image source={item.images} style={styles.image} />
-                <View>
-                    {/* {!quantityStates[item.id]?.showQuantityView ? ( */}
-                    <TouchableOpacity style={styles.smallbutton} onPress={() => handleCardPress(item)}>
-                        <Text style={styles.textbut}>Add</Text>
-                    </TouchableOpacity>
-                    {/* ) : ( */}
-                    {/* <View style={styles.container1}>
-                            <TouchableOpacity onPress={() => handleDecrease(item.id)}>
-                                <Text style={styles.textbut}>-</Text>
-                            </TouchableOpacity>
-                            <Text style={styles.textbut}>{quantityStates[item.id]?.quantity}</Text>
-                            <TouchableOpacity onPress={() => handleIncrease(item.id)}>
-                                <Text style={styles.textbut}>+</Text>
-                            </TouchableOpacity>
-                        </View>
-                    )} */}
-                </View>
-            </View>
+    const handlerender = ({ item }) => {
+        let imageData;
+        try {
+            imageData = JSON.parse(item.image)[0];
+        } catch (error) {
+            return null;
+        }
+        const imagePath = imagebaseurl + imageData.image_path;
 
-            <View style={styles.content}>
-                <Text style={{ color: "#004E8C" }}>30-Day Warranty</Text>
-                <Text style={styles.service}>{item.service}</Text>
-                <View style={styles.ratingContainer}>
-                    <Image source={item.image} style={styles.starIcon} />
-                    <Text style={styles.likes}>{item.likes}</Text>
+        return (
+            <View style={styles.card}>
+                <View>
+                    <Image source={{ uri: imagePath }} style={styles.image} />
+                    <View>
+                        <TouchableOpacity style={styles.smallbutton} onPress={() => handleCardPress(item)}>
+                            <Text style={styles.textbut}>Add</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
-                <Text style={{ color: "black", fontSize: 17 }}>{item.starts}</Text>
-                <Text style={{ color: "#004E8C", marginTop: 10, fontWeight: "500" }}>₹100 off 2nd item onwords</Text>
-                <Text style={styles.label}>{item.label}</Text>
-                <TouchableOpacity onPress={() => handleCardPress(item)}>
-                    <Text style={{ color: "#004E8C", marginTop: 10, fontWeight: "800", fontSize: 14 }}>{item.view}</Text>
-                </TouchableOpacity>
+                <View style={styles.content}>
+                    <Text style={{ color: "#004E8C" }}>{servericeget?.warenty}</Text>
+                    <Text style={styles.service}>{item.service}</Text>
+                    <View style={styles.ratingContainer}>
+                        <Image source={item.image} style={styles.starIcon} />
+                        <Text style={styles.likes}>{item.likes}</Text>
+                    </View>
+                    <Text style={{ color: "black", fontSize: 17 }}>{item.starts}</Text>
+                    <Text style={{ color: "#004E8C", marginTop: 10, fontWeight: "500" }}>₹100 off 2nd item onwords</Text>
+                    <Text style={styles.label}>{item.label}</Text>
+                    <TouchableOpacity onPress={() => handleCardPress(item)}>
+                        <Text style={{ color: "#004E8C", marginTop: 10, fontWeight: "800", fontSize: 14 }}>{item.view}</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
-        </View>
-    );
+        );
+    };
 
     const datacard = [
         {
@@ -169,7 +170,7 @@ const CardListComponent = () => {
     return (
         <View>
             <FlatList
-                data={datacard}
+                data={servericeget}
                 renderItem={handlerender}
                 keyExtractor={(item) => item.service}
                 showsVerticalScrollIndicator={false}

@@ -1,55 +1,21 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Dimensions, FlatList, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { ICONS } from "../../assets/themes";
 import Header2 from "../../compontent/Header2";
 import CardListComponent from "./CardListComponent";
 import WarrantyModal from "../../compontent/WarrantyModal";
 import { useNavigation } from "@react-navigation/native";
+import AuthContext from "../context/AuthContext";
+import LoaderScreen from "../../compontent/LoaderScreen";
+import { imagebaseurl } from "../../apiconfig/Apiconfig";
 const { height, width } = Dimensions.get("screen")
 
 const Ac = (props) => {
     const navigation = useNavigation();
 
-    // const  {}
-    // const coupon = [
-    //     {
-    //         id: "1",
-    //         name: "Buy more save more",
-    //         subname: "₹100 off 2nd item onwards",
-    //         image: require("../../assets/logo/add.png")
-
-    //     },
-    //     {
-    //         id: "2",
-    //         name: "Buy more save more",
-    //         subname: "₹100 off 2nd item onwards",
-    //         image: require("../../assets/logo/brand.png")
-
-    //     },
-    //     {
-    //         id: "3",
-    //         name: "Buy more save more",
-    //         subname: "₹100 off 2nd item onwards",
-    //         image: require("../../assets/logo/brand.png")
-
-    //     },
-    //     {
-    //         id: "4",
-    //         name: "Buy more save more",
-    //         subname: "₹100 off 2nd item onwards",
-    //         image: require("../../assets/logo/add.png")
-
-    //     },
-    //     {
-    //         id: "5",
-    //         name: "Buy more save more",
-    //         subname: "₹100 off 2nd item onwards",
-    //         image: require("../../assets/logo/brand.png")
-
-    //     }
-    // ]
-
-
+    const { isLoading, categoryDetail, issubCategories } = useContext(AuthContext);
+    console.log("categoryDetail-->", categoryDetail)
+    console.log("issubCategoriesissubCategories----->----->", issubCategories)
 
     const subcategory = [
         {
@@ -72,9 +38,6 @@ const Ac = (props) => {
 
     const [showPayment, setShowPayment] = useState(false);
 
-
-
-
     const handleCardPress = () => {
 
         setModalVisible(true);
@@ -88,34 +51,34 @@ const Ac = (props) => {
     };
 
 
-    const renderItem2 = ({ item }) => (
-        <TouchableOpacity>
-            <View style={styles.itemContainer}>
-                <Image source={item.image} style={styles.image} />
-                <View style={styles.textContainer}>
+
+    const renderItem3 = ({ item }) => {
+        let imageData;
+        try {
+            imageData = JSON.parse(item.image)[0];
+        } catch (error) {
+            return null;
+        }
+        const imagePath = imagebaseurl + imageData.image_path;
+        return (
+            <View style={{ marginBottom: 20, marginTop: 10 }}>
+                <TouchableOpacity style={styles.btn1} >
+                    <Image source={{ uri: imagePath }} style={{ width: 150, height: 150, borderRadius: 10 }} resizeMode="contain" />
                     <Text style={styles.name}>{item.name}</Text>
-                    <Text style={styles.subname}>{item.subname}</Text>
-                </View>
+                </TouchableOpacity>
+
             </View>
-        </TouchableOpacity>
+        );
 
-    );
-    const renderItem3 = ({ item }) => (
-        <View style={{ marginBottom: 20, marginTop: 10 }}>
-            <TouchableOpacity style={styles.btn1} >
-                <Image source={item.image} style={{ width: 150, height: 150, borderRadius: 10 }} resizeMode="contain" />
-                <Text style={styles.name}>{item.name}</Text>
-            </TouchableOpacity>
-
-        </View>
-    );
+    };
     return (
         <View>
             <ScrollView style={{ flexGrow: 1, paddingBottom: 50 }} showsVerticalScrollIndicator={false}>
                 <View>
                     <View style={{ backgroundColor: "#FFF" }}>
                         <View style={{ marginHorizontal: 20, }}>
-                            <Text style={styles.text}>Ac Repair & Service</Text>
+                            <Text style={styles.text}>{categoryDetail?.name}</Text>
+                            <Text style={{ color: "gray", fontSize: 15, lineHeight: 22 }}>{categoryDetail?.short_description}</Text>
                             <View style={{ flexDirection: "row", alignItems: "center", columnGap: 10, marginTop: 10 }}>
                                 <Image source={require("../../assets/logo/star.png")} style={{ width: 20, height: 20 }} resizeMode="contain" />
                                 <Text style={{ color: "gray", fontSize: 16, fontWeight: "400" }}>4.48 (6.6 M bookings)</Text>
@@ -130,21 +93,12 @@ const Ac = (props) => {
                                 </View>
                                 <Text style={styles.text1}>Verified quotes & 30 days warranty</Text>
                             </TouchableOpacity>
-                            {/* <FlatList
-                            data={coupon}
-                            renderItem={renderItem2}
-                            keyExtractor={item => item.id}
-                            style={styles.container}
-                            horizontal
-                            contentContainerStyle={{ columnGap: 10 }}
-                            showsHorizontalScrollIndicator={false}
 
-                        /> */}
                         </View>
                     </View>
                     <View style={{ justifyContent: 'center', alignItems: 'center', marginHorizontal: 20, marginTop: height * 0.02 }}>
                         <FlatList
-                            data={subcategory}
+                            data={issubCategories}
                             renderItem={renderItem3}
                             keyExtractor={item => item.id}
                             horizontal
@@ -159,7 +113,7 @@ const Ac = (props) => {
 
                 <WarrantyModal visible={modalVisible} onClose={closeModal} />
             </ScrollView>
-
+            {isLoading && <LoaderScreen isLoading={isLoading} />}
         </View>
     );
 };
