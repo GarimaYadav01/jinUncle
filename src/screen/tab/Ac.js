@@ -12,7 +12,6 @@ const { height, width } = Dimensions.get("screen")
 
 const Ac = (props) => {
     const navigation = useNavigation();
-
     const { isLoading, categoryDetail, issubCategories } = useContext(AuthContext);
     console.log("categoryDetail-->", categoryDetail)
     console.log("issubCategoriesissubCategories----->----->", issubCategories)
@@ -35,11 +34,8 @@ const Ac = (props) => {
         }
     ]
     const [modalVisible, setModalVisible] = useState(false);
-
     const [showPayment, setShowPayment] = useState(false);
-
     const handleCardPress = () => {
-
         setModalVisible(true);
     };
 
@@ -47,7 +43,7 @@ const Ac = (props) => {
         setModalVisible(false);
     };
     const handleAddButtonPress = () => {
-        setShowPayment(true); // Show the payment view when the add button is clicked
+        setShowPayment(true);
     };
 
 

@@ -1,6 +1,6 @@
 import axios, { formToJSON } from 'axios';
 import React, { createContext, useEffect, useState } from 'react';
-import { categoridetails, categoriesapi, getcurrentlocation, getprofile, serviceget, sub_category, sub_categorydetails } from '../../apiconfig/Apiconfig';
+import { categoridetails, categoriesapi, get_offer_banner, getcurrentlocation, getprofile, servicedetails, serviceget, sub_category, sub_categorydetails } from '../../apiconfig/Apiconfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
@@ -13,6 +13,8 @@ export const AuthProvider = ({ children }) => {
     const [isgetprofile, setIsGetprofile] = useState([]);
     const [issubcategorydetails, setIsSubCategoriesdetails] = useState([]);
     const [servericeget, setservericget] = useState([]);
+    const [banner, setBanner] = useState([]);
+    const [servericdetailsget, setServericdetailsget] = useState([])
     const login = (userData) => {
         setUser(userData);
     };
@@ -130,7 +132,6 @@ export const AuthProvider = ({ children }) => {
             if (result.status == 200) {
                 setCategoryDetail(result.data);
                 setIsLoading(false);
-
                 console.log("reponseresponse------>", result.data);
             }
         } catch (error) {
@@ -147,7 +148,6 @@ export const AuthProvider = ({ children }) => {
             const myHeaders = new Headers();
             myHeaders.append("token", token);
             myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
-
             const formdata = new FormData();
             formdata.append("page", "0");
             formdata.append("category_id", "1");
@@ -223,55 +223,126 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
+    // const handlegetservice = async () => {
+    //     try {
+    //         const token = await AsyncStorage.getItem('token');
+    //         const myHeaders = new Headers();
+    //         myHeaders.append("token", token);
+    //         myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
+    //         const categoryId = iscategories.length > 0 ? iscategories.id : null;
+    //         // Get the subcategory ID
+    //         const subCategoryId = issubCategories.length > 0 ? issubCategories.id : null;
+
+    //         // const formdata = new FormData();
+    //         // formdata.append("cat_id", categoryId);
+    //         // console.log("categoryid ----->", categoryId);
+    //         // formdata.append("sub_cat_id", subCategoryId);
+    //         // console.log("sub_cat_id------>", subCategoryId);
+
+    //         const formdata = new FormData();
+    //         formdata.append("cat_id", "1");
+    //         console.log("catid ---->", cat_id)
+    //         formdata.append("sub_cat_id", "2");
+    //         const requestOptions = {
+    //             method: "POST",
+    //             headers: myHeaders,
+    //             body: formdata,
+    //             redirect: "follow"
+    //         };
+    //         const response = await fetch(serviceget, requestOptions)
+    //         const result = await response.json();
+    //         console.log("kkjslkaskljsjkk----->", result)
+    //         // if (response.status == 200) {
+    //         //     setservericget(result.data);
+    //         //     console.log("djkaddl---->", result.data)
+    //         // }
+    //     } catch (error) {
+    //         console.log("errorservice---------->", error)
+    //     }
+    // }
+
+
     const handlegetservice = async () => {
         try {
+            setIsLoading(true);
             const token = await AsyncStorage.getItem('token');
-            const myHeaders = new Headers();
-            myHeaders.append("token", token);
-            myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
-            const categoryId = iscategories.length > 0 ? iscategories.id : null;
-            // Get the subcategory ID
-            const subCategoryId = issubCategories.length > 0 ? issubCategories.id : null;
-
-            // const formdata = new FormData();
-            // formdata.append("cat_id", categoryId);
-            // console.log("categoryid ----->", categoryId);
-            // formdata.append("sub_cat_id", subCategoryId);
-            // console.log("sub_cat_id------>", subCategoryId);
-
             const formdata = new FormData();
             formdata.append("cat_id", "1");
             formdata.append("sub_cat_id", "2");
-
-            // // Append all category IDs
-            // iscategories.forEach(category => {
-            //     formdata.append("cat_id[]", category.id);
-            //     console.log("hdjchd--->", category.id)
-            // });
-
-            // // Append all subcategory IDs
-            // issubCategories.forEach(subcategory => {
-            //     formdata.append("sub_cat_id[]", subcategory.id);
-            // });
-
-
             const requestOptions = {
                 method: "POST",
-                headers: myHeaders,
+                headers: token,
                 body: formdata,
                 redirect: "follow"
             };
-            const response = await fetch(serviceget, requestOptions)
+
+            const response = await fetch(serviceget, requestOptions);
             const result = await response.json();
-            console.log("kkjslkaskljsjkk----->", result)
+            console.log("serviceget------->", result)
             if (result.status == 200) {
-                setservericget(result.data);
-                console.log("djkaddl---->", result.data)
+                setservericget(result.data)
+                setIsLoading(false);
+                console.log("resultresponse------>", result.data)
             }
+            console.log(result);
         } catch (error) {
-            console.log("errorservice---------->", error)
+            console.error(error);
+            setIsLoading(false);
+            // Handle errors
         }
     }
+
+
+    const handlebannerhome = async () => {
+        try {
+            setIsLoading(true);
+            const token = await AsyncStorage.getItem('token');
+            const requestOptions = {
+                method: "GET",
+                headers: token,
+                redirect: "follow"
+            };
+            const response = await fetch(get_offer_banner, requestOptions);
+            const result = await response.json();
+            console.log("fffhfdkj---->", result);
+            if (response.status == 200) {
+                setBanner(result.data)
+                setIsLoading(false);
+                console.log("responsebanner----->", result.data)
+            }
+        } catch (error) {
+            console.error(error);
+            setIsLoading(false);
+        }
+    }
+
+    const handledetailsservice = async () => {
+        try {
+            setIsLoading(true);
+            const token = await AsyncStorage.getItem('token');
+            const formdata = new FormData();
+            formdata.append("service_id", "1");
+            const requestOptions = {
+                method: "POST",
+                headers: token,
+                body: formdata,
+                redirect: "follow"
+            };
+            const response = await fetch(servicedetails, requestOptions);
+            const result = await response.json();
+            console.log("handledetailsservice------>", result);
+
+            if (result.status == 200) {
+                setServericdetailsget(result.data)
+                setIsLoading(false);
+            }
+        } catch (error) {
+            console.error("handledetailsserviceerrorrr------>", error);
+            setIsLoading(false);
+        }
+
+    }
+
 
     return (
         <AuthContext.Provider
@@ -296,6 +367,10 @@ export const AuthProvider = ({ children }) => {
                 issubcategorydetails,
                 handlegetservice,
                 servericeget,
+                handlebannerhome,
+                banner,
+                handledetailsservice,
+                servericdetailsget
 
             }}
         >

@@ -15,6 +15,7 @@ export const servicedetails = serverl + "Services/get_service_details"
 export const sub_categorydetails = serverl + "sub_category/detail"
 export const get_most_popular_service = serverl + "Services/get_most_popular_service"
 export const get_offer_banner = serverl + "Offer_banner/get_offer_banner"
-export const TimeSlot = serverl + "Timeslot/gettimeslot"
+export const timeSlotting = serverl + "Timeslot/gettimeslot"
+export const aboutusfetch = serverl + "Content/about_us"
 
 

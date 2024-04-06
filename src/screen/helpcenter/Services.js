@@ -9,12 +9,10 @@ const Services = () => {
             <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false} >
                 <View style={styles.container}>
                     <Text style={styles.sectionTitle}>Which services are covered under JU warranty ?</Text>
-
                     <Text style={styles.sectionText}>JU Warranty covers:</Text>
                     <Text style={styles.sectionText}><Text style={{ color: "black", fontSize: 20, fontWeight: "500" }}>1.</Text> <Text style={{ color: "black" }}>Appliance repairs</Text>Like AC, RO,Washing machine repairs etc.</Text>
                     <Text style={styles.sectionText}><Text style={{ color: "black", fontSize: 20, fontWeight: "500" }}>2.</Text> <Text style={{ color: "black" }}>Pest control</Text> serivces</Text>
                     <Text style={styles.sectionText}><Text style={{ color: "black", fontSize: 20, fontWeight: "500" }}>3.</Text><Text style={{ color: "black" }}>Painting</Text> serivces </Text>
-
                     <View>
                         <Text style={styles.sectionText}>However, the JU warranty <Text>does not</Text> cover:</Text>
                         <Text style={styles.sectionText}><Text style={{ color: "black", fontSize: 20, fontWeight: "500" }}>1.</Text> Any new issue that occurs post the service</Text>
@@ -38,8 +36,8 @@ const Services = () => {
 
         </SafeAreaView>
 
-    )
-}
+    );
+};
 export default Services;
 
 const styles = StyleSheet.create({

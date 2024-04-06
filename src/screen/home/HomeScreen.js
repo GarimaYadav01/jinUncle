@@ -12,9 +12,9 @@ import { imagebaseurl } from "../../apiconfig/Apiconfig";
 const { width, height } = Dimensions.get("screen")
 const HomeScreen = (props) => {
     const navigation = useNavigation();
-    const { fetchData, handleGetlocation, location, iscategories, fetchDataCategory, categoryDetail, fetchSubCategories, issubCategories, isLoading, getProfile, getsubCategoryhandle, issubcategorydetails, handlegetservice, servericeget } = useContext(AuthContext);
-    console.log("issubcategorydetails------>", categoryDetail);
-    console.log("servericeget--servericeget----->--->", servericeget);
+    const { fetchData, handleGetlocation, location, iscategories, fetchDataCategory, categoryDetail, fetchSubCategories, issubCategories, isLoading, getProfile, getsubCategoryhandle, issubcategorydetails, handlegetservice, servericeget, handlebannerhome, banner, handledetailsservice, servericdetailsget } = useContext(AuthContext);
+    console.log("issubcategorydetails------>", servericeget);
+    console.log("servericeget--servericeget----->--->", servericdetailsget);
     // console.log("categoryDetail------>", getProfile);
     useEffect(() => {
         const handleFocus = () => {
@@ -25,6 +25,8 @@ const HomeScreen = (props) => {
             getProfile();
             getsubCategoryhandle();
             handlegetservice();
+            handlebannerhome();
+            handledetailsservice();
         };
         handleFocus();
         const unsubscribeFocus = navigation.addListener('focus', handleFocus);
@@ -38,93 +40,19 @@ const HomeScreen = (props) => {
     };
     const [currentIndex, setCurrentIndex] = useState(0);
     const [currentgifIndex, setCurrentgifIndex] = useState(0);
-    const gif = [
-        require("../../assets/gif/AC.gif"),
-        require('../../assets/gif/Refrigerator.gif'),
-        require('../../assets/gif/washingmachine1.gif'),
-        // Add more image sources as needed
-    ];
+
     const images = [
         require('../../assets/newbanners/fridgeBannner2.png'),
         require('../../assets/banner/ACBAnner.png'),
         require('../../assets/banner/ACBAnner1.png'),
         // Add more image sources as needed
     ];
-    const data = [
-        {
-            id: "1",
-            image: require("../../assets/banner/img2.png"),
-            name: "Ac",
-            screen: "Accategory"
-        },
-        {
-            id: "2",
-            image: require("../../assets/banner/img3.png"),
-            name: "Refrigerator",
-            screen: "Fridagecategory"
-        },
-        {
-            id: "3",
-            image: require("../../assets/banner/img-1.png"),
-            name: "Washing Machine",
-            screen: "Washingmachinecategory"
-        }
-    ]
+
     const handleMenuItemPress = (screen, id, name) => {
         // Navigate to the desired screen using navigation.navigate()
         navigation.navigate(screen, { itemId: id, itemName: name });
     };
-    const subcategory = [
-        {
-            id: "1",
-            image: require("../../assets/newimages/AC1.png"),
-            name: "Repair & gas refill"
-        },
-        {
-            id: "2",
-            image: require("../../assets/newimages/AC.png"),
-            name: "Install & Uninstall"
-        },
-        {
-            id: "3",
-            image: require("../../assets/newimages/AC2.png"),
-            name: "service"
-        }
-    ]
-    const subcategoryfridge = [
-        {
-            id: "1",
-            image: require("../../assets/subimages/singledoor.jpeg"),
-            name: "Single door"
-        },
-        {
-            id: "2",
-            image: require("../../assets/subimages/doubledoor.png"),
-            name: "Double door"
-        },
-        {
-            id: "3",
-            image: require("../../assets/subimages/sidebyside.jpeg"),
-            name: "Side by Side"
-        }
-    ]
-    const subcategorywashingmachine = [
-        {
-            id: "1",
-            image: require("../../assets/newimages/washingmachine1.png"),
-            name: "Single door"
-        },
-        {
-            id: "2",
-            image: require("../../assets/newimages/washingmachine2.png"),
-            name: "Double door"
-        },
-        {
-            id: "3",
-            image: require("../../assets/newimages/wahingmachine3.png"),
-            name: "Side by Side"
-        }
-    ]
+
     const Allmix = [
         {
             id: "1",
@@ -194,7 +122,7 @@ const HomeScreen = (props) => {
     }, []);
     useEffect(() => {
         const interval = setInterval(() => {
-            setCurrentgifIndex((prevIndex) => (prevIndex + 1) % gif.length);
+            setCurrentgifIndex((prevIndex) => (prevIndex + 1) % banner.length);
         }, 3000);
 
         return () => clearInterval(interval);
@@ -323,6 +251,15 @@ const HomeScreen = (props) => {
             screen: "Subcategory"
         },
     ];
+
+    const bannerImages = banner?.map(item => {
+        try {
+            const imageArray = JSON.parse(item.image);
+            return imageArray[0].image_path;
+        } catch (error) {
+            return null;
+        }
+    }).filter(imagePath => imagePath !== null);
     return (
         <SafeAreaView style={{ flex: 1, paddingBottom: 20, backgroundColor: "#FFF" }}>
             <ScrollView style={{ flexGrow: 1, }} showsVerticalScrollIndicator={false}>
@@ -354,7 +291,14 @@ const HomeScreen = (props) => {
                     </View>
                 </View>
                 <View style={styles.container1}>
-                    <Image source={gif[currentgifIndex]} style={styles.image} resizeMode="contain" />
+                    {bannerImages.map((imagePath, index) => (
+                        <Image
+                            key={index}
+                            source={{ uri: imagePath }}
+                            style={styles.image}
+                            resizeMode="contain"
+                        />
+                    ))}
                 </View>
                 <View style={styles.con}>
                     <Text style={styles.text}>Category</Text>
@@ -509,6 +453,7 @@ const styles = StyleSheet.create({
     image: {
         width: width * 0.89,
         // height:height*0.1,
+        height: height * 0.2,
         borderRadius: 20
     },
     btn: {

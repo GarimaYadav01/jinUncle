@@ -1,28 +1,61 @@
-import React from "react";
-import { View, Image, StyleSheet, SafeAreaView, StatusBar, Dimensions, Text, ScrollView } from 'react-native';
+import React, { useEffect, useState } from "react";
+import { View, Image, StyleSheet, SafeAreaView, StatusBar, Dimensions, Text, ScrollView, FlatList } from 'react-native';
 import Header from "../../compontent/Header";
-const Aboutus = () => {
+import { aboutusfetch } from "../../apiconfig/Apiconfig";
+import LoaderScreen from "../../compontent/LoaderScreen";
+const Aboutus = (props) => {
+    const [abouts, setAbouts] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    console.log("aboutus----->", abouts)
+    const fetchData = async () => {
+        try {
+            setIsLoading(true);
+            const myHeaders = new Headers();
+            myHeaders.append("token", "WlhsS01XTXlWbmxZTW14clNXcHZhVTFVVldsTVEwcDNXVmhPZW1ReU9YbGFRMGsyU1d0R2EySlhiSFZKVTFFd1RrUlJlVTVFUlhsT1EwWkJTMmxaYkVscGQybGhSemt4WTI1TmFVOXFVVFJNUTBwcldWaFNiRmd6VW5CaVYxVnBUMmxKZVUxRVNUQk1WRUY2VEZSSmVVbEVSVEZQYWtreVQycFJlRWxwZDJsamJUbHpXbE5KTmtscVNXbE1RMHByV2xoYWNGa3lWbVpoVjFGcFQyMDFNV0pIZURrPQ==");
+            myHeaders.append("Cookie", "ci_session=9148ab8ec5ed9c1cfd4910bb1a8607b7da2859f1");
+            const requestOptions = {
+                method: "GET",
+                headers: myHeaders,
+                redirect: "follow"
+            };
+            const response = await fetch(aboutusfetch, requestOptions);
+            const result = await response.json(); // Parse response as JSON
+            console.log("result----->", result);
+            if (response.status === 200) {
+                setAbouts(result.data);
+                setIsLoading(false);
+                console.log("setAboutssetAbouts------>", result.data);
+            }
+        } catch (error) {
+            setIsLoading(false);
+            console.error(error);
+        }
+    };
+    useEffect(
+        () => {
+            fetchData();
+        }, [props.navigation]
+    )
+
+    const renderItem = ({ item }) => (
+        <View style={styles.content}>
+            <Text style={styles.sectionTitle}>{item.name}</Text>
+            <Text style={styles.sectionText}>{item.content}</Text>
+        </View>
+    );
+
     return (
-        <SafeAreaView>
+        <SafeAreaView style={{ flex: 1, backgroundColor: "#FFF" }}>
             <Header title={"About us"} />
             <ScrollView contentContainerStyle={styles.container}>
-                <View style={styles.content}>
-                    <Text style={styles.sectionTitle}>Welcome to jinn uncle</Text>
-                    <Text style={styles.sectionText}>
-                        We connect millions of buyers and sellers around the world, empowering people & creating economic opportunity for all.
-                    </Text>
-
-
-                    <Text style={styles.sectionText}>
-                        Within our markets, millions of people around the world connect, both online and offline, to make, sell and buy unique goods. We also offer a wide range of Seller Services and tools that help creative entrepreneurs start, manage and scale their businesses. Our mission is to reimagine commerce in ways that build a more fulfilling and lasting world, and we’re committed to using the power of business to strengthen communities and empower people.
-                    </Text>
-
-                    {/* Add more sections as needed */}
-
-                </View>
+                <FlatList
+                    data={abouts}
+                    renderItem={renderItem}
+                    keyExtractor={item => item.id}
+                />
             </ScrollView>
 
-
+            {isLoading && <LoaderScreen isLoading={isLoading} />}
         </SafeAreaView>
 
     )

@@ -6,30 +6,46 @@ import CustomButton from "./Custombutton";
 import { tuple } from "yup";
 import AddressModal from "./AddressModal";
 import RazorpayCheckout from 'react-native-razorpay';
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { timeSlotting } from "../apiconfig/Apiconfig";
+import LoaderScreen from "./LoaderScreen";
 const { width, height } = Dimensions.get("screen");
 const TimeSlot = ({ isVisible, onClose, categories }) => {
     const navigation = useNavigation();
     const [selectedDay, setSelectedDay] = useState(null);
     const [selectedItem, setSelectedItem] = useState(null);
-    const weekdays = [
-        { id: '1', name: 'Mon' },
-        { id: '2', name: 'Tue' },
-        { id: '3', name: 'Wed' },
-        { id: '4', name: 'Thu' },
-        { id: '5', name: 'Fri' },
-        { id: '6', name: 'Sat' },
-        { id: '7', name: 'Sun' },
-    ];
-    const times = [
-        { id: '1', time: '06:30 PM' },
-        { id: '2', time: '07:00 PM' },
-        { id: '3', time: '07:30 PM' },
-        { id: '4', time: '07:30 PM' },
-        { id: '5', time: '07:30 PM' },
-        { id: '6', time: '07:30 PM' },
-        // Add more times as needed
-    ];
+    const [timeSlotget, setTimeslotget] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    console.log("hhhdg----->", timeSlotget)
+    const handlesubmit = async () => {
+        try {
+            setIsLoading(true);
+            const token = await AsyncStorage.getItem("token")
+            const myHeaders = new Headers();
+            myHeaders.append("token", token);
+
+            const requestOptions = {
+                method: "GET",
+                headers: myHeaders,
+                redirect: "follow"
+            };
+            const response = await fetch(timeSlotting, requestOptions);
+            const result = await response.json();
+            console.log("responsetimeslot------->", result)
+            if (result.status == 200) {
+                setTimeslotget(result.data);
+                setIsLoading(false);
+                console.log("settimelot----->", result)
+            }
+        } catch (error) {
+            console.log("rror----->", error)
+            setIsLoading(false);
+        }
+    }
+    useEffect(() => {
+        handlesubmit();
+    }, []);
+
     const handleViewCard = () => {
         onClose();
         navigation.navigate("PaymentScreen");
@@ -51,14 +67,14 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
             <TouchableOpacity
                 style={[
                     styles.con,
-                    selectedDay === item.id ? styles.selectedDay : null
+                    selectedDay === item.date ? styles.selectedDay : null
                 ]}
-                onPress={() => handleDaySelect(item.id)}
+                onPress={() => handleDaySelect(item.date)}
             >
-                <Text style={[styles.text1
-                    , selectedDay === item.id ? styles.selecttext : null]}>{item.name}</Text>
-                <Text style={[styles.text1
-                    , selectedDay === item.id ? styles.selecttext : null]}>11</Text>
+                <Text style={[
+                    styles.text1,
+                    selectedDay === item.date ? styles.selecttext : null
+                ]}>{item.name}</Text>
             </TouchableOpacity>
         );
     };
@@ -67,16 +83,17 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
         <TouchableOpacity
             style={[
                 styles.btn,
-                selectedItem === item.id ? styles.selectedDay : null
+                selectedItem === item.name ? styles.selectedDay : null
             ]}
-            onPress={() => handleItemSelect(item.id)}
+            onPress={() => handleItemSelect(item.name)}
         >
             <Text style={[
                 styles.text1,
-                selectedItem === item.id ? styles.selecttext : null
-            ]}>{item.time}</Text>
+                selectedItem === item.name ? styles.selecttext : null
+            ]}>{item.name}</Text>
         </TouchableOpacity>
     );
+
     return (
         <Modal
             visible={isVisible}
@@ -111,9 +128,9 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
                             <Text style={styles.title}>Get service later</Text>
                             <Text style={styles.text}>Serivce at the earliest available time slot</Text>
                             <FlatList
-                                data={weekdays}
+                                data={timeSlotget.days}
                                 renderItem={renderItem}
-                                keyExtractor={item => item.id}
+                                keyExtractor={(item, index) => index.toString()}
                                 horizontal
                                 contentContainerStyle={{ columnGap: 10 }}
                                 showsHorizontalScrollIndicator={false}
@@ -121,10 +138,10 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
                             <View>
                                 <Text style={[styles.title, { marginTop: 10 }]}>Select start time of service</Text>
                                 <FlatList
-                                    data={times}
+                                    data={timeSlotget.times}
                                     // numColumns={4}
                                     renderItem={renderItem2}
-                                    keyExtractor={item => item.id}
+                                    keyExtractor={(item, index) => index.toString()}
                                     // columnWrapperStyle={{ columnGap: 10, rowGap: 10 }}
                                     horizontal
                                     contentContainerStyle={{ columnGap: 10 }}
@@ -141,9 +158,8 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
             <AddressModal
                 visible={modalVisible}
                 onClose={() => setModalVisible(false)}
-
             />
-
+            {isLoading && <LoaderScreen isLoading={isLoading} />}
         </Modal>
     );
 };

@@ -1,13 +1,17 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Dimensions, FlatList, Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Ac from "../tab/Ac";
 import Refrigerator from "../tab/Refrigerator";
 import Washingmachine from "../tab/Washingmachine";
+import AuthContext from "../context/AuthContext";
+import { imagebaseurl } from "../../apiconfig/Apiconfig";
+import LoaderScreen from "../../compontent/LoaderScreen";
 const { height, width } = Dimensions.get("screen")
 const SettingsScreen = () => {
     const navigation = useNavigation();
-
+    const { iscategories, isLoading } = useContext(AuthContext);
+    // console.log("iscategoriesiscategories------>", iscategories)
     const data = [
         {
             id: "1",
@@ -39,45 +43,40 @@ const SettingsScreen = () => {
     const [activeTab, setActiveTab] = useState(0);
     const [showPayment, setShowPayment] = useState(false);
 
-    const renderItem = ({ item, index }) => (
-        <TouchableOpacity
-            style={[styles.btn, activeTab === index && styles.activeTab]}
-            onPress={() => {
-                setActiveTab(index); // Set active tab
-
-                handleTabPress(item.screenName); // Navigate to the selected screen
-            }}
-        >
-            <Image source={item.image} style={{ width: 150, height: 150, borderRadius: 20 }} resizeMode="contain" />
-            <Text style={[styles.name, activeTab === index && { color: '#004E8C' }]}>{item.name}</Text>
-        </TouchableOpacity>
-    );
-
-
-    const renderAdditionalContent = (tabName) => {
-        switch (tabName) {
-            case "Ac":
-                return (
-                    <View>
-                        <Ac />
-                    </View>
-                );
-            case "Refrigerator":
-                return (
-                    <View>
-                        <Refrigerator />
-                    </View>
-                );
-            case "Washing Machine":
-                return (
-                    <View>
-                        <Washingmachine />
-                    </View>
-                );
-            default:
-                return null;
+    const renderItem = ({ item, index }) => {
+        let imageData;
+        try {
+            imageData = JSON.parse(item.image)[0];
+        } catch (error) {
+            return null;
         }
+        const imagePath = imagebaseurl + imageData.image_path;
+        return (
+            <TouchableOpacity
+                style={[styles.btn, activeTab === index && styles.activeTab]}
+                onPress={() => {
+                    setActiveTab(index);
+                    // handleTabPress(item.screenName);
+                }}
+            >
+                <Image source={{ uri: imagePath }} style={{ width: 150, height: 150, borderRadius: 20 }} resizeMode="contain" />
+                <Text style={[styles.name, activeTab === index && { color: '#004E8C' }]}>{item.name}</Text>
+            </TouchableOpacity>
+        );
     };
+
+    // const renderAdditionalContent = (tabName) => {
+    //     switch (tabName) {
+    //         case "Ac":
+    //             return (
+    //                 <View>
+    //                     <Ac />
+    //                 </View>
+    //             );
+    //         default:
+    //             return null;
+    //     }
+    // };
 
     return (
         <SafeAreaView>
@@ -85,7 +84,7 @@ const SettingsScreen = () => {
                 <View style={styles.con}>
                     <Text style={styles.text}>Category</Text>
                     <FlatList
-                        data={data}
+                        data={iscategories}
                         renderItem={renderItem}
                         horizontal
                         showsHorizontalScrollIndicator={false}
@@ -93,16 +92,14 @@ const SettingsScreen = () => {
                     />
                 </View>
                 <View style={styles.additionalContent}>
-                    {renderAdditionalContent(data[activeTab].name)}
+                    {/* {renderAdditionalContent(iscategories[activeTab].name)} */}
+                    <Ac />
                 </View>
 
-                {/* <View style={styles.paymentcard}>
-                    <Text style={styles.text}>₹549</Text>
-                    <TouchableOpacity style={styles.smallbutton}>
-                        <Text style={styles.textbut}>View card</Text>
-                    </TouchableOpacity>
-                </View> */}
+
             </ScrollView>
+
+            {isLoading && <LoaderScreen isLoading={isLoading} />}
 
         </SafeAreaView>
     )
