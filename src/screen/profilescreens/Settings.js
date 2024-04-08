@@ -1,33 +1,59 @@
 import React, { useState } from "react";
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text, View, Switch, Dimensions, TouchableOpacity, Modal, Button } from "react-native";
 import Header from "../../compontent/Header";
-
-
+import { del } from "../../apiconfig/Apiconfig";
+import LoaderScreen from "../../compontent/LoaderScreen";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const { height, width } = Dimensions.get("screen");
-
 const Settings = ({ navigation }) => {
     const [isEnabled, setIsEnabled] = useState(false);
     const [deleteModalVisible, setDeleteModalVisible] = useState(false);
     const [updateModalVisible, setUpdateModalVisible] = useState(false);
-
+    const [isLoading, setIsloading] = useState(false);
+    const handledeleteapi = async () => {
+        setIsloading(true);
+        try {
+            const token = await AsyncStorage.getItem('token');
+            const requestOptions = {
+                method: "GET",
+                headers: token,
+                redirect: "follow"
+            };
+            const response = await fetch(del, requestOptions);
+            const data = await response.text();
+            console.log("Logout response:", data);
+            console.log('Logout successful');
+            if (response.data == 200) {
+                await AsyncStorage.removeItem('token');
+                setIsloading(false);
+                setDeleteModalVisible(false);
+                navigation.navigate("LoginScreen")
+                showMessage({
+                    message: "delete  suceesfully ",
+                    type: "success",
+                    icon: "success"
+                })
+            }
+        } catch (error) {
+            console.error('Error logging out:', error);
+            setIsloading(false);
+        }
+    }
     const toggleSwitch = () => {
         setIsEnabled(previousState => !previousState);
         if (!isEnabled) {
-            openUpdateModal(); // Open the update modal when the switch is toggled to the enabled state
+            openUpdateModal();
         }
     };
 
     const openDeleteModal = () => setDeleteModalVisible(true);
     const closeDeleteModal = () => setDeleteModalVisible(false);
-
     const openUpdateModal = () => setUpdateModalVisible(true);
     const closeUpdateModal = () => setUpdateModalVisible(false);
-
     const handlelogutaccount = () => {
         setDeleteModalVisible(false);
         navigation.navigate("LoginScreen")
     }
-
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <Header title={"Settings"} />
@@ -38,7 +64,6 @@ const Settings = ({ navigation }) => {
                             <Image source={require("../../assets/Newicon/whatsapp.png")} style={{ width: 30, height: 30, }} resizeMode="contain" />
                             <Text style={styles.text}>Updates on WhatsApp {isEnabled ? 'ON' : 'OFF'}</Text>
                         </View>
-
                         <Switch
                             trackColor={{ false: "#767577", true: "#81b0ff" }}
                             thumbColor={isEnabled ? "#f5dd4b" : "#f4f3f4"}
@@ -48,7 +73,6 @@ const Settings = ({ navigation }) => {
                         />
                     </View>
                 </View>
-
                 <TouchableOpacity onPress={openDeleteModal} style={{ flexDirection: "row", marginTop: height * 0.02, paddingHorizontal: 25, alignItems: "center" }}>
                     <Image source={require("../../assets/Icon/delete.png")} style={{ width: 30, height: 30 }} />
                     <Text style={styles.delete}>  Delete Account</Text>
@@ -72,7 +96,7 @@ const Settings = ({ navigation }) => {
                                     Cancel
                                 </Text>
                             </TouchableOpacity>
-                            <TouchableOpacity onPress={handlelogutaccount} style={styles.btn}>
+                            <TouchableOpacity onPress={handledeleteapi} style={styles.btn}>
                                 <Text style={styles.text1}>
                                     Logout
                                 </Text>
@@ -81,7 +105,6 @@ const Settings = ({ navigation }) => {
                     </View>
                 </View>
             </Modal>
-
 
             <Modal
                 animationType="slide"
@@ -92,7 +115,6 @@ const Settings = ({ navigation }) => {
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
                         <TouchableOpacity onPress={closeUpdateModal} style={{ marginLeft: width * 0.6, paddingBottom: 10 }}>
-
                             <Image source={require("../../assets/Icon/cross.png")} resizeMode="contain" style={{ width: 30, height: 30 }} />
                         </TouchableOpacity>
                         <Text style={[styles.modalText, { textAlign: "center" }]}>You'll receiving booking updates on whatsapp</Text>
@@ -101,6 +123,8 @@ const Settings = ({ navigation }) => {
                     </View>
                 </View>
             </Modal>
+
+            {isLoading && <LoaderScreen isLoading={isLoading} />}
         </SafeAreaView>
     );
 };

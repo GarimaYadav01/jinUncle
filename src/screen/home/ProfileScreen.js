@@ -8,6 +8,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import LoaderScreen from "../../compontent/LoaderScreen";
 import { showMessage } from "react-native-flash-message";
 import AuthContext from "../context/AuthContext";
+import { logout } from "../../apiconfig/Apiconfig";
 const { height, width } = Dimensions.get("screen")
 
 const ProfileScreen = () => {
@@ -88,11 +89,9 @@ const ProfileScreen = () => {
                 headers: token,
                 redirect: "follow"
             };
-            const response = await fetch("https://aduetechnologies.com/jinuncle/api/auth/logout", requestOptions);
+            const response = await fetch(logout, requestOptions);
             const data = await response.text();
-
             console.log("Logout response:", data);
-
             // Clear the token from AsyncStorage
             await AsyncStorage.removeItem('token');
             console.log('Logout successful');

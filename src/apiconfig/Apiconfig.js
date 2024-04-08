@@ -17,5 +17,8 @@ export const get_most_popular_service = serverl + "Services/get_most_popular_ser
 export const get_offer_banner = serverl + "Offer_banner/get_offer_banner"
 export const timeSlotting = serverl + "Timeslot/gettimeslot"
 export const aboutusfetch = serverl + "Content/about_us"
+export const logout = serverl + "auth/logout"
+export const del = serverl + "user/delete_account"
+
 
 

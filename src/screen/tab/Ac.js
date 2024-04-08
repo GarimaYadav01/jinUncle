@@ -10,8 +10,10 @@ import LoaderScreen from "../../compontent/LoaderScreen";
 import { imagebaseurl } from "../../apiconfig/Apiconfig";
 const { height, width } = Dimensions.get("screen")
 
-const Ac = (props) => {
+const Ac = ({ route }) => {
     const navigation = useNavigation();
+    const categoryName = route?.params?.categoryName || "Default Category";
+    console.log("reiute----->", route?.params?.categoryName)
     const { isLoading, categoryDetail, issubCategories } = useContext(AuthContext);
     console.log("categoryDetail-->", categoryDetail)
     console.log("issubCategoriesissubCategories----->----->", issubCategories)
@@ -46,8 +48,6 @@ const Ac = (props) => {
         setShowPayment(true);
     };
 
-
-
     const renderItem3 = ({ item }) => {
         let imageData;
         try {
@@ -62,10 +62,8 @@ const Ac = (props) => {
                     <Image source={{ uri: imagePath }} style={{ width: 150, height: 150, borderRadius: 10 }} resizeMode="contain" />
                     <Text style={styles.name}>{item.name}</Text>
                 </TouchableOpacity>
-
             </View>
         );
-
     };
     return (
         <View>
@@ -73,7 +71,7 @@ const Ac = (props) => {
                 <View>
                     <View style={{ backgroundColor: "#FFF" }}>
                         <View style={{ marginHorizontal: 20, }}>
-                            <Text style={styles.text}>{categoryDetail?.name}</Text>
+                            <Text style={styles.text}>{categoryName}</Text>
                             <Text style={{ color: "gray", fontSize: 15, lineHeight: 22 }}>{categoryDetail?.short_description}</Text>
                             <View style={{ flexDirection: "row", alignItems: "center", columnGap: 10, marginTop: 10 }}>
                                 <Image source={require("../../assets/logo/star.png")} style={{ width: 20, height: 20 }} resizeMode="contain" />

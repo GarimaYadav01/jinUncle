@@ -15,6 +15,7 @@ export const AuthProvider = ({ children }) => {
     const [servericeget, setservericget] = useState([]);
     const [banner, setBanner] = useState([]);
     const [servericdetailsget, setServericdetailsget] = useState([])
+    const [mostpolluar, setIsmostpolluar] = useState([]);
     const login = (userData) => {
         setUser(userData);
     };
@@ -278,7 +279,7 @@ export const AuthProvider = ({ children }) => {
 
             const response = await fetch(serviceget, requestOptions);
             const result = await response.json();
-            console.log("serviceget------->", result)
+            console.log("serviceget------->", response)
             if (result.status == 200) {
                 setservericget(result.data)
                 setIsLoading(false);
@@ -288,7 +289,7 @@ export const AuthProvider = ({ children }) => {
         } catch (error) {
             console.error(error);
             setIsLoading(false);
-            // Handle errors
+          
         }
     }
 
@@ -304,17 +305,20 @@ export const AuthProvider = ({ children }) => {
             };
             const response = await fetch(get_offer_banner, requestOptions);
             const result = await response.json();
-            console.log("fffhfdkj---->", result);
-            if (response.status == 200) {
-                setBanner(result.data)
+            console.log("Response from API:", result);
+            if (response.status === 200) {
+                setBanner(result.data);
                 setIsLoading(false);
-                console.log("responsebanner----->", result.data)
+                console.log("Response banner data:", result.data);
+            } else {
+                console.error("Error response:", result);
+                setIsLoading(false);
             }
         } catch (error) {
-            console.error(error);
+            console.error("API Error:", error);
             setIsLoading(false);
         }
-    }
+    };
 
     const handledetailsservice = async () => {
         try {
@@ -340,8 +344,34 @@ export const AuthProvider = ({ children }) => {
             console.error("handledetailsserviceerrorrr------>", error);
             setIsLoading(false);
         }
-
     }
+
+    const handlemostpopularservice = async () => {
+        try {
+            const token = await AsyncStorage.getItem('token');
+            const myHeaders = new Headers();
+            myHeaders.append("token", token);
+            myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
+            const formdata = new FormData();
+            formdata.append('service_id', '1');
+            const requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: formdata,
+                redirect: 'follow'
+            };
+            const response = await fetch("https://aduetechnologies.com/jinuncle/api/Services/get_most_popular_service", requestOptions);
+            const result = await response.json(); // Parse response body to JSON
+            console.log("resultmost------>", result);
+            if (response.status === 200) { // Check response status
+                setIsmostpolluar(result.data);
+                console.log("resultstatus--------->", result.data);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
 
 
     return (
@@ -370,7 +400,10 @@ export const AuthProvider = ({ children }) => {
                 handlebannerhome,
                 banner,
                 handledetailsservice,
-                servericdetailsget
+                servericdetailsget,
+                handlemostpopularservice,
+                mostpolluar,
+
 
             }}
         >

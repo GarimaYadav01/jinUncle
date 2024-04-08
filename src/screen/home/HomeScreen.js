@@ -12,9 +12,10 @@ import { imagebaseurl } from "../../apiconfig/Apiconfig";
 const { width, height } = Dimensions.get("screen")
 const HomeScreen = (props) => {
     const navigation = useNavigation();
-    const { fetchData, handleGetlocation, location, iscategories, fetchDataCategory, categoryDetail, fetchSubCategories, issubCategories, isLoading, getProfile, getsubCategoryhandle, issubcategorydetails, handlegetservice, servericeget, handlebannerhome, banner, handledetailsservice, servericdetailsget } = useContext(AuthContext);
-    console.log("issubcategorydetails------>", servericeget);
+    const { fetchData, handleGetlocation, location, iscategories, fetchDataCategory, categoryDetail, fetchSubCategories, issubCategories, isLoading, getProfile, getsubCategoryhandle, issubcategorydetails, handlegetservice, servericeget, handlebannerhome, banner, handledetailsservice, servericdetailsget, handlemostpopularservice, mostpolluar } = useContext(AuthContext);
+    console.log("mostpolluar------>", mostpolluar);
     console.log("servericeget--servericeget----->--->", servericdetailsget);
+    console.log("banner---->", banner)
     // console.log("categoryDetail------>", getProfile);
     useEffect(() => {
         const handleFocus = () => {
@@ -27,6 +28,7 @@ const HomeScreen = (props) => {
             handlegetservice();
             handlebannerhome();
             handledetailsservice();
+            handlemostpopularservice();
         };
         handleFocus();
         const unsubscribeFocus = navigation.addListener('focus', handleFocus);
@@ -45,11 +47,9 @@ const HomeScreen = (props) => {
         require('../../assets/newbanners/fridgeBannner2.png'),
         require('../../assets/banner/ACBAnner.png'),
         require('../../assets/banner/ACBAnner1.png'),
-        // Add more image sources as needed
     ];
 
     const handleMenuItemPress = (screen, id, name) => {
-        // Navigate to the desired screen using navigation.navigate()
         navigation.navigate(screen, { itemId: id, itemName: name });
     };
 
@@ -103,15 +103,15 @@ const HomeScreen = (props) => {
             starts: 549,
         }
     ]
-    useEffect(() => {
-        const interval = setInterval(() => {
-            const nextIndex = (index + 1) % Allmix.length;
-            flatListRef.current.scrollToIndex({ animated: true, index: nextIndex });
-            setIndex(nextIndex);
-        }, 3000);
+    // useEffect(() => {
+    //     const interval = setInterval(() => {
+    //         const nextIndex = (index + 1) % Allmix?.length;
+    //         flatListRef.current.scrollToIndex({ animated: true, index: nextIndex });
+    //         setIndex(nextIndex);
+    //     }, 3000);
 
-        return () => clearInterval(interval);
-    }, [index]);
+    //     return () => clearInterval(interval);
+    // }, [index]);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -138,7 +138,8 @@ const HomeScreen = (props) => {
         const imagePath = imagebaseurl + imageData.image_path;
         return (
             <View style={{ marginBottom: 20, marginTop: 10 }}>
-                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate("Accategory")}>
+                <TouchableOpacity style={styles.btn}
+                    onPress={() => navigation.navigate("Accategory", { categoryName: item.name })}>
                     <Image source={{ uri: imagePath }} style={{ width: 150, height: 150, borderRadius: 10 }} resizeMode="contain" />
                     <Text style={styles.name}>{item.name}</Text>
                 </TouchableOpacity>
@@ -155,7 +156,7 @@ const HomeScreen = (props) => {
         const imagePath = imagebaseurl + imageData.image_path;
         return (
             <View style={{ marginBottom: 20, marginTop: 10 }}>
-                <TouchableOpacity style={styles.btn} >
+                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate("Fridagecategory", { subcategory: item.name })}>
                     <Image source={{ uri: imagePath }} style={{ width: 150, height: 150, borderRadius: 10 }} resizeMode="contain" />
                     <Text style={styles.name}>{item.name}</Text>
                 </TouchableOpacity>
@@ -172,7 +173,7 @@ const HomeScreen = (props) => {
         const imagePath = imagebaseurl + imageData.image_path;
         return (
             <View style={{ marginBottom: 20, marginTop: 10 }}>
-                <TouchableOpacity style={styles.btn}>
+                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate("Fridagecategory", { subcategory: item.name })}>
                     <Image source={{ uri: imagePath }} style={{ width: 150, height: 150, borderRadius: 10 }} resizeMode="contain" />
                     <Text style={styles.name}>{item.name}</Text>
                 </TouchableOpacity>
@@ -271,7 +272,7 @@ const HomeScreen = (props) => {
                         <Text style={[styles.text, { fontSize: 14, color: "#c0c0c0", fontFamily: "Roboto-Regular", }]}>Janakpuri-Delhi- 110058-india</Text>
                     </TouchableOpacity>
                     <View>
-                        <TouchableOpacity >
+                        <TouchableOpacity>
                             <Image source={require("../../assets/gif/placeholder.png")} resizeMode="contain" style={{ width: 30, height: 30, }} />
                         </TouchableOpacity>
                     </View>
@@ -375,18 +376,18 @@ const HomeScreen = (props) => {
                         <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
                             <FlatList
                                 ref={flatListRef}
-                                data={Allmix}
+                                data={mostpolluar}
                                 renderItem={renderItemallmix}
                                 keyExtractor={(item) => item.id.toString()}
                                 horizontal
                                 showsHorizontalScrollIndicator={false}
                                 pagingEnabled
-                                onMomentumScrollEnd={(event) => {
-                                    // Calculate the index of the current item based on the scroll position
-                                    const { contentOffset, layoutMeasurement, contentSize } = event.nativeEvent;
-                                    const newIndex = Math.floor(contentOffset.x / layoutMeasurement.width);
-                                    setIndex(newIndex);
-                                }}
+                            // onMomentumScrollEnd={(event) => {
+                            //     // Calculate the index of the current item based on the scroll position
+                            //     const { contentOffset, layoutMeasurement, contentSize } = event.nativeEvent;
+                            //     const newIndex = Math.floor(contentOffset.x / layoutMeasurement.width);
+                            //     setIndex(newIndex);
+                            // }}
                             />
                         </View>
                     </View>
