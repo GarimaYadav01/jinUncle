@@ -12,7 +12,7 @@ import { imagebaseurl } from "../../apiconfig/Apiconfig";
 const { width, height } = Dimensions.get("screen")
 const HomeScreen = (props) => {
     const navigation = useNavigation();
-    const { fetchData, handleGetlocation, location, iscategories, fetchDataCategory, categoryDetail, fetchSubCategories, issubCategories, isLoading, getProfile, getsubCategoryhandle, issubcategorydetails, handlegetservice, servericeget, handlebannerhome, banner, handledetailsservice, servericdetailsget, handlemostpopularservice, mostpolluar } = useContext(AuthContext);
+    const { fetchData, handleGetlocation, location, iscategories, fetchDataCategory, categoryDetail, fetchSubCategories, issubCategories, isLoading, getProfile, getsubCategoryhandle, issubcategorydetails, handlegetservice, servericeget, handlebannerhome, banner, handledetailsservice, servericdetailsget, handlemostpopularservice, mostpolluar, } = useContext(AuthContext);
     console.log("mostpolluar------>", mostpolluar);
     console.log("servericeget--servericeget----->--->", servericdetailsget);
     console.log("banner---->", banner)
@@ -122,7 +122,7 @@ const HomeScreen = (props) => {
     }, []);
     useEffect(() => {
         const interval = setInterval(() => {
-            setCurrentgifIndex((prevIndex) => (prevIndex + 1) % banner.length);
+            setCurrentgifIndex((prevIndex) => (prevIndex + 1) % banner?.length);
         }, 3000);
 
         return () => clearInterval(interval);
@@ -256,7 +256,8 @@ const HomeScreen = (props) => {
     const bannerImages = banner?.map(item => {
         try {
             const imageArray = JSON.parse(item.image);
-            return imageArray[0].image_path;
+            const imagePath = imageArray[0].image_path;
+            return imagebaseurl + imagePath;
         } catch (error) {
             return null;
         }
@@ -269,7 +270,7 @@ const HomeScreen = (props) => {
                     <Image source={require("../../assets/logo/jinnlogo.png")} style={styles.images} />
                     <TouchableOpacity>
                         <Text style={styles.text}>{location}</Text>
-                        <Text style={[styles.text, { fontSize: 14, color: "#c0c0c0", fontFamily: "Roboto-Regular", }]}>Janakpuri-Delhi- 110058-india</Text>
+                        <Text style={[styles.text, { fontSize: 14, color: "#c0c0c0", fontFamily: "Roboto-Regular", }]}>{location}</Text>
                     </TouchableOpacity>
                     <View>
                         <TouchableOpacity>
@@ -291,7 +292,9 @@ const HomeScreen = (props) => {
                         />
                     </View>
                 </View>
-                <View style={styles.container1}>
+                <View
+                    style={styles.container1}>
+                    {console.log("hcdkjd---->", bannerImages)}
                     {bannerImages.map((imagePath, index) => (
                         <Image
                             key={index}
@@ -299,6 +302,7 @@ const HomeScreen = (props) => {
                             style={styles.image}
                             resizeMode="contain"
                         />
+
                     ))}
                 </View>
                 <View style={styles.con}>
@@ -453,8 +457,8 @@ const styles = StyleSheet.create({
     },
     image: {
         width: width * 0.89,
-        // height:height*0.1,
-        height: height * 0.2,
+        height: height * 0.13,
+        // height: height * 0.2,
         borderRadius: 20
     },
     btn: {

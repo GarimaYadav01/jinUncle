@@ -41,9 +41,9 @@ export const AuthProvider = ({ children }) => {
             console.log("Response:", response);
             const result = await response.text();
             console.log("Result:", result);
-            if (response.status === 200) {
-                const parsedResult = JSON.parse(result); // Parse response as JSON
-                setIsCategories(parsedResult.data);
+            if (response?.status === 200) {
+                const parsedResult = JSON.parse(result);
+                setIsCategories(parsedResult?.data);
                 console.log("Categories:", parsedResult.data);
                 setIsLoading(false);
             }
@@ -73,8 +73,8 @@ export const AuthProvider = ({ children }) => {
             const result = await response.json();
             console.log(result);
             if (result.status == 200) {
-                setLocation(result.data.current_location);
-                console.log("Location:", result.data.current_location);
+                setLocation(result?.data?.current_location);
+                console.log("Location:", result?.data.current_location);
                 setIsLoading(false);
             }
         } catch (error) {
@@ -130,8 +130,8 @@ export const AuthProvider = ({ children }) => {
             const response = await fetch(categoridetails, requestOptions);
             const result = await response.json();
             console.log("result-fgfg----------->", result);
-            if (result.status == 200) {
-                setCategoryDetail(result.data);
+            if (result?.status == 200) {
+                setCategoryDetail(result?.data);
                 setIsLoading(false);
                 console.log("reponseresponse------>", result.data);
             }
@@ -151,7 +151,7 @@ export const AuthProvider = ({ children }) => {
             myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
             const formdata = new FormData();
             formdata.append("page", "0");
-            formdata.append("category_id", "1");
+            formdata.append("category_id", iscategories.id);
             const requestOptions = {
                 method: "POST",
                 headers: myHeaders,
@@ -162,7 +162,7 @@ export const AuthProvider = ({ children }) => {
             const result = await response.json();
             console.log(result);
             if (result.status == 200) {
-                setIsSubCategories(result.data);
+                setIsSubCategories(result?.data);
                 setIsLoading(false);
             } else {
                 console.error("Failed to fetch sub-categories:", result.message);
@@ -186,8 +186,8 @@ export const AuthProvider = ({ children }) => {
             };
             const response = await fetch(getprofile, requestOptions);
             const result = await response.json();
-            if (response.status == 200) {
-                setIsGetprofile(result.data);
+            if (response?.status == 200) {
+                setIsGetprofile(result?.data);
                 console.log("Result from ---------->", result.data);
             }
             console.log("Result from getProfile---------->", result);
@@ -214,9 +214,9 @@ export const AuthProvider = ({ children }) => {
             const response = await fetch(sub_categorydetails, requestOptions);
             const result = await response.json();
             console.log("subcategorydetails----->", result);
-            if (response.status === 200) {
+            if (response?.status === 200) {
                 setIsLoading(false);
-                setIsSubCategoriesdetails(result.data);
+                setIsSubCategoriesdetails(result?.data);
                 console.log("fhisflfkjf----->", result.data)
             }
         } catch (error) {
@@ -261,15 +261,13 @@ export const AuthProvider = ({ children }) => {
     //         console.log("errorservice---------->", error)
     //     }
     // }
-
-
     const handlegetservice = async () => {
         try {
             setIsLoading(true);
             const token = await AsyncStorage.getItem('token');
             const formdata = new FormData();
-            formdata.append("cat_id", "1");
-            formdata.append("sub_cat_id", "2");
+            formdata.append("cat_id", iscategories[0].id);
+            formdata.append("sub_cat_id", issubCategories[0].id);
             const requestOptions = {
                 method: "POST",
                 headers: token,
@@ -280,8 +278,8 @@ export const AuthProvider = ({ children }) => {
             const response = await fetch(serviceget, requestOptions);
             const result = await response.json();
             console.log("serviceget------->", response)
-            if (result.status == 200) {
-                setservericget(result.data)
+            if (result?.status == 200) {
+                setservericget(result?.data)
                 setIsLoading(false);
                 console.log("resultresponse------>", result.data)
             }
@@ -293,23 +291,25 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
-
     const handlebannerhome = async () => {
         try {
             setIsLoading(true);
             const token = await AsyncStorage.getItem('token');
+
             const requestOptions = {
                 method: "GET",
-                headers: token,
+                headers: {
+                    token: token
+                },
                 redirect: "follow"
             };
             const response = await fetch(get_offer_banner, requestOptions);
             const result = await response.json();
-            console.log("Response from API:", result);
-            if (response.status === 200) {
-                setBanner(result.data);
+            console.log("Response from API------->", result);
+            if (response?.status === 200) {
+                setBanner(result?.data);
                 setIsLoading(false);
-                console.log("Response banner data:", result.data);
+                console.log("Response banner data------->", result?.data);
             } else {
                 console.error("Error response:", result);
                 setIsLoading(false);
@@ -336,8 +336,8 @@ export const AuthProvider = ({ children }) => {
             const result = await response.json();
             console.log("handledetailsservice------>", result);
 
-            if (result.status == 200) {
-                setServericdetailsget(result.data)
+            if (response?.status == 200) {
+                setServericdetailsget(result?.data)
                 setIsLoading(false);
             }
         } catch (error) {
@@ -361,19 +361,16 @@ export const AuthProvider = ({ children }) => {
                 redirect: 'follow'
             };
             const response = await fetch("https://aduetechnologies.com/jinuncle/api/Services/get_most_popular_service", requestOptions);
-            const result = await response.json(); // Parse response body to JSON
+            const result = await response.json();
             console.log("resultmost------>", result);
-            if (response.status === 200) { // Check response status
-                setIsmostpolluar(result.data);
+            if (response?.status === 200) {
+                setIsmostpolluar(result?.data);
                 console.log("resultstatus--------->", result.data);
             }
         } catch (error) {
             console.error(error);
         }
     };
-
-
-
     return (
         <AuthContext.Provider
             value={{

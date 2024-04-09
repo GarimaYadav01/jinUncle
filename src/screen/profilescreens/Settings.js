@@ -25,8 +25,8 @@ const Settings = ({ navigation }) => {
             console.log('Logout successful');
             if (response.data == 200) {
                 await AsyncStorage.removeItem('token');
-                setIsloading(false);
                 setDeleteModalVisible(false);
+                setIsloading(false);
                 navigation.navigate("LoginScreen")
                 showMessage({
                     message: "delete  suceesfully ",
@@ -45,15 +45,14 @@ const Settings = ({ navigation }) => {
             openUpdateModal();
         }
     };
-
     const openDeleteModal = () => setDeleteModalVisible(true);
     const closeDeleteModal = () => setDeleteModalVisible(false);
     const openUpdateModal = () => setUpdateModalVisible(true);
     const closeUpdateModal = () => setUpdateModalVisible(false);
-    const handlelogutaccount = () => {
-        setDeleteModalVisible(false);
-        navigation.navigate("LoginScreen")
-    }
+    // const handlelogutaccount = () => {
+    //     setDeleteModalVisible(false);
+    //     navigation.navigate("LoginScreen")
+    // }
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <Header title={"Settings"} />
@@ -78,7 +77,6 @@ const Settings = ({ navigation }) => {
                     <Text style={styles.delete}>  Delete Account</Text>
                 </TouchableOpacity>
             </ScrollView>
-
             {/* Delete Account Modal */}
             <Modal
                 animationType="slide"
@@ -98,14 +96,13 @@ const Settings = ({ navigation }) => {
                             </TouchableOpacity>
                             <TouchableOpacity onPress={handledeleteapi} style={styles.btn}>
                                 <Text style={styles.text1}>
-                                    Logout
+                                    Delete
                                 </Text>
                             </TouchableOpacity>
                         </View>
                     </View>
                 </View>
             </Modal>
-
             <Modal
                 animationType="slide"
                 transparent={true}

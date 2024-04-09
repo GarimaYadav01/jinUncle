@@ -4,17 +4,17 @@ import Ac from "../tab/Ac";
 import AuthContext from "../context/AuthContext";
 import { imagebaseurl } from "../../apiconfig/Apiconfig";
 import LoaderScreen from "../../compontent/LoaderScreen";
-
+import { useNavigation } from "@react-navigation/native";
 const { height, width } = Dimensions.get("screen");
-
 const SettingsScreen = () => {
     const { iscategories, isLoading } = useContext(AuthContext);
     const [activeTab, setActiveTab] = useState(null);
-
-    const handleTabPress = (index) => {
+    const navigation = useNavigation();
+    const handleTabPress = (index, item) => {
         setActiveTab(index);
+        const categoryName = item.name;
+        console.log("Category Name:", categoryName);
     };
-
     const renderItem = ({ item, index }) => {
         let imageData;
         try {
@@ -26,7 +26,9 @@ const SettingsScreen = () => {
         return (
             <TouchableOpacity
                 style={[styles.btn, activeTab === index && styles.activeTab]}
-                onPress={() => handleTabPress(index)}
+                onPress={
+                    () => handleTabPress(index, item.name)
+                }
             >
                 <Image source={{ uri: imagePath }} style={{ width: 150, height: 150, borderRadius: 20 }} resizeMode="contain" />
                 <Text style={[styles.name, activeTab === index && { color: '#004E8C' }]}>{item.name}</Text>
@@ -48,12 +50,7 @@ const SettingsScreen = () => {
                     />
                 </View>
                 <View style={styles.tabContent}>
-                    {activeTab === 0 && <Ac />}
-                    {activeTab === 1 && <Ac />}
-                    {activeTab === 2 && <Ac />}
-                    {activeTab === 3 && <Ac />}
-                    {activeTab === 4 && <Ac />}
-                    {activeTab === 5 && <Ac />}
+                    {activeTab !== null && <Ac />}
                 </View>
             </ScrollView>
             {isLoading && <LoaderScreen isLoading={isLoading} />}
@@ -62,7 +59,6 @@ const SettingsScreen = () => {
 }
 
 export default SettingsScreen;
-
 const styles = StyleSheet.create({
     container: {
         marginTop: height * 0.03,

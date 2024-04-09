@@ -1,14 +1,50 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Dimensions, Image, SafeAreaView, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import Header from "../../compontent/Header";
 import { ICONS } from "../../assets/themes";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { wallet } from "../../apiconfig/Apiconfig";
+import LoaderScreen from "../../compontent/LoaderScreen";
 const { height, width } = Dimensions.get("screen")
 const MyWallet = () => {
     const [expanded, setExpanded] = useState(false);
+    const [isWallet, setIsWallet] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const toggleAccordion = () => {
         setExpanded(!expanded);
     };
+
+    const handlegetwallet = async () => {
+        try {
+            setIsLoading(true);
+            const token = await AsyncStorage.getItem('token');
+            const myHeaders = new Headers();
+            myHeaders.append("token", token);
+            myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
+            const requestOptions = {
+                method: "GET",
+                headers: myHeaders,
+                redirect: "follow"
+            };
+            const response = await fetch(wallet, requestOptions);
+            console.log("Response----->", response);
+            const result = await response.json();
+            console.log("resulwallet----->", result)
+            if (response?.status == 200) {
+                setIsWallet(result.data);
+                setIsLoading(false);
+                console.log("setiswallet-------->", result.data)
+            }
+        } catch (error) {
+            console.log("error---->", error);
+            setIsLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        handlegetwallet();
+    }, [])
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <Header title={"My Wallet"} />
@@ -19,7 +55,7 @@ const MyWallet = () => {
                 <View style={{ marginHorizontal: 20 }}>
                     <View style={{ flexDirection: "row", justifyContent: "space-between", marginHorizontal: 20 }}>
                         <Text style={styles.text}>UC Cash</Text>
-                        <Text style={styles.text}>₹0</Text>
+                        <Text style={styles.text}>₹{isWallet}</Text>
                     </View>
                     <Text style={styles.text1}>Formerly Ju Credits. Applicable on all services</Text>
                 </View>
@@ -46,6 +82,7 @@ const MyWallet = () => {
             <View style={styles.header}>
                 <Text style={styles.headerText}>Wallet</Text>
             </View>
+            {isLoading && <LoaderScreen isLoading={isLoading}/>}
         </SafeAreaView>
     )
 }

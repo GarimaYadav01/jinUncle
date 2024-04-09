@@ -175,7 +175,7 @@ const CardListComponent = () => {
     return (
         <View>
             <FlatList
-                data={servericeget}
+                data={datacard}
                 renderItem={handlerender}
                 keyExtractor={(item) => item.service}
                 showsVerticalScrollIndicator={false}

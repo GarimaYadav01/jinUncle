@@ -19,6 +19,7 @@ export const timeSlotting = serverl + "Timeslot/gettimeslot"
 export const aboutusfetch = serverl + "Content/about_us"
 export const logout = serverl + "auth/logout"
 export const del = serverl + "user/delete_account"
+export const wallet = serverl + "user/wallet"
 
 
 
