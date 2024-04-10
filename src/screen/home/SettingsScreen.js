@@ -28,8 +28,7 @@ const SettingsScreen = () => {
                 style={[styles.btn, activeTab === index && styles.activeTab]}
                 onPress={
                     () => handleTabPress(index, item.name)
-                }
-            >
+                }>
                 <Image source={{ uri: imagePath }} style={{ width: 150, height: 150, borderRadius: 20 }} resizeMode="contain" />
                 <Text style={[styles.name, activeTab === index && { color: '#004E8C' }]}>{item.name}</Text>
             </TouchableOpacity>
@@ -47,6 +46,12 @@ const SettingsScreen = () => {
                         horizontal
                         showsHorizontalScrollIndicator={false}
                         keyExtractor={(item) => item.id}
+                        ListEmptyComponent={() => (
+                            <View style={styles.emptyListContainer}>
+                                <Image source={require("../../assets/Newicon/delete.png")} style={{ width: 70, height: 70 }} />
+                                <Text style={styles.emptyListText}>No data found</Text>
+                            </View>
+                        )}
                     />
                 </View>
                 <View style={styles.tabContent}>
@@ -93,5 +98,16 @@ const styles = StyleSheet.create({
     },
     tabContent: {
         marginTop: height * 0.03
+    },
+    emptyListContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 20,
+    },
+    emptyListText: {
+        fontSize: 20,
+        color: 'gray',
+        fontWeight: "bold"
     },
 });

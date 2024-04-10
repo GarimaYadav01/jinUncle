@@ -12,9 +12,18 @@ import { imagebaseurl } from "../../apiconfig/Apiconfig";
 const { width, height } = Dimensions.get("screen")
 const HomeScreen = (props) => {
     const navigation = useNavigation();
-    const { fetchData, handleGetlocation, location, iscategories, fetchDataCategory, categoryDetail, fetchSubCategories, issubCategories, isLoading, getProfile, getsubCategoryhandle, issubcategorydetails, handlegetservice, servericeget, handlebannerhome, banner, handledetailsservice, servericdetailsget, handlemostpopularservice, mostpolluar, } = useContext(AuthContext);
+    const { fetchData, handleGetlocation, location, iscategories, fetchDataCategory, categoryDetail, fetchSubCategories, issubCategories, isLoading, getProfile, getsubCategoryhandle, issubcategorydetails, handlegetservice, servericeget, handlebannerhome, banner, handledetailsservice, servericdetailsget, handlemostpopularservice, mostpolluar, setIsmostpolluar } = useContext(AuthContext);
     console.log("mostpolluar------>", mostpolluar);
     console.log("servericeget--servericeget----->--->", servericdetailsget);
+    useEffect(() => {
+        try {
+            const data = JSON.parse(mostpolluar);
+            setIsmostpolluar(data);
+        } catch (error) {
+            console.error("Error parsing mostpolluar:", error);
+        }
+    }, [mostpolluar]);
+
     console.log("banner---->", banner)
     // console.log("categoryDetail------>", getProfile);
     useEffect(() => {
@@ -34,6 +43,12 @@ const HomeScreen = (props) => {
         const unsubscribeFocus = navigation.addListener('focus', handleFocus);
         return unsubscribeFocus;
     }, []);
+
+
+
+    useEffect(() => {
+        fetchSubCategories();
+    }, [])
     const [index, setIndex] = useState(0);
     const flatListRef = useRef(null);
     const [expanded, setExpanded] = useState(false);
@@ -181,19 +196,31 @@ const HomeScreen = (props) => {
         );
     };
 
-    const renderItemallmix = ({ item }) => (
-        <View style={{ marginBottom: 20, marginTop: 10 }}>
-            <TouchableOpacity style={styles.btn}>
-                <Image source={item.image} style={{ width: 150, height: 150, borderRadius: 10 }} resizeMode="contain" />
-                <Text style={[styles.name,]}>{item.name}</Text>
-                <View style={styles.ratingContainer}>
-                    <Image source={item.icon} style={styles.starIcon} />
-                    <Text style={styles.likes}>{item.likes}</Text>
-                </View>
-                <Text style={{ color: "black" }}>₹258</Text>
-            </TouchableOpacity>
-        </View>
-    );
+    const renderItemallmix = ({ item }) => {
+        let imageData;
+        console.log("shtemp", item);
+        try {
+            imageData = JSON.parse(item.image)[0];
+        } catch (error) {
+            return null;
+        }
+
+        const imagePath = imagebaseurl + imageData.image_path;
+        return (
+            <View style={{ marginBottom: 20, marginTop: 10 }}>
+                <TouchableOpacity style={styles.btn}>
+                    <Image source={{ uri: imagePath }} style={{ width: 150, height: 150, borderRadius: 10 }} resizeMode="contain" />
+                    <Text style={[styles.name,]}>{item.name}</Text>
+                    <View style={styles.ratingContainer}>
+                        <Image source={item.icon} style={styles.starIcon} />
+                        <Text style={styles.likes}>{item.likes}</Text>
+                    </View>
+                    <Text style={{ color: "black" }}>{item.price}</Text>
+                </TouchableOpacity>
+            </View>
+        );
+    };
+
 
     const [modalVisible, setModalVisible] = useState(false);
     const openModal = () => {
@@ -310,6 +337,7 @@ const HomeScreen = (props) => {
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                         {!iscategories.length && (
                             <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                                <Image source={require("../../assets/Newicon/delete.png")} style={{ width: 20, height: 20 }} />
                                 <Text>No data found</Text>
                             </View>
                         )}
@@ -334,6 +362,12 @@ const HomeScreen = (props) => {
                                 keyExtractor={item => item.id}
                                 horizontal
                                 showsHorizontalScrollIndicator={false}
+                                ListEmptyComponent={() => (
+                                    <View style={styles.emptyListContainer}>
+                                        <Image source={require("../../assets/Newicon/delete.png")} style={{ width: 70, height: 70 }} />
+                                        <Text style={styles.emptyListText}>No data found</Text>
+                                    </View>
+                                )}
                             />
                         </View>
                     </View>
@@ -348,6 +382,12 @@ const HomeScreen = (props) => {
                                 keyExtractor={item => item.id}
                                 horizontal
                                 showsHorizontalScrollIndicator={false}
+                                ListEmptyComponent={() => (
+                                    <View style={styles.emptyListContainer}>
+                                        <Image source={require("../../assets/Newicon/delete.png")} style={{ width: 70, height: 70 }} />
+                                        <Text style={styles.emptyListText}>No data found</Text>
+                                    </View>
+                                )}
                             />
                         </View>
                     </View>
@@ -362,6 +402,12 @@ const HomeScreen = (props) => {
                                 keyExtractor={item => item.id}
                                 horizontal
                                 showsHorizontalScrollIndicator={false}
+                                ListEmptyComponent={() => (
+                                    <View style={styles.emptyListContainer}>
+                                        <Image source={require("../../assets/Newicon/delete.png")} style={{ width: 70, height: 70 }} />
+                                        <Text style={styles.emptyListText}>No data found</Text>
+                                    </View>
+                                )}
                             />
                         </View>
                     </View>
@@ -379,13 +425,19 @@ const HomeScreen = (props) => {
                         </View>
                         <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
                             <FlatList
-                                ref={flatListRef}
-                                data={mostpolluar}
+                                // ref={flatListRef}
+                                data={mostpolluar.varient}
                                 renderItem={renderItemallmix}
-                                keyExtractor={(item) => item.id.toString()}
+                                keyExtractor={item => item.id}
                                 horizontal
                                 showsHorizontalScrollIndicator={false}
                                 pagingEnabled
+                                ListEmptyComponent={() => (
+                                    <View style={styles.emptyListContainer}>
+                                        <Image source={require("../../assets/Newicon/delete.png")} style={{ width: 70, height: 70 }} />
+                                        <Text style={styles.emptyListText}>No data found</Text>
+                                    </View>
+                                )}
                             // onMomentumScrollEnd={(event) => {
                             //     // Calculate the index of the current item based on the scroll position
                             //     const { contentOffset, layoutMeasurement, contentSize } = event.nativeEvent;
@@ -558,6 +610,17 @@ const styles = StyleSheet.create({
     image1: {
         width: width * 0.9,
         height: height * 0.2,
+    },
+    emptyListContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 20,
+    },
+    emptyListText: {
+        fontSize: 20,
+        color: 'gray',
+        fontWeight: "bold"
     },
 
 });

@@ -97,6 +97,12 @@ const Ac = ({ route }) => {
                             keyExtractor={item => item.id}
                             horizontal
                             showsHorizontalScrollIndicator={false}
+                            ListEmptyComponent={() => (
+                                <View style={styles.emptyListContainer}>
+                                    <Image source={require("../../assets/Newicon/delete.png")} style={{ width: 70, height: 70 }} />
+                                    <Text style={styles.emptyListText}>No data found</Text>
+                                </View>
+                            )}
                         />
                     </View>
                     <View style={{ marginVertical: height * 0.015 }}>
@@ -215,5 +221,16 @@ const styles = StyleSheet.create({
     textbut: {
         textAlign: "center",
         color: "white"
+    },
+    emptyListContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 20,
+    },
+    emptyListText: {
+        fontSize: 20,
+        color: 'gray',
+        fontWeight: "bold"
     },
 });

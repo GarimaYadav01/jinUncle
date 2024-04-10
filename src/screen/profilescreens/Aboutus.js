@@ -3,6 +3,7 @@ import { View, Image, StyleSheet, SafeAreaView, StatusBar, Dimensions, Text, Scr
 import Header from "../../compontent/Header";
 import { aboutusfetch } from "../../apiconfig/Apiconfig";
 import LoaderScreen from "../../compontent/LoaderScreen";
+const { height, width } = Dimensions.get("screen");
 const Aboutus = (props) => {
     const [abouts, setAbouts] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -52,6 +53,12 @@ const Aboutus = (props) => {
                     data={abouts}
                     renderItem={renderItem}
                     keyExtractor={item => item.id}
+                    ListEmptyComponent={() => (
+                        <View style={styles.emptyListContainer}>
+                            <Image source={require("../../assets/Newicon/delete.png")} style={{ width: 70, height: 70 }} />
+                            <Text style={styles.emptyListText}>No data found</Text>
+                        </View>
+                    )}
                 />
             </ScrollView>
 
@@ -80,5 +87,16 @@ const styles = StyleSheet.create({
         fontSize: 16,
         marginBottom: 20,
         color: "gray"
+    },
+    emptyListContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: height * 0.3,
+    },
+    emptyListText: {
+        fontSize: 20,
+        color: 'gray',
+        fontWeight: "bold"
     },
 });

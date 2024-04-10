@@ -15,7 +15,19 @@ export const AuthProvider = ({ children }) => {
     const [servericeget, setservericget] = useState([]);
     const [banner, setBanner] = useState([]);
     const [servericdetailsget, setServericdetailsget] = useState([])
-    const [mostpolluar, setIsmostpolluar] = useState([]);
+    const [mostpolluar, setIsmostpolluar] = useState({
+        banner: [],
+        full_description: "",
+        name: "",
+        off_per: "",
+        price: "",
+        rating: "",
+        short_description: "",
+        varient: [],
+        warenty: ""
+    });
+
+    console.log("issubCategories----->", issubCategories)
     const login = (userData) => {
         setUser(userData);
     };
@@ -151,7 +163,11 @@ export const AuthProvider = ({ children }) => {
             myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
             const formdata = new FormData();
             formdata.append("page", "0");
-            formdata.append("category_id", iscategories.id);
+            formdata.append("category_id", "1");
+            // const formdata = new FormData();
+            // formdata.append("page", "0");
+            // formdata.append("category_id", iscategories[9].id); // Use the categoryId parameter instead of accessing iscategories array directly
+            console.log("category_idcategory_id------>", category_id)
             const requestOptions = {
                 method: "POST",
                 headers: myHeaders,
@@ -160,18 +176,49 @@ export const AuthProvider = ({ children }) => {
             };
             const response = await fetch(sub_category, requestOptions);
             const result = await response.json();
-            console.log(result);
+            console.log("resultsss------>", result);
             if (result.status == 200) {
                 setIsSubCategories(result?.data);
                 setIsLoading(false);
+                console.log("reponsresulltteeee--------->", result.data)
             } else {
-                console.error("Failed to fetch sub-categories:", result.message);
+                console.error("Failed to fetch sub-categories:----->", result.message);
             }
         } catch (error) {
             console.error(error);
             setIsLoading(false);
         }
     };
+
+    // const fetchSubCategories = async () => {
+    //     try {
+    //         setIsLoading(true);
+    //         const token = await AsyncStorage.getItem('token');
+    //         const response = await axios({
+    //             method: "POST",
+    //             headers: {
+    //                 // Authorization: `Bearer ${token}`,
+    //                 // // Assuming other headers are needed
+    //                 "Content-Type": "application/json",
+    //                 token: token
+    //             },
+    //             url: sub_category,
+    //             data: {
+    //                 category_id: iscategories[0].id,
+    //                 page: "0"
+    //             }
+    //         });
+    //         console.log("response ----->", response);
+    //         const result = response.data;
+    //         console.log("result category ------> ", result);
+
+    //     } catch (error) {
+    //         console.log("error ------> ", error);
+    //     } finally {
+    //         setIsLoading(false); // Ensure isLoading is set to false whether success or failure
+    //     }
+    // }
+
     const getProfile = async () => {
         try {
             const token = await AsyncStorage.getItem('token');
@@ -266,8 +313,8 @@ export const AuthProvider = ({ children }) => {
             setIsLoading(true);
             const token = await AsyncStorage.getItem('token');
             const formdata = new FormData();
-            formdata.append("cat_id", iscategories[0].id);
-            formdata.append("sub_cat_id", issubCategories[0].id);
+            formdata.append("cat_id", iscategories[1].id);
+            formdata.append("sub_cat_id", issubCategories[1].id);
             const requestOptions = {
                 method: "POST",
                 headers: token,
@@ -295,7 +342,6 @@ export const AuthProvider = ({ children }) => {
         try {
             setIsLoading(true);
             const token = await AsyncStorage.getItem('token');
-
             const requestOptions = {
                 method: "GET",
                 headers: {
@@ -400,8 +446,7 @@ export const AuthProvider = ({ children }) => {
                 servericdetailsget,
                 handlemostpopularservice,
                 mostpolluar,
-
-
+                setIsmostpolluar
             }}
         >
             {children}
