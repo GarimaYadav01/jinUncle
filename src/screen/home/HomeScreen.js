@@ -15,17 +15,7 @@ const HomeScreen = (props) => {
     const { fetchData, handleGetlocation, location, iscategories, fetchDataCategory, categoryDetail, fetchSubCategories, issubCategories, isLoading, getProfile, getsubCategoryhandle, issubcategorydetails, handlegetservice, servericeget, handlebannerhome, banner, handledetailsservice, servericdetailsget, handlemostpopularservice, mostpolluar, setIsmostpolluar } = useContext(AuthContext);
     console.log("mostpolluar------>", mostpolluar);
     console.log("servericeget--servericeget----->--->", servericdetailsget);
-    useEffect(() => {
-        try {
-            const data = JSON.parse(mostpolluar);
-            setIsmostpolluar(data);
-        } catch (error) {
-            console.error("Error parsing mostpolluar:", error);
-        }
-    }, [mostpolluar]);
-
     console.log("banner---->", banner)
-    // console.log("categoryDetail------>", getProfile);
     useEffect(() => {
         const handleFocus = () => {
             handleGetlocation();
@@ -44,11 +34,6 @@ const HomeScreen = (props) => {
         return unsubscribeFocus;
     }, []);
 
-
-
-    useEffect(() => {
-        fetchSubCategories();
-    }, [])
     const [index, setIndex] = useState(0);
     const flatListRef = useRef(null);
     const [expanded, setExpanded] = useState(false);
@@ -57,74 +42,21 @@ const HomeScreen = (props) => {
     };
     const [currentIndex, setCurrentIndex] = useState(0);
     const [currentgifIndex, setCurrentgifIndex] = useState(0);
-
     const images = [
         require('../../assets/newbanners/fridgeBannner2.png'),
         require('../../assets/banner/ACBAnner.png'),
         require('../../assets/banner/ACBAnner1.png'),
     ];
-
     const handleMenuItemPress = (screen, id, name) => {
         navigation.navigate(screen, { itemId: id, itemName: name });
     };
 
-    const Allmix = [
-        {
-            id: "1",
-            image: require("../../assets/newimages/washingmachine1.png"),
-            name: "washing",
-            icon: require("../../assets/logo/star.png"),
-            likes: "4.85(60k reviews)",
-            starts: 549,
-        },
-        {
-            id: "2",
-            image: require("../../assets/newimages/washingmachine2.png"),
-            name: "cleaning",
-            icon: require("../../assets/logo/star.png"),
-            likes: "4.85(60k reviews)",
-            starts: 549,
-        },
-        {
-            id: "3",
-            image: require("../../assets/newimages/wahingmachine3.png"),
-            name: "change the wire",
-            icon: require("../../assets/logo/star.png"),
-            likes: "4.85(60k reviews)",
-            starts: 549,
-        },
-        {
-            id: "4",
-            image: require("../../assets/newimages/AC1.png"),
-            name: "Repair & gas refill",
-            icon: require("../../assets/logo/star.png"),
-            likes: "4.85(60k reviews)",
-            starts: 549,
-        },
-        {
-            id: "5",
-            image: require("../../assets/newimages/AC.png"),
-            name: "Install & Uninstall",
-            icon: require("../../assets/logo/star.png"),
-            likes: "4.85(60k reviews)",
-            starts: 549,
-        },
-        {
-            id: "6",
-            image: require("../../assets/newimages/AC2.png"),
-            name: "service",
-            icon: require("../../assets/logo/star.png"),
-            likes: "4.85(60k reviews)",
-            starts: 549,
-        }
-    ]
     // useEffect(() => {
     //     const interval = setInterval(() => {
-    //         const nextIndex = (index + 1) % Allmix?.length;
+    //         const nextIndex = (index + 1) % mostpolluar?.length;
     //         flatListRef.current.scrollToIndex({ animated: true, index: nextIndex });
     //         setIndex(nextIndex);
     //     }, 3000);
-
     //     return () => clearInterval(interval);
     // }, [index]);
 
@@ -197,10 +129,10 @@ const HomeScreen = (props) => {
     };
 
     const renderItemallmix = ({ item }) => {
+        console.log("item----->", item)
         let imageData;
-        console.log("shtemp", item);
         try {
-            imageData = JSON.parse(item.image)[0];
+            imageData = JSON.parse(item.banner)[0];
         } catch (error) {
             return null;
         }
@@ -335,21 +267,20 @@ const HomeScreen = (props) => {
                 <View style={styles.con}>
                     <Text style={styles.text}>Category</Text>
                     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                        {!iscategories.length && (
-                            <View style={{ justifyContent: 'center', alignItems: 'center' }}>
-                                <Image source={require("../../assets/Newicon/delete.png")} style={{ width: 20, height: 20 }} />
-                                <Text>No data found</Text>
-                            </View>
-                        )}
-                        {iscategories.length > 0 && (
-                            <FlatList
-                                data={iscategories}
-                                renderItem={renderItem}
-                                keyExtractor={item => item.id}
-                                horizontal
-                                showsHorizontalScrollIndicator={false}
-                            />
-                        )}
+                        <FlatList
+                            data={iscategories}
+                            renderItem={renderItem}
+                            keyExtractor={item => item.id}
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            ListEmptyComponent={() => (
+                                <View style={styles.emptyListContainer}>
+                                    <Image source={require("../../assets/Newicon/delete.png")} style={{ width: 70, height: 70 }} />
+                                    <Text style={styles.emptyListText}>No data found</Text>
+                                </View>
+                            )}
+                        />
+
                     </View>
                     <View>
                         <Text style={styles.text}>
@@ -411,9 +342,9 @@ const HomeScreen = (props) => {
                             />
                         </View>
                     </View>
-                    <View style={styles.container1}>
+                    {/* <View style={styles.container1}>
                         <Image source={images[currentIndex]} style={styles.image} />
-                    </View>
+                    </View> */}
                     <View style={{ marginTop: 10, backgroundColor: "white", borderWidth: 1, borderColor: "#FFF", padding: 5, borderRadius: 10 }}>
                         <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
                             <Text style={styles.text}>
@@ -426,7 +357,7 @@ const HomeScreen = (props) => {
                         <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
                             <FlatList
                                 // ref={flatListRef}
-                                data={mostpolluar.varient}
+                                data={mostpolluar}
                                 renderItem={renderItemallmix}
                                 keyExtractor={item => item.id}
                                 horizontal

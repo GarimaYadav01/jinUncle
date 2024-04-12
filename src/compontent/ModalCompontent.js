@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Modal, Text, TouchableOpacity, StyleSheet, Image, Dimension, Dimensions, ScrollView, FlatList, Animated } from 'react-native';
 import { ICONS } from '../assets/themes';
 import { useNavigation } from '@react-navigation/native';
 import { showMessage } from 'react-native-flash-message';
 import PaymentModal from './PaymentModal';
 import BottomPopup from './BottomPopup';
+import AuthContext from '../screen/context/AuthContext';
 const { height, width } = Dimensions.get("screen")
 const ModalCompontent = ({ visible, onClose, item }) => {
     const navigation = useNavigation();
@@ -12,6 +13,9 @@ const ModalCompontent = ({ visible, onClose, item }) => {
     const [quantityStates, setQuantityStates] = useState({});
     const [quantityselectStates, setQuantityselectStates] = useState({});
     const [isvissbleModal, setIsVisibleModal] = useState(false);
+
+    const { servericdetailsget } = useContext(AuthContext);
+    console.log("servericdetailsget------->", servericdetailsget)
     const handleViewCard = () => {
         onClose();
         navigation.navigate("Summary");

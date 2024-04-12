@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Dimensions, FlatList, Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Ac from "../tab/Ac";
 import AuthContext from "../context/AuthContext";
@@ -6,15 +6,26 @@ import { imagebaseurl } from "../../apiconfig/Apiconfig";
 import LoaderScreen from "../../compontent/LoaderScreen";
 import { useNavigation } from "@react-navigation/native";
 const { height, width } = Dimensions.get("screen");
+
 const SettingsScreen = () => {
     const { iscategories, isLoading } = useContext(AuthContext);
-    const [activeTab, setActiveTab] = useState(null);
+    const [activeTabIndex, setActiveTabIndex] = useState(0);
+    const [selectedCategoryName, setSelectedCategoryName] = useState(null);
     const navigation = useNavigation();
+
+    useEffect(() => {
+        if (iscategories.length > 0) {
+            setActiveTabIndex(0);
+        }
+    }, [iscategories]);
+
     const handleTabPress = (index, item) => {
-        setActiveTab(index);
+        setActiveTabIndex(index);
         const categoryName = item.name;
+        setSelectedCategoryName(categoryName);
         console.log("Category Name:", categoryName);
     };
+
     const renderItem = ({ item, index }) => {
         let imageData;
         try {
@@ -25,12 +36,14 @@ const SettingsScreen = () => {
         const imagePath = imagebaseurl + imageData.image_path;
         return (
             <TouchableOpacity
-                style={[styles.btn, activeTab === index && styles.activeTab]}
-                onPress={
-                    () => handleTabPress(index, item.name)
-                }>
+                style={[
+                    styles.btn,
+                    activeTabIndex === index && styles.activeTab
+                ]}
+                onPress={() => handleTabPress(index, item)}
+            >
                 <Image source={{ uri: imagePath }} style={{ width: 150, height: 150, borderRadius: 20 }} resizeMode="contain" />
-                <Text style={[styles.name, activeTab === index && { color: '#004E8C' }]}>{item.name}</Text>
+                <Text style={[styles.name, activeTabIndex === index && { color: '#004E8C' }]}>{item.name}</Text>
             </TouchableOpacity>
         );
     };
@@ -45,7 +58,7 @@ const SettingsScreen = () => {
                         renderItem={renderItem}
                         horizontal
                         showsHorizontalScrollIndicator={false}
-                        keyExtractor={(item) => item.id}
+                        keyExtractor={(item) => item.id.toString()}
                         ListEmptyComponent={() => (
                             <View style={styles.emptyListContainer}>
                                 <Image source={require("../../assets/Newicon/delete.png")} style={{ width: 70, height: 70 }} />
@@ -55,7 +68,7 @@ const SettingsScreen = () => {
                     />
                 </View>
                 <View style={styles.tabContent}>
-                    {activeTab !== null && <Ac />}
+                    {activeTabIndex !== null && <Ac activeTab={selectedCategoryName} />}
                 </View>
             </ScrollView>
             {isLoading && <LoaderScreen isLoading={isLoading} />}
@@ -64,6 +77,7 @@ const SettingsScreen = () => {
 }
 
 export default SettingsScreen;
+
 const styles = StyleSheet.create({
     container: {
         marginTop: height * 0.03,

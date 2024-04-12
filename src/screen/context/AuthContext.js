@@ -1,6 +1,6 @@
 import axios, { formToJSON } from 'axios';
 import React, { createContext, useEffect, useState } from 'react';
-import { categoridetails, categoriesapi, get_offer_banner, getcurrentlocation, getprofile, servicedetails, serviceget, sub_category, sub_categorydetails } from '../../apiconfig/Apiconfig';
+import { categoridetails, categoriesapi, get_most_popular_service, get_offer_banner, getcurrentlocation, getprofile, servicedetails, serviceget, sub_category, sub_categorydetails } from '../../apiconfig/Apiconfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
@@ -15,17 +15,7 @@ export const AuthProvider = ({ children }) => {
     const [servericeget, setservericget] = useState([]);
     const [banner, setBanner] = useState([]);
     const [servericdetailsget, setServericdetailsget] = useState([])
-    const [mostpolluar, setIsmostpolluar] = useState({
-        banner: [],
-        full_description: "",
-        name: "",
-        off_per: "",
-        price: "",
-        rating: "",
-        short_description: "",
-        varient: [],
-        warenty: ""
-    });
+    const [mostpolluar, setIsmostpolluar] = useState([]);
 
     console.log("issubCategories----->", issubCategories)
     const login = (userData) => {
@@ -154,70 +144,73 @@ export const AuthProvider = ({ children }) => {
     };
 
 
+
     const fetchSubCategories = async () => {
         try {
-            setIsLoading(true);
-            const token = await AsyncStorage.getItem('token');
             const myHeaders = new Headers();
-            myHeaders.append("token", token);
-            myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
+            myHeaders.append("token", "WlhsS01XTXlWbmxZTW14clNXcHZhVTFVVldsTVEwcDNXVmhPZW1ReU9YbGFRMGsyU1d0R2EySlhiSFZKVTFFd1RrUlJlVTVFUlhsT1EwWkJTMmxaYkVscGQybGhSemt4WTI1TmFVOXFVVFJNUTBwcldWaFNiRmd6VW5CaVYxVnBUMmxKZVUxRVNUQk1WRUY2VEZSSmVVbEVSVEZQYWtreVQycFJlRWxwZDJsamJUbHpXbE5KTmtscVNXbE1RMHByV2xoYWNGa3lWbVpoVjFGcFQyMDFNV0pIZURrPQ==");
+            myHeaders.append("Cookie", "ci_session=21ae07cdcb962f9db308f3b0c2ffc4e41b9eca97");
             const formdata = new FormData();
             formdata.append("page", "0");
             formdata.append("category_id", "1");
-            // const formdata = new FormData();
-            // formdata.append("page", "0");
-            // formdata.append("category_id", iscategories[9].id); // Use the categoryId parameter instead of accessing iscategories array directly
-            console.log("category_idcategory_id------>", category_id)
             const requestOptions = {
                 method: "POST",
                 headers: myHeaders,
                 body: formdata,
                 redirect: "follow"
             };
-            const response = await fetch(sub_category, requestOptions);
+
+            const response = await fetch("https://aduetechnologies.com/jinuncle/api/sub_category/list", requestOptions);
             const result = await response.json();
-            console.log("resultsss------>", result);
+            console.log("----------resiyl --->", result);
             if (result.status == 200) {
-                setIsSubCategories(result?.data);
-                setIsLoading(false);
-                console.log("reponsresulltteeee--------->", result.data)
-            } else {
-                console.error("Failed to fetch sub-categories:----->", result.message);
+                setIsSubCategories(result.data);
+                console.log("resudata---->", result.data)
             }
+
         } catch (error) {
             console.error(error);
-            setIsLoading(false);
         }
     };
+
+
 
     // const fetchSubCategories = async () => {
     //     try {
     //         setIsLoading(true);
     //         const token = await AsyncStorage.getItem('token');
-    //         const response = await axios({
+    //         const myHeaders = new Headers();
+    //         myHeaders.append("token", token);
+    //         myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
+    //         const formdata = new FormData();
+    //         formdata.append("page", "0");
+    //         formdata.append("category_id", "1");
+    //         // const formdata = new FormData();
+    //         // formdata.append("page", "0");
+    //         // formdata.append("category_id", iscategories[9].id); // Use the categoryId parameter instead of accessing iscategories array directly
+    //         console.log("category_idcategory_id------>", category_id)
+    //         const requestOptions = {
     //             method: "POST",
-    //             headers: {
-    //                 // Authorization: `Bearer ${token}`,
-    //                 // // Assuming other headers are needed
-    //                 "Content-Type": "application/json",
-    //                 token: token
-    //             },
-    //             url: sub_category,
-    //             data: {
-    //                 category_id: iscategories[0].id,
-    //                 page: "0"
-    //             }
-    //         });
-    //         console.log("response ----->", response);
-    //         const result = response.data;
-    //         console.log("result category ------> ", result);
-
+    //             headers: myHeaders,
+    //             body: formdata,
+    //             redirect: "follow"
+    //         };
+    //         const response = await fetch(sub_category, requestOptions);
+    //         const result = await response.json();
+    //         console.log("resultsss------>", response);
+    //         if (result.status == 200) {
+    //             setIsSubCategories(result?.data);
+    //             setIsLoading(false);
+    //             console.log("reponsresulltteeee--------->", result.data)
+    //         } else {
+    //             console.error("Failed to fetch sub-categories:----->", result.message);
+    //         }
     //     } catch (error) {
-    //         console.log("error ------> ", error);
-    //     } finally {
-    //         setIsLoading(false); // Ensure isLoading is set to false whether success or failure
+    //         console.error(error);
+    //         setIsLoading(false);
     //     }
-    // }
+    // };
+
 
     const getProfile = async () => {
         try {
@@ -366,12 +359,38 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
+    // const handledetailsservice = async () => {
+    //     try {
+    //         setIsLoading(true);
+    //         const token = await AsyncStorage.getItem('token');
+    //         const formdata = new FormData();
+    //         formdata.append("service_id", "1");
+    //         const requestOptions = {
+    //             method: "POST",
+    //             headers: token,
+    //             body: formdata,
+    //             redirect: "follow"
+    //         };
+    //         const response = await fetch(servicedetails, requestOptions);
+    //         const result = await response.json();
+    //         console.log("handledetailsservice------>", result);
+    //         if (response?.status == 200) {
+    //             setServericdetailsget(result?.data)
+    //             setIsLoading(false);
+    //         }
+    //     } catch (error) {
+    //         console.error("handledetailsserviceerrorrr------>", error);
+    //         setIsLoading(false);
+    //     }
+    // }
+
     const handledetailsservice = async () => {
         try {
             setIsLoading(true);
             const token = await AsyncStorage.getItem('token');
             const formdata = new FormData();
             formdata.append("service_id", "1");
+
             const requestOptions = {
                 method: "POST",
                 headers: token,
@@ -381,7 +400,6 @@ export const AuthProvider = ({ children }) => {
             const response = await fetch(servicedetails, requestOptions);
             const result = await response.json();
             console.log("handledetailsservice------>", result);
-
             if (response?.status == 200) {
                 setServericdetailsget(result?.data)
                 setIsLoading(false);
@@ -391,6 +409,8 @@ export const AuthProvider = ({ children }) => {
             setIsLoading(false);
         }
     }
+
+
 
     const handlemostpopularservice = async () => {
         try {
@@ -406,7 +426,7 @@ export const AuthProvider = ({ children }) => {
                 body: formdata,
                 redirect: 'follow'
             };
-            const response = await fetch("https://aduetechnologies.com/jinuncle/api/Services/get_most_popular_service", requestOptions);
+            const response = await fetch(get_most_popular_service, requestOptions);
             const result = await response.json();
             console.log("resultmost------>", result);
             if (response?.status === 200) {
@@ -417,6 +437,10 @@ export const AuthProvider = ({ children }) => {
             console.error(error);
         }
     };
+
+
+
+
     return (
         <AuthContext.Provider
             value={{
