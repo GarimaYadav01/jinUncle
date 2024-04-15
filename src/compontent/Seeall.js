@@ -1,8 +1,13 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { Modal, StyleSheet, Text, TouchableOpacity, View, Dimensions, FlatList, Image } from "react-native";
+import AuthContext from "../screen/context/AuthContext";
+import { imagebaseurl } from "../apiconfig/Apiconfig";
 const { width, height } = Dimensions.get("screen");
 const Seeall = ({ isVisible, onClose, categories }) => {
+
+    const { issubCategories, mostpolluar } = useContext(AuthContext);
+    console.log("issubCategories--->", issubCategories)
     const flatListRef = useRef(null);
     const navigation = useNavigation();
     useEffect(() => {
@@ -18,14 +23,30 @@ const Seeall = ({ isVisible, onClose, categories }) => {
         navigation.navigate(screen);
         console.log("Pressed item with screen:", screen);
     };
-    const renderItem = ({ item }) => (
-        <View style={{ marginBottom: 20, marginTop: 10 }}>
-            <TouchableOpacity style={styles.btn} onPress={() => handleMenuItemPress(item.screen)}>
-                <Image source={item.image} style={{ width: 150, height: 150, borderRadius: 10 }} resizeMode="contain" />
-                <Text style={styles.name}>{item.name}</Text>
-            </TouchableOpacity>
-        </View>
-    );
+    const renderItem = ({ item }) => {
+        console.log("item----->", item)
+        let imageData;
+        try {
+            imageData = JSON.parse(item.banner)[0];
+        } catch (error) {
+            return null;
+        }
+
+        const imagePath = imagebaseurl + imageData.image_path;
+        return (
+            <View style={{ marginBottom: 20, marginTop: 10 }}>
+                <TouchableOpacity style={styles.btn}>
+                    <Image source={{ uri: imagePath }} style={{ width: 150, height: 150, borderRadius: 10 }} resizeMode="contain" />
+                    <Text style={[styles.name,]}>{item.name}</Text>
+                    <View style={styles.ratingContainer}>
+                        <Image source={require("../assets/logo/star.png")} style={styles.starIcon} />
+                        <Text style={styles.likes}>{item.rating}</Text>
+                    </View>
+                    <Text style={{ color: "black" }}>₹{item.price}</Text>
+                </TouchableOpacity>
+            </View>
+        );
+    };
     return (
         <Modal
             visible={isVisible}
@@ -43,10 +64,10 @@ const Seeall = ({ isVisible, onClose, categories }) => {
                     <Text style={styles.title}>Select a Category & Subcategory</Text>
                     <FlatList
                         ref={flatListRef}
-                        data={categories}
+                        data={mostpolluar}
                         numColumns={2}
                         renderItem={renderItem}
-                        keyExtractor={(item) => item.id.toString()}
+                        keyExtractor={(item) => item.id}
                         showsVerticalScrollIndicator={false}
                         contentContainerStyle={{ paddingBottom: 100 }}
                     />
@@ -109,6 +130,17 @@ const styles = StyleSheet.create({
         alignItems: "center",
         borderRadius: 10,
         padding: 10
+    },
+    starIcon: {
+        width: 14,
+        height: 14,
+        marginRight: 5,
+    },
+    ratingContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        // marginBottom: 5,
+        // marginTop:10
     },
 });
 

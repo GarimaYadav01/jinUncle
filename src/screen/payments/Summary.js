@@ -1,10 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Dimensions, FlatList, Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Header from "../../compontent/Header";
 import Seeall from "../../compontent/Seeall";
 import { ICONS } from "../../assets/themes";
 import CustomButton from "../../compontent/Custombutton";
 import TimeSlot from "../../compontent/TimeSlot";
+import AuthContext from "../context/AuthContext";
 const { height, width } = Dimensions.get("screen");
 const Summary = (props) => {
     const [index, setIndex] = useState(0);
@@ -12,6 +13,9 @@ const Summary = (props) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [quantityStates, setQuantityStates] = useState({});
+
+    const { mostpolluar } = useContext(AuthContext);
+    console.log("mostpolluar----mostpolluar-->", mostpolluar);
     useEffect(() => {
         const interval = setInterval(() => {
             const nextIndex = (index + 1) % Allmix.length;
@@ -269,9 +273,9 @@ const Summary = (props) => {
                     <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
                         <FlatList
                             ref={flatListRef}
-                            data={Allmix}
+                            data={mostpolluar}
                             renderItem={renderItemallmix}
-                            keyExtractor={(item) => item.id.toString()}
+                            keyExtractor={(item) => item.id}
                             horizontal
                             showsHorizontalScrollIndicator={false}
                             pagingEnabled

@@ -5,12 +5,14 @@ import AuthContext from "../context/AuthContext";
 import { imagebaseurl } from "../../apiconfig/Apiconfig";
 import LoaderScreen from "../../compontent/LoaderScreen";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const { height, width } = Dimensions.get("screen");
 
 const SettingsScreen = () => {
     const { iscategories, isLoading } = useContext(AuthContext);
     const [activeTabIndex, setActiveTabIndex] = useState(0);
     const [selectedCategoryName, setSelectedCategoryName] = useState(null);
+
     const navigation = useNavigation();
 
     useEffect(() => {

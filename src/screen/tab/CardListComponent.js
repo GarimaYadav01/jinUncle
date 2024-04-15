@@ -57,21 +57,17 @@ const CardListComponent = () => {
     const closeModal2 = () => {
         setIsVisibleModal(false);
     }
-    const getImagePath = (item) => {
-        try {
-            const imageData = JSON.parse(item.image)[0];
-            return imagebaseurl + imageData.image_path;
-        } catch (error) {
-            return null;
-        }
-    };
+
 
     const handlerender = ({ item }) => {
-        // const imagePath = getImagePath(item);
 
-        // if (!imagePath) {
+        // let imageData;
+        // try {
+        //     imageData = JSON.parse(item.image)[0];
+        // } catch (error) {
         //     return null;
         // }
+        // const imagePath = imagebaseurl + imageData.image_path;
 
         return (
             <View style={styles.card}>
@@ -175,7 +171,7 @@ const CardListComponent = () => {
     return (
         <View>
             <FlatList
-                data={datacard}
+                data={servericeget}
                 renderItem={handlerender}
                 keyExtractor={(item) => item.service}
                 showsVerticalScrollIndicator={false}

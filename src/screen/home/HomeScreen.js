@@ -14,7 +14,7 @@ const HomeScreen = (props) => {
     const navigation = useNavigation();
     const { fetchData, handleGetlocation, location, iscategories, fetchDataCategory, categoryDetail, fetchSubCategories, issubCategories, isLoading, getProfile, getsubCategoryhandle, issubcategorydetails, handlegetservice, servericeget, handlebannerhome, banner, handledetailsservice, servericdetailsget, handlemostpopularservice, mostpolluar, setIsmostpolluar } = useContext(AuthContext);
     console.log("mostpolluar------>", mostpolluar);
-    console.log("servericeget--servericeget----->--->", servericdetailsget);
+    console.log("servericeget--servericeget----->--->", issubcategorydetails);
     console.log("banner---->", banner)
     useEffect(() => {
         const handleFocus = () => {
@@ -83,6 +83,7 @@ const HomeScreen = (props) => {
             return null;
         }
         const imagePath = imagebaseurl + imageData.image_path;
+        console.log("imageimageimage---->", imagePath)
         return (
             <View style={{ marginBottom: 20, marginTop: 10 }}>
                 <TouchableOpacity style={styles.btn}
@@ -101,6 +102,7 @@ const HomeScreen = (props) => {
             return null;
         }
         const imagePath = imagebaseurl + imageData.image_path;
+        // console.log("imageimageimage---->", imagePath)
         return (
             <View style={{ marginBottom: 20, marginTop: 10 }}>
                 <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate("Fridagecategory", { subcategory: item.name })}>
@@ -144,10 +146,10 @@ const HomeScreen = (props) => {
                     <Image source={{ uri: imagePath }} style={{ width: 150, height: 150, borderRadius: 10 }} resizeMode="contain" />
                     <Text style={[styles.name,]}>{item.name}</Text>
                     <View style={styles.ratingContainer}>
-                        <Image source={item.icon} style={styles.starIcon} />
-                        <Text style={styles.likes}>{item.likes}</Text>
+                        <Image source={require("../../assets/logo/star.png")} style={styles.starIcon} />
+                        <Text style={styles.likes}>{item.rating}</Text>
                     </View>
-                    <Text style={{ color: "black" }}>{item.price}</Text>
+                    <Text style={{ color: "black" }}>₹{item.price}</Text>
                 </TouchableOpacity>
             </View>
         );
@@ -381,7 +383,7 @@ const HomeScreen = (props) => {
                 </View>
             </ScrollView>
             {isLoading && <LoaderScreen isLoading={isLoading} />}
-            <Seeall isVisible={modalVisible} onClose={closeModal} categories={categories} />
+            <Seeall isVisible={modalVisible} onClose={closeModal} categories={issubCategories} />
         </SafeAreaView>
     )
 }

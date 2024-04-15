@@ -10,15 +10,15 @@ import { useNavigation } from "@react-navigation/native";
 import WarrantyModal from "../../compontent/WarrantyModal";
 import { imagebaseurl } from "../../apiconfig/Apiconfig";
 const { height, width } = Dimensions.get("screen")
-
 const Accategory = ({ route }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const navigation = useNavigation();
     const categoryName = route?.params?.categoryName || "Default Category";
     console.log("reiute----->", route?.params?.categoryName)
-    const { isLoading, categoryDetail, issubCategories } = useContext(AuthContext);
+    const { isLoading, categoryDetail, issubCategories, banner } = useContext(AuthContext);
     console.log("categoryDetail-->", categoryDetail)
     console.log("issubCategoriesissubCategories----->----->", issubCategories)
+    console.log("bannerbanner----->", banner)
 
     const images = [
         require('../../assets/banner/ACBAnner.png'),
@@ -64,14 +64,33 @@ const Accategory = ({ route }) => {
         );
     };
 
+    const bannerImages = banner?.map(item => {
+        try {
+            const imageArray = JSON.parse(item.image);
+            const imagePath = imageArray[0].image_path;
+            return imagebaseurl + imagePath;
+        } catch (error) {
+            return null;
+        }
+    }).filter(imagePath => imagePath !== null);
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <ScrollView style={{ flexGrow: 1, paddingBottom: 50 }} showsVerticalScrollIndicator={false}>
                 <View >
                     <Header2 />
-                    <View style={{ marginVertical: height * 0.02 }}>
-                        <Image source={images[currentIndex]} style={styles.image1} />
+                    <View
+                        style={styles.container1}>
+                        {console.log("hcdkjd---->", bannerImages)}
+                        {bannerImages.map((imagePath, index) => (
+                            <Image
+                                key={index}
+                                source={{ uri: imagePath }}
+                                style={styles.image2}
+                                resizeMode="contain"
+                            />
+
+                        ))}
                     </View>
                 </View>
                 <View>
@@ -235,4 +254,15 @@ const styles = StyleSheet.create({
         textAlign: "center",
         color: "white"
     },
+    container1: {
+        // flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: height * 0.03,
+        borderRadius: 30
+    },
+    image2: {
+        width: 150,
+        height: 100
+    }
 });

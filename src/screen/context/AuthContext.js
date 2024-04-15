@@ -1,5 +1,5 @@
 import axios, { formToJSON } from 'axios';
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { categoridetails, categoriesapi, get_most_popular_service, get_offer_banner, getcurrentlocation, getprofile, servicedetails, serviceget, sub_category, sub_categorydetails } from '../../apiconfig/Apiconfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const AuthContext = createContext();
@@ -16,8 +16,10 @@ export const AuthProvider = ({ children }) => {
     const [banner, setBanner] = useState([]);
     const [servericdetailsget, setServericdetailsget] = useState([])
     const [mostpolluar, setIsmostpolluar] = useState([]);
-
-    console.log("issubCategories----->", issubCategories)
+    console.log("iscategoriesiscategories----->", iscategories)
+    console.log("issubCategoriesissubCate------>", issubCategories)
+    console.log("servericeget----servericeget-----dhdhd--->", servericeget)
+    console.log("",)
     const login = (userData) => {
         setUser(userData);
     };
@@ -69,9 +71,6 @@ export const AuthProvider = ({ children }) => {
                 redirect: 'follow'
             };
             const response = await fetch(getcurrentlocation, requestOptions);
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
             const result = await response.json();
             console.log(result);
             if (result.status == 200) {
@@ -84,35 +83,6 @@ export const AuthProvider = ({ children }) => {
             setIsLoading(false);
         }
     };
-
-    // const fetchDataCategory = async () => {
-    //     try {
-    //         setIsLoading(true);
-    //         const token = await AsyncStorage.getItem('token');
-    //         const formdata = new FormData();
-    //         formdata.append("id", "7");
-    //         const requestOptions = {
-    //             method: "POST",
-    //             headers: token,
-    //             body: formdata,
-    //             redirect: "follow"
-    //         };
-    //         const response = await fetch(categoridetails, requestOptions);
-    //         const result = await response.json();
-    //         console.log("result-fgfg----------->", result);
-    //         if (result.status == 200) {
-    //             setIsLoading(false);
-    //             setCategoryDetail(result.data);
-
-    //             console.log("reponse------>", result.data)
-    //         }
-
-    //     } catch (error) {
-    //         console.error(error);
-    //         setIsLoading(false);
-    //     }
-    // };
-
 
 
     const fetchDataCategory = async () => {
@@ -148,11 +118,12 @@ export const AuthProvider = ({ children }) => {
     const fetchSubCategories = async () => {
         try {
             const myHeaders = new Headers();
-            myHeaders.append("token", "WlhsS01XTXlWbmxZTW14clNXcHZhVTFVVldsTVEwcDNXVmhPZW1ReU9YbGFRMGsyU1d0R2EySlhiSFZKVTFFd1RrUlJlVTVFUlhsT1EwWkJTMmxaYkVscGQybGhSemt4WTI1TmFVOXFVVFJNUTBwcldWaFNiRmd6VW5CaVYxVnBUMmxKZVUxRVNUQk1WRUY2VEZSSmVVbEVSVEZQYWtreVQycFJlRWxwZDJsamJUbHpXbE5KTmtscVNXbE1RMHByV2xoYWNGa3lWbVpoVjFGcFQyMDFNV0pIZURrPQ==");
+            const token = await AsyncStorage.getItem('token');
+            myHeaders.append("token", token);
             myHeaders.append("Cookie", "ci_session=21ae07cdcb962f9db308f3b0c2ffc4e41b9eca97");
             const formdata = new FormData();
             formdata.append("page", "0");
-            formdata.append("category_id", "1");
+            formdata.append("category_id", iscategories.id);
             const requestOptions = {
                 method: "POST",
                 headers: myHeaders,
@@ -160,56 +131,17 @@ export const AuthProvider = ({ children }) => {
                 redirect: "follow"
             };
 
-            const response = await fetch("https://aduetechnologies.com/jinuncle/api/sub_category/list", requestOptions);
+            const response = await fetch(sub_category, requestOptions);
             const result = await response.json();
             console.log("----------resiyl --->", result);
             if (result.status == 200) {
                 setIsSubCategories(result.data);
                 console.log("resudata---->", result.data)
             }
-
         } catch (error) {
             console.error(error);
         }
     };
-
-
-
-    // const fetchSubCategories = async () => {
-    //     try {
-    //         setIsLoading(true);
-    //         const token = await AsyncStorage.getItem('token');
-    //         const myHeaders = new Headers();
-    //         myHeaders.append("token", token);
-    //         myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
-    //         const formdata = new FormData();
-    //         formdata.append("page", "0");
-    //         formdata.append("category_id", "1");
-    //         // const formdata = new FormData();
-    //         // formdata.append("page", "0");
-    //         // formdata.append("category_id", iscategories[9].id); // Use the categoryId parameter instead of accessing iscategories array directly
-    //         console.log("category_idcategory_id------>", category_id)
-    //         const requestOptions = {
-    //             method: "POST",
-    //             headers: myHeaders,
-    //             body: formdata,
-    //             redirect: "follow"
-    //         };
-    //         const response = await fetch(sub_category, requestOptions);
-    //         const result = await response.json();
-    //         console.log("resultsss------>", response);
-    //         if (result.status == 200) {
-    //             setIsSubCategories(result?.data);
-    //             setIsLoading(false);
-    //             console.log("reponsresulltteeee--------->", result.data)
-    //         } else {
-    //             console.error("Failed to fetch sub-categories:----->", result.message);
-    //         }
-    //     } catch (error) {
-    //         console.error(error);
-    //         setIsLoading(false);
-    //     }
-    // };
 
 
     const getProfile = async () => {
@@ -264,70 +196,35 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
-    // const handlegetservice = async () => {
-    //     try {
-    //         const token = await AsyncStorage.getItem('token');
-    //         const myHeaders = new Headers();
-    //         myHeaders.append("token", token);
-    //         myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
-    //         const categoryId = iscategories.length > 0 ? iscategories.id : null;
-    //         // Get the subcategory ID
-    //         const subCategoryId = issubCategories.length > 0 ? issubCategories.id : null;
-
-    //         // const formdata = new FormData();
-    //         // formdata.append("cat_id", categoryId);
-    //         // console.log("categoryid ----->", categoryId);
-    //         // formdata.append("sub_cat_id", subCategoryId);
-    //         // console.log("sub_cat_id------>", subCategoryId);
-
-    //         const formdata = new FormData();
-    //         formdata.append("cat_id", "1");
-    //         console.log("catid ---->", cat_id)
-    //         formdata.append("sub_cat_id", "2");
-    //         const requestOptions = {
-    //             method: "POST",
-    //             headers: myHeaders,
-    //             body: formdata,
-    //             redirect: "follow"
-    //         };
-    //         const response = await fetch(serviceget, requestOptions)
-    //         const result = await response.json();
-    //         console.log("kkjslkaskljsjkk----->", result)
-    //         // if (response.status == 200) {
-    //         //     setservericget(result.data);
-    //         //     console.log("djkaddl---->", result.data)
-    //         // }
-    //     } catch (error) {
-    //         console.log("errorservice---------->", error)
-    //     }
-    // }
     const handlegetservice = async () => {
         try {
             setIsLoading(true);
             const token = await AsyncStorage.getItem('token');
+            const myHeaders = new Headers();
+            myHeaders.append("token", "WlhsS01XTXlWbmxZTW14clNXcHZhVTFVVldsTVEwcDNXVmhPZW1ReU9YbGFRMGsyU1d0R2EySlhiSFZKVTFFd1RrUlJlVTVFUlhsT1EwWkJTMmxaYkVscGQybGhSemt4WTI1TmFVOXFVVFJNUTBwcldWaFNiRmd6VW5CaVYxVnBUMmxKZVUxRVNUQk1WRUY2VEZSSmVVbEVSVEZQYWtreVQycFJlRWxwZDJsamJUbHpXbE5KTmtscVNXbE1RMHByV2xoYWNGa3lWbVpoVjFGcFQyMDFNV0pIZURrPQ==");
+            myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
             const formdata = new FormData();
-            formdata.append("cat_id", iscategories[1].id);
-            formdata.append("sub_cat_id", issubCategories[1].id);
+            formdata.append("cat_id", iscategories.id);
+            formdata.append("sub_cat_id", issubCategories.id);
             const requestOptions = {
                 method: "POST",
-                headers: token,
+                headers: myHeaders,
                 body: formdata,
                 redirect: "follow"
             };
 
             const response = await fetch(serviceget, requestOptions);
             const result = await response.json();
-            console.log("serviceget------->", response)
+            console.log("serviceget------->", result);
+
             if (result?.status == 200) {
-                setservericget(result?.data)
+                setservericget(result?.data);
                 setIsLoading(false);
-                console.log("resultresponse------>", result.data)
+                console.log("resultresponse------>", result.data);
             }
-            console.log(result);
         } catch (error) {
             console.error(error);
             setIsLoading(false);
-
         }
     }
 
@@ -349,9 +246,7 @@ export const AuthProvider = ({ children }) => {
                 setBanner(result?.data);
                 setIsLoading(false);
                 console.log("Response banner data------->", result?.data);
-            } else {
-                console.error("Error response:", result);
-                setIsLoading(false);
+
             }
         } catch (error) {
             console.error("API Error:", error);
@@ -359,30 +254,7 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    // const handledetailsservice = async () => {
-    //     try {
-    //         setIsLoading(true);
-    //         const token = await AsyncStorage.getItem('token');
-    //         const formdata = new FormData();
-    //         formdata.append("service_id", "1");
-    //         const requestOptions = {
-    //             method: "POST",
-    //             headers: token,
-    //             body: formdata,
-    //             redirect: "follow"
-    //         };
-    //         const response = await fetch(servicedetails, requestOptions);
-    //         const result = await response.json();
-    //         console.log("handledetailsservice------>", result);
-    //         if (response?.status == 200) {
-    //             setServericdetailsget(result?.data)
-    //             setIsLoading(false);
-    //         }
-    //     } catch (error) {
-    //         console.error("handledetailsserviceerrorrr------>", error);
-    //         setIsLoading(false);
-    //     }
-    // }
+
 
     const handledetailsservice = async () => {
         try {
@@ -390,7 +262,6 @@ export const AuthProvider = ({ children }) => {
             const token = await AsyncStorage.getItem('token');
             const formdata = new FormData();
             formdata.append("service_id", "1");
-
             const requestOptions = {
                 method: "POST",
                 headers: token,
@@ -399,11 +270,8 @@ export const AuthProvider = ({ children }) => {
             };
             const response = await fetch(servicedetails, requestOptions);
             const result = await response.json();
-            console.log("handledetailsservice------>", result);
-            if (response?.status == 200) {
-                setServericdetailsget(result?.data)
-                setIsLoading(false);
-            }
+            console.log("resultresult--->", result)
+            setIsLoading(false);
         } catch (error) {
             console.error("handledetailsserviceerrorrr------>", error);
             setIsLoading(false);
@@ -419,7 +287,7 @@ export const AuthProvider = ({ children }) => {
             myHeaders.append("token", token);
             myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
             const formdata = new FormData();
-            formdata.append('service_id', '1');
+            formdata.append('service_id', servericeget.id);
             const requestOptions = {
                 method: 'POST',
                 headers: myHeaders,
