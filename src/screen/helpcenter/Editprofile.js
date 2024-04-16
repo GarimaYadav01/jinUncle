@@ -46,6 +46,7 @@ const Editprofile = () => {
                     type: "success",
                     icon: "success"
                 })
+                navigation.goBack();
             }
             console.log("Responseeditprofile----->", result);
         } catch (error) {

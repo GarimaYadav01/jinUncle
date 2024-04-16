@@ -59,20 +59,19 @@ const CardListComponent = () => {
     }
 
 
+
     const handlerender = ({ item }) => {
-
-        // let imageData;
-        // try {
-        //     imageData = JSON.parse(item.image)[0];
-        // } catch (error) {
-        //     return null;
-        // }
-        // const imagePath = imagebaseurl + imageData.image_path;
-
+        let imageData;
+        try {
+            imageData = JSON.parse(item.banner)[0];
+        } catch (error) {
+            return null;
+        }
+        const imagePath = imagebaseurl + imageData.image_path;
         return (
             <View style={styles.card}>
                 <View>
-                    {/* <Image source={{ uri: imagePath }} style={styles.image} /> */}
+                    <Image source={{ uri: imagePath }} style={styles.image} />
                     <View>
                         <TouchableOpacity style={styles.smallbutton} onPress={() => handleCardPress(item)}>
                             <Text style={styles.textbut}>Add</Text>
@@ -80,14 +79,14 @@ const CardListComponent = () => {
                     </View>
                 </View>
                 <View style={styles.content}>
-                    <Text style={{ color: "#004E8C" }}>{item.warenty}</Text>
+                    <Text style={{ color: "#004E8C" }}>{item.warenty} waranty</Text>
                     <Text style={styles.service}>{item.name}</Text>
                     <View style={styles.ratingContainer}>
                         <Image source={require("../../assets/logo/star.png")} style={styles.starIcon} />
                         <Text style={styles.likes}>{item.rating}</Text>
                     </View>
-                    <Text style={{ color: "black", fontSize: 17 }}>{item.starts}</Text>
-                    <Text style={{ color: "#004E8C", marginTop: 10, fontWeight: "500" }}>₹100 off 2nd item onwords</Text>
+                    {/* <Text style={{ color: "black", fontSize: 17 }}>{item.starts}</Text> */}
+                    <Text style={{ color: "#004E8C", marginTop: 10, fontWeight: "500" }}>{item.off_per}  off item onwords</Text>
                     <Text>₹{item.price}</Text>
                     <Text style={styles.label}>{item.short_description}</Text>
                     <TouchableOpacity onPress={() => handleCardPress(item)}>
@@ -97,6 +96,46 @@ const CardListComponent = () => {
             </View>
         );
     };
+
+
+    //     let imageData;
+    //     try {
+    //         imageData = JSON.parse(item.image)[0];
+    //     } catch (error) {
+    //         return null;
+    //     }
+    //     const imagePath = imagebaseurl + imageData.image_path;
+
+    // return (
+    //     <View style={styles.card}>
+    //         <View>
+    //             <Image source={{ uri: imagePath }} style={styles.image} />
+    //             <View>
+    //                 <TouchableOpacity style={styles.smallbutton} onPress={() => handleCardPress(item)}>
+    //                     <Text style={styles.textbut}>Add</Text>
+    //                 </TouchableOpacity>
+    //             </View>
+    //         </View>
+    //         <View style={styles.content}>
+    //             <Text style={{ color: "#004E8C" }}>{item.warenty}</Text>
+    //             <Text style={styles.service}>{item.name}</Text>
+    //             <View style={styles.ratingContainer}>
+    //                 <Image source={require("../../assets/logo/star.png")} style={styles.starIcon} />
+    //                 <Text style={styles.likes}>{item.rating}</Text>
+    //             </View>
+    //             <Text style={{ color: "black", fontSize: 17 }}>{item.starts}</Text>
+    //             <Text style={{ color: "#004E8C", marginTop: 10, fontWeight: "500" }}>₹100 off 2nd item onwords</Text>
+    //             <Text>₹{item.price}</Text>
+    //             <Text style={styles.label}>{item.short_description}</Text>
+    //             <TouchableOpacity onPress={() => handleCardPress(item)}>
+    //                 <Text style={{ color: "#004E8C", marginTop: 10, fontWeight: "800", fontSize: 14 }}>View details</Text>
+    //             </TouchableOpacity>
+    //         </View>
+    //     </View>
+    // );
+
+
+    // };
     const datacard = [
         {
             id: "1",

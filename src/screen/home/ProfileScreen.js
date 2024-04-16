@@ -92,7 +92,6 @@ const ProfileScreen = () => {
             const response = await fetch(logout, requestOptions);
             const data = await response.text();
             console.log("Logout response:", data);
-            // Clear the token from AsyncStorage
             await AsyncStorage.removeItem('token');
             console.log('Logout successful');
             setIsLoading(false);

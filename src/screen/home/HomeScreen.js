@@ -14,7 +14,7 @@ const HomeScreen = (props) => {
     const navigation = useNavigation();
     const { fetchData, handleGetlocation, location, iscategories, fetchDataCategory, categoryDetail, fetchSubCategories, issubCategories, isLoading, getProfile, getsubCategoryhandle, issubcategorydetails, handlegetservice, servericeget, handlebannerhome, banner, handledetailsservice, servericdetailsget, handlemostpopularservice, mostpolluar, setIsmostpolluar } = useContext(AuthContext);
     console.log("mostpolluar------>", mostpolluar);
-    console.log("servericeget--servericeget----->--->", issubcategorydetails);
+    console.log("servericeget--servericeget----->--->", servericdetailsget);
     console.log("banner---->", banner)
     useEffect(() => {
         const handleFocus = () => {

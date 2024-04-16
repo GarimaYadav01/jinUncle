@@ -16,26 +16,26 @@ const Settings = ({ navigation }) => {
             const token = await AsyncStorage.getItem('token');
             const formdata = new FormData();
             const requestOptions = {
-                method: "POST", // Change method to POST
+                method: "POST",
                 headers: token,
                 body: formdata,
                 redirect: "follow"
             };
-            const response = await fetch("https://aduetechnologies.com/jinuncle/api/user/delete_account", requestOptions);
-
-            const result = await response.json();
-            console.log("Logout response:", data);
+            const response = await fetch(del, requestOptions);
+            const result = await response.text();
+            console.log("Logout response:", result);
             console.log('Logout successful');
-            if (result.status == 200) {
-                await AsyncStorage.removeItem('token');
-                showMessage({
-                    message: "delete successfully ",
-                    type: "success",
-                    icon: "success"
-                });
-                setIsloading(false);
-                navigation.navigate("LoginScreen");
-            }
+            // if (result.status == 200) {
+            await AsyncStorage.removeItem('token');
+            setDeleteModalVisible(false);
+            // showMessage({
+            //     message: "delete successfully ",
+            //     type: "success",
+            //     icon: "success"
+            // });
+            setIsloading(false);
+            navigation.navigate("LoginScreen");
+            // }
         } catch (error) {
             console.error('Error logging out:', error);
             setIsloading(false);

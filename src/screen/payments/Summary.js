@@ -6,6 +6,7 @@ import { ICONS } from "../../assets/themes";
 import CustomButton from "../../compontent/Custombutton";
 import TimeSlot from "../../compontent/TimeSlot";
 import AuthContext from "../context/AuthContext";
+import { imagebaseurl } from "../../apiconfig/Apiconfig";
 const { height, width } = Dimensions.get("screen");
 const Summary = (props) => {
     const [index, setIndex] = useState(0);
@@ -13,17 +14,16 @@ const Summary = (props) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [quantityStates, setQuantityStates] = useState({});
-
     const { mostpolluar } = useContext(AuthContext);
     console.log("mostpolluar----mostpolluar-->", mostpolluar);
-    useEffect(() => {
-        const interval = setInterval(() => {
-            const nextIndex = (index + 1) % Allmix.length;
-            flatListRef.current.scrollToIndex({ animated: true, index: nextIndex });
-            setIndex(nextIndex);
-        }, 3000);
-        return () => clearInterval(interval);
-    }, [index]);
+    // useEffect(() => {
+    //     const interval = setInterval(() => {
+    //         const nextIndex = (index + 1) % mostpolluar.length;
+    //         flatListRef.current.scrollToIndex({ animated: true, index: nextIndex });
+    //         setIndex(nextIndex);
+    //     }, 3000);
+    //     return () => clearInterval(interval);
+    // }, [index]);
     const data = [
         {
             id: 1,
@@ -220,36 +220,48 @@ const Summary = (props) => {
         </View>
     );
 
-    const renderItemallmix = ({ item }) => (
-        <View style={{ marginBottom: 20, marginTop: 10 }}>
-            <View style={styles.btn}>
-                <Image source={item.image} style={{ width: 150, height: 150, borderRadius: 10 }} resizeMode="contain" />
-                <Text style={[styles.name,]}>{item.name}</Text>
-                <View style={styles.ratingContainer}>
-                    <Image source={item.icon} style={styles.starIcon} />
-                    <Text style={styles.likes}>{item.likes}</Text>
-                </View>
-                <Text style={{ color: "black" }}>₹258</Text>
-                <View>
-                    {!quantityStates[item.id]?.showQuantityView ? (
-                        <TouchableOpacity style={styles.smallbutton} onPress={() => toggleVector(item.id)}>
-                            <Text style={styles.textbut}>Add</Text>
-                        </TouchableOpacity>
-                    ) : (
-                        <View style={styles.container1}>
-                            <TouchableOpacity onPress={() => handleDecrease(item.id)}>
-                                <Text style={styles.textbut}>-</Text>
+    const renderItemallmix = ({ item }) => {
+
+        console.log("item----->", item)
+        let imageData;
+        try {
+            imageData = JSON.parse(item.banner)[0];
+        } catch (error) {
+            return null;
+        }
+
+        const imagePath = imagebaseurl + imageData.image_path;
+        return (
+            <View style={{ marginBottom: 20, marginTop: 10 }}>
+                <View style={styles.btn}>
+                    <Image source={{ uri: imagePath }} style={{ width: 150, height: 150, borderRadius: 10 }} resizeMode="contain" />
+                    <Text style={[styles.name,]}>{item.name}</Text>
+                    <View style={styles.ratingContainer}>
+                        <Image source={require("../../assets/logo/star.png")} style={styles.starIcon} />
+                        <Text style={styles.likes}>{item.rating}</Text>
+                    </View>
+                    <Text style={{ color: "black" }}>₹258</Text>
+                    <View>
+                        {!quantityStates[item.id]?.showQuantityView ? (
+                            <TouchableOpacity style={styles.smallbutton} onPress={() => toggleVector(item.id)}>
+                                <Text style={styles.textbut}>Add</Text>
                             </TouchableOpacity>
-                            <Text style={styles.textbut}>{quantityStates[item.id]?.quantity}</Text>
-                            <TouchableOpacity onPress={() => handleIncrease(item.id)}>
-                                <Text style={styles.textbut}>+</Text>
-                            </TouchableOpacity>
-                        </View>
-                    )}
+                        ) : (
+                            <View style={styles.container1}>
+                                <TouchableOpacity onPress={() => handleDecrease(item.id)}>
+                                    <Text style={styles.textbut}>-</Text>
+                                </TouchableOpacity>
+                                <Text style={styles.textbut}>{quantityStates[item.id]?.quantity}</Text>
+                                <TouchableOpacity onPress={() => handleIncrease(item.id)}>
+                                    <Text style={styles.textbut}>+</Text>
+                                </TouchableOpacity>
+                            </View>
+                        )}
+                    </View>
                 </View>
             </View>
-        </View>
-    );
+        );
+    };
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#FFF" }}>

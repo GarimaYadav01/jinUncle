@@ -18,8 +18,8 @@ export const AuthProvider = ({ children }) => {
     const [mostpolluar, setIsmostpolluar] = useState([]);
     console.log("iscategoriesiscategories----->", iscategories)
     console.log("issubCategoriesissubCate------>", issubCategories)
-    console.log("servericeget----servericeget-----dhdhd--->", servericeget)
-    console.log("",)
+    console.log("servericeget----servericeget-----dhdhd--->", servericdetailsget)
+
     const login = (userData) => {
         setUser(userData);
     };
@@ -133,7 +133,7 @@ export const AuthProvider = ({ children }) => {
 
             const response = await fetch(sub_category, requestOptions);
             const result = await response.json();
-            console.log("----------resiyl --->", result);
+            console.log("----------resiyl---->", result);
             if (result.status == 200) {
                 setIsSubCategories(result.data);
                 console.log("resudata---->", result.data)
@@ -254,34 +254,37 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-
-
     const handledetailsservice = async () => {
         try {
             setIsLoading(true);
             const token = await AsyncStorage.getItem('token');
+            const myHeaders = new Headers();
+            myHeaders.append("token", token);
+            myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
             const formdata = new FormData();
-            formdata.append("service_id", "1");
+            formdata.append('service_id', servericeget.id);
             const requestOptions = {
-                method: "POST",
-                headers: token,
+                method: 'POST',
+                headers: myHeaders,
                 body: formdata,
-                redirect: "follow"
+                redirect: 'follow'
             };
-            const response = await fetch(servicedetails, requestOptions);
+            const response = await fetch("https://aduetechnologies.com/jinuncle/api/Services/get_service_details", requestOptions);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
             const result = await response.json();
-            console.log("resultresult--->", result)
+            console.log("resultresult--->", result);
             setIsLoading(false);
         } catch (error) {
             console.error("handledetailsserviceerrorrr------>", error);
             setIsLoading(false);
         }
-    }
-
-
+    };
 
     const handlemostpopularservice = async () => {
         try {
+            setIsLoading(true);
             const token = await AsyncStorage.getItem('token');
             const myHeaders = new Headers();
             myHeaders.append("token", token);
@@ -299,14 +302,14 @@ export const AuthProvider = ({ children }) => {
             console.log("resultmost------>", result);
             if (response?.status === 200) {
                 setIsmostpolluar(result?.data);
+                setIsLoading(false);
                 console.log("resultstatus--------->", result.data);
             }
         } catch (error) {
             console.error(error);
+            setIsLoading(false);
         }
     };
-
-
 
 
     return (

@@ -16,9 +16,9 @@ const Fridagecategory = ({ route }) => {
     const navigation = useNavigation();
     const subcategory = route?.params?.subcategory || "Default Category";
     console.log("subcategorysubcategory----->", route?.params?.subcategory)
-    const { isLoading, categoryDetail, issubCategories } = useContext(AuthContext);
+    const { isLoading, categoryDetail, issubCategories, issubcategorydetails } = useContext(AuthContext);
     console.log("categoryDetail-->", categoryDetail)
-    console.log("issubCategoriesissubCategories----->----->", issubCategories)
+    console.log("issubCategoriesissubCategories----->----->", issubcategorydetails)
     const images = [
         require('../../assets/newbanners/FridgeBanner.png'),
         require('../../assets/newbanners/FridgeBanner1.png'),
@@ -60,8 +60,13 @@ const Fridagecategory = ({ route }) => {
             </View>
         );
     };
+    const imagesArray = JSON.parse(issubcategorydetails.image);
+    const imageUrls = imagesArray.map(image => {
+        const imagePath = imagebaseurl + image.image_path;
+        // return { ...image, image_path: imagePath };
+    });
 
-
+    console.log("imageUrls--->", imageUrls)
     return (
 
         <SafeAreaView style={{ flex: 1 }}>
@@ -78,7 +83,7 @@ const Fridagecategory = ({ route }) => {
                             <View style={{ backgroundColor: "#FFF" }}>
                                 <View style={{ marginHorizontal: 20, }}>
                                     <Text style={styles.text}>{subcategory}</Text>
-                                    <Text style={{ color: "gray", fontSize: 15, lineHeight: 22 }}>{categoryDetail?.short_description}</Text>
+                                    <Text style={{ color: "gray", fontSize: 15, lineHeight: 22 }}>{issubcategorydetails?.short_description}</Text>
                                     <View style={{ flexDirection: "row", alignItems: "center", columnGap: 10, marginTop: 10 }}>
                                         <Image source={require("../../assets/logo/star.png")} style={{ width: 20, height: 20 }} resizeMode="contain" />
                                         <Text style={{ color: "gray", fontSize: 16, fontWeight: "400" }}>4.48 (6.6 M bookings)</Text>
@@ -93,7 +98,6 @@ const Fridagecategory = ({ route }) => {
                                         </View>
                                         <Text style={styles.text1}>Verified quotes & 30 days warranty</Text>
                                     </TouchableOpacity>
-
                                 </View>
                             </View>
                             <View style={{ justifyContent: 'center', alignItems: 'center', marginHorizontal: 20, marginTop: height * 0.02 }}>
@@ -229,5 +233,12 @@ const styles = StyleSheet.create({
     textbut: {
         textAlign: "center",
         color: "white"
+    },
+    container1: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: height * 0.03,
+        borderRadius: 30
     },
 });
