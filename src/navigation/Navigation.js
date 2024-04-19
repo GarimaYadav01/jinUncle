@@ -57,6 +57,7 @@ import Location2 from '../screen/location/Location2';
 import Paypal from '../screen/payments/Paypal';
 import BottomPopup from '../compontent/BottomPopup';
 import Refer from '../screen/tab/Refer';
+import MostpollarDetails from '../screen/tab/MostpollarDetails';
 
 const Stack = createNativeStackNavigator();
 const Navigation = () => {
@@ -119,6 +120,8 @@ const Navigation = () => {
                 <Stack.Screen name="ContiuneShopping" component={ContiuneShopping} />
                 <Stack.Screen name="AddressEdit" component={AddressEdit} />
                 <Stack.Screen name="Refer" component={Refer} />
+                <Stack.Screen name="MostpollarDetails" component={MostpollarDetails} />
+
             </Stack.Navigator>
         </NavigationContainer>
     );

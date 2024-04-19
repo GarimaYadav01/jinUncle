@@ -323,7 +323,7 @@ export const AuthProvider = ({ children }) => {
                 console.log("resultstatus---setServericdetailsget------>", result.data);
             }
         } catch (error) {
-            console.error(error);
+            console.error("hjgdfgdukjf--->", error);
             setIsLoading(false);
         }
     };

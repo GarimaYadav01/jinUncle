@@ -155,7 +155,7 @@ const HomeScreen = (props) => {
         const imagePath = imagebaseurl + imageData.image_path;
         return (
             <View style={{ marginBottom: 20, marginTop: 10 }}>
-                <TouchableOpacity style={styles.btn}>
+                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate("MostpollarDetails",{ MostpollarDe: item.name })}>
                     <Image source={{ uri: imagePath }} style={{ width: 150, height: 150, borderRadius: 10 }} resizeMode="contain" />
                     <Text style={[styles.name,]}>{item.name}</Text>
                     <View style={styles.ratingContainer}>

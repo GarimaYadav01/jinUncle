@@ -1,23 +1,25 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Modal, Text, TouchableOpacity, StyleSheet, Image, Dimension, Dimensions, ScrollView, FlatList, Animated } from 'react-native';
-import { ICONS } from '../assets/themes';
+import { View, Modal, Text, TouchableOpacity, StyleSheet, Image, Dimension, Dimensions, ScrollView, FlatList, Animated, SafeAreaView } from 'react-native';
+import { ICONS } from '../../assets/themes';
 import { useNavigation } from '@react-navigation/native';
 import { showMessage } from 'react-native-flash-message';
-import PaymentModal from './PaymentModal';
-import BottomPopup from './BottomPopup';
-import AuthContext from '../screen/context/AuthContext';
+import AuthContext from '../context/AuthContext';
+import Header from '../../compontent/Header';
+
+
 const { height, width } = Dimensions.get("screen")
-const ModalCompontent = ({ visible, onClose, item }) => {
+const MostpollarDetails = ({ route }) => {
     const navigation = useNavigation();
     const [currentIndex, setCurrentIndex] = useState(0);
     const [quantityStates, setQuantityStates] = useState({});
     const [quantityselectStates, setQuantityselectStates] = useState({});
     const [isvissbleModal, setIsVisibleModal] = useState(false);
-
-    const { servericdetailsget } = useContext(AuthContext);
+    const { servericdetailsget, mostpolluar } = useContext(AuthContext);
     console.log("servericdetailsget------->", servericdetailsget)
+    console.log("MostpollarDetailsMostpollarDetails------->", mostpolluar)
+    const MostpollarDe = route?.params?.MostpollarDe || "Default MostpollarDe";
     const handleViewCard = () => {
-        onClose();
+        // onClose();
         navigation.navigate("Summary");
     };
 
@@ -93,9 +95,9 @@ const ModalCompontent = ({ visible, onClose, item }) => {
     };
 
     const images = [
-        require('../assets/banner/banner.png'),
-        require('../assets/banner/ACBAnner.png'),
-        require('../assets/banner/ACBAnner1.png'),
+        require('../../assets/banner/banner.png'),
+        require('../../assets/banner/ACBAnner.png'),
+        require('../../assets/banner/ACBAnner1.png'),
         // Add more image sources as needed
     ];
 
@@ -110,17 +112,17 @@ const ModalCompontent = ({ visible, onClose, item }) => {
     const select = [
         {
             id: "1",
-            image: require("../assets/newimages/washingmachine1.png"),
+            image: require("../../assets/newimages/washingmachine1.png"),
             name: "Window Ac",
-            icon: require("../assets/logo/star.png"),
+            icon: require("../../assets/logo/star.png"),
             likes: "4.85(60k reviews)",
             starts: 549,
         },
         {
             id: "2",
-            image: require("../assets/newimages/washingmachine2.png"),
+            image: require("../../assets/newimages/washingmachine2.png"),
             name: "Split AC",
-            icon: require("../assets/logo/star.png"),
+            icon: require("../../assets/logo/star.png"),
             likes: "4.85(60k reviews)",
             starts: 549,
         },
@@ -176,49 +178,49 @@ const ModalCompontent = ({ visible, onClose, item }) => {
     const Allmix = [
         {
             id: "1",
-            image: require("../assets/newimages/washingmachine1.png"),
+            image: require("../../assets/newimages/washingmachine1.png"),
             name: " washing",
-            icon: require("../assets/logo/star.png"),
+            icon: require("../../assets/logo/star.png"),
             likes: "4.85(60k reviews)",
             starts: 549,
         },
         {
             id: "2",
-            image: require("../assets/newimages/washingmachine2.png"),
+            image: require("../../assets/newimages/washingmachine2.png"),
             name: "cleaning",
-            icon: require("../assets/logo/star.png"),
+            icon: require("../../assets/logo/star.png"),
             likes: "4.85(60k reviews)",
             starts: 549,
         },
         {
             id: "3",
-            image: require("../assets/newimages/wahingmachine3.png"),
+            image: require("../../assets/newimages/wahingmachine3.png"),
             name: "change the wire",
-            icon: require("../assets/logo/star.png"),
+            icon: require("../../assets/logo/star.png"),
             likes: "4.85(60k reviews)",
             starts: 549,
         },
         {
             id: "4",
-            image: require("../assets/newimages/AC1.png"),
+            image: require("../../assets/newimages/AC1.png"),
             name: "Repair & gas refill",
-            icon: require("../assets/logo/star.png"),
+            icon: require("../../assets/logo/star.png"),
             likes: "4.85(60k reviews)",
             starts: 549,
         },
         {
             id: "5",
-            image: require("../assets/newimages/AC.png"),
+            image: require("../../assets/newimages/AC.png"),
             name: "Install & Uninstall",
-            icon: require("../assets/logo/star.png"),
+            icon: require("../../assets/logo/star.png"),
             likes: "4.85(60k reviews)",
             starts: 549,
         },
         {
             id: "6",
-            image: require("../assets/newimages/AC2.png"),
+            image: require("../../assets/newimages/AC2.png"),
             name: "service",
-            icon: require("../assets/logo/star.png"),
+            icon: require("../../assets/logo/star.png"),
             likes: "4.85(60k reviews)",
             starts: 549,
         }
@@ -228,17 +230,17 @@ const ModalCompontent = ({ visible, onClose, item }) => {
         {
             title: 'Step 1: Deep Cleaning',
             description: 'Deep cleaning of indoor & outdoor unit before the anti-rust protection is applied',
-            image: require("../assets/gif/AC.gif"),
+            image: require("../../assets/gif/AC.gif"),
         },
         {
             title: 'Step 2: Anti-rust Protection',
             description: 'Specialised anti-rust coating for copper coils to prevent gas leakage (Up to 1 year)',
-            image: require("../assets/gif/AC.gif"),
+            image: require("../../assets/gif/AC.gif"),
         },
         {
             title: 'Step 3: Anti-rust Protection',
             description: 'Specialised anti-rust coating for copper coils to prevent gas leakage (Up to 1 year)',
-            image: require("../assets/gif/AC.gif"),
+            image: require("../../assets/gif/AC.gif"),
         },
     ];
 
@@ -303,48 +305,29 @@ const ModalCompontent = ({ visible, onClose, item }) => {
             </View>
         </View>
     );
-    const renderItemallmix2 = ({ item }) => (
-        <View style={{ marginBottom: 20, marginTop: 10, alignContent: "center", justifyContent: "center" }}>
-            <TouchableOpacity style={styles.btn1}>
-                <Image source={item.image} style={{ width: 100, height: 100, borderRadius: 5 }} resizeMode="contain" />
-                <Text style={[styles.name, { width: width * 0.3 }]}>{item.name}</Text>
-                {/* <View style={styles.ratingContainer}>
-                    <Image source={item.icon} style={styles.starIcon} />
-                    <Text style={styles.likes}>{item.likes}</Text>
-                </View> */}
-                <Text style={{ color: "black" }}>₹258</Text>
-                <TouchableOpacity style={styles.smallbutton} onPress={openModal}>
-                    <Text style={styles.textbut}>Add</Text>
-                </TouchableOpacity>
-            </TouchableOpacity>
-        </View>
-    );
+
 
     // const serviceName = servericdetailsget?.data[0]?.name;
-    // const serviceRating = servericdetailsget?.data[0]?.rating;
+    const serviceRating = mostpolluar?.rating;
     return (
-        <Modal visible={visible} transparent={true} animationType="slide">
-            <View style={styles.modalContainer}>
-                <View style={{ justifyContent: "flex-end", marginLeft: width * 0.8, paddingBottom: 20, marginTop: height * 0.2, }}>
-                    <TouchableOpacity onPress={onClose}>
-                        <Image source={require("../assets/Icon/x-mark.png")} style={{ width: 40, height: 40, marginTop: 10 }} tintColor={"white"} />
-                    </TouchableOpacity>
-                </View>
+        <SafeAreaView style={{ flex: 1 }}>
+            <Header />
+            <ScrollView>
                 <View style={styles.modalContent}>
                     <ScrollView showsVerticalScrollIndicator={false} style={{ flexGrow: 1, paddingBottom: 150, }}>
                         <View style={{ flexDirection: "row" }}>
                             <Image source={images[currentIndex]} style={{ borderRadius: 10, width: width * 0.9 }} />
                         </View>
-                        {/* {console.log("serveailsget-name------>", servericdetailsget.data)} */}
-                        {/* <Text style={styles.text}>{serviceName}</Text> */}
+                        {console.log("serveailsget-name------>", serviceRating)}
+                        <Text style={styles.text}>{MostpollarDe}</Text>
                         <View style={{ flexDirection: "row", alignItems: "center", columnGap: 10, marginTop: 10 }}>
-                            <Image source={require("../assets/logo/star.png")} style={{ width: 20, height: 20 }} resizeMode="contain" />
-                            {/* <Text style={{ color: "gray", fontFamily: "Roboto-Regular" }}>{serviceRating}</Text> */}
+                            <Image source={require("../../assets/logo/star.png")} style={{ width: 20, height: 20 }} resizeMode="contain" />
+                            <Text style={{ color: "gray", fontFamily: "Roboto-Regular" }}>{serviceRating}</Text>
                         </View>
                         <TouchableOpacity style={styles.btn}>
                             <View style={{ flexDirection: "row", alignItems: "center", marginHorizontal: 20, marginTop: 10, columnGap: 10, justifyContent: "space-between" }}>
                                 <View style={{ flexDirection: "row" }}>
-                                    <Image source={require("../assets/Icon/check.png")} resizeMode="contain" style={{ width: 20, height: 20 }} />
+                                    <Image source={require("../../assets/Icon/check.png")} resizeMode="contain" style={{ width: 20, height: 20 }} />
                                     <Text style={{ color: "#004E8C", fontSize: 15, fontWeight: "bold" }}>JU Cover</Text>
                                 </View>
                                 <Text style={{ color: "gray", fontStyle: "normal", fontSize: 16 }}>Standard rate card</Text>
@@ -377,26 +360,26 @@ const ModalCompontent = ({ visible, onClose, item }) => {
                         </View>
 
                         <View style={{ flexDirection: "row", alignItems: "center", columnGap: 10 }}>
-                            <Image source={require("../assets/Icon/check.png")} resizeMode="contain" style={{ width: 20, height: 20 }} />
+                            <Image source={require("../../assets/Icon/check.png")} resizeMode="contain" style={{ width: 20, height: 20 }} />
                             <Text style={{ color: "#004E8C", fontSize: 22, fontWeight: "bold" }}>JU Cover</Text>
                         </View>
-                        <View style={{ flexDirection: "row", columnGap: 10, paddingBottom: 150 }}>
+                        <View style={{ flexDirection: "row", columnGap: 10, }}>
                             <View style={styles.warrantybutton}>
-                                <Image source={require("../assets/bottomnavigatiomnimage/waranty.png")} style={{
+                                <Image source={require("../../assets/bottomnavigatiomnimage/waranty.png")} style={{
                                     width: 60,
                                     height: 60
                                 }} />
                                 <Text style={[styles.text1, { fontWeight: "bold" }]}>JU warranty</Text>
                             </View>
                             <View style={styles.warrantybutton}>
-                                <Image source={require("../assets/bottomnavigatiomnimage/refund.png")} style={{
+                                <Image source={require("../../assets/bottomnavigatiomnimage/refund.png")} style={{
                                     width: 60,
                                     height: 60
                                 }} />
                                 <Text style={[styles.text1, { fontWeight: "bold" }]}>No questions asked claim</Text>
                             </View>
                             <View style={styles.warrantybutton}>
-                                <Image source={require("../assets/bottomnavigatiomnimage/verified.png")} style={{
+                                <Image source={require("../../assets/bottomnavigatiomnimage/verified.png")} style={{
                                     width: 60,
                                     height: 60
                                 }} />
@@ -406,7 +389,8 @@ const ModalCompontent = ({ visible, onClose, item }) => {
                     </ScrollView>
                 </View>
 
-            </View>
+            </ScrollView>
+
             <View
             // style={styles.container}
             >
@@ -419,7 +403,7 @@ const ModalCompontent = ({ visible, onClose, item }) => {
                     ]}
                     onLayout={animatePopup}
                 >
-                    <View style={styles.modalContent2}>
+                    <View >
                         <View style={styles.paymentcard}>
                             <Text style={styles.text}>₹549</Text>
                             <TouchableOpacity style={styles.smallbutton} onPress={handleViewCard}>
@@ -429,8 +413,7 @@ const ModalCompontent = ({ visible, onClose, item }) => {
                     </View>
                 </Animated.View>
             </View>
-
-        </Modal>
+        </SafeAreaView>
     );
 };
 
@@ -453,7 +436,6 @@ const styles = StyleSheet.create({
         // marginHorizontal: 20,
         paddingBottom: 100
         // height:height
-
     },
     closeButton: {
         marginTop: 10,
@@ -464,7 +446,7 @@ const styles = StyleSheet.create({
         color: "#000",
         fontWeight: "bold",
         fontFamily: "Roboto-BoldItalic",
-        marginVertical: height * 0.01
+        marginTop: height * 0.03
     },
     subtext: {
         fontSize: 16,
@@ -678,17 +660,13 @@ const styles = StyleSheet.create({
         padding: 20,
         paddingTop: 10,
     },
-    paymentcard: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        paddingHorizontal: 15
-    },
-    text: {
-        fontSize: 25,
-        fontWeight: 'bold',
-        color: "black"
-    },
+    // paymentcard: {
+    //     flexDirection: 'row',
+    //     alignItems: 'center',
+    //     justifyContent: 'space-between',
+    //     paddingHorizontal: 15
+    // },
+
     smallbutton: {
         height: height * 0.04,
         width: width * 0.27,
@@ -706,4 +684,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default ModalCompontent;
+export default MostpollarDetails;
