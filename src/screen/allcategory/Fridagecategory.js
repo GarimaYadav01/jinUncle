@@ -17,8 +17,8 @@ const Fridagecategory = ({ route }) => {
     const subcategory = route?.params?.subcategory || "Default Category";
     console.log("subcategorysubcategory----->", route?.params?.subcategory)
     const { isLoading, categoryDetail, issubCategories, issubcategorydetails } = useContext(AuthContext);
-    console.log("categoryDetail-->", categoryDetail)
-    console.log("issubCategoriesissubCategories----->----->", issubcategorydetails)
+    // console.log("categoryDetail-->", categoryDetail)
+    // console.log("issubCategoriesissubCategories----->----->", issubcategorydetails)
     const images = [
         require('../../assets/newbanners/FridgeBanner.png'),
         require('../../assets/newbanners/FridgeBanner1.png'),
@@ -50,7 +50,7 @@ const Fridagecategory = ({ route }) => {
         } catch (error) {
             return null;
         }
-        const imagePath = imagebaseurl + imageData.image_path;
+        const imagePath = imagebaseurl + imageData?.image_path;
         return (
             <View style={{ marginBottom: 20, marginTop: 10 }}>
                 <TouchableOpacity style={styles.btn1} >
@@ -60,13 +60,13 @@ const Fridagecategory = ({ route }) => {
             </View>
         );
     };
-    const imagesArray = JSON.parse(issubcategorydetails.image);
-    const imageUrls = imagesArray.map(image => {
-        const imagePath = imagebaseurl + image.image_path;
-        // return { ...image, image_path: imagePath };
-    });
+    // const imagesArray = JSON.parse(issubcategorydetails?.image);
+    // const imageUrls = imagesArray?.map(image => {
+    //     const imagePath = imagebaseurl + image.image_path;
+    //     // return { ...image, image_path: imagePath };
+    // });
 
-    console.log("imageUrls--->", imageUrls)
+    // console.log("imageUrls--->", imageUrls)
     return (
 
         <SafeAreaView style={{ flex: 1 }}>

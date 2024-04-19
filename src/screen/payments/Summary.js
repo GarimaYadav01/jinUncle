@@ -235,7 +235,7 @@ const Summary = (props) => {
             <View style={{ marginBottom: 20, marginTop: 10 }}>
                 <View style={styles.btn}>
                     <Image source={{ uri: imagePath }} style={{ width: 150, height: 150, borderRadius: 10 }} resizeMode="contain" />
-                    <Text style={[styles.name,]}>{item.name}</Text>
+                    <Text style={[styles.name]}>{item.name}</Text>
                     <View style={styles.ratingContainer}>
                         <Image source={require("../../assets/logo/star.png")} style={styles.starIcon} />
                         <Text style={styles.likes}>{item.rating}</Text>
@@ -380,7 +380,8 @@ const styles = StyleSheet.create({
         color: "black",
         fontFamily: "Roboto-Regular",
         marginTop: 10,
-        textAlign: "center"
+        textAlign: "center",
+        width: width * 0.36
     },
     ratingContainer: {
         flexDirection: 'row',

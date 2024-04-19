@@ -115,7 +115,7 @@ const LoginScreen = (props) => {
                   <View style={styles.container2}>
                     <View style={{ columnGap: 10, flexDirection: "row" }}>
                       <Image source={require("../../assets/Icon/Flag.png")} style={{ height: 20, width: 20, borderRadius: 10 }} />
-                      <Text>+91</Text>
+                      <Text style={{color:"black"}}>+91</Text>
                     </View>
                     <TextInput
                       style={styles.input}

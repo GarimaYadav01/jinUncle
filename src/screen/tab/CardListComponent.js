@@ -79,7 +79,7 @@ const CardListComponent = () => {
                     </View>
                 </View>
                 <View style={styles.content}>
-                    <Text style={{ color: "#004E8C" }}>{item.warenty} waranty</Text>
+                    <Text style={{ color: "#004E8C" }}>{item.warenty} </Text>
                     <Text style={styles.service}>{item.name}</Text>
                     <View style={styles.ratingContainer}>
                         <Image source={require("../../assets/logo/star.png")} style={styles.starIcon} />
@@ -89,6 +89,7 @@ const CardListComponent = () => {
                     <Text style={{ color: "#004E8C", marginTop: 10, fontWeight: "500" }}>{item.off_per}  off item onwords</Text>
                     <Text>₹{item.price}</Text>
                     <Text style={styles.label}>{item.short_description}</Text>
+                    {/* <Text style={[styles.label, { color: "gray" }]}>{item.full_description}</Text> */}
                     <TouchableOpacity onPress={() => handleCardPress(item)}>
                         <Text style={{ color: "#004E8C", marginTop: 10, fontWeight: "800", fontSize: 14 }}>View details</Text>
                     </TouchableOpacity>

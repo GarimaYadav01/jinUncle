@@ -79,7 +79,7 @@ const Accategory = ({ route }) => {
             <ScrollView style={{ flexGrow: 1, paddingBottom: 50 }} showsVerticalScrollIndicator={false}>
                 <View >
                     <Header2 />
-                    <View
+                    {/* <View
                         style={styles.container1}>
                         {console.log("hcdkjd---->", bannerImages)}
                         {bannerImages.map((imagePath, index) => (
@@ -91,7 +91,7 @@ const Accategory = ({ route }) => {
                             />
 
                         ))}
-                    </View>
+                    </View> */}
                 </View>
                 <View>
                     <ScrollView style={{ flexGrow: 1, paddingBottom: 50 }} showsVerticalScrollIndicator={false}>

@@ -10,26 +10,26 @@ const Account = () => {
             id: "1",
             lable: "I want to change my phone number",
             image: ICONS.arrow,
-            screen: "phonenumber"
+            screen: "Editprofile"
         },
         {
             id: "2",
             lable: "Where can i check my saved addresses ?",
             image: ICONS.arrow,
-            screen: "Saved"
+            screen: "Address"
         },
 
         {
             id: "3",
             lable: "I want to changes my email address",
             image: ICONS.arrow,
-            screen: "Changeemail"
+            screen: "Editprofile"
         },
         {
             id: "3",
             lable: "Where can i see my saved payment",
             image: ICONS.arrow,
-            screen: "Checksavedpayments"
+            screen: "Managepaymentmethods"
         },
     ]
     const handleMenuItemPress = (screen) => {

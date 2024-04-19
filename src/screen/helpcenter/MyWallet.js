@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Dimensions, Image, SafeAreaView, StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { Dimensions, Image, SafeAreaView, StyleSheet, Text, View, TouchableOpacity, ScrollView } from "react-native";
 import Header from "../../compontent/Header";
 import { ICONS } from "../../assets/themes";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -68,21 +68,26 @@ const MyWallet = () => {
                 </TouchableOpacity>
                 {expanded && (
                     <View style={styles.content}>
-                        <Text style={styles.subtext2}>I have Uc credits. What happens to them now?</Text>
-                        <Text style={styles.subtext}>Ali JU Credits have been converted JU Cash. They are applicable on all services.</Text>
-                        <Text style={styles.subtext2}>What is JU Cash?</Text>
-                        <Text style={styles.subtext}>JU cash is given by us as part of our customer experience programs. It is redeemable across all categories and is valid for 1 year from the date of issue.</Text>
-                        <Text style={styles.subtext2}>What is JU Rewards?</Text>
-                        <Text style={styles.subtext}>JU reward points are given by us as part of promotional campaigns so that users like you can try out our flagship services. They are applicable on selected categories only as mentioned as the rewards.</Text>
-                        <Text style={styles.subtext}>Are there any other important terms and Conditions?</Text>
-                        <Text style={styles.subtext}>Yes: 1. Reward points can't be clubbed with other ongoing Ju offers; however, third-party offers like Amazon pay can be combined. 2. Locked date slots can't be unlocked using rewards after service on the final bill after service delivery in such cases. 3. Rewards will expire irrespective of service delivery window is long. it is thus advised to use pre-payment options to avail rewards in such cases. 4. Rewards/cash won't be applicable on cash payments.</Text>
+                        <ScrollView >
+
+
+                            <Text style={styles.subtext2}>I have Uc credits. What happens to them now?</Text>
+                            <Text style={styles.subtext}>Ali JU Credits have been converted JU Cash. They are applicable on all services.</Text>
+                            <Text style={styles.subtext2}>What is JU Cash?</Text>
+                            <Text style={styles.subtext}>JU cash is given by us as part of our customer experience programs. It is redeemable across all categories and is valid for 1 year from the date of issue.</Text>
+                            <Text style={styles.subtext2}>What is JU Rewards?</Text>
+                            <Text style={styles.subtext}>JU reward points are given by us as part of promotional campaigns so that users like you can try out our flagship services. They are applicable on selected categories only as mentioned as the rewards.</Text>
+                            <Text style={styles.subtext}>Are there any other important terms and Conditions?</Text>
+                            <Text style={styles.subtext}>Yes: 1. Reward points can't be clubbed with other ongoing Ju offers; however, third-party offers like Amazon pay can be combined. 2. Locked date slots can't be unlocked using rewards after service on the final bill after service delivery in such cases. 3. Rewards will expire irrespective of service delivery window is long. it is thus advised to use pre-payment options to avail rewards in such cases. 4. Rewards/cash won't be applicable on cash payments.</Text>
+
+                        </ScrollView>
                     </View>
                 )}
             </View>
             <View style={styles.header}>
                 <Text style={styles.headerText}>Wallet</Text>
             </View>
-            {isLoading && <LoaderScreen isLoading={isLoading}/>}
+            {isLoading && <LoaderScreen isLoading={isLoading} />}
         </SafeAreaView>
     )
 }
@@ -124,7 +129,9 @@ const styles = StyleSheet.create({
 
     content: {
         padding: 10,
-        marginHorizontal: 15
+        marginHorizontal: 15,
+        paddingBottom: 30
+        // flex:1
     },
     header: {
         backgroundColor: '#f9f9f9',

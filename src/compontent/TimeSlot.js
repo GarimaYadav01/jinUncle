@@ -12,8 +12,8 @@ import LoaderScreen from "./LoaderScreen";
 const { width, height } = Dimensions.get("screen");
 const TimeSlot = ({ isVisible, onClose, categories }) => {
     const navigation = useNavigation();
-    const [selectedDay, setSelectedDay] = useState(null);
-    const [selectedItem, setSelectedItem] = useState(null);
+    const [selectedDayIndex, setSelectedDayIndex] = useState(null);
+    const [selectedItemIndex, setSelectedItemIndex] = useState(null);
     const [timeSlotget, setTimeslotget] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     console.log("hhhdg----->", timeSlotget)
@@ -50,49 +50,50 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
         onClose();
         navigation.navigate("PaymentScreen");
     };
-    const handleItemSelect = (itemId) => {
-        setSelectedItem(itemId);
-    };
+
     const [modalVisible, setModalVisible] = useState(false);
 
     const openmodal = () => {
         setModalVisible(true);
     }
 
-    const handleDaySelect = (dayId) => {
-        setSelectedDay(dayId);
-    };
-    const renderItem = ({ item }) => {
-        return (
-            <TouchableOpacity
-                style={[
-                    styles.con,
-                    selectedDay === item.date ? styles.selectedDay : null
-                ]}
-                onPress={() => handleDaySelect(item.date)}
-            >
-                <Text style={[
-                    styles.text1,
-                    selectedDay === item.date ? styles.selecttext : null
-                ]}>{item.name}</Text>
-            </TouchableOpacity>
-        );
+    const handleDaySelect = (index) => {
+        setSelectedDayIndex(index);
     };
 
-    const renderItem2 = ({ item }) => (
+    const handleItemSelect = (index) => {
+        setSelectedItemIndex(index);
+    };
+    const renderItem = ({ item, index }) => (
         <TouchableOpacity
             style={[
-                styles.btn,
-                selectedItem === item.name ? styles.selectedDay : null
+                styles.con,
+                selectedDayIndex === index ? styles.selectedDay : null
             ]}
-            onPress={() => handleItemSelect(item.name)}
+            onPress={() => handleDaySelect(index)}
         >
             <Text style={[
                 styles.text1,
-                selectedItem === item.name ? styles.selecttext : null
+                selectedDayIndex === index ? styles.selecttext : null
             ]}>{item.name}</Text>
         </TouchableOpacity>
     );
+
+    const renderItem2 = ({ item, index }) => (
+        <TouchableOpacity
+            style={[
+                styles.btn,
+                selectedItemIndex === index ? styles.selectedDay : null
+            ]}
+            onPress={() => handleItemSelect(index)}
+        >
+            <Text style={[
+                styles.text1,
+                selectedItemIndex === index ? styles.selecttext : null
+            ]}>{item.name}</Text>
+        </TouchableOpacity>
+    );
+
 
     return (
         <Modal

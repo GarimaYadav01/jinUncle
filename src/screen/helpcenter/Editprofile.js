@@ -11,7 +11,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import AuthContext from "../context/AuthContext";
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-
 const { height, width } = Dimensions.get("screen");
 
 const Editprofile = () => {
@@ -19,7 +18,7 @@ const Editprofile = () => {
     const navigation = useNavigation();
 
     useEffect(() => {
-        getProfile(); // Fetch profile data when component mounts
+        getProfile();
     }, []);
 
     const handleEditprofile = async (values) => {

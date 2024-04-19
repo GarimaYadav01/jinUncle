@@ -18,7 +18,6 @@ const Wallet = () => {
             image: ICONS.arrow,
             screen: "Gotowallet"
         },
-
         {
             id: "3",
             lable: "How do i use my JU Credits",
@@ -49,8 +48,6 @@ const Wallet = () => {
             image: ICONS.arrow,
             screen: "Checksavedpayments"
         },
-
-
     ]
     const handleMenuItemPress = (screen) => {
         // Navigate to the specified screen
@@ -71,9 +68,7 @@ const Wallet = () => {
                     </View>
                 </View>
             </ScrollView>
-
         </SafeAreaView>
-
     );
 }
 export default Wallet;

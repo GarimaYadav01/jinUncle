@@ -232,9 +232,7 @@ const styles = StyleSheet.create({
         borderRadius: 10
 
     },
-    activeTab: {
-        backgroundColor: "#FFF", // Change to your active color
-    },
+
     btn2: {
         width: width * 0.9,
         borderRadius: 10,

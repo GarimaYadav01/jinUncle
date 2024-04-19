@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { Dimensions, FlatList, Image, ImageBackground, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Dimensions, FlatList, Image, ImageBackground, SafeAreaView, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, RefreshControl } from "react-native";
 import TextinputComponent from "../../compontent/TextinputComponent";
 import { useNavigation } from "@react-navigation/native";
 import Applyproma from "../../compontent/Applyproma";
@@ -14,8 +14,9 @@ const HomeScreen = (props) => {
     const navigation = useNavigation();
     const { fetchData, handleGetlocation, location, iscategories, fetchDataCategory, categoryDetail, fetchSubCategories, issubCategories, isLoading, getProfile, getsubCategoryhandle, issubcategorydetails, handlegetservice, servericeget, handlebannerhome, banner, handledetailsservice, servericdetailsget, handlemostpopularservice, mostpolluar, setIsmostpolluar } = useContext(AuthContext);
     console.log("mostpolluar------>", mostpolluar);
-    console.log("servericeget--servericeget----->--->", servericdetailsget);
+    console.log("servericeget----servericeget-----dhdhd--->", servericdetailsget)
     console.log("banner---->", banner)
+    const [refreshing, setRefreshing] = useState(false);
     useEffect(() => {
         const handleFocus = () => {
             handleGetlocation();
@@ -32,6 +33,14 @@ const HomeScreen = (props) => {
         handleFocus();
         const unsubscribeFocus = navigation.addListener('focus', handleFocus);
         return unsubscribeFocus;
+    }, []);
+
+
+
+    const onRefresh = React.useCallback(() => {
+        setRefreshing(true);
+        // Your refresh logic here
+        setTimeout(() => setRefreshing(false), 2000); // Simulating a delay to complete the refresh
     }, []);
 
     const [index, setIndex] = useState(0);
@@ -67,13 +76,17 @@ const HomeScreen = (props) => {
 
         return () => clearInterval(interval);
     }, []);
+
+    const scrollViewRef = useRef(null);
     useEffect(() => {
         const interval = setInterval(() => {
-            setCurrentgifIndex((prevIndex) => (prevIndex + 1) % banner?.length);
-        }, 3000);
+            const nextIndex = (currentIndex + 1) % bannerImages.length;
+            setCurrentIndex(nextIndex);
+            scrollViewRef.current.scrollTo({ x: nextIndex * width, animated: true });
+        }, 2000);
 
         return () => clearInterval(interval);
-    }, []);
+    }, [currentIndex, bannerImages]);
 
     const renderItem = ({ item }) => {
         let imageData;
@@ -163,56 +176,6 @@ const HomeScreen = (props) => {
     const closeModal = () => {
         setModalVisible(false);
     };
-    const categories = [
-        {
-            id: "1",
-            image: require("../../assets/banner/img2.png"),
-            name: "Ac Repair & Serivce",
-            screen: "Subcategory"
-        },
-        {
-            id: "2",
-            image: require("../../assets/banner/img3.png"),
-            name: "Refrigerator",
-            screen: "Subcategory"
-        },
-        {
-            id: "3",
-            image: require("../../assets/banner/img-1.png"),
-            name: "Washing Machine Reapir",
-            screen: "Subcategory"
-        },
-        {
-            id: "4",
-            image: require("../../assets/banner/img-1.png"),
-            name: "Service",
-            screen: "Subcategory"
-        },
-        {
-            id: "5",
-            image: require("../../assets/banner/img-1.png"),
-            name: "Repair & gas refill ",
-            screen: "Subcategory"
-        },
-        {
-            id: "6",
-            image: require("../../assets/banner/img-1.png"),
-            name: "Install & uninstall",
-            screen: "Subcategory"
-        },
-        {
-            id: "3",
-            image: require("../../assets/banner/img-1.png"),
-            name: "Split AC",
-            screen: "Subcategory"
-        },
-        {
-            id: "7",
-            image: require("../../assets/banner/img-1.png"),
-            name: "Window AC",
-            screen: "Subcategory"
-        },
-    ];
 
     const bannerImages = banner?.map(item => {
         try {
@@ -225,7 +188,7 @@ const HomeScreen = (props) => {
     }).filter(imagePath => imagePath !== null);
     return (
         <SafeAreaView style={{ flex: 1, paddingBottom: 20, backgroundColor: "#FFF" }}>
-            <ScrollView style={{ flexGrow: 1, }} showsVerticalScrollIndicator={false}>
+            <ScrollView style={{ flexGrow: 1, }} showsVerticalScrollIndicator={false} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
                 <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: height * 0.03, marginHorizontal: 20 }}>
                     {/* <Image source={require("../../assets/Newicon/location.png")} style={styles.images} /> */}
                     <Image source={require("../../assets/logo/jinnlogo.png")} style={styles.images} />
@@ -253,18 +216,26 @@ const HomeScreen = (props) => {
                         />
                     </View>
                 </View>
-                <View
-                    style={styles.container1}>
-                    {console.log("hcdkjd---->", bannerImages)}
-                    {bannerImages.map((imagePath, index) => (
-                        <Image
-                            key={index}
-                            source={{ uri: imagePath }}
-                            style={styles.image}
-                            resizeMode="contain"
-                        />
-
-                    ))}
+                <View style={styles.container1}>
+                    <ScrollView
+                        horizontal
+                        ref={scrollViewRef}
+                        pagingEnabled
+                        showsHorizontalScrollIndicator={false}
+                        onScroll={event => {
+                            const contentOffsetX = event.nativeEvent.contentOffset.x;
+                            setCurrentIndex(Math.floor(contentOffsetX / width));
+                        }}
+                    >
+                        {bannerImages.map((imagePath, index) => (
+                            <Image
+                                key={index}
+                                source={{ uri: imagePath }}
+                                style={[styles.image, { width }]}
+                                resizeMode="contain"
+                            />
+                        ))}
+                    </ScrollView>
                 </View>
                 <View style={styles.con}>
                     <Text style={styles.text}>Category</Text>
@@ -441,8 +412,8 @@ const styles = StyleSheet.create({
         borderRadius: 30
     },
     image: {
-        width: width * 0.89,
-        height: height * 0.13,
+        width: width,
+        height: height * 0.17,
         // height: height * 0.2,
         borderRadius: 20
     },
