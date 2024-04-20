@@ -20,9 +20,6 @@ const SettingsScreen = ({ route }) => {
     console.log("issubCategoriesissubCategories----->----->", issubCategories)
 
     const navigation = useNavigation();
-
-
-
     const [modalVisible, setModalVisible] = useState(false);
     const [showPayment, setShowPayment] = useState(false);
     const handleCardPress = () => {
@@ -32,6 +29,7 @@ const SettingsScreen = ({ route }) => {
     const closeModal = () => {
         setModalVisible(false);
     };
+
     const handleAddButtonPress = () => {
         setShowPayment(true);
     };

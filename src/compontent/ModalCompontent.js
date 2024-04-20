@@ -6,6 +6,8 @@ import { showMessage } from 'react-native-flash-message';
 import PaymentModal from './PaymentModal';
 import BottomPopup from './BottomPopup';
 import AuthContext from '../screen/context/AuthContext';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { servicedetails } from '../apiconfig/Apiconfig';
 const { height, width } = Dimensions.get("screen")
 const ModalCompontent = ({ visible, onClose, item }) => {
     const navigation = useNavigation();
@@ -13,9 +15,49 @@ const ModalCompontent = ({ visible, onClose, item }) => {
     const [quantityStates, setQuantityStates] = useState({});
     const [quantityselectStates, setQuantityselectStates] = useState({});
     const [isvissbleModal, setIsVisibleModal] = useState(false);
+    const [servericdetailsget, setServericdetailsget] = useState([]);
+    // const { servericdetailsget } = useContext(AuthContext);
+    // console.log("servericdetailsget------->", servericdetailsget)
 
-    const { servericdetailsget } = useContext(AuthContext);
-    console.log("servericdetailsget------->", servericdetailsget)
+
+    const handledetailsservice = async () => {
+        console.log("servericeget.id---------->", servericeget)
+        try {
+            setIsLoading(true);
+            const token = await AsyncStorage.getItem('token');
+            const myHeaders = new Headers();
+            myHeaders.append("token", token);
+            myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
+            const formdata = new FormData();
+            formdata.append('service_id', servericeget.id);
+            console.log("service_id------->", servericeget.id)
+            // formdata.append("service_id", "1");
+
+            const requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: formdata,
+                redirect: 'follow'
+            };
+            console.log("requestOptions----->", requestOptions)
+            const response = await fetch(servicedetails, requestOptions);
+            const result = await response.json();
+            console.log("resultressssult--->", result);
+            if (result?.status == 200) {
+                setServericdetailsget(result);
+                setIsLoading(false);
+                console.log("resultresult.data-result-->", result);
+            }
+        } catch (error) {
+            console.error("handledetailsserviceerrorrr------>", error);
+            setIsLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        handledetailsservice();
+    }, []);
+
     const handleViewCard = () => {
         onClose();
         navigation.navigate("Summary");
@@ -354,9 +396,7 @@ const ModalCompontent = ({ visible, onClose, item }) => {
                         </TouchableOpacity>
 
                         <Text style={styles.text}>Select variant</Text>
-
                         <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
-
                             {console.log("servericdetailsget.varient------>", servericdetailsget.varient)}
                             <FlatList
                                 data={servericdetailsget.varient}
@@ -405,7 +445,6 @@ const ModalCompontent = ({ visible, onClose, item }) => {
                         </View>
                     </ScrollView>
                 </View>
-
             </View>
             <View
             // style={styles.container}

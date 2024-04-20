@@ -8,17 +8,59 @@ import AuthContext from "../context/AuthContext";
 import LoaderScreen from "../../compontent/LoaderScreen";
 import { useNavigation } from "@react-navigation/native";
 import WarrantyModal from "../../compontent/WarrantyModal";
-import { imagebaseurl } from "../../apiconfig/Apiconfig";
+import { categoridetails, imagebaseurl } from "../../apiconfig/Apiconfig";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const { height, width } = Dimensions.get("screen")
 const Accategory = ({ route }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const navigation = useNavigation();
     const categoryName = route?.params?.categoryName || "Default Category";
+    const categoryId = route?.params?.category_id || "Default Category id";
+    console.log("categoryIdcategoryId---->", categoryId)
     console.log("reiute----->", route?.params?.categoryName)
-    const { isLoading, categoryDetail, issubCategories, banner } = useContext(AuthContext);
+    const { issubCategories, banner } = useContext(AuthContext);
     console.log("categoryDetail-->", categoryDetail)
     console.log("issubCategoriesissubCategories----->----->", issubCategories)
     console.log("bannerbanner----->", banner)
+    const [isLoading, setIsLoading] = useState(false);
+    const [categoryDetail, setCategoryDetail] = useState(null);
+
+    const fetchDataCategory = async () => {
+        try {
+            setIsLoading(true);
+            const token = await AsyncStorage.getItem('token');
+            const formdata = new FormData();
+            formdata.append("id", categoryId);
+            console.log("id iscategories--------->", categoryId)
+            const requestOptions = {
+                method: "POST",
+                headers: {
+                    'token': token
+                },
+                body: formdata,
+                redirect: "follow"
+            };
+            const response = await fetch(categoridetails, requestOptions);
+            const result = await response.json();
+            console.log("result-fgfg---result-------->", result);
+            if (result?.status == 200) {
+                setCategoryDetail(result);
+                setIsLoading(false);
+                console.log("reponseresponse------>", result);
+            }
+        } catch (error) {
+            console.error("errorrrrr----rrrr---->", error);
+            setIsLoading(false);
+        }
+    };
+    useEffect(() => {
+        const handleFocus = () => {
+            fetchDataCategory();
+        };
+        handleFocus();
+        const unsubscribeFocus = navigation.addListener('focus', handleFocus);
+        return unsubscribeFocus;
+    }, []);
 
     const images = [
         require('../../assets/banner/ACBAnner.png'),
@@ -74,6 +116,9 @@ const Accategory = ({ route }) => {
         }
     }).filter(imagePath => imagePath !== null);
 
+    const categoryDetailname = categoryDetail?.data[0].name;
+    const categoryDetailrating = categoryDetail?.data[0].short_description;
+
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <ScrollView style={{ flexGrow: 1, paddingBottom: 50 }} showsVerticalScrollIndicator={false}>
@@ -98,11 +143,10 @@ const Accategory = ({ route }) => {
                         <View>
                             <View style={{ backgroundColor: "#FFF" }}>
                                 <View style={{ marginHorizontal: 20, }}>
-                                    <Text style={styles.text}>{categoryName}</Text>
+                                    <Text style={styles.text}>{categoryDetailname}</Text>
                                     <Text style={{ color: "gray", fontSize: 15, lineHeight: 22 }}>{categoryDetail?.short_description}</Text>
                                     <View style={{ flexDirection: "row", alignItems: "center", columnGap: 10, marginTop: 10 }}>
-                                        <Image source={require("../../assets/logo/star.png")} style={{ width: 20, height: 20 }} resizeMode="contain" />
-                                        <Text style={{ color: "gray", fontSize: 16, fontWeight: "400" }}>4.48 (6.6 M bookings)</Text>
+                                        <Text style={{ color: "gray", fontSize: 16, fontWeight: "400" }}>{categoryDetailrating}</Text>
                                     </View>
                                     <TouchableOpacity style={styles.btn} onPress={handleCardPress}>
                                         <View style={{ flexDirection: "row", alignItems: "center", marginBottom: height * 0.01, columnGap: 10, justifyContent: "space-between", marginHorizontal: 10 }}>
@@ -133,7 +177,7 @@ const Accategory = ({ route }) => {
 
                         <WarrantyModal visible={modalVisible} onClose={closeModal} />
                     </ScrollView>
-                    {isLoading && <LoaderScreen isLoading={isLoading} />}
+                    {/* {isLoading && <LoaderScreen isLoading={isLoading} />} */}
                 </View>
             </ScrollView>
 

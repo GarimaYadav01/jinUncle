@@ -8,15 +8,17 @@ import { useNavigation } from "@react-navigation/native";
 import AuthContext from "../context/AuthContext";
 import WarrantyModal from "../../compontent/WarrantyModal";
 import LoaderScreen from "../../compontent/LoaderScreen";
-import { imagebaseurl } from "../../apiconfig/Apiconfig";
+import { imagebaseurl, sub_categorydetails } from "../../apiconfig/Apiconfig";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const { height, width } = Dimensions.get("screen")
-
 const Fridagecategory = ({ route }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const navigation = useNavigation();
     const subcategory = route?.params?.subcategory || "Default Category";
+    const subid = route?.params?.subid || "Default Category";
     console.log("subcategorysubcategory----->", route?.params?.subcategory)
-    const { isLoading, categoryDetail, issubCategories, issubcategorydetails } = useContext(AuthContext);
+    console.log("subid----subid-->", subid)
+    const { categoryDetail, issubCategories, } = useContext(AuthContext);
     // console.log("categoryDetail-->", categoryDetail)
     // console.log("issubCategoriesissubCategories----->----->", issubcategorydetails)
     const images = [
@@ -32,6 +34,8 @@ const Fridagecategory = ({ route }) => {
     }, []);
     const [modalVisible, setModalVisible] = useState(false);
     const [showPayment, setShowPayment] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [issubcategorydetails, setIsSubCategoriesdetails] = useState([]);
     const handleCardPress = () => {
         setModalVisible(true);
     };
@@ -67,8 +71,58 @@ const Fridagecategory = ({ route }) => {
     // });
 
     // console.log("imageUrls--->", imageUrls)
-    return (
 
+
+
+    const getsubCategoryhandle = async () => {
+        try {
+            setIsLoading(true);
+            const token = await AsyncStorage.getItem('token');
+            const myHeaders = new Headers();
+            myHeaders.append("token", token);
+            myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
+            const formdata = new FormData();
+            // formdata.append("id", "7");
+            formdata.append("id", subid);
+            console.log("sidid----->", subid)
+            const requestOptions = {
+                method: "POST",
+                headers: myHeaders,
+                body: formdata,
+                redirect: "follow"
+            };
+            console.log("requestOptions--requestOptions---requestOptions--->", requestOptions)
+            const response = await fetch(sub_categorydetails, requestOptions);
+            const result = await response.json();
+            console.log("subcategorydetails---result-result->", result);
+            if (result?.status == 200) {
+                setIsLoading(false);
+                setIsSubCategoriesdetails(result);
+                console.log("fhisflfkjf----->", result)
+            }
+        } catch (error) {
+            console.log("errorsubcategorrydetails------>", error);
+        }
+    }
+
+    useEffect(() => {
+        const handleFocus = () => {
+            getsubCategoryhandle();
+        };
+        handleFocus();
+        const unsubscribeFocus = navigation.addListener('focus', handleFocus);
+        return unsubscribeFocus;
+    }, []);
+
+
+
+    const categoryDetailname = issubcategorydetails && issubcategorydetails.data && issubcategorydetails.data[0] ? issubcategorydetails.data[0].name : "";
+    const categoryDetailrating = issubcategorydetails && issubcategorydetails.data && issubcategorydetails.data[0] ? issubcategorydetails.data[0].short_description : "";
+
+
+    console.log("categoryDetailname----->", categoryDetailname)
+    console.log("categoryDetailrating----->", categoryDetailrating)
+    return (
         <SafeAreaView style={{ flex: 1 }}>
             <ScrollView style={{ flexGrow: 1, paddingBottom: 50 }} showsVerticalScrollIndicator={false}>
                 <View >
@@ -82,11 +136,11 @@ const Fridagecategory = ({ route }) => {
                         <View>
                             <View style={{ backgroundColor: "#FFF" }}>
                                 <View style={{ marginHorizontal: 20, }}>
-                                    <Text style={styles.text}>{subcategory}</Text>
+                                    <Text style={styles.text}>{categoryDetailname}</Text>
                                     <Text style={{ color: "gray", fontSize: 15, lineHeight: 22 }}>{issubcategorydetails?.short_description}</Text>
                                     <View style={{ flexDirection: "row", alignItems: "center", columnGap: 10, marginTop: 10 }}>
                                         <Image source={require("../../assets/logo/star.png")} style={{ width: 20, height: 20 }} resizeMode="contain" />
-                                        <Text style={{ color: "gray", fontSize: 16, fontWeight: "400" }}>4.48 (6.6 M bookings)</Text>
+                                        <Text style={{ color: "gray", fontSize: 16, fontWeight: "400" }}>{categoryDetailrating}</Text>
                                     </View>
                                     <TouchableOpacity style={styles.btn} onPress={handleCardPress}>
                                         <View style={{ flexDirection: "row", alignItems: "center", marginBottom: height * 0.01, columnGap: 10, justifyContent: "space-between", marginHorizontal: 10 }}>
@@ -113,7 +167,6 @@ const Fridagecategory = ({ route }) => {
                                 <CardListComponent />
                             </View>
                         </View>
-
                         <WarrantyModal visible={modalVisible} onClose={closeModal} />
                     </ScrollView>
                     {isLoading && <LoaderScreen isLoading={isLoading} />}

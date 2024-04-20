@@ -10,7 +10,7 @@ const Splash = () => {
     const getToken = async () => {
         try {
             const token = await AsyncStorage.getItem('token');
-            return token !== null; // Return true if token exists, false otherwise
+            return token !== null; 
         } catch (error) {
             console.error('Error retrieving token:', error);
             return false; // Return false in case of error

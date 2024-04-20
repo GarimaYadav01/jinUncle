@@ -17,7 +17,8 @@ export const AuthProvider = ({ children }) => {
     const [banner, setBanner] = useState([]);
     const [servericdetailsget, setServericdetailsget] = useState([])
     const [mostpolluar, setIsmostpolluar] = useState([]);
-
+    const categoryIds = iscategories.map(category => category.id);
+    console.log("categoryIds----categoryIds-->", categoryIds);
 
 
     const login = (userData) => {
@@ -84,15 +85,13 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-
     const fetchDataCategory = async () => {
         console.log("iscategoriesiscategories------------?<ll;", iscategories)
         try {
             setIsLoading(true);
             const token = await AsyncStorage.getItem('token');
             const formdata = new FormData();
-            // formdata.append("id", "7");
-            formdata.append("category_id", iscategories.id);
+            formdata.append("id", iscategories[1].id);
 
             console.log("id iscategories--------->", iscategories.id)
             const requestOptions = {
@@ -104,15 +103,15 @@ export const AuthProvider = ({ children }) => {
                 redirect: "follow"
             };
             const response = await fetch(categoridetails, requestOptions);
-            const result = await response.json();
-            console.log("result-fgfg----------->", result);
+            const result = await response.text();
+            console.log("result-fgfg----------->", response);
             if (result?.status == 200) {
                 setCategoryDetail(result?.data);
                 setIsLoading(false);
                 console.log("reponseresponse------>", result.data);
             }
         } catch (error) {
-            console.error(error);
+            console.error("errorrrrr----rrrr---->", error);
             setIsLoading(false);
         }
     };
@@ -120,7 +119,6 @@ export const AuthProvider = ({ children }) => {
 
 
     const fetchSubCategories = async () => {
-
         try {
             const myHeaders = new Headers();
             const token = await AsyncStorage.getItem('token');
@@ -174,7 +172,9 @@ export const AuthProvider = ({ children }) => {
     };
 
     const getsubCategoryhandle = async () => {
-        console.log("issubCategories-----issubCategories------>", issubCategories);
+        const issubCategoriesIds = issubCategories.map(category => category.id);
+        console.log("issubCategoriesIds----issubCategoriesIds-->----categoryIds-->", issubCategoriesIds);
+
         try {
             setIsLoading(true);
             const token = await AsyncStorage.getItem('token');
@@ -182,10 +182,9 @@ export const AuthProvider = ({ children }) => {
             myHeaders.append("token", token);
             myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
             const formdata = new FormData();
-
             // formdata.append("id", "7");
-            formdata.append("sub_cat_id", issubCategories.id);
-            console.log("sub_cat_id----->", issubCategories.id)
+            formdata.append("id", issubCategories.id);
+            console.log("sidid----->", issubCategoriesIds)
             const requestOptions = {
                 method: "POST",
                 headers: myHeaders,
@@ -195,8 +194,8 @@ export const AuthProvider = ({ children }) => {
             console.log("requestOptions--requestOptions---requestOptions--->", requestOptions)
             const response = await fetch(sub_categorydetails, requestOptions);
             const result = await response.json();
-            console.log("subcategorydetails----->", result);
-            if (response?.status === 200) {
+            console.log("subcategorydetails---result-result->", result);
+            if (result?.status == 200) {
                 setIsLoading(false);
                 setIsSubCategoriesdetails(result?.data);
                 console.log("fhisflfkjf----->", result.data)
@@ -264,40 +263,8 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    // const handledetailsservice = async () => {
-    //     // console.log("servericeget.id---------->", servericeget)
-    //     try {
-    //         setIsLoading(true);
-    //         const token = await AsyncStorage.getItem('token');
-    //         const myHeaders = new Headers();
-    //         myHeaders.append("token", token);
-    //         myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
-    //         const formdata = new FormData();
-    //         // formdata.append('service_id', servericeget.id);
-    //         // console.log("service_id------->", servericeget.id)
-    //         formdata.append("service_id", "1");
-
-    //         const requestOptions = {
-    //             method: 'POST',
-    //             headers: myHeaders,
-    //             body: formdata,
-    //             redirect: 'follow'
-    //         };
-    //         console.log("requestOptions----->", requestOptions)
-    //         const response = await fetch(servicedetails, requestOptions);
-    //         const result = await response.json();
-    //         console.log("resultressssult--->", result);
-    //         if (result?.status == 200) {
-    //             setServericdetailsget(result);
-    //             setIsLoading(false);
-    //             console.log("resultresult.data-result-->", result);
-    //         }
-    //     } catch (error) {
-    //         console.error("handledetailsserviceerrorrr------>", error);
-    //         setIsLoading(false);
-    //     }
-    // };
     const handledetailsservice = async () => {
+        console.log("servericeget.id---------->", servericeget)
         try {
             setIsLoading(true);
             const token = await AsyncStorage.getItem('token');
@@ -306,6 +273,8 @@ export const AuthProvider = ({ children }) => {
             myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
             const formdata = new FormData();
             formdata.append('service_id', servericeget.id);
+            console.log("service_id------->", servericeget.id)
+            // formdata.append("service_id", "1");
 
             const requestOptions = {
                 method: 'POST',
@@ -313,20 +282,49 @@ export const AuthProvider = ({ children }) => {
                 body: formdata,
                 redirect: 'follow'
             };
-
+            console.log("requestOptions----->", requestOptions)
             const response = await fetch(servicedetails, requestOptions);
             const result = await response.json();
-            console.log("setServericdetailsget--setServericdetailsget---->", result);
-            if (response?.status === 200) {
-                setServericdetailsget(result?.data);
+            console.log("resultressssult--->", result);
+            if (result?.status == 200) {
+                setServericdetailsget(result);
                 setIsLoading(false);
-                console.log("resultstatus---setServericdetailsget------>", result.data);
+                console.log("resultresult.data-result-->", result);
             }
         } catch (error) {
-            console.error("hjgdfgdukjf--->", error);
+            console.error("handledetailsserviceerrorrr------>", error);
             setIsLoading(false);
         }
     };
+    // const handledetailsservice = async () => {
+    //     try {
+    //         setIsLoading(true);
+    //         const token = await AsyncStorage.getItem('token');
+    //         const myHeaders = new Headers();
+    //         myHeaders.append("token", token);
+    //         myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
+    //         const formdata = new FormData();
+    //         formdata.append('service_id', servericeget.id);
+    //         const requestOptions = {
+    //             method: 'POST',
+    //             headers: myHeaders,
+    //             body: formdata,
+    //             redirect: 'follow'
+    //         };
+
+    //         const response = await fetch(servicedetails, requestOptions);
+    //         const result = await response.json();
+    //         console.log("setServericdetailsget--setServericdetailsget---->", result);
+    //         if (response?.status === 200) {
+    //             setServericdetailsget(result?.data);
+    //             setIsLoading(false);
+    //             console.log("resultstatus---setServericdetailsget------>", result.data);
+    //         }
+    //     } catch (error) {
+    //         console.error("hjgdfgdukjf--->", error);
+    //         setIsLoading(false);
+    //     }
+    // };
 
     const handlemostpopularservice = async () => {
         try {
