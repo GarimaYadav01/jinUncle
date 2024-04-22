@@ -14,16 +14,14 @@ const { height, width } = Dimensions.get("screen")
 const Accategory = ({ route }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const navigation = useNavigation();
-    const categoryName = route?.params?.categoryName || "Default Category";
+    // const categoryName = route?.params?.categoryName || "Default Category";
     const categoryId = route?.params?.category_id || "Default Category id";
     console.log("categoryIdcategoryId---->", categoryId)
     console.log("reiute----->", route?.params?.categoryName)
     const { issubCategories, banner } = useContext(AuthContext);
-    console.log("categoryDetail-->", categoryDetail)
-    console.log("issubCategoriesissubCategories----->----->", issubCategories)
-    console.log("bannerbanner----->", banner)
     const [isLoading, setIsLoading] = useState(false);
-    const [categoryDetail, setCategoryDetail] = useState(null);
+    const [categoryDetail, setCategoryDetail] = useState([]);
+    console.log("categoryDetail----category-->", categoryDetail)
 
     const fetchDataCategory = async () => {
         try {
@@ -106,37 +104,31 @@ const Accategory = ({ route }) => {
         );
     };
 
-    const bannerImages = banner?.map(item => {
-        try {
-            const imageArray = JSON.parse(item.image);
-            const imagePath = imageArray[0].image_path;
-            return imagebaseurl + imagePath;
-        } catch (error) {
-            return null;
-        }
-    }).filter(imagePath => imagePath !== null);
+    const categoryDetailname = categoryDetail && categoryDetail.data && categoryDetail.data[0] ? categoryDetail.data[0].name : "";
+    const categoryDetailrating = categoryDetail && categoryDetail.data && categoryDetail.data[0] ? categoryDetail.data[0].short_description : "";
 
-    const categoryDetailname = categoryDetail?.data[0].name;
-    const categoryDetailrating = categoryDetail?.data[0].short_description;
+    // const image = categoryDetail && categoryDetail.data && categoryDetail?.data[0]?.image ? JSON.parse(categoryDetail.data[0].image) : [];
+    const imageBaseUrl = categoryDetail?.imageurl; // Assuming this is the base URL for your images
+    const imageData = categoryDetail && categoryDetail.data && categoryDetail?.data[0]?.image;
+    const image = imageData ? JSON.parse(imageData).map(img => ({ ...img, image_path: imageBaseUrl + img.image_path })) : [];
+    console.log("imageimage---->", image)
+
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <ScrollView style={{ flexGrow: 1, paddingBottom: 50 }} showsVerticalScrollIndicator={false}>
                 <View >
                     <Header2 />
-                    {/* <View
+                    <View
                         style={styles.container1}>
-                        {console.log("hcdkjd---->", bannerImages)}
-                        {bannerImages.map((imagePath, index) => (
+                        {image.map((image, index) => (
                             <Image
                                 key={index}
-                                source={{ uri: imagePath }}
-                                style={styles.image2}
-                                resizeMode="contain"
+                                source={{ uri: image.image_path }}
+                                style={{ width: 150, height: 150 }}
                             />
-
                         ))}
-                    </View> */}
+                    </View>
                 </View>
                 <View>
                     <ScrollView style={{ flexGrow: 1, paddingBottom: 50 }} showsVerticalScrollIndicator={false}>
@@ -144,7 +136,7 @@ const Accategory = ({ route }) => {
                             <View style={{ backgroundColor: "#FFF" }}>
                                 <View style={{ marginHorizontal: 20, }}>
                                     <Text style={styles.text}>{categoryDetailname}</Text>
-                                    <Text style={{ color: "gray", fontSize: 15, lineHeight: 22 }}>{categoryDetail?.short_description}</Text>
+                                    {/* <Text style={{ color: "gray", fontSize: 15, lineHeight: 22 }}>{categoryDetail?.short_description}</Text> */}
                                     <View style={{ flexDirection: "row", alignItems: "center", columnGap: 10, marginTop: 10 }}>
                                         <Text style={{ color: "gray", fontSize: 16, fontWeight: "400" }}>{categoryDetailrating}</Text>
                                     </View>
@@ -158,7 +150,6 @@ const Accategory = ({ route }) => {
                                         </View>
                                         <Text style={styles.text1}>Verified quotes & 30 days warranty</Text>
                                     </TouchableOpacity>
-
                                 </View>
                             </View>
                             <View style={{ justifyContent: 'center', alignItems: 'center', marginHorizontal: 20, marginTop: height * 0.02 }}>
@@ -174,7 +165,6 @@ const Accategory = ({ route }) => {
                                 <CardListComponent />
                             </View>
                         </View>
-
                         <WarrantyModal visible={modalVisible} onClose={closeModal} />
                     </ScrollView>
                     {/* {isLoading && <LoaderScreen isLoading={isLoading} />} */}
@@ -188,7 +178,6 @@ const Accategory = ({ route }) => {
 
 export default Accategory;
 const styles = StyleSheet.create({
-
     image1: {
         width: width * 0.93,
         // borderRadius: 10,
@@ -215,10 +204,9 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         borderRadius: 10
-
     },
     activeTab: {
-        backgroundColor: "#FFF", // Change to your active color
+        backgroundColor: "#FFF",
     },
     name: {
         fontSize: 17,
@@ -302,7 +290,7 @@ const styles = StyleSheet.create({
         // flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: height * 0.03,
+        marginVertical: height * 0.03,
         borderRadius: 30
     },
     image2: {

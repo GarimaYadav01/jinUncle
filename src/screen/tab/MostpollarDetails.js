@@ -5,8 +5,6 @@ import { useNavigation } from '@react-navigation/native';
 import { showMessage } from 'react-native-flash-message';
 import AuthContext from '../context/AuthContext';
 import Header from '../../compontent/Header';
-
-
 const { height, width } = Dimensions.get("screen")
 const MostpollarDetails = ({ route }) => {
     const navigation = useNavigation();
@@ -271,10 +269,12 @@ const MostpollarDetails = ({ route }) => {
                         </View>
                     )}
                 </View>
-
             </View>
         </View>
     );
+
+
+
     const renderselectvariant = ({ item }) => (
         <View style={{ marginBottom: 20, marginTop: 10, alignContent: "center", justifyContent: "center" }}>
             <View style={styles.btn2}>

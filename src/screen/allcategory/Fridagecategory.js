@@ -36,6 +36,7 @@ const Fridagecategory = ({ route }) => {
     const [showPayment, setShowPayment] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [issubcategorydetails, setIsSubCategoriesdetails] = useState([]);
+    console.log("issubcategorydetails000000---->", issubcategorydetails)
     const handleCardPress = () => {
         setModalVisible(true);
     };
@@ -101,6 +102,7 @@ const Fridagecategory = ({ route }) => {
                 console.log("fhisflfkjf----->", result)
             }
         } catch (error) {
+            setIsLoading(false);
             console.log("errorsubcategorrydetails------>", error);
         }
     }
@@ -116,19 +118,28 @@ const Fridagecategory = ({ route }) => {
 
 
 
-    const categoryDetailname = issubcategorydetails && issubcategorydetails.data && issubcategorydetails.data[0] ? issubcategorydetails.data[0].name : "";
+    const categoryDetailname = issubcategorydetails && issubcategorydetails?.data && issubcategorydetails.data[0] ? issubcategorydetails.data[0].name : "";
     const categoryDetailrating = issubcategorydetails && issubcategorydetails.data && issubcategorydetails.data[0] ? issubcategorydetails.data[0].short_description : "";
-
-
     console.log("categoryDetailname----->", categoryDetailname)
     console.log("categoryDetailrating----->", categoryDetailrating)
+    const imageBaseUrl = issubcategorydetails?.imageurl;
+    const imageData = issubcategorydetails && issubcategorydetails.data && issubcategorydetails?.data[0]?.image;
+    const image = imageData ? JSON.parse(imageData).map(img => ({ ...img, image_path: imageBaseUrl + img.image_path })) : [];
+    console.log("imageimage--issubcategorydetails-->", image)
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <ScrollView style={{ flexGrow: 1, paddingBottom: 50 }} showsVerticalScrollIndicator={false}>
                 <View >
                     <Header2 />
-                    <View style={{ marginVertical: height * 0.02 }}>
-                        <Image source={images[currentIndex]} style={styles.image1} />
+                    <View
+                        style={styles.container1}>
+                        {image.map((image, index) => (
+                            <Image
+                                key={index}
+                                source={{ uri: image.image_path }}
+                                style={{ width: 150, height: 150 }}
+                            />
+                        ))}
                     </View>
                 </View>
                 <View>
@@ -139,8 +150,8 @@ const Fridagecategory = ({ route }) => {
                                     <Text style={styles.text}>{categoryDetailname}</Text>
                                     <Text style={{ color: "gray", fontSize: 15, lineHeight: 22 }}>{issubcategorydetails?.short_description}</Text>
                                     <View style={{ flexDirection: "row", alignItems: "center", columnGap: 10, marginTop: 10 }}>
-                                        <Image source={require("../../assets/logo/star.png")} style={{ width: 20, height: 20 }} resizeMode="contain" />
-                                        <Text style={{ color: "gray", fontSize: 16, fontWeight: "400" }}>{categoryDetailrating}</Text>
+                                        {/* <Image source={require("../../assets/logo/star.png")} style={{ width: 20, height: 20 }} resizeMode="contain" /> */}
+                                        <Text style={{ color: "gray", fontSize: 16, fontWeight: "400", lineHeight: 22 }}>{categoryDetailrating}</Text>
                                     </View>
                                     <TouchableOpacity style={styles.btn} onPress={handleCardPress}>
                                         <View style={{ flexDirection: "row", alignItems: "center", marginBottom: height * 0.01, columnGap: 10, justifyContent: "space-between", marginHorizontal: 10 }}>
@@ -169,7 +180,7 @@ const Fridagecategory = ({ route }) => {
                         </View>
                         <WarrantyModal visible={modalVisible} onClose={closeModal} />
                     </ScrollView>
-                    {isLoading && <LoaderScreen isLoading={isLoading} />}
+                    {/* {isLoading && <LoaderScreen isLoading={isLoading} />} */}
                 </View>
             </ScrollView>
         </SafeAreaView>
@@ -189,7 +200,8 @@ const styles = StyleSheet.create({
         fontSize: 27,
         color: "#000",
         fontWeight: "bold",
-        fontFamily: "Roboto-BoldItalic"
+        fontFamily: "Roboto-BoldItalic",
+        marginTop: 10
     },
     con: {
         marginTop: 10,
@@ -288,10 +300,10 @@ const styles = StyleSheet.create({
         color: "white"
     },
     container1: {
-        flex: 1,
+        // flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: height * 0.03,
+        marginVertical: height * 0.03,
         borderRadius: 30
     },
 });

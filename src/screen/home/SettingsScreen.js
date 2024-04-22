@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import { Dimensions, FlatList, Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Ac from "../tab/Ac";
 import AuthContext from "../context/AuthContext";
@@ -15,10 +15,15 @@ const SettingsScreen = ({ route }) => {
     // const { iscategories, isLoading } = useContext(AuthContext);
     const [activeTabIndex, setActiveTabIndex] = useState(0);
     const [selectedCategoryName, setSelectedCategoryName] = useState(null);
+    const [subcategoryClicked, setSubcategoryClicked] = useState(false);
+    const handleSubcategoryClick = () => {
+        setSubcategoryClicked(true);
+    };
+
+    const flatListRef = useRef(null);
     const { isLoading, categoryDetail, issubCategories, iscategories } = useContext(AuthContext);
     console.log("isLoading-->", isLoading)
     console.log("issubCategoriesissubCategories----->----->", issubCategories)
-
     const navigation = useNavigation();
     const [modalVisible, setModalVisible] = useState(false);
     const [showPayment, setShowPayment] = useState(false);
@@ -47,6 +52,10 @@ const SettingsScreen = ({ route }) => {
         console.log("Category Name:", categoryName);
     };
 
+
+    const scrollToTop = () => {
+        flatListRef.current.scrollToOffset({ offset: 0, animated: true });
+    };
     const renderItem = ({ item, index }) => {
         let imageData;
         try {
@@ -81,7 +90,7 @@ const SettingsScreen = ({ route }) => {
         const imagePath = imagebaseurl + imageData.image_path;
         return (
             <View style={{ marginBottom: 20, marginTop: 10 }}>
-                <TouchableOpacity style={styles.btn1} >
+                <TouchableOpacity style={styles.btn1} onPress={handleSubcategoryClick}>
                     <Image source={{ uri: imagePath }} style={{ width: 150, height: 150, borderRadius: 10 }} resizeMode="contain" />
                     <Text style={styles.name}>{item.name}</Text>
                 </TouchableOpacity>
@@ -111,7 +120,6 @@ const SettingsScreen = ({ route }) => {
                 <View style={styles.tabContent}>
                     <View>
                         <ScrollView style={{ flexGrow: 1, paddingBottom: 50 }} showsVerticalScrollIndicator={false}>
-
                             <View>
                                 {selectedCategoryName && (
                                     <View style={{ backgroundColor: "#FFF" }}>
@@ -132,9 +140,7 @@ const SettingsScreen = ({ route }) => {
                                                 </View>
                                                 <Text style={styles.text1}>Verified quotes & 30 days warranty</Text>
                                             </TouchableOpacity>
-
                                         </View>
-
                                     </View>
                                 )}
                                 <View style={{ justifyContent: 'center', alignItems: 'center', marginHorizontal: 20, marginTop: height * 0.02 }}>
@@ -153,7 +159,7 @@ const SettingsScreen = ({ route }) => {
                                     />
                                 </View>
                                 <View style={{ marginVertical: height * 0.015 }}>
-                                    <CardListComponent />
+                                <CardListComponent scrollToTop={scrollToTop} />
                                 </View>
 
                             </View>

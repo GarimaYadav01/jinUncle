@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { FlatList, View, Text, Image, StyleSheet, Dimensions, TouchableOpacity, Animated } from 'react-native';
 import ModalCompontent from '../../compontent/ModalCompontent';
 import PaymentModal from '../../compontent/PaymentModal';
@@ -6,12 +6,14 @@ import { useNavigation } from '@react-navigation/native';
 import AuthContext from '../context/AuthContext';
 import { imagebaseurl } from '../../apiconfig/Apiconfig';
 const { height, width } = Dimensions.get("screen")
-const CardListComponent = () => {
+const CardListComponent = ({ scrollToTop }) => {
     const { servericeget } = useContext(AuthContext)
     console.log("servericegethfhjff----->", servericeget)
     const [currentIndex, setCurrentIndex] = useState(0);
     const [quantityStates, setQuantityStates] = useState({});
     const [payment, setPayment] = useState({});
+
+  
     useEffect(() => {
         const initialQuantityStates = {};
         datacard.forEach(({ id }) => {
@@ -58,8 +60,6 @@ const CardListComponent = () => {
         setIsVisibleModal(false);
     }
 
-
-
     const handlerender = ({ item }) => {
         let imageData;
         try {
@@ -73,7 +73,7 @@ const CardListComponent = () => {
                 <View>
                     <Image source={{ uri: imagePath }} style={styles.image} />
                     <View>
-                        <TouchableOpacity style={styles.smallbutton} onPress={() => handleCardPress(item)}>
+                        <TouchableOpacity style={styles.smallbutton} onPress={() => handleCardPress(item.id)}>
                             <Text style={styles.textbut}>Add</Text>
                         </TouchableOpacity>
                     </View>
@@ -90,7 +90,7 @@ const CardListComponent = () => {
                     <Text>₹{item.price}</Text>
                     <Text style={styles.label}>{item.short_description}</Text>
                     {/* <Text style={[styles.label, { color: "gray" }]}>{item.full_description}</Text> */}
-                    <TouchableOpacity onPress={() => handleCardPress(item)}>
+                    <TouchableOpacity onPress={() => handleCardPress(item.id)}>
                         <Text style={{ color: "#004E8C", marginTop: 10, fontWeight: "800", fontSize: 14 }}>View details</Text>
                     </TouchableOpacity>
                 </View>
@@ -182,6 +182,7 @@ const CardListComponent = () => {
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
     const [isvissbleModal, setIsVisibleModal] = useState(false);
+    console.log("selectedItem---selectedItem-->", selectedItem)
     const navigation = useNavigation();
     const [isOpen, setIsOpen] = useState(false);
     const togglePopup = () => {
@@ -196,6 +197,7 @@ const CardListComponent = () => {
     };
 
     const handleCardPress = (item) => {
+        console.log("Selected item id:", item);
         setSelectedItem(item);
         setModalVisible(true);
     };
@@ -208,12 +210,15 @@ const CardListComponent = () => {
         // onClose();
         navigation.navigate("Summary");
     };
+
+    const flatListRef = useRef(null);
     return (
         <View>
             <FlatList
+                ref={flatListRef}
                 data={servericeget}
                 renderItem={handlerender}
-                keyExtractor={(item) => item.service}
+                keyExtractor={(item) => item.id}
                 showsVerticalScrollIndicator={false}
             />
             <ModalCompontent visible={modalVisible} onClose={closeModal} item={selectedItem} />

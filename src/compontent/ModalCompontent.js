@@ -9,19 +9,19 @@ import AuthContext from '../screen/context/AuthContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { servicedetails } from '../apiconfig/Apiconfig';
 const { height, width } = Dimensions.get("screen")
-const ModalCompontent = ({ visible, onClose, item }) => {
+const ModalCompontent = ({ visible, onClose, item, }) => {
     const navigation = useNavigation();
     const [currentIndex, setCurrentIndex] = useState(0);
     const [quantityStates, setQuantityStates] = useState({});
     const [quantityselectStates, setQuantityselectStates] = useState({});
     const [isvissbleModal, setIsVisibleModal] = useState(false);
     const [servericdetailsget, setServericdetailsget] = useState([]);
+    const [isLoading, setIsLoading] = useState(false)
     // const { servericdetailsget } = useContext(AuthContext);
-    // console.log("servericdetailsget------->", servericdetailsget)
-
+    console.log("item---item--->", item)
 
     const handledetailsservice = async () => {
-        console.log("servericeget.id---------->", servericeget)
+        console.log("service_id---------->", item);
         try {
             setIsLoading(true);
             const token = await AsyncStorage.getItem('token');
@@ -29,8 +29,8 @@ const ModalCompontent = ({ visible, onClose, item }) => {
             myHeaders.append("token", token);
             myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
             const formdata = new FormData();
-            formdata.append('service_id', servericeget.id);
-            console.log("service_id------->", servericeget.id)
+            formdata.append('service_id', item);
+            console.log("service_id------->", item)
             // formdata.append("service_id", "1");
 
             const requestOptions = {
