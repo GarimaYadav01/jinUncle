@@ -7,9 +7,12 @@ import CustomButton from "../../compontent/Custombutton";
 import TimeSlot from "../../compontent/TimeSlot";
 import AuthContext from "../context/AuthContext";
 import { imagebaseurl } from "../../apiconfig/Apiconfig";
+import { useNavigation } from "@react-navigation/native";
 const { height, width } = Dimensions.get("screen");
 const Summary = (props) => {
     const [index, setIndex] = useState(0);
+
+    const navigation = useNavigation();
     const flatListRef = useRef(null);
     const [modalVisible, setModalVisible] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -44,13 +47,13 @@ const Summary = (props) => {
     ];
 
     // Initialize quantity for each item
-    if (Object.keys(quantityStates).length === 0) {
-        let initialQuantityStates = {};
-        data.forEach(item => {
-            initialQuantityStates[item.id] = { quantity: 0 };
-        });
-        setQuantityStates(initialQuantityStates);
-    }
+    // if (Object.keys(quantityStates).length === 0) {
+    //     let initialQuantityStates = {};
+    //     data.forEach(item => {
+    //         initialQuantityStates[item.id] = { quantity: 0 };
+    //     });
+    //     setQuantityStates(initialQuantityStates);
+    // }
     const handleIncrease = (id) => {
         setQuantityStates(prevStates => ({
             ...prevStates,
@@ -221,7 +224,6 @@ const Summary = (props) => {
     );
 
     const renderItemallmix = ({ item }) => {
-
         console.log("item----->", item)
         let imageData;
         try {
@@ -308,11 +310,15 @@ const Summary = (props) => {
                         </View>
                     </View>
                     <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+
                         <Text style={styles.text1}>Coupons and offers</Text>
-                        <View style={{ flexDirection: "row", alignItems: "center", alignSelf: "center" }}>
+                        <TouchableOpacity y onPress={() => navigation.navigate("Copuon")} style={{ flexDirection: "row", alignItems: "center", alignSelf: "center" }}>
+
                             <Text style={{ color: "#004E8C", fontSize: 17 }}>2 offers</Text>
                             <Image source={ICONS.arrow} style={{ height: 20, width: 20 }} />
-                        </View>
+
+                        </TouchableOpacity>
+
                     </View>
                 </View>
                 <View style={styles.com}>

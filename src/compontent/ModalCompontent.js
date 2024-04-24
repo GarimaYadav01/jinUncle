@@ -20,8 +20,8 @@ const ModalCompontent = ({ visible, onClose, item, }) => {
     // const { servericdetailsget } = useContext(AuthContext);
     console.log("item---item--->", item)
 
-    const handledetailsservice = async () => {
-        console.log("service_id---------->", item);
+    const handledetailsservice = async (item) => {
+        console.log("service_id---item--->", item)
         try {
             setIsLoading(true);
             const token = await AsyncStorage.getItem('token');
@@ -29,9 +29,9 @@ const ModalCompontent = ({ visible, onClose, item, }) => {
             myHeaders.append("token", token);
             myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
             const formdata = new FormData();
-            formdata.append('service_id', item);
-            console.log("service_id------->", item)
-            // formdata.append("service_id", "1");
+            // formdata.append('service_id', item);
+            // console.log("service_id------->", item)
+            formdata.append("service_id", "1");
 
             const requestOptions = {
                 method: 'POST',
@@ -54,9 +54,18 @@ const ModalCompontent = ({ visible, onClose, item, }) => {
         }
     };
 
+
+
     useEffect(() => {
-        handledetailsservice();
+        const handleFocus = () => {
+            handledetailsservice();
+        };
+        handleFocus();
+        const unsubscribeFocus = navigation.addListener('focus', handleFocus);
+        return unsubscribeFocus;
     }, []);
+
+
 
     const handleViewCard = () => {
         onClose();
@@ -362,8 +371,9 @@ const ModalCompontent = ({ visible, onClose, item, }) => {
         </View>
     );
 
-    // const serviceName = servericdetailsget?.data[0]?.name;
-    // const serviceRating = servericdetailsget?.data[0]?.rating;
+    const serviceName = servericdetailsget && servericdetailsget.data && servericdetailsget?.data[0] ? servericdetailsget?.data[0]?.name : "";
+    const serviceRating = servericdetailsget && servericdetailsget.data && servericdetailsget?.data[0] ? servericdetailsget?.data[0]?.rating : "";
+    const dverinat = servericdetailsget && servericdetailsget.data && servericdetailsget?.data[0] ? servericdetailsget?.data[0]?.varient : "";
     return (
         <Modal visible={visible} transparent={true} animationType="slide">
             <View style={styles.modalContainer}>
@@ -377,11 +387,11 @@ const ModalCompontent = ({ visible, onClose, item, }) => {
                         <View style={{ flexDirection: "row" }}>
                             <Image source={images[currentIndex]} style={{ borderRadius: 10, width: width * 0.9 }} />
                         </View>
-                        {/* {console.log("serveailsget-name------>", servericdetailsget.data)} */}
-                        {/* <Text style={styles.text}>{serviceName}</Text> */}
+                        {console.log("serveailsget-name------>", servericdetailsget.data)}
+                        <Text style={styles.text}>{serviceName}</Text>
                         <View style={{ flexDirection: "row", alignItems: "center", columnGap: 10, marginTop: 10 }}>
                             <Image source={require("../assets/logo/star.png")} style={{ width: 20, height: 20 }} resizeMode="contain" />
-                            {/* <Text style={{ color: "gray", fontFamily: "Roboto-Regular" }}>{serviceRating}</Text> */}
+                            <Text style={{ color: "gray", fontFamily: "Roboto-Regular" }}>{serviceRating}</Text>
                         </View>
                         <TouchableOpacity style={styles.btn}>
                             <View style={{ flexDirection: "row", alignItems: "center", marginHorizontal: 20, marginTop: 10, columnGap: 10, justifyContent: "space-between" }}>
@@ -399,7 +409,7 @@ const ModalCompontent = ({ visible, onClose, item, }) => {
                         <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
                             {console.log("servericdetailsget.varient------>", servericdetailsget.varient)}
                             <FlatList
-                                data={servericdetailsget.varient}
+                                data={dverinat}
                                 renderItem={renderselectvariant}
                                 keyExtractor={item => item.id}
                                 horizontal

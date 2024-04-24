@@ -159,7 +159,7 @@ const SettingsScreen = ({ route }) => {
                                     />
                                 </View>
                                 <View style={{ marginVertical: height * 0.015 }}>
-                                <CardListComponent scrollToTop={scrollToTop} />
+                                    <CardListComponent scrollToTop={scrollToTop} />
                                 </View>
 
                             </View>

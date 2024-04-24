@@ -7,15 +7,19 @@ import { tuple } from "yup";
 import AddressModal from "./AddressModal";
 import RazorpayCheckout from 'react-native-razorpay';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { timeSlotting } from "../apiconfig/Apiconfig";
+import { posttime, timeSlotting } from "../apiconfig/Apiconfig";
 import LoaderScreen from "./LoaderScreen";
+import { showMessage } from "react-native-flash-message";
 const { width, height } = Dimensions.get("screen");
 const TimeSlot = ({ isVisible, onClose, categories }) => {
     const navigation = useNavigation();
     const [selectedDayIndex, setSelectedDayIndex] = useState(null);
     const [selectedItemIndex, setSelectedItemIndex] = useState(null);
+    const [selectedItemIndex2, setSelectedItemIndex2] = useState(null);
     const [timeSlotget, setTimeslotget] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+
+
     console.log("hhhdg----->", timeSlotget)
     const handlesubmit = async () => {
         try {
@@ -23,6 +27,7 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
             const token = await AsyncStorage.getItem("token")
             const myHeaders = new Headers();
             myHeaders.append("token", token);
+
 
             const requestOptions = {
                 method: "GET",
@@ -46,23 +51,50 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
         handlesubmit();
     }, []);
 
-    const handleViewCard = () => {
-        onClose();
-        navigation.navigate("PaymentScreen");
-    };
+
+    const handlesubmitpost = async () => {
+        try {
+            const token = await AsyncStorage.getItem("token")
+            const myHeaders = new Headers();
+            myHeaders.append("token", token);
+
+            const formdata = new FormData();
+            formdata.append("date", selectedItemIndex2);
+            const requestOptions = {
+                method: "POST",
+                headers: myHeaders,
+                redirect: "follow"
+            };
+            const response = await fetch(posttime, requestOptions);
+            const result = await response.json();
+            console.log("resultresult---->", result)
+            if (result.status == 200) {
+                showMessage({
+                    message: "time selected for service",
+                    type: "success",
+                    icon: "success"
+                })
+            }
+            onClose();
+            navigation.navigate("PaymentScreen");
+
+        } catch (error) {
+            console.log("error----error-->", error)
+        }
+    }
 
     const [modalVisible, setModalVisible] = useState(false);
-
     const openmodal = () => {
         setModalVisible(true);
     }
-
     const handleDaySelect = (index) => {
         setSelectedDayIndex(index);
     };
-
     const handleItemSelect = (index) => {
         setSelectedItemIndex(index);
+    };
+    const handletimeSelect = (index) => {
+        setSelectedItemIndex2(index);
     };
     const renderItem = ({ item, index }) => (
         <TouchableOpacity
@@ -83,6 +115,22 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
         <TouchableOpacity
             style={[
                 styles.btn,
+                selectedItemIndex2 === index ? styles.selectedDay : null
+            ]}
+            onPress={() => handletimeSelect(index)}
+        >
+            <Text style={[
+                styles.text1,
+                selectedItemIndex2 === index ? styles.selecttext : null
+            ]}>{item.day}</Text>
+        </TouchableOpacity>
+    );
+
+
+    const renderItem3 = ({ item, index }) => (
+        <TouchableOpacity
+            style={[
+                styles.btn,
                 selectedItemIndex === index ? styles.selectedDay : null
             ]}
             onPress={() => handleItemSelect(index)}
@@ -90,10 +138,9 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
             <Text style={[
                 styles.text1,
                 selectedItemIndex === index ? styles.selecttext : null
-            ]}>{item.name}</Text>
+            ]}>{item.date}</Text>
         </TouchableOpacity>
     );
-
 
     return (
         <Modal
@@ -137,9 +184,9 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
                                 showsHorizontalScrollIndicator={false}
                             />
                             <View>
-                                <Text style={[styles.title, { marginTop: 10 }]}>Select start time of service</Text>
+                                <Text style={[styles.title, { marginTop: 10 }]}>Select start date of service</Text>
                                 <FlatList
-                                    data={timeSlotget.times}
+                                    data={timeSlotget.days}
                                     // numColumns={4}
                                     renderItem={renderItem2}
                                     keyExtractor={(item, index) => index.toString()}
@@ -149,9 +196,22 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
                                     showsHorizontalScrollIndicator={false}
                                 />
                             </View>
+                            <View>
+                                <Text style={[styles.title, { marginTop: 10 }]}>Select start date of service</Text>
+                                <FlatList
+                                    data={timeSlotget.days}
+                                    // numColumns={4}
+                                    renderItem={renderItem3}
+                                    keyExtractor={(item, index) => index.toString()}
+                                    // columnWrapperStyle={{ columnGap: 10, rowGap: 10 }}
+                                    horizontal
+                                    contentContainerStyle={{ columnGap: 10 }}
+                                    showsHorizontalScrollIndicator={false}
+                                />
+                            </View>
                         </View>
                         <View style={{ marginTop: height * 0.02 }}>
-                            <CustomButton size={"large"} label={"Proceed to checkout"} backgroundColor={"#004E8C"} color={"white"} onPress={handleViewCard} />
+                            <CustomButton size={"large"} label={"Proceed to checkout"} backgroundColor={"#004E8C"} color={"white"} onPress={handlesubmitpost} />
                         </View>
                     </ScrollView>
                 </View>

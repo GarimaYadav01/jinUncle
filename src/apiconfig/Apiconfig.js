@@ -1,6 +1,5 @@
 export const serverl = "https://aduetechnologies.com/jinuncle/api/"
 export const imagebaseurl = "https://aduetechnologies.com/jinuncle/upload/"
-
 export const Loginapi = serverl + "auth/login"
 export const categoriesapi = serverl + "category/list"
 export const categoridetails = serverl + "category/detail"
@@ -15,11 +14,16 @@ export const servicedetails = serverl + "Services/get_service_details"
 export const sub_categorydetails = serverl + "sub_category/detail"
 export const get_most_popular_service = serverl + "Services/get_most_popular_service"
 export const get_offer_banner = serverl + "Offer_banner/get_offer_banner"
-export const timeSlotting = serverl + "Timeslot/gettimeslot"
+export const timeSlotting = serverl + "timeslot/dateslot"
 export const aboutusfetch = serverl + "Content/about_us"
 export const logout = serverl + "auth/logout"
-export const del = serverl + "}user/delete_account"
+export const del = serverl + "user/delete_account"
 export const wallet = serverl + "user/wallet"
+export const posttime = serverl + "timeslot/timeslot"
+export const Copuonapiget = serverl + "cart/coupon_list"
+export const applycopuon = serverl + "cart/apply_coupon"
+export const removeCopoun = serverl + "cart/remove_coupon"
+
 
 
 
