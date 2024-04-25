@@ -23,6 +23,7 @@ export const posttime = serverl + "timeslot/timeslot"
 export const Copuonapiget = serverl + "cart/coupon_list"
 export const applycopuon = serverl + "cart/apply_coupon"
 export const removeCopoun = serverl + "cart/remove_coupon"
+export const bookingapi = serverl + "orders/index?type=1"
 
 
 

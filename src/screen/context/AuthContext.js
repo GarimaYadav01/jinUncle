@@ -19,8 +19,6 @@ export const AuthProvider = ({ children }) => {
     const [mostpolluar, setIsmostpolluar] = useState([]);
     const categoryIds = iscategories.map(category => category.id);
     console.log("categoryIds----categoryIds-->", categoryIds);
-
-
     const login = (userData) => {
         setUser(userData);
     };
@@ -335,7 +333,6 @@ export const AuthProvider = ({ children }) => {
             myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
             const formdata = new FormData();
             formdata.append('service_id', servericeget.id);
-
 
             const requestOptions = {
                 method: 'POST',

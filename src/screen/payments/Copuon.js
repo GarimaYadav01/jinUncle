@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Dimensions, FlatList, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Dimensions, FlatList, Image, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import Header from "../../compontent/Header";
 import TextinputComponent from "../../compontent/TextinputComponent";
 import { useNavigation } from "@react-navigation/native";
-import { Copuonapiget, applycopuon } from "../../apiconfig/Apiconfig";
+import { Copuonapiget, applycopuon, removeCopoun } from "../../apiconfig/Apiconfig";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { showMessage } from "react-native-flash-message";
+import { GestureHandlerRootView, Swipeable } from 'react-native-gesture-handler';
 const { height, width } = Dimensions.get("screen")
 const Copuon = (props) => {
     const navigation = useNavigation();
@@ -84,20 +85,77 @@ const Copuon = (props) => {
         }
     }
 
-    const renderCoupon = ({ item }) => (
-        <TouchableOpacity onPress={() => handlepostcopuon(item)}>
-            <View style={styles.card}>
-                <Text style={styles.title}>{item.name}</Text>
-                <Text style={styles.description}>{item.amount}</Text>
-                <Text style={styles.expiry}>{item.expiry}</Text>
-            </View>
-        </TouchableOpacity>
-    );
+
+
+
+    const removehandle = async () => {
+        try {
+            setIsLoading(true);
+            const token = await AsyncStorage.getItem('token');
+            const myHeaders = new Headers();
+            myHeaders.append("token", token);
+            myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
+            const formdata = new FormData();
+            const requestOptions = {
+                method: "POST",
+                headers: myHeaders,
+                body: formdata,
+                redirect: "follow"
+            };
+            const response = await fetch(removeCopoun, requestOptions);
+            const result = await response.json();
+            console.log("result---result-->", result)
+            if (response.status === 200) {
+                showMessage({
+                    message: "delete successfully",
+                    type: "success",
+                    icon: "success"
+                })
+            }
+        } catch (error) {
+            console.log("error--->", error)
+        }
+    }
+
+
+    const renderCoupon = ({ item }) => {
+        const onDelete = () => {
+            removehandle();
+            console.log("Delete notification with id:", item.id);
+        };
+
+        const renderRightActions = (progress, dragX) => {
+            const trans = dragX.interpolate({
+                inputRange: [0, 50, 100],
+                outputRange: [100, 0, -100],
+            });
+            return (
+                <TouchableOpacity onPress={onDelete} >
+                    <Image source={require("../../assets/Icon/delete.png")} style={{ width: 40, height: 40, marginTop: 15, marginRight: 20 }} />
+                </TouchableOpacity>
+            );
+        };
+
+        return (
+            <GestureHandlerRootView>
+                <Swipeable renderRightActions={renderRightActions}>
+                    <TouchableOpacity onPress={() => handlepostcopuon(item)}>
+                        <View style={styles.card}>
+                            <Text style={styles.title}>{item.name}</Text>
+                            <Text style={styles.description}>{item.amount}</Text>
+                            <Text style={styles.expiry}>{item.expiry}</Text>
+                        </View>
+                    </TouchableOpacity>
+                </Swipeable>
+            </GestureHandlerRootView>
+        );
+    };
+
+
     return (
         <SafeAreaView style={{ flex: 1, }}>
             <Header title={"coupon"} />
-            {/* {console.log("couponcoupon-->", nameiscopon)} */}
-            {/* <Text style={{ fontSize: 14, color: "black" }}>{nameiscopon}</Text> */}
+
             <View style={{ marginHorizontal: 20, marginTop: height * 0.04 }}>
                 <FlatList
                     data={iscopon}

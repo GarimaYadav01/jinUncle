@@ -46,7 +46,6 @@ const Notification = () => {
                 inputRange: [0, 50, 100],
                 outputRange: [100, 0, -100],
             });
-
             return (
                 <TouchableOpacity onPress={onDelete} >
                     {/* <Animated.View style={{ transform: [{ translateX: trans }] }}>
@@ -62,8 +61,6 @@ const Notification = () => {
 
         return (
             <GestureHandlerRootView>
-
-
                 <Swipeable renderRightActions={renderRightActions}>
                     <View style={styles.notificationContainer}>
                         <Image source={item.image} style={styles.notificationImage} />
