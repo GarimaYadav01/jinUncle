@@ -1,58 +1,73 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, SafeAreaView, StyleSheet, Dimensions, FlatList, Image } from "react-native";
 import Header from "../../compontent/Header";
-const { height, width } = Dimensions.get("screen")
+import { carddetails } from "../../apiconfig/Apiconfig";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+const { height, width } = Dimensions.get("screen");
 
 const Addcard = () => {
-    const addcard = [
-        {
-            id: "1",
-            name: "Ac installtion",
-            lable: "Ac",
-            price: "₹500",
-            image: require("../../assets/newimages/washingmachine1.png"),
-        },
-        {
-            id: "2",
-            name: " Ac installation",
-            lable: "Ac",
-            price: "₹1200",
-            image: require("../../assets/newimages/washingmachine1.png"),
-        },
-        {
-            id: "3",
-            name: "Washing machine installtion",
-            lable: "washing machine",
-            price: "₹1000",
-            image: require("../../assets/newimages/washingmachine1.png"),
-        },
+    const [isLoading, setIsLoading] = useState(false);
+    const [iscardlist, setIsCardlist] = useState([]);
 
-    ]
+    const gethandlecart = async () => {
+        try {
+            setIsLoading(true);
+            const token = await AsyncStorage.getItem('token');
+            const myHeaders = new Headers();
+            myHeaders.append("token", token);
+            myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
+            const requestOptions = {
+                method: "GET",
+                headers: myHeaders,
+                redirect: "follow"
+            };
+            const response = await fetch(carddetails, requestOptions);
+            const result = await response.json();
+            if (result.status == 200) {
+                setIsCardlist(result.data);
+            }
+            setIsLoading(false);
+        } catch (error) {
+            console.log("Error fetching cart details:", error);
+            setIsLoading(false);
+        }
+    }
 
-    const renderitem = ({ item }) => (
-        <View style={styles.cardContainer}>
-            <Image source={item.image} style={styles.cardImage} />
-            <View style={styles.cardDetails}>
-                <Text style={styles.cardText}>{item.name}</Text>
-                <Text style={styles.cardLabel}>{item.label}</Text>
-                <Text style={styles.cardPrice}>{item.price}</Text>
+    useEffect(() => {
+        gethandlecart();
+    }, []);
+
+    const renderitem = ({ item }) => {
+        console.log("Item:", item);
+        return (
+            <View style={styles.cardContainer}>
+                {/* Assuming item.image is the path to the image */}
+                <Image source={{ uri: item.image }} style={styles.cardImage} />
+                <View style={styles.cardDetails}>
+                    <Text style={styles.cardText}>{item.name}</Text>
+                    <Text style={styles.cardLabel}>{item.lable}</Text>
+                    <Text style={styles.cardPrice}>{item.price}</Text>
+                </View>
             </View>
-        </View>
-    );
+        );
+    };
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#FFFF" }}>
-            <Header title={"Add to card"} />
-            {/* <View style={{ justifyContent: "center", alignItems: "center", marginTop: height * 0.2 }}>
-                <Text style={styles.text}>No Data Found</Text>
-            </View> */}
-            <View>
-                <FlatList
-                    data={addcard}
-                    renderItem={renderitem} />
-            </View>
+            <Header title={"Add to Cart"} />
+            <FlatList
+                data={iscardlist}
+                renderItem={renderitem}
+                keyExtractor={(item) => item.cart_id.toString()}
+                ListEmptyComponent={() => (
+                    <View style={{ justifyContent: "center", alignItems: "center", marginTop: height * 0.2 }}>
+                        <Text style={styles.text}>No Data Found</Text>
+                    </View>
+                )}
+            />
         </SafeAreaView>
-
-    )
+    );
 }
 
 export default Addcard;
@@ -63,14 +78,12 @@ const styles = StyleSheet.create({
         padding: 20,
         borderBottomWidth: 1,
         borderBottomColor: '#ccc',
-
     },
     cardImage: {
         width: 100,
         height: 100,
         marginRight: 10,
         borderRadius: 20
-
     },
     cardDetails: {
         flex: 1,

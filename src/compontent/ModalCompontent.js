@@ -7,7 +7,7 @@ import PaymentModal from './PaymentModal';
 import BottomPopup from './BottomPopup';
 import AuthContext from '../screen/context/AuthContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { servicedetails } from '../apiconfig/Apiconfig';
+import { Addcart, servicedetails } from '../apiconfig/Apiconfig';
 const { height, width } = Dimensions.get("screen")
 const ModalCompontent = ({ visible, onClose, item, }) => {
     const navigation = useNavigation();
@@ -17,6 +17,42 @@ const ModalCompontent = ({ visible, onClose, item, }) => {
     const [isvissbleModal, setIsVisibleModal] = useState(false);
     const [servericdetailsget, setServericdetailsget] = useState([]);
     const [isLoading, setIsLoading] = useState(false)
+
+    const handleaddtocart = async () => {
+        try {
+            setIsLoading(true);
+            const token = await AsyncStorage.getItem('token');
+            const myHeaders = new Headers();
+            myHeaders.append("token", token);
+            myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
+            const formdata = new FormData();
+            formdata.append("service_id", item);
+            // formdata.append("varient_data", quantityselectStates);
+            formdata.append("varient_data", "[{\"varient_id\":1,\"quantity\":1},{\"varient_id\":2,\"quantity\":2}]");
+            const requestOptions = {
+                method: "POST",
+                headers: myHeaders,
+                body: formdata,
+                redirect: "follow"
+            };
+
+            const response = await fetch(Addcart, requestOptions);
+            const result = await response.json();
+            console.log("result--res--addcart-->", result);
+            if (response.data == 200) {
+                showMessage({
+                    message: "add to view card successfull",
+                    type: "success",
+                    icon: "success"
+                })
+            }
+            console.log("resul-tresul-t--->", result)
+        } catch (error) {
+            console.log("error--handleaddtocart--->", error)
+        }
+
+    }
+
     // const { servericdetailsget } = useContext(AuthContext);
     console.log("item---item--->", item)
 
@@ -128,6 +164,7 @@ const ModalCompontent = ({ visible, onClose, item, }) => {
         setShowQuantityView(true);
     };
     const toggleVector = (id) => {
+        handleaddtocart();
         togglePopup();
         setQuantityStates(prevStates => ({
             ...prevStates,
@@ -136,11 +173,7 @@ const ModalCompontent = ({ visible, onClose, item, }) => {
                 showQuantityView: !prevStates[id].showQuantityView
             }
         }));
-        showMessage({
-            message: "add to view card successfull",
-            type: "success",
-            icon: "success"
-        })
+
     };
 
     const images = [

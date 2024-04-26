@@ -49,9 +49,8 @@ const Otp = (props) => {
                 console.log("jdkfdlk---->", json.status);
                 if (json.status == 200) {
                     setIsLoading(false);
-
-                    // Set the access token in AsyncStorage
                     await AsyncStorage.setItem('token', json.data.access_token);
+                    // await AsyncStorage.setItem('token', "WlhsS01XTXlWbmxZTW14clNXcHZhVTFVVldsTVEwcDNXVmhPZW1ReU9YbGFRMGsyU1d0R2EySlhiSFZKVTFFd1RrUlJlVTVFUlhsT1EwWkJTMmxaYkVscGQybGhSemt4WTI1TmFVOXFVVFJNUTBwcldWaFNiRmd6VW5CaVYxVnBUMmxKZVUxRVNUQk1WRUY2VEZSSmVVbEVSVEZQYWtreVQycFJlRWxwZDJsamJUbHpXbE5KTmtscVNXbE1RMHByV2xoYWNGa3lWbVpoVjFGcFQyMDFNV0pIZURrPQ==");
                     console.log("dffbdmf--->", json.data.access_token)
 
                     showMessage({
@@ -110,14 +109,13 @@ const Otp = (props) => {
     const startTimer = () => {
         setIsTimerRunning(true);
         handleResendOTP();
-        setIsResendVisible(false); // Hide resend button when timer starts
+        setIsResendVisible(false);
         setTimer(180);
     };
 
-    // Function to stop the timer
     const stopTimer = () => {
         setIsTimerRunning(false);
-        setIsResendVisible(true); // Show resend button when timer stops
+        setIsResendVisible(true);
     };
 
     useEffect(() => {

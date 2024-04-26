@@ -1,26 +1,22 @@
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Image, StyleSheet, SafeAreaView, StatusBar, Text, ScrollView, FlatList, TouchableOpacity, Platform } from 'react-native';
 import Header from "../../compontent/Header";
 import CheckBox from 'react-native-check-box';
+import { getaddress } from "../../apiconfig/Apiconfig";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import ContiuneShopping from "../home/ContiuneShopping";
 
 const Address = (props) => {
+    const [isaddress, setISaddress] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
     const Data = [
         {
             name: "Mahesh Kumar",
             address: "3 Newbridge Court Chino Hills, CA 91709, United States",
             button: "Edit"
         },
-        // {
-        //     name: "Mahesh Kumar",
-        //     address: "3 Newbridge Court Chino Hills, CA 91709, United States",
-        //     button: "Edit"
-        // },
-        // {
-        //     name: "Mahesh Kumar",
-        //     address: "3 Newbridge Court Chino Hills, CA 91709, United States",
-        //     button: "Edit"
-        // },
+
     ];
 
     const [isCheckedList, setIsCheckedList] = useState(Array(Data.length).fill(false));
@@ -30,6 +26,34 @@ const Address = (props) => {
         newIsCheckedList[index] = !newIsCheckedList[index];
         setIsCheckedList(newIsCheckedList);
     };
+    const handlegetaddress = async () => {
+        try {
+            setIsLoading(true);
+            const token = await AsyncStorage.getItem('token');
+            const myHeaders = new Headers();
+            myHeaders.append("token", token);
+            myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
+            const requestOptions = {
+                method: "GET",
+                headers: myHeaders,
+                redirect: "follow"
+            };
+            const response = await fetch(getaddress, requestOptions);
+            console.log("Response:", response);
+            const result = await response.text();
+            console.log("Response--result --->", result)
+            // if (response.data === 200) {
+            //     setISaddress(result.data)
+            //     console.log("result--data--->", result.data)
+            // }
+        } catch (error) {
+            console.log("error--getadrres-->", error)
+        }
+    }
+
+    useEffect(() => {
+        handlegetaddress();
+    }, [props.navigate])
 
     const renderItem = ({ item, index }) => (
         <View style={styles.card}>

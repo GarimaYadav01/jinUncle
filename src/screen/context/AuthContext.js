@@ -17,6 +17,7 @@ export const AuthProvider = ({ children }) => {
     const [banner, setBanner] = useState([]);
     const [servericdetailsget, setServericdetailsget] = useState([])
     const [mostpolluar, setIsmostpolluar] = useState([]);
+    const [isaddress, setISaddress] = useState([]);
     const categoryIds = iscategories.map(category => category.id);
     console.log("categoryIds----categoryIds-->", categoryIds);
     const login = (userData) => {
@@ -273,7 +274,6 @@ export const AuthProvider = ({ children }) => {
             formdata.append('service_id', servericeget.id);
             console.log("service_id------->", servericeget.id)
             // formdata.append("service_id", "1");
-
             const requestOptions = {
                 method: 'POST',
                 headers: myHeaders,
@@ -354,6 +354,34 @@ export const AuthProvider = ({ children }) => {
             setIsLoading(false);
         }
     };
+
+
+    const handlegetaddress = async () => {
+        try {
+            setIsLoading(true);
+            const token = await AsyncStorage.getItem('token');
+            const myHeaders = new Headers();
+            myHeaders.append("token", token);
+            myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
+            const requestOptions = {
+                method: "GET",
+                headers: myHeaders,
+                redirect: "follow"
+            };
+            const response = await fetch(getaddress, requestOptions);
+            console.log("Response:", response);
+            const result = await response.json();
+            console.log("Response--result --->", result)
+        } catch (error) {
+            console.log("error--getadrres-->", error)
+        }
+    }
+
+
+
+
+
+
 
 
     return (

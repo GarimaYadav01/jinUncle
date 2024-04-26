@@ -24,8 +24,13 @@ export const Copuonapiget = serverl + "cart/coupon_list"
 export const applycopuon = serverl + "cart/apply_coupon"
 export const removeCopoun = serverl + "cart/remove_coupon"
 export const bookingapi = serverl + "orders/index?type=1"
-
-
-
-
+export const getaddress = serverl + "address/index"
+export const updateaddress = serverl + "address/update"
+export const addaddress = serverl + "address/add"
+export const createorder = serverl + "checkout/create_order"
+export const paymentstatus = serverl + "checkout/payment_success"
+export const Addcart = serverl + "cart/add"
+export const carddetails = serverl + "cart/detail"
+export const cardremove = serverl + "cart/remove_cart"
+export const userTransition = serverl + "user/user_transition"
 

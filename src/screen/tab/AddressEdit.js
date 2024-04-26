@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, TextInput, StyleSheet, SafeAreaView, Dimensions, Text, ScrollView, Platform } from 'react-native';
 import Header from "../../compontent/Header";
 import CustomButton from "../../compontent/Custombutton";
 import { useFormik } from 'formik';
 import { useNavigation } from "@react-navigation/native";
+import { updateaddress } from "../../apiconfig/Apiconfig";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { showMessage } from "react-native-flash-message";
 const { height, width } = Dimensions.get('screen');
 
 const AddressEdit = (props) => {
     const navigation = useNavigation();
+    const [isLoading, setIsLoading] = useState([]);
     const validate = values => {
         const errors = {};
         if (!values.fullName) {
@@ -42,10 +46,49 @@ const AddressEdit = (props) => {
         },
         validate,
         onSubmit: values => {
-            navigation.goBack(); // Corrected function name
+            handleupdateaddress();
             console.log(values);
         },
     });
+    const handleupdateaddress = async () => {
+        try {
+            setIsLoading(true);
+            const token = await AsyncStorage.getItem('token');
+            const myHeaders = new Headers();
+            myHeaders.append("token", token);
+            myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
+            const formdata = new FormData();
+            formdata.append("address_id", "47");
+            formdata.append("name", "shahrukh");
+            formdata.append("address", "Demo Address");
+            formdata.append("city", "Delhi");
+            formdata.append("state", "Delhi");
+            formdata.append("pincode", "110086");
+            formdata.append("country", "India");
+            const requestOptions = {
+                method: "POST",
+                headers: myHeaders,
+                body: formdata,
+                redirect: "follow"
+            };
+            const response = await fetch(updateaddress, requestOptions);
+            console.log("Response:", response);
+            const result = await response.json();
+            console.log("resultupdateaddress---->", result)
+            if (result.status == 200) {
+                showMessage({
+                    message: "update successfully adreess",
+                    type: "success",
+                    icon: "success"
+                })
+                navigation.goBack();
+            }
+
+        } catch (error) {
+            console.log("error---json->", error)
+        }
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             <Header title={"Adding Shipping Address"} />
