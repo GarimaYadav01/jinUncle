@@ -6,9 +6,8 @@ import CheckBox from 'react-native-check-box';
 import { getaddress } from "../../apiconfig/Apiconfig";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ContiuneShopping from "../home/ContiuneShopping";
-
 const Address = (props) => {
-    const [isaddress, setISaddress] = useState([]);
+    const [isaddress, setIsaddress] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const Data = [
         {
@@ -20,7 +19,6 @@ const Address = (props) => {
     ];
 
     const [isCheckedList, setIsCheckedList] = useState(Array(Data.length).fill(false));
-
     const onCheckBoxPress = (index) => {
         const newIsCheckedList = [...isCheckedList];
         newIsCheckedList[index] = !newIsCheckedList[index];
@@ -40,12 +38,13 @@ const Address = (props) => {
             };
             const response = await fetch(getaddress, requestOptions);
             console.log("Response:", response);
-            const result = await response.text();
-            console.log("Response--result --->", result)
-            // if (response.data === 200) {
-            //     setISaddress(result.data)
-            //     console.log("result--data--->", result.data)
-            // }
+            const result = await response.json();
+            console.log("Response--result--->", result)
+            if (result.status == 200) {
+                setIsaddress(result);
+                console.log("resutl--dd-dd-->", result)
+            }
+
         } catch (error) {
             console.log("error--getadrres-->", error)
         }

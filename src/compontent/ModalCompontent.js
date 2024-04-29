@@ -25,10 +25,16 @@ const ModalCompontent = ({ visible, onClose, item, }) => {
             const myHeaders = new Headers();
             myHeaders.append("token", token);
             myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
+            const variants = [];
+            dverinat.forEach(variant => {
+                const { id, quantityselectStates } = variant;
+                variants.push({ varinty_id: id, quanty: quantityselectStates });
+            });
+            const varientData = JSON.stringify(variants);
             const formdata = new FormData();
             formdata.append("service_id", item);
-            // formdata.append("varient_data", quantityselectStates);
-            formdata.append("varient_data", "[{\"varient_id\":1,\"quantity\":1},{\"varient_id\":2,\"quantity\":2}]");
+            formdata.append("varient_data", varientData);
+            // formdata.append("varient_data", "[{\"varient_id\":1,\"quantity\":1},{\"varient_id\":2,\"quantity\":2}]");
             const requestOptions = {
                 method: "POST",
                 headers: myHeaders,
@@ -39,7 +45,7 @@ const ModalCompontent = ({ visible, onClose, item, }) => {
             const response = await fetch(Addcart, requestOptions);
             const result = await response.json();
             console.log("result--res--addcart-->", result);
-            if (response.data == 200) {
+            if (response.data === 200) {
                 showMessage({
                     message: "add to view card successfull",
                     type: "success",
@@ -56,7 +62,7 @@ const ModalCompontent = ({ visible, onClose, item, }) => {
     // const { servericdetailsget } = useContext(AuthContext);
     console.log("item---item--->", item)
 
-    const handledetailsservice = async (item) => {
+    const handledetailsservice = async () => {
         console.log("service_id---item--->", item)
         try {
             setIsLoading(true);
@@ -89,8 +95,6 @@ const ModalCompontent = ({ visible, onClose, item, }) => {
             setIsLoading(false);
         }
     };
-
-
 
     useEffect(() => {
         const handleFocus = () => {
@@ -242,7 +246,7 @@ const ModalCompontent = ({ visible, onClose, item, }) => {
         }));
     };
     const toggleVectorselect = (id) => {
-        // setIsVisibleModal(true);
+        handleaddtocart();
         togglePopup();
         setQuantityselectStates(prevStates => ({
             ...prevStates,
@@ -251,11 +255,11 @@ const ModalCompontent = ({ visible, onClose, item, }) => {
                 showQuantityView: !prevStates[id].showQuantityView
             }
         }));
-        showMessage({
-            message: "add to view card successful",
-            type: "success",
-            icon: "success"
-        });
+        // showMessage({
+        //     message: "add to view card successful",
+        //     type: "success",
+        //     icon: "success"
+        // });
     };
     const Allmix = [
         {
@@ -407,6 +411,8 @@ const ModalCompontent = ({ visible, onClose, item, }) => {
     const serviceName = servericdetailsget && servericdetailsget.data && servericdetailsget?.data[0] ? servericdetailsget?.data[0]?.name : "";
     const serviceRating = servericdetailsget && servericdetailsget.data && servericdetailsget?.data[0] ? servericdetailsget?.data[0]?.rating : "";
     const dverinat = servericdetailsget && servericdetailsget.data && servericdetailsget?.data[0] ? servericdetailsget?.data[0]?.varient : "";
+
+    console.log("dverinat---->", dverinat)
     return (
         <Modal visible={visible} transparent={true} animationType="slide">
             <View style={styles.modalContainer}>
