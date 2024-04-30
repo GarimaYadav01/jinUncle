@@ -12,7 +12,7 @@ import { imagebaseurl } from "../../apiconfig/Apiconfig";
 const { width, height } = Dimensions.get("screen")
 const HomeScreen = (props) => {
     const navigation = useNavigation();
-    const { fetchData, handleGetlocation, location, iscategories, fetchDataCategory, categoryDetail, fetchSubCategories, issubCategories, isLoading, getProfile, getsubCategoryhandle, issubcategorydetails, handlegetservice, servericeget, handlebannerhome, banner, handledetailsservice, servericdetailsget, handlemostpopularservice, mostpolluar, setIsmostpolluar } = useContext(AuthContext);
+    const { fetchData, handleGetlocation, location, iscategories, fetchDataCategory, categoryDetail, fetchSubCategories, issubCategories, isLoading, getProfile, getsubCategoryhandle, issubcategorydetails, handlegetservice, servericeget, handlebannerhome, banner, handledetailsservice, servericdetailsget, handlemostpopularservice, mostpolluar, setIsmostpolluar, handlegetaddress } = useContext(AuthContext);
     console.log("mostpolluar------>", mostpolluar);
     console.log("servericeget----servericeget-----dhdhd--->", servericdetailsget)
     console.log("banner---->", banner)
@@ -29,6 +29,7 @@ const HomeScreen = (props) => {
             handlebannerhome();
             handledetailsservice();
             handlemostpopularservice();
+            handlegetaddress();
         };
         handleFocus();
         const unsubscribeFocus = navigation.addListener('focus', handleFocus);
@@ -73,7 +74,6 @@ const HomeScreen = (props) => {
         const interval = setInterval(() => {
             setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
         }, 3000);
-
         return () => clearInterval(interval);
     }, []);
 
@@ -84,7 +84,6 @@ const HomeScreen = (props) => {
             setCurrentIndex(nextIndex);
             scrollViewRef.current.scrollTo({ x: nextIndex * width, animated: true });
         }, 2000);
-
         return () => clearInterval(interval);
     }, [currentIndex, bannerImages]);
 
@@ -96,7 +95,7 @@ const HomeScreen = (props) => {
             return null;
         }
         const imagePath = imagebaseurl + imageData.image_path;
-        console.log("imageimageimage---->", imagePath)
+        // console.log("imageimageimage---->", imagePath)
         return (
             <View style={{ marginBottom: 20, marginTop: 10 }}>
                 <TouchableOpacity style={styles.btn}
@@ -107,6 +106,7 @@ const HomeScreen = (props) => {
             </View>
         );
     };
+
     const renderItem2 = ({ item }) => {
         let imageData;
         try {
@@ -125,6 +125,8 @@ const HomeScreen = (props) => {
             </View>
         );
     };
+
+
     const renderItemfridage = ({ item }) => {
         let imageData;
         try {

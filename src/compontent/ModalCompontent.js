@@ -8,6 +8,7 @@ import BottomPopup from './BottomPopup';
 import AuthContext from '../screen/context/AuthContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Addcart, servicedetails } from '../apiconfig/Apiconfig';
+import { object } from 'yup';
 const { height, width } = Dimensions.get("screen")
 const ModalCompontent = ({ visible, onClose, item, }) => {
     const navigation = useNavigation();
@@ -18,6 +19,8 @@ const ModalCompontent = ({ visible, onClose, item, }) => {
     const [servericdetailsget, setServericdetailsget] = useState([]);
     const [isLoading, setIsLoading] = useState(false)
 
+    console.log("quantityselectStates------>", quantityselectStates)
+
     const handleaddtocart = async () => {
         try {
             setIsLoading(true);
@@ -26,11 +29,19 @@ const ModalCompontent = ({ visible, onClose, item, }) => {
             myHeaders.append("token", token);
             myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
             const variants = [];
+
             dverinat.forEach(variant => {
-                const { id, quantityselectStates } = variant;
-                variants.push({ varinty_id: id, quanty: quantityselectStates });
+                const { id } = variant;
+                Object.keys(quantityselectStates).forEach(variantId => {
+                    const { quantity } = quantityselectStates[variantId];
+                    console.log("Variant ID:", variantId);
+                    console.log("Quantity:", quantity);
+                    variants.push({ varinty_id: id, quanty: quantity });
+                });
             });
+
             const varientData = JSON.stringify(variants);
+            console.log("varientData--->", varientData)
             const formdata = new FormData();
             formdata.append("service_id", item);
             formdata.append("varient_data", varientData);
@@ -59,9 +70,7 @@ const ModalCompontent = ({ visible, onClose, item, }) => {
 
     }
 
-    // const { servericdetailsget } = useContext(AuthContext);
     console.log("item---item--->", item)
-
     const handledetailsservice = async () => {
         console.log("service_id---item--->", item)
         try {

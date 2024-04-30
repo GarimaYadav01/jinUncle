@@ -3,7 +3,6 @@ import { View, Text, SafeAreaView, StyleSheet, Dimensions, FlatList, Image, Scro
 import Header from "../../compontent/Header";
 import { carddetails, imagebaseurl } from "../../apiconfig/Apiconfig";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
 const { height, width } = Dimensions.get("screen");
 
 const Addcard = () => {
@@ -48,7 +47,7 @@ const Addcard = () => {
     console.log("cartProducts------>", cartProducts);
 
     const renderPriceDetail = () => {
-        return Object.entries(priceDetail).map(([key, value]) => (
+        return Object.entries(priceDetail)?.map(([key, value]) => (
             <View style={styles.priceDetailContainer} key={key}>
                 <Text style={styles.priceDetailLabel}>{key}</Text>
                 <Text style={styles.priceDetailValue}>{value}</Text>
@@ -94,7 +93,6 @@ const Addcard = () => {
                             </View>
                         )}
                     />
-
                     <View style={styles.priceDetailSection}>
                         <Text style={styles.priceDetailHeading}>Price Details</Text>
                         {renderPriceDetail()}

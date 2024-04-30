@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Dimensions } from 'react-native';
 import { RadioButton } from 'react-native-paper';
 import Header from '../../compontent/Header';
 import { useNavigation } from '@react-navigation/native';
 import RazorpayCheckout from 'react-native-razorpay';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { paymentOptionget } from '../../apiconfig/Apiconfig';
 const { height } = Dimensions.get("screen");
 
 const PaymentScreen = () => {
   const [paymentOption, setPaymentOption] = useState('creditCard');
+  const [isLoading, setIsLoading] = useState(false);
+  const [ispayment, setIspayment] = useState([])
+
   const navigation = useNavigation();
 
   const handlePayment = async () => {
@@ -59,6 +63,37 @@ const PaymentScreen = () => {
       navigation.navigate("ContiuneShopping");
     }
   };
+
+  const getpaymentOption = async () => {
+    try {
+      setIsLoading(true);
+      const token = await AsyncStorage.getItem('token');
+      const myHeaders = new Headers();
+      myHeaders.append("token", token);
+      myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
+      const requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow"
+      };
+      const response = await fetch(paymentOptionget, requestOptions);
+      console.log("Response:", response);
+      const result = await response.json();
+      console.log("result--getpaymentOption->", result)
+      if (result.status == 200) {
+        setIspayment(result)
+        console.log("result--getpaymentOption->", result)
+      }
+    } catch (error) {
+      console.log("eerrrorrrrr-------->", error)
+    }
+  }
+
+  useEffect(() => {
+    getpaymentOption();
+  }, [])
+
+
 
   return (
     <SafeAreaView style={{ flex: 1 }}>

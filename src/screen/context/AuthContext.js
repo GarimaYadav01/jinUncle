@@ -1,6 +1,6 @@
 import axios, { formToJSON } from 'axios';
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { categoridetails, categoriesapi, get_most_popular_service, get_offer_banner, getcurrentlocation, getprofile, servicedetails, serviceget, sub_category, sub_categorydetails } from '../../apiconfig/Apiconfig';
+import { categoridetails, categoriesapi, get_most_popular_service, get_offer_banner, getaddress, getcurrentlocation, getprofile, servicedetails, serviceget, sub_category, sub_categorydetails } from '../../apiconfig/Apiconfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ContiuneShopping from '../home/ContiuneShopping';
 const AuthContext = createContext();
@@ -114,8 +114,6 @@ export const AuthProvider = ({ children }) => {
             setIsLoading(false);
         }
     };
-
-
 
     const fetchSubCategories = async () => {
         try {
@@ -371,18 +369,16 @@ export const AuthProvider = ({ children }) => {
             const response = await fetch(getaddress, requestOptions);
             console.log("Response:", response);
             const result = await response.json();
-            console.log("Response--result --->", result)
+            console.log("Response--result--handlegetaddress->", result)
+            if (result.status == 200) {
+                setISaddress(result.data);
+                console.log("resutl--dd-dd-handlegetaddress->", result.data)
+            }
+
         } catch (error) {
-            console.log("error--getadrres-->", error)
+            console.log("error--getadrres--handlegetaddress>", error)
         }
     }
-
-
-
-
-
-
-
 
     return (
         <AuthContext.Provider
@@ -413,7 +409,11 @@ export const AuthProvider = ({ children }) => {
                 servericdetailsget,
                 handlemostpopularservice,
                 mostpolluar,
-                setIsmostpolluar
+                setIsmostpolluar,
+                isaddress,
+                setISaddress,
+                handlegetaddress
+
             }}
         >
             {children}

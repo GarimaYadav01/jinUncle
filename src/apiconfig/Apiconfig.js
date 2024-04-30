@@ -33,4 +33,5 @@ export const Addcart = serverl + "cart/add"
 export const carddetails = serverl + "cart/detail"
 export const cardremove = serverl + "cart/remove_cart"
 export const userTransition = serverl + "user/user_transition"
+export const paymentOptionget = serverl + "Content/payment_methods"
 

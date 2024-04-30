@@ -9,6 +9,7 @@ import ContiuneShopping from "../home/ContiuneShopping";
 const Address = (props) => {
     const [isaddress, setIsaddress] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    console.log("isaddress------->", isaddress);
     const Data = [
         {
             name: "Mahesh Kumar",
@@ -17,8 +18,7 @@ const Address = (props) => {
         },
 
     ];
-
-    const [isCheckedList, setIsCheckedList] = useState(Array(Data.length).fill(false));
+    const [isCheckedList, setIsCheckedList] = useState(Array(isaddress?.length).fill(false));
     const onCheckBoxPress = (index) => {
         const newIsCheckedList = [...isCheckedList];
         newIsCheckedList[index] = !newIsCheckedList[index];
@@ -41,8 +41,8 @@ const Address = (props) => {
             const result = await response.json();
             console.log("Response--result--->", result)
             if (result.status == 200) {
-                setIsaddress(result);
-                console.log("resutl--dd-dd-->", result)
+                setIsaddress(result.data);
+                console.log("resutl--dd-dd-->", result.data)
             }
 
         } catch (error) {
@@ -54,6 +54,27 @@ const Address = (props) => {
         handlegetaddress();
     }, [props.navigate])
 
+
+
+    // const handlegetaddaddress = async () => {
+    //     try {
+    //         setIsLoading(true);
+    //         const token = await AsyncStorage.getItem('token');
+    //         const myHeaders = new Headers();
+    //         myHeaders.append("token", token);
+    //         myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
+    //         const formdata = new FormData();
+    //         formdata.append("name", "shahrukh");
+    //         formdata.append("address", "Demo Address");
+    //         formdata.append("city", "Delhi");
+    //         formdata.append("state", "Delhi");
+    //         formdata.append("pincode", "110086");
+    //         formdata.append("country", "India");
+    //     } catch (error) {
+
+    //     }
+    // }
+
     const renderItem = ({ item, index }) => (
         <View style={styles.card}>
             <View style={styles.cardContent}>
@@ -62,11 +83,13 @@ const Address = (props) => {
                 </Text>
                 <TouchableOpacity onPress={() => props.navigation.navigate("AddressEdit")}>
                     <Text style={[styles.button, { color: "#004E8C" }]}>
-                        {item.button}
+                        Edit
                     </Text>
                 </TouchableOpacity>
             </View>
             <Text style={styles.address}>{item.address}</Text>
+            <Text style={styles.address}>{item.country}</Text>
+            <Text style={styles.address}>{item.city}</Text>
             <View style={styles.checkBoxContainer}>
                 <CheckBox
                     isChecked={isCheckedList[index]}
@@ -83,7 +106,7 @@ const Address = (props) => {
             <Header title={"Manage Addresses"} />
             <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
                 <FlatList
-                    data={Data}
+                    data={isaddress}
                     renderItem={renderItem}
                     keyExtractor={(item, index) => index.toString()}
                     showsVerticalScrollIndicator={false}
