@@ -4,6 +4,7 @@ import Header from "../../compontent/Header";
 import { del } from "../../apiconfig/Apiconfig";
 import LoaderScreen from "../../compontent/LoaderScreen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { showMessage } from "react-native-flash-message";
 const { height, width } = Dimensions.get("screen");
 const Settings = ({ navigation }) => {
     const [isEnabled, setIsEnabled] = useState(false);
@@ -11,36 +12,38 @@ const Settings = ({ navigation }) => {
     const [updateModalVisible, setUpdateModalVisible] = useState(false);
     const [isLoading, setIsloading] = useState(false);
     const handledeleteapi = async () => {
-        setIsloading(true);
         try {
+            setIsloading(true);
+            const myHeaders = new Headers();
             const token = await AsyncStorage.getItem('token');
-            const formdata = new FormData();
+            myHeaders.append("token", token);
+            myHeaders.append("Cookie", "ci_session=21ae07cdcb962f9db308f3b0c2ffc4e41b9eca97");
             const requestOptions = {
-                method: "POST",
-                headers: token,
-                body: formdata,
+                method: "DELETE", // Change the method to DELETE
+                headers: myHeaders,
                 redirect: "follow"
             };
             const response = await fetch(del, requestOptions);
-            const result = await response.text();
+            const result = await response.json();
             console.log("Logout response:", result);
-            console.log('Logout successful');
-            // if (result.status == 200) {
-            await AsyncStorage.removeItem('token');
-            setDeleteModalVisible(false);
-            // showMessage({
-            //     message: "delete successfully ",
-            //     type: "success",
-            //     icon: "success"
-            // });
-            setIsloading(false);
-            navigation.navigate("LoginScreen");
-            // }
+
+            if (result.status == 200) {
+                await AsyncStorage.removeItem('token');
+                setDeleteModalVisible(false);
+                showMessage({
+                    message: "delete successfully ",
+                    type: "success",
+                    icon: "success"
+                });
+                setIsloading(false);
+                navigation.navigate("LoginScreen");
+            }
         } catch (error) {
-            console.error('Error logging out:', error);
+            console.log('Error logging out:', error);
             setIsloading(false);
         }
     };
+
 
     const toggleSwitch = () => {
         setIsEnabled(previousState => !previousState);
@@ -52,10 +55,12 @@ const Settings = ({ navigation }) => {
     const closeDeleteModal = () => setDeleteModalVisible(false);
     const openUpdateModal = () => setUpdateModalVisible(true);
     const closeUpdateModal = () => setUpdateModalVisible(false);
+
     // const handlelogutaccount = () => {
     //     setDeleteModalVisible(false);
     //     navigation.navigate("LoginScreen")
     // }
+
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <Header title={"Settings"} />

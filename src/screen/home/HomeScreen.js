@@ -12,7 +12,7 @@ import { imagebaseurl } from "../../apiconfig/Apiconfig";
 const { width, height } = Dimensions.get("screen")
 const HomeScreen = (props) => {
     const navigation = useNavigation();
-    const { fetchData, handleGetlocation, location, iscategories, fetchDataCategory, categoryDetail, fetchSubCategories, issubCategories, isLoading, getProfile, getsubCategoryhandle, issubcategorydetails, handlegetservice, servericeget, handlebannerhome, banner, handledetailsservice, servericdetailsget, handlemostpopularservice, mostpolluar, setIsmostpolluar, handlegetaddress } = useContext(AuthContext);
+    const { fetchData, handleGetlocation, location, iscategories, fetchDataCategory, categoryDetail, fetchSubCategories, issubCategories, isLoading, getProfile, getsubCategoryhandle, issubcategorydetails, handlegetservice, servericeget, handlebannerhome, banner, handledetailsservice, servericdetailsget, handlemostpopularservice, mostpolluar, setIsmostpolluar, handlegetaddress, gethandlecart } = useContext(AuthContext);
     console.log("mostpolluar------>", mostpolluar);
     console.log("servericeget----servericeget-----dhdhd--->", servericdetailsget)
     console.log("banner---->", banner)
@@ -30,6 +30,7 @@ const HomeScreen = (props) => {
             handledetailsservice();
             handlemostpopularservice();
             handlegetaddress();
+            gethandlecart();
         };
         handleFocus();
         const unsubscribeFocus = navigation.addListener('focus', handleFocus);
@@ -40,8 +41,7 @@ const HomeScreen = (props) => {
 
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
-        // Your refresh logic here
-        setTimeout(() => setRefreshing(false), 2000); // Simulating a delay to complete the refresh
+        setTimeout(() => setRefreshing(false), 2000);
     }, []);
 
     const [index, setIndex] = useState(0);

@@ -11,14 +11,14 @@ import { useNavigation } from "@react-navigation/native";
 const { height, width } = Dimensions.get("screen");
 const Summary = (props) => {
     const [index, setIndex] = useState(0);
-
     const navigation = useNavigation();
     const flatListRef = useRef(null);
     const [modalVisible, setModalVisible] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [quantityStates, setQuantityStates] = useState({});
-    const { mostpolluar } = useContext(AuthContext);
+    const { mostpolluar, iscardlist } = useContext(AuthContext);
     console.log("mostpolluar----mostpolluar-->", mostpolluar);
+    console.log("iscardlist----iscardli-----st---8888iscardlist->", iscardlist)
     // useEffect(() => {
     //     const interval = setInterval(() => {
     //         const nextIndex = (index + 1) % mostpolluar.length;
@@ -27,6 +27,11 @@ const Summary = (props) => {
     //     }, 3000);
     //     return () => clearInterval(interval);
     // }, [index]);
+
+    const priceDetail = iscardlist?.data?.price_detail;
+    const cartProducts = iscardlist?.data?.cart_products;
+    console.log("priceDetail------>", priceDetail);
+    console.log("cartProducts------>", cartProducts);
     const data = [
         {
             id: 1,
@@ -209,19 +214,34 @@ const Summary = (props) => {
     const closeModal2 = () => {
         setModalVisible2(false);
     };
-    const renderItem = ({ item }) => (
-        <View style={styles.connter}>
-            <View>
-                <Image source={item.image} style={{ width: 100, height: 100, borderRadius: 10 }} />
+    const renderitem = ({ item }) => {
+        console.log("Item:", item);
+        let imageData;
+        try {
+            imageData = JSON.parse(item.service_image)[0];
+        } catch (error) {
+            return null;
+        }
+        const imagePath = imagebaseurl + imageData.image_path;
+        console.log("imageimageimage---->", imagePath)
+        let data;
+        try {
+            data = JSON.parse(item.varient_data)[0];
+        } catch (error) {
+            return null;
+        }
+        const qty = data.quantity;
+        return (
+            <View style={styles.cardContainer}>
+                <Image source={{ uri: imagePath }} style={styles.cardImage} />
+                <View style={styles.cardDetails}>
+                    <Text style={styles.name}>{item.name}</Text>
+                    <Text style={[styles.text1, { marginLeft: width * 0.1 }]}>quantity:{qty}</Text>
+                    {/* <Text style={styles.cardPrice}>{item.varient_data}</Text> */}
+                </View>
             </View>
-            <View style={{ marginLeft: 20 }}>
-                <Text style={styles.nameee}>{item.name}</Text>
-                <Text style={{ color: "gray", fontSize: 15 }}>{item.price}</Text>
-                <Text>quantity:{item.quantity}</Text>
-            </View>
-
-        </View>
-    );
+        );
+    };
 
     const renderItemallmix = ({ item }) => {
         console.log("item----->", item)
@@ -231,7 +251,6 @@ const Summary = (props) => {
         } catch (error) {
             return null;
         }
-
         const imagePath = imagebaseurl + imageData.image_path;
         return (
             <View style={{ marginBottom: 20, marginTop: 10 }}>
@@ -265,13 +284,22 @@ const Summary = (props) => {
         );
     };
 
+    const renderPriceDetail = () => {
+        return Object?.entries(priceDetail)?.map(([key, value]) => (
+            <View style={styles.priceDetailContainer} key={key}>
+                <Text style={styles.text2}>{key}</Text>
+                <Text style={styles.text2}>{value}</Text>
+            </View>
+        ));
+    };
+
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#FFF" }}>
             <Header title={"Summary"} />
             <ScrollView style={{ marginHorizontal: 20 }} showsVerticalScrollIndicator={false}>
                 <FlatList
-                    data={data}
-                    renderItem={renderItem}
+                    data={cartProducts}
+                    renderItem={renderitem}
                     keyExtractor={(item, index) => index.toString()}
                     showsVerticalScrollIndicator={false}
                 />
@@ -321,7 +349,7 @@ const Summary = (props) => {
 
                     </View>
                 </View>
-                <View style={styles.com}>
+                {/* <View style={styles.com}>
                     <Text style={styles.service}>Payment summary</Text>
                     <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                         <Text style={styles.text2}>Item total</Text>
@@ -339,6 +367,10 @@ const Summary = (props) => {
                 <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                     <Text style={{ color: "black", fontSize: 18, fontWeight: "700" }}>Total</Text>
                     <Text style={{ color: "black", fontSize: 18, fontWeight: "700" }}>₹1276</Text>
+                </View> */}
+                <View style={styles.priceDetailSection}>
+                    <Text style={styles.priceDetailHeading}>Price Details</Text>
+                    {renderPriceDetail()}
                 </View>
                 <View style={{ marginTop: height * 0.03 }}>
                     <CustomButton size={"large"} label={"Continue "} backgroundColor={"#004E8C"} color={"white"} onPress={handleCardPress} />
@@ -474,7 +506,43 @@ const styles = StyleSheet.create({
         fontWeight: "500",
         fontStyle: "normal",
         color: "black"
-
+    },
+    cardContainer: {
+        flexDirection: 'row',
+        padding: 20,
+        borderBottomWidth: 1,
+        borderBottomColor: '#ccc',
+    },
+    cardImage: {
+        width: 100,
+        height: 100,
+        marginRight: 10,
+        borderRadius: 20
+    },
+    priceDetailHeading: {
+        fontSize: 20,
+        color: "black",
+        fontWeight: "700",
+        marginHorizontal: 20
+    },
+    priceDetailContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        marginHorizontal: 20
+    },
+    priceDetailLabel: {
+        color: "black",
+        fontSize: 14,
+        lineHeight: 22,
+        marginTop: 10
+    },
+    priceDetailSection: {
+        mafrginTop: 20
+    },
+    priceDetailValue: {
+        color: "gray",
+        lineHeight: 22,
+        marginTop: 10
     }
 });
 

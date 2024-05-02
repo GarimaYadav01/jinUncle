@@ -7,6 +7,7 @@ import { Copuonapiget, applycopuon, removeCopoun } from "../../apiconfig/Apiconf
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { showMessage } from "react-native-flash-message";
 import { GestureHandlerRootView, Swipeable } from 'react-native-gesture-handler';
+import LoaderScreen from "../../compontent/LoaderScreen";
 const { height, width } = Dimensions.get("screen")
 const Copuon = (props) => {
     const navigation = useNavigation();
@@ -39,7 +40,6 @@ const Copuon = (props) => {
                 setIsLoading(false);
                 console.log("copuonresult---data-->", result.data)
             }
-
         } catch (error) {
             console.log("error ---->", error)
             setIsLoading(false);
@@ -78,19 +78,18 @@ const Copuon = (props) => {
                     icon: "success"
                 })
                 navigation.goBack();
+                setIsLoading(false);
             }
 
         } catch (error) {
             console.log("error---cop-->", error);
+            setIsLoading(false);
         }
     }
 
-
-
-
     const removehandle = async () => {
         try {
-            setIsLoading(true);
+            // setIsLoading(true);
             const token = await AsyncStorage.getItem('token');
             const myHeaders = new Headers();
             myHeaders.append("token", token);
@@ -105,15 +104,15 @@ const Copuon = (props) => {
             const response = await fetch(removeCopoun, requestOptions);
             const result = await response.json();
             console.log("result---result-->", result)
-            if (response.status === 200) {
-                showMessage({
-                    message: "delete successfully",
-                    type: "success",
-                    icon: "success"
-                })
-            }
+            // if (result.status == 200) {
+            //     showMessage({
+            //         message: "delete successfully",
+            //         type: "success",
+            //         icon: "success"
+            //     })
+            // }
         } catch (error) {
-            console.log("error--->", error)
+            console.log("error---success--->", error)
         }
     }
 
@@ -155,14 +154,20 @@ const Copuon = (props) => {
     return (
         <SafeAreaView style={{ flex: 1, }}>
             <Header title={"coupon"} />
-
             <View style={{ marginHorizontal: 20, marginTop: height * 0.04 }}>
                 <FlatList
                     data={iscopon}
                     renderItem={renderCoupon}
                     keyExtractor={(item) => item.id.toString()}
+                    ListEmptyComponent={() => (
+                        <View style={styles.emptyListContainer}>
+                            <Image source={require("../../assets/Newicon/delete.png")} style={{ width: 70, height: 70 }} />
+                            <Text style={styles.emptyListText}>No data found</Text>
+                        </View>
+                    )}
                 />
             </View>
+            {isLoading && <LoaderScreen isLoading={isLoading} />}
         </SafeAreaView>
     )
 }
@@ -193,5 +198,16 @@ const styles = StyleSheet.create({
     expiry: {
         fontSize: 14,
         color: 'gray',
+    },
+    emptyListContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: height * 0.2,
+    },
+    emptyListText: {
+        fontSize: 20,
+        color: 'gray',
+        fontWeight: "bold"
     },
 });

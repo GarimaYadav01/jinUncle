@@ -1,45 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, Text, SafeAreaView, StyleSheet, Dimensions, FlatList, Image, ScrollView } from "react-native";
 import Header from "../../compontent/Header";
 import { carddetails, imagebaseurl } from "../../apiconfig/Apiconfig";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import AuthContext from "../context/AuthContext";
 const { height, width } = Dimensions.get("screen");
 
 const Addcard = () => {
     const [isLoading, setIsLoading] = useState(false);
-    const [iscardlist, setIsCardlist] = useState([]);
-    console.log("iscardlist------>", iscardlist)
-
-    const gethandlecart = async () => {
-        try {
-            setIsLoading(true);
-            const token = await AsyncStorage.getItem('token');
-            const myHeaders = new Headers();
-            myHeaders.append("token", token);
-            myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
-            const requestOptions = {
-                method: "GET",
-                headers: myHeaders,
-                redirect: "follow"
-            };
-            const response = await fetch(carddetails, requestOptions);
-            const result = await response.json();
-            console.log("result-----response>", result)
-            if (result.status == 200) {
-                setIsCardlist(result);
-                console.log("result-----response>200", result)
-            }
-            setIsLoading(false);
-        } catch (error) {
-            console.log("Error fetching cart details:", error);
-            setIsLoading(false);
-        }
-    }
-
-    useEffect(() => {
-        gethandlecart();
-    }, []);
-
+    const { iscardlist } = useContext(AuthContext)
+    console.log("iscardlist------->", iscardlist);
 
     const priceDetail = iscardlist?.data?.price_detail;
     const cartProducts = iscardlist?.data?.cart_products;
@@ -47,7 +17,7 @@ const Addcard = () => {
     console.log("cartProducts------>", cartProducts);
 
     const renderPriceDetail = () => {
-        return Object.entries(priceDetail)?.map(([key, value]) => (
+        return Object?.entries(priceDetail)?.map(([key, value]) => (
             <View style={styles.priceDetailContainer} key={key}>
                 <Text style={styles.priceDetailLabel}>{key}</Text>
                 <Text style={styles.priceDetailValue}>{value}</Text>

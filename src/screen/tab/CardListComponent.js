@@ -9,56 +9,6 @@ const { height, width } = Dimensions.get("screen")
 const CardListComponent = ({ scrollToTop }) => {
     const { servericeget } = useContext(AuthContext)
     console.log("servericegethfhjff----->", servericeget)
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [quantityStates, setQuantityStates] = useState({});
-    const [payment, setPayment] = useState({});
-
-  
-    useEffect(() => {
-        const initialQuantityStates = {};
-        datacard.forEach(({ id }) => {
-            initialQuantityStates[id] = {
-                showQuantityView: false,
-                quantity: 1
-            };
-        });
-        setQuantityStates(initialQuantityStates);
-    }, []);
-
-    const handleIncrease = (id) => {
-        setIsVisibleModal(true);
-        setQuantityStates(prevStates => ({
-            ...prevStates,
-            [id]: {
-                ...prevStates[id],
-                quantity: prevStates[id].quantity + 1
-            }
-        }));
-    };
-    const handleDecrease = (id) => {
-        setIsVisibleModal(true);
-        setQuantityStates(prevStates => ({
-            ...prevStates,
-            [id]: {
-                ...prevStates[id],
-                quantity: Math.max(1, prevStates[id].quantity - 1)
-            }
-        }));
-    };
-    const toggleVector = (id) => {
-        setQuantityStates(prevStates => ({
-            ...prevStates,
-            [id]: {
-                ...prevStates[id],
-                showQuantityView: !prevStates[id].showQuantityView
-            }
-        }));
-        setIsVisibleModal(true);
-    };
-
-    const closeModal2 = () => {
-        setIsVisibleModal(false);
-    }
 
     const handlerender = ({ item }) => {
         let imageData;
@@ -99,116 +49,19 @@ const CardListComponent = ({ scrollToTop }) => {
     };
 
 
-    //     let imageData;
-    //     try {
-    //         imageData = JSON.parse(item.image)[0];
-    //     } catch (error) {
-    //         return null;
-    //     }
-    //     const imagePath = imagebaseurl + imageData.image_path;
-
-    // return (
-    //     <View style={styles.card}>
-    //         <View>
-    //             <Image source={{ uri: imagePath }} style={styles.image} />
-    //             <View>
-    //                 <TouchableOpacity style={styles.smallbutton} onPress={() => handleCardPress(item)}>
-    //                     <Text style={styles.textbut}>Add</Text>
-    //                 </TouchableOpacity>
-    //             </View>
-    //         </View>
-    //         <View style={styles.content}>
-    //             <Text style={{ color: "#004E8C" }}>{item.warenty}</Text>
-    //             <Text style={styles.service}>{item.name}</Text>
-    //             <View style={styles.ratingContainer}>
-    //                 <Image source={require("../../assets/logo/star.png")} style={styles.starIcon} />
-    //                 <Text style={styles.likes}>{item.rating}</Text>
-    //             </View>
-    //             <Text style={{ color: "black", fontSize: 17 }}>{item.starts}</Text>
-    //             <Text style={{ color: "#004E8C", marginTop: 10, fontWeight: "500" }}>₹100 off 2nd item onwords</Text>
-    //             <Text>₹{item.price}</Text>
-    //             <Text style={styles.label}>{item.short_description}</Text>
-    //             <TouchableOpacity onPress={() => handleCardPress(item)}>
-    //                 <Text style={{ color: "#004E8C", marginTop: 10, fontWeight: "800", fontSize: 14 }}>View details</Text>
-    //             </TouchableOpacity>
-    //         </View>
-    //     </View>
-    // );
-
-
-    // };
-    const datacard = [
-        {
-            id: "1",
-            service: "Power Saver Ac Service",
-            image: require("../../assets/logo/star.png"),
-            likes: "4.85(60k reviews)",
-            starts: "₹549",
-            label: "Deep cleaning of indoor & outdoor unit with Advanced foam & Power-jet Technology",
-            images: require("../../assets/banner/img3.png"),
-            view: "View details"
-        },
-        {
-            id: "2",
-            service: "Jet Ac Service",
-            image: require("../../assets/logo/star.png"),
-            likes: "4.85(60k reviews)",
-            starts: "₹549",
-            label: "Deep cleaning of indoor & outdoor unit with Advanced foam & Power-jet Technology",
-            images: require("../../assets/banner/img-1.png"),
-            view: "View details"
-        },
-        {
-            id: "3",
-            service: "Anti-rust deep clean AC service",
-            image: require("../../assets/logo/star.png"),
-            likes: "4.85(60k reviews)",
-            starts: "₹549",
-            label: "Deep cleaning of indoor & outdoor unit with Advanced foam & Power-jet Technology",
-            images: require("../../assets/banner/img3.png"),
-            view: "View details"
-        },
-        {
-            id: "4",
-            service: "power saver Ac service",
-            image: require("../../assets/logo/star.png"),
-            likes: "4.85(60k reviews)",
-            starts: "₹549",
-            label: "Deep cleaning of indoor & outdoor unit with Advanced foam & Power-jet Technology",
-            images: require("../../assets/banner/img-1.png"),
-            view: "View details"
-        }
-    ]
     const [modalVisible, setModalVisible] = useState(false);
     const [selectedItem, setSelectedItem] = useState(null);
-    const [isvissbleModal, setIsVisibleModal] = useState(false);
+
     console.log("selectedItem---selectedItem-->", selectedItem)
     const navigation = useNavigation();
-    const [isOpen, setIsOpen] = useState(false);
-    const togglePopup = () => {
-        setIsOpen(!isOpen);
-    };
-    const translateY = new Animated.Value(height);
-    const animatePopup = () => {
-        Animated.spring(translateY, {
-            toValue: isOpen ? height : height - 200,
-            useNativeDriver: true,
-        }).start();
-    };
 
     const handleCardPress = (item) => {
         console.log("Selected item id:", item);
         setSelectedItem(item);
         setModalVisible(true);
     };
-
     const closeModal = () => {
         setModalVisible(false);
-    };
-
-    const handleViewCard = () => {
-        // onClose();
-        navigation.navigate("Summary");
     };
 
     const flatListRef = useRef(null);

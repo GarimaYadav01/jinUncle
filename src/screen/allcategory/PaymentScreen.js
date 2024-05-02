@@ -5,13 +5,14 @@ import Header from '../../compontent/Header';
 import { useNavigation } from '@react-navigation/native';
 import RazorpayCheckout from 'react-native-razorpay';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { paymentOptionget } from '../../apiconfig/Apiconfig';
+import { createorder, paymentOptionget } from '../../apiconfig/Apiconfig';
 const { height } = Dimensions.get("screen");
 
 const PaymentScreen = () => {
   const [paymentOption, setPaymentOption] = useState('creditCard');
   const [isLoading, setIsLoading] = useState(false);
   const [ispayment, setIspayment] = useState([])
+  console.log("ispayment---->", ispayment)
 
   const navigation = useNavigation();
 
@@ -54,12 +55,12 @@ const PaymentScreen = () => {
     setPaymentOption(option);
   };
 
-  // Function to navigate to the appropriate screen based on the selected payment option
   const navigateToNextScreen = () => {
-    if (paymentOption === 'paypal') {
-      // navigation.navigate("Paypal");
+    const selectedOption = ispayment.find(option => option.id === paymentOption);
+    if (selectedOption && selectedOption.name === 'PayTM') {
       handlePayment();
-    } else if (paymentOption === 'cash') {
+    } else if (selectedOption && selectedOption.name === 'COD') {
+      // Navigate to Cash screen
       navigation.navigate("ContiuneShopping");
     }
   };
@@ -81,8 +82,8 @@ const PaymentScreen = () => {
       const result = await response.json();
       console.log("result--getpaymentOption->", result)
       if (result.status == 200) {
-        setIspayment(result)
-        console.log("result--getpaymentOption->", result)
+        setIspayment(result.data.payment_methods)
+        console.log("result--getpaymentOption-setIspayment>", result.data.payment_methods)
       }
     } catch (error) {
       console.log("eerrrorrrrr-------->", error)
@@ -94,37 +95,56 @@ const PaymentScreen = () => {
   }, [])
 
 
+  const handleCreaterorder = async () => {
+    try {
+      const token = await AsyncStorage.getItem("token")
+      const myHeaders = new Headers();
+      myHeaders.append("token", token);
+      const formdata = new FormData();
+      formdata.append("payment_method", "2");
+      formdata.append("address_id", "4");
+      formdata.append("slot_date", "2024-04-25");
+      formdata.append("slot_time", "10:00 AM");
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: formdata,
+        redirect: "follow"
+      };
+      const response = await fetch(createorder, requestOptions);
+      const result = await response.json();
+      console.log("---------result-->", result);
+
+    } catch (error) {
+      console.log("errror---->", error);
+    }
+  }
+
+
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Header title={"Payment option"} />
       <View style={styles.container}>
         <Text style={styles.title}>Select Payment Option</Text>
-        <TouchableOpacity
-          style={styles.radioButton}
-          onPress={() => handlePaymentOptionChange('paypal')}
-        >
-          <RadioButton
-            value="paypal"
-            status={paymentOption === 'paypal' ? 'checked' : 'unchecked'}
-            onPress={() => handlePaymentOptionChange('paypal')}
-          />
-          <Text style={styles.text}>PayPal</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.radioButton}
-          onPress={() => handlePaymentOptionChange('cash')}
-        >
-          <RadioButton
-            value="cash"
-            status={paymentOption === 'cash' ? 'checked' : 'unchecked'}
-            onPress={() => handlePaymentOptionChange('cash')}
-          />
-          <Text style={styles.text}>Cash</Text>
-        </TouchableOpacity>
+        {ispayment.map((option) => (
+          <TouchableOpacity
+            key={option.id}
+            style={styles.radioButton}
+            onPress={() => handlePaymentOptionChange(option.id)}
+          >
+            <RadioButton
+              value={option.id}
+              status={paymentOption === option.id ? 'checked' : 'unchecked'}
+              onPress={() => handlePaymentOptionChange(option.id)}
+            />
+            <Text style={styles.text}>{option.name}</Text>
+          </TouchableOpacity>
+        ))}
         <TouchableOpacity
           style={styles.button}
-          onPress={navigateToNextScreen}
+          // onPress={navigateToNextScreen}
+          onPress={handleCreaterorder}
         >
           <Text style={styles.buttonText}>Continue</Text>
         </TouchableOpacity>

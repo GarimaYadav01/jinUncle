@@ -1,6 +1,6 @@
 import axios, { formToJSON } from 'axios';
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { categoridetails, categoriesapi, get_most_popular_service, get_offer_banner, getaddress, getcurrentlocation, getprofile, servicedetails, serviceget, sub_category, sub_categorydetails } from '../../apiconfig/Apiconfig';
+import { carddetails, categoridetails, categoriesapi, get_most_popular_service, get_offer_banner, getaddress, getcurrentlocation, getprofile, servicedetails, serviceget, sub_category, sub_categorydetails } from '../../apiconfig/Apiconfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ContiuneShopping from '../home/ContiuneShopping';
 const AuthContext = createContext();
@@ -18,8 +18,10 @@ export const AuthProvider = ({ children }) => {
     const [servericdetailsget, setServericdetailsget] = useState([])
     const [mostpolluar, setIsmostpolluar] = useState([]);
     const [isaddress, setISaddress] = useState([]);
+    const [iscardlist, setIsCardlist] = useState([]);
     const categoryIds = iscategories.map(category => category.id);
     console.log("categoryIds----categoryIds-->", categoryIds);
+    console.log("iscardlist------>", iscardlist);
     const login = (userData) => {
         setUser(userData);
     };
@@ -374,11 +376,38 @@ export const AuthProvider = ({ children }) => {
                 setISaddress(result.data);
                 console.log("resutl--dd-dd-handlegetaddress->", result.data)
             }
-
         } catch (error) {
             console.log("error--getadrres--handlegetaddress>", error)
         }
     }
+
+
+    const gethandlecart = async () => {
+        try {
+            setIsLoading(true);
+            const token = await AsyncStorage.getItem('token');
+            const myHeaders = new Headers();
+            myHeaders.append("token", token);
+            myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
+            const requestOptions = {
+                method: "GET",
+                headers: myHeaders,
+                redirect: "follow"
+            };
+            const response = await fetch(carddetails, requestOptions);
+            const result = await response.json();
+            console.log("result-----response>", result)
+            if (result.status == 200) {
+                setIsCardlist(result);
+                console.log("result-----response>200", result)
+            }
+            setIsLoading(false);
+        } catch (error) {
+            console.log("Error fetching cart details:", error);
+            setIsLoading(false);
+        }
+    }
+
 
     return (
         <AuthContext.Provider
@@ -412,7 +441,11 @@ export const AuthProvider = ({ children }) => {
                 setIsmostpolluar,
                 isaddress,
                 setISaddress,
-                handlegetaddress
+                handlegetaddress,
+                gethandlecart,
+                setIsCardlist,
+                iscardlist
+
 
             }}
         >

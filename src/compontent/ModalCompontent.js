@@ -9,6 +9,7 @@ import AuthContext from '../screen/context/AuthContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Addcart, servicedetails } from '../apiconfig/Apiconfig';
 import { object } from 'yup';
+import LoaderScreen from './LoaderScreen';
 const { height, width } = Dimensions.get("screen")
 const ModalCompontent = ({ visible, onClose, item, }) => {
     const navigation = useNavigation();
@@ -70,20 +71,17 @@ const ModalCompontent = ({ visible, onClose, item, }) => {
 
     }
 
-    console.log("item---item--->", item)
+    console.log("item---item---item>", item)
     const handledetailsservice = async () => {
         console.log("service_id---item--->", item)
         try {
-            setIsLoading(true);
+            // setIsLoading(true); 
             const token = await AsyncStorage.getItem('token');
             const myHeaders = new Headers();
             myHeaders.append("token", token);
             myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
             const formdata = new FormData();
-            // formdata.append('service_id', item);
-            // console.log("service_id------->", item)
-            formdata.append("service_id", "1");
-
+            formdata.append('service_id', item);
             const requestOptions = {
                 method: 'POST',
                 headers: myHeaders,
@@ -93,7 +91,7 @@ const ModalCompontent = ({ visible, onClose, item, }) => {
             console.log("requestOptions----->", requestOptions)
             const response = await fetch(servicedetails, requestOptions);
             const result = await response.json();
-            console.log("resultressssult--->", result);
+            console.log("resultressssultn2--->", result);
             if (result?.status == 200) {
                 setServericdetailsget(result);
                 setIsLoading(false);
@@ -462,9 +460,15 @@ const ModalCompontent = ({ visible, onClose, item, }) => {
                                 keyExtractor={item => item.id}
                                 horizontal
                                 showsHorizontalScrollIndicator={false}
+                                ListEmptyComponent={() => (
+                                    <View style={styles.emptyListContainer}>
+                                        <Image source={require("../assets/Newicon/delete.png")} style={{ width: 70, height: 70 }} />
+                                        <Text style={styles.emptyListText}>No data found</Text>
+                                    </View>
+                                )}
                             />
                         </View>
-                        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
+                        {/* <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
                             <FlatList
                                 data={Allmix}
                                 renderItem={renderItemallmix}
@@ -472,7 +476,7 @@ const ModalCompontent = ({ visible, onClose, item, }) => {
                                 horizontal
                                 showsHorizontalScrollIndicator={false}
                             />
-                        </View>
+                        </View> */}
 
                         <View style={{ flexDirection: "row", alignItems: "center", columnGap: 10 }}>
                             <Image source={require("../assets/Icon/check.png")} resizeMode="contain" style={{ width: 20, height: 20 }} />
@@ -526,7 +530,7 @@ const ModalCompontent = ({ visible, onClose, item, }) => {
                     </View>
                 </Animated.View>
             </View>
-
+            {isLoading && <LoaderScreen isLoading={isLoading} />}
         </Modal>
     );
 };
@@ -800,6 +804,17 @@ const styles = StyleSheet.create({
     textbut: {
         textAlign: "center",
         color: "white"
+    },
+    emptyListContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 20,
+    },
+    emptyListText: {
+        fontSize: 20,
+        color: 'gray',
+        fontWeight: "bold"
     },
 });
 

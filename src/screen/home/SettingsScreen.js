@@ -79,7 +79,6 @@ const SettingsScreen = ({ route }) => {
     };
 
 
-
     const renderItem3 = ({ item }) => {
         let imageData;
         try {
@@ -88,15 +87,29 @@ const SettingsScreen = ({ route }) => {
             return null;
         }
         const imagePath = imagebaseurl + imageData.image_path;
+
+
+        console.log("selectedCategoryName:", selectedCategoryName);
+        console.log("issubCategories:", issubCategories);
+
+        // Filter subcategories based on the selected category name
+        const filteredSubcategories = issubCategories.filter(subcategory => subcategory.parent_category === selectedCategoryName);
+        console.log("filteredSubcategories:", filteredSubcategories);
+
+
+        // Render filtered subcategories
         return (
             <View style={{ marginBottom: 20, marginTop: 10 }}>
-                <TouchableOpacity style={styles.btn1} onPress={handleSubcategoryClick}>
-                    <Image source={{ uri: imagePath }} style={{ width: 150, height: 150, borderRadius: 10 }} resizeMode="contain" />
-                    <Text style={styles.name}>{item.name}</Text>
-                </TouchableOpacity>
+                {filteredSubcategories.map(subcategory => (
+                    <TouchableOpacity key={subcategory.id} style={styles.btn1} onPress={handleSubcategoryClick}>
+                        <Image source={{ uri: imagePath }} style={{ width: 150, height: 150, borderRadius: 10 }} resizeMode="contain" />
+                        <Text style={styles.name}>{subcategory.name}</Text>
+                    </TouchableOpacity>
+                ))}
             </View>
         );
     };
+
 
     return (
         <SafeAreaView>

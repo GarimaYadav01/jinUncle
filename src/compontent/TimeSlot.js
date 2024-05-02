@@ -7,7 +7,7 @@ import { tuple } from "yup";
 import AddressModal from "./AddressModal";
 import RazorpayCheckout from 'react-native-razorpay';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { posttime, timeSlotting } from "../apiconfig/Apiconfig";
+import { createorder, posttime, timeSlotting } from "../apiconfig/Apiconfig";
 import LoaderScreen from "./LoaderScreen";
 import { showMessage } from "react-native-flash-message";
 const { width, height } = Dimensions.get("screen");
@@ -18,8 +18,6 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
     const [selectedItemIndex2, setSelectedItemIndex2] = useState(null);
     const [timeSlotget, setTimeslotget] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-
-
     console.log("hhhdg----->", timeSlotget)
     const handlesubmit = async () => {
         try {
@@ -27,8 +25,6 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
             const token = await AsyncStorage.getItem("token")
             const myHeaders = new Headers();
             myHeaders.append("token", token);
-
-
             const requestOptions = {
                 method: "GET",
                 headers: myHeaders,
@@ -54,6 +50,14 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
 
     const handlesubmitpost = async () => {
         try {
+            if (selectedDayIndex === null || selectedItemIndex === null || selectedItemIndex2 === null) {
+                showMessage({
+                    message: "Please select all fields",
+                    type: "warning",
+                    icon: "warning"
+                });
+                return;
+            }
             const token = await AsyncStorage.getItem("token")
             const myHeaders = new Headers();
             myHeaders.append("token", token);
@@ -82,6 +86,8 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
             console.log("error----error-->", error)
         }
     }
+
+
 
     const [modalVisible, setModalVisible] = useState(false);
     const openmodal = () => {
@@ -155,9 +161,8 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
                         <Image source={require("../assets/Icon/x-mark.png")} style={{ width: 40, height: 40 }} tintColor={"white"} />
                     </TouchableOpacity>
                 </View>
-
                 <View style={styles.contentContainer}>
-                    <ScrollView >
+                    <ScrollView style={{ flexGrow: 1, paddingBottom: 50 }} showsVerticalScrollIndicator={false}>
                         <TouchableOpacity onPress={openmodal}>
                             <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", borderBottomWidth: 1, borderBottomColor: "lightgray", paddingBottom: 15 }}>
                                 <View style={{ flexDirection: "row", columnGap: 10, }}>

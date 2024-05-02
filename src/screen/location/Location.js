@@ -13,13 +13,12 @@ const Location = (props) => {
                     {/* <ImageBackground source={require("../../assets/Newicon/blackscreen.png")} style={styles.img}> */}
                     <View style={{ alignSelf: "center", marginVertical: height * 0.2, }}>
                         <Image source={require("../../assets/Newicon/location.png")} style={styles.images} />
-
                         <View style={{ marginTop: height * 0.2 }}>
                             <Text style={styles.text}>
                                 Where do you want your Service?
                             </Text>
                             <CustomButton label={"At my current location"} size={"large"} backgroundColor="#004E8C" color={"white"} onPress={() => props.navigation.navigate("Location2")} />
-                            <CustomButton label={"I'll enter my location manually"} size={"large"} backgroundColor="#004E8C" color={"white"} />
+                            <CustomButton label={"I'll enter my location manually"} size={"large"} backgroundColor="#004E8C" color={"white"} onPress={() => props.navigation.navigate("Editadressstart")} />
                         </View>
                     </View>
                     {/* </ImageBackground> */}
