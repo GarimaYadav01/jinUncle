@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, Dimensions, TextInput, Image, TouchableWithoutF
 
 const { width, height } = Dimensions.get("screen");
 
-const TextinputComponent = ({ label, placeholder, secureTextEntry, inputType, onChangeText, value, onBlur }) => {
+const TextinputComponent = ({ label, placeholder, secureTextEntry, inputType, onChangeText, value, onBlur, disabled }) => {
   let imageSource;
   switch (inputType) {
     case 'email':
@@ -57,6 +57,7 @@ const TextinputComponent = ({ label, placeholder, secureTextEntry, inputType, on
               onBlur={onBlur}
               value={value}
               placeholderTextColor={"gray"}
+              editable={!disabled}
 
             />
             {inputType === 'password' && (

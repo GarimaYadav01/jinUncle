@@ -13,12 +13,8 @@ const Copuon = (props) => {
     const navigation = useNavigation();
     const [iscopon, setIscopon] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    console.log("iscopon----iscopon--->", iscopon)
-    const coupons = [
-        { id: 1, title: '50% Off', description: 'Get 50% off on all items', expiry: 'Expires on 31st March' },
-        { id: 2, title: 'Free Shipping', description: 'Enjoy free shipping on orders above $50', expiry: 'Expires on 15th April' },
+    // console.log("iscopon----iscopon--->", iscopon)
 
-    ];
     const handlegetapi = async () => {
         try {
             setIsLoading(true);
@@ -41,7 +37,7 @@ const Copuon = (props) => {
                 console.log("copuonresult---data-->", result.data)
             }
         } catch (error) {
-            console.log("error ---->", error)
+            console.log("error------>", error)
             setIsLoading(false);
         }
     }
@@ -87,13 +83,43 @@ const Copuon = (props) => {
         }
     }
 
+    // const removehandle = async () => {
+    //     try {
+    //         // setIsLoading(true);
+    //         const token = await AsyncStorage.getItem('token');
+    //         const myHeaders = new Headers();
+    //         myHeaders.append("token", token);
+    //         myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
+    //         const formdata = new FormData();
+    //         const requestOptions = {
+    //             method: "DELETE",
+    //             headers: myHeaders,
+    //             body: formdata,
+    //             redirect: "follow"
+    //         };
+    //         const response = await fetch(removeCopoun, requestOptions);
+    //         const result = await response.json();
+    //         console.log("result---result-->", result)
+    //         // if (result.status == 200) {
+    //         //     showMessage({
+    //         //         message: "delete successfully",
+    //         //         type: "success",
+    //         //         icon: "success"
+    //         //     })
+    //         // }
+    //     } catch (error) {
+    //         console.log("error---success--->", error)
+    //     }
+    // }
+
+
     const removehandle = async () => {
         try {
-            // setIsLoading(true);
             const token = await AsyncStorage.getItem('token');
+            console.log("tokennnnn---->", token)
             const myHeaders = new Headers();
             myHeaders.append("token", token);
-            myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
+            myHeaders.append("Cookie", "ci_session=77cdeb6b53ba3146084a1022d42edece856c52d2");
             const formdata = new FormData();
             const requestOptions = {
                 method: "POST",
@@ -101,18 +127,13 @@ const Copuon = (props) => {
                 body: formdata,
                 redirect: "follow"
             };
-            const response = await fetch(removeCopoun, requestOptions);
+            console.log("requestOption------>s", requestOptions)
+
+            const response = await fetch("https://aduetechnologies.com/jinuncle/api/cart/remove_coupon", requestOptions);
             const result = await response.json();
-            console.log("result---result-->", result)
-            // if (result.status == 200) {
-            //     showMessage({
-            //         message: "delete successfully",
-            //         type: "success",
-            //         icon: "success"
-            //     })
-            // }
+            console.log("result-----result>", result)
         } catch (error) {
-            console.log("error---success--->", error)
+            console.log("error--->", error)
         }
     }
 

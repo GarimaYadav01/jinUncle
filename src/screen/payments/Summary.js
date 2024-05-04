@@ -6,8 +6,11 @@ import { ICONS } from "../../assets/themes";
 import CustomButton from "../../compontent/Custombutton";
 import TimeSlot from "../../compontent/TimeSlot";
 import AuthContext from "../context/AuthContext";
-import { imagebaseurl } from "../../apiconfig/Apiconfig";
+import { cardremove, imagebaseurl } from "../../apiconfig/Apiconfig";
 import { useNavigation } from "@react-navigation/native";
+import Couponmodal from "../../compontent/Couponmodal";
+import CouponModal from "../../compontent/Couponmodal";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const { height, width } = Dimensions.get("screen");
 const Summary = (props) => {
     const [index, setIndex] = useState(0);
@@ -17,48 +20,57 @@ const Summary = (props) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [quantityStates, setQuantityStates] = useState({});
     const { mostpolluar, iscardlist } = useContext(AuthContext);
+    const [modalVisiblecopun, setModalVisiblecopun] = useState(false);
+    const [couponResponse, setCouponResponse] = useState([]);
+    const [isCouponApplied, setIsCouponApplied] = useState(false);
+    const handleToggleCoupon = () => {
+        setIsCouponApplied(!isCouponApplied);
+        if (!isCouponApplied) {
+            setModalVisiblecopun(true); // Show the modal only when applying the coupon
+        } else {
+            // If coupon is already applied and the "Remove" button is pressed, call the remove API
+            removehandle();
+        }
+    };
+    console.log("couponResponse:", couponResponse)
+    const handleApplyCouponSuccess = (response) => {
+        // Update the state with the response data
+        setCouponResponse(response);
+    };
+
+    const removehandle = async () => {
+        try {
+            const token = await AsyncStorage.getItem('token');
+            console.log("tokennnnn---->", token)
+            const myHeaders = new Headers();
+            myHeaders.append("token", token);
+            myHeaders.append("Cookie", "ci_session=77cdeb6b53ba3146084a1022d42edece856c52d2");
+            const formdata = new FormData();
+            const requestOptions = {
+                method: "POST",
+                headers: myHeaders,
+                body: formdata,
+                redirect: "follow"
+            };
+            console.log("requestOption------>s", requestOptions)
+
+            const response = await fetch(cardremove, requestOptions);
+            const result = await response.json();
+            console.log("result-----result>", result)
+        } catch (error) {
+            console.log("error--->", error)
+        }
+    }
+
     console.log("mostpolluar----mostpolluar-->", mostpolluar);
     console.log("iscardlist----iscardli-----st---8888iscardlist->", iscardlist)
-    // useEffect(() => {
-    //     const interval = setInterval(() => {
-    //         const nextIndex = (index + 1) % mostpolluar.length;
-    //         flatListRef.current.scrollToIndex({ animated: true, index: nextIndex });
-    //         setIndex(nextIndex);
-    //     }, 3000);
-    //     return () => clearInterval(interval);
-    // }, [index]);
+
 
     const priceDetail = iscardlist?.data?.price_detail;
     const cartProducts = iscardlist?.data?.cart_products;
     console.log("priceDetail------>", priceDetail);
     console.log("cartProducts------>", cartProducts);
-    const data = [
-        {
-            id: 1,
-            name: 'Less/ no cooling',
-            image: require("../../assets/banner/img3.png"),
-            price: '₹299',
-            quantity: "2",
-            categroy: "split Ac"
-        },
-        {
-            id: 2,
-            name: 'Gas leak fix & refill',
-            image: require("../../assets/banner/img3.png"),
-            price: '₹2,500',
-            quantity: "3",
-            categroy: "window Ac"
-        }
-    ];
 
-    // Initialize quantity for each item
-    // if (Object.keys(quantityStates).length === 0) {
-    //     let initialQuantityStates = {};
-    //     data.forEach(item => {
-    //         initialQuantityStates[item.id] = { quantity: 0 };
-    //     });
-    //     setQuantityStates(initialQuantityStates);
-    // }
     const handleIncrease = (id) => {
         setQuantityStates(prevStates => ({
             ...prevStates,
@@ -91,7 +103,7 @@ const Summary = (props) => {
     useEffect(() => {
         // Initialize quantity states for each item
         const initialQuantityStates = {};
-        Allmix.forEach(({ id }) => {
+        mostpolluar.forEach(({ id }) => {
             initialQuantityStates[id] = {
                 showQuantityView: false,
                 quantity: 1
@@ -105,110 +117,9 @@ const Summary = (props) => {
     const closeModal = () => {
         setModalVisible(false);
     };
-    const categories = [
-        {
-            id: "1",
-            image: require("../../assets/banner/img2.png"),
-            name: "Ac Repair & Serivce",
-            screen: "Accategory"
 
-        },
-        {
-            id: "2",
-            image: require("../../assets/banner/img3.png"),
-            name: "Refrigerator",
-            screen: "Fridagecategory"
-        },
-        {
-            id: "3",
-            image: require("../../assets/banner/img-1.png"),
-            name: "Washing Machine Reapir",
-            screen: "Washingmachinecategory"
-        },
-        {
-            id: "4",
-            image: require("../../assets/banner/img-1.png"),
-            name: "Service",
-            screen: "Washingmachinecategory"
-        },
-        {
-            id: "5",
-            image: require("../../assets/banner/img-1.png"),
-            name: "Repair & gas refill ",
-            screen: "Washingmachinecategory"
-        },
-        {
-            id: "6",
-            image: require("../../assets/banner/img-1.png"),
-            name: "Install & uninstall",
-            screen: "Washingmachinecategory"
-        },
-        {
-            id: "3",
-            image: require("../../assets/banner/img-1.png"),
-            name: "Split AC",
-            screen: "Washingmachinecategory"
-        },
-        {
-            id: "7",
-            image: require("../../assets/banner/img-1.png"),
-            name: "Window AC",
-            screen: "Washingmachinecategory"
-        },
-    ];
-    const Allmix = [
-        {
-            id: "1",
-            image: require("../../assets/newimages/washingmachine1.png"),
-            name: "washing",
-            icon: require("../../assets/logo/star.png"),
-            likes: "4.85(60k reviews)",
-            starts: 549,
-        },
-        {
-            id: "2",
-            image: require("../../assets/newimages/washingmachine2.png"),
-            name: "cleaning",
-            icon: require("../../assets/logo/star.png"),
-            likes: "4.85(60k reviews)",
-            starts: 549,
-        },
-        {
-            id: "3",
-            image: require("../../assets/newimages/wahingmachine3.png"),
-            name: "change the wire",
-            icon: require("../../assets/logo/star.png"),
-            likes: "4.85(60k reviews)",
-            starts: 549,
-        },
-        {
-            id: "4",
-            image: require("../../assets/newimages/AC1.png"),
-            name: "Repair & gas refill",
-            icon: require("../../assets/logo/star.png"),
-            likes: "4.85(60k reviews)",
-            starts: "₹549",
-        },
-        {
-            id: "5",
-            image: require("../../assets/newimages/AC.png"),
-            name: "Install & Uninstall",
-            icon: require("../../assets/logo/star.png"),
-            likes: "4.85(60k reviews)",
-            starts: 549,
-        },
-        {
-            id: "6",
-            image: require("../../assets/newimages/AC2.png"),
-            name: "service",
-            icon: require("../../assets/logo/star.png"),
-            likes: "4.85(60k reviews)",
-            starts: 549,
-        }
-    ]
     const [modalVisible2, setModalVisible2] = useState(false);
     const handleCardPress = () => {
-        // setSelectedItem(item);
         setModalVisible2(true);
     };
     const closeModal2 = () => {
@@ -262,7 +173,7 @@ const Summary = (props) => {
                         <Text style={styles.likes}>{item.rating}</Text>
                     </View>
                     <Text style={{ color: "black" }}>₹258</Text>
-                    <View>
+                    {/* <View>
                         {!quantityStates[item.id]?.showQuantityView ? (
                             <TouchableOpacity style={styles.smallbutton} onPress={() => toggleVector(item.id)}>
                                 <Text style={styles.textbut}>Add</Text>
@@ -278,14 +189,16 @@ const Summary = (props) => {
                                 </TouchableOpacity>
                             </View>
                         )}
-                    </View>
+                    </View> */}
                 </View>
             </View>
         );
     };
 
     const renderPriceDetail = () => {
-        return Object?.entries(priceDetail)?.map(([key, value]) => (
+        const detailToRender = priceDetail || couponResponse;
+
+        return Object?.entries(detailToRender)?.map(([key, value]) => (
             <View style={styles.priceDetailContainer} key={key}>
                 <Text style={styles.text2}>{key}</Text>
                 <Text style={styles.text2}>{value}</Text>
@@ -338,46 +251,28 @@ const Summary = (props) => {
                         </View>
                     </View>
                     <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-
                         <Text style={styles.text1}>Coupons and offers</Text>
-                        <TouchableOpacity y onPress={() => navigation.navigate("Copuon")} style={{ flexDirection: "row", alignItems: "center", alignSelf: "center" }}>
-
-                            <Text style={{ color: "#004E8C", fontSize: 17 }}>2 offers</Text>
+                        <TouchableOpacity onPress={removehandle} style={{ flexDirection: "row", alignItems: "center", alignSelf: "center" }}>
+                            <Text style={{ color: "#004E8C", fontSize: 17 }}>
+                                {isCouponApplied ? 'Remove' : 'Apply'} {/* Toggle button text */}
+                            </Text>
                             <Image source={ICONS.arrow} style={{ height: 20, width: 20 }} />
-
                         </TouchableOpacity>
+                    </View>
+                </View>
 
-                    </View>
-                </View>
-                {/* <View style={styles.com}>
-                    <Text style={styles.service}>Payment summary</Text>
-                    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                        <Text style={styles.text2}>Item total</Text>
-                        <Text style={styles.text2}>₹1,297</Text>
-                    </View>
-                    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                        <Text style={styles.text2}>Item discount</Text>
-                        <Text style={styles.text2}>-₹100</Text>
-                    </View>
-                    <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                        <Text style={styles.text2}>Taxes and fee</Text>
-                        <Text style={styles.text2}>₹100</Text>
-                    </View>
-                </View>
-                <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-                    <Text style={{ color: "black", fontSize: 18, fontWeight: "700" }}>Total</Text>
-                    <Text style={{ color: "black", fontSize: 18, fontWeight: "700" }}>₹1276</Text>
-                </View> */}
                 <View style={styles.priceDetailSection}>
                     <Text style={styles.priceDetailHeading}>Price Details</Text>
                     {renderPriceDetail()}
                 </View>
                 <View style={{ marginTop: height * 0.03 }}>
-                    <CustomButton size={"large"} label={"Continue "} backgroundColor={"#004E8C"} color={"white"} onPress={handleCardPress} />
+                    <CustomButton size={"large"} label={"Continue"} backgroundColor={"#004E8C"} color={"white"} onPress={handleCardPress} />
                 </View>
             </ScrollView>
             <TimeSlot isVisible={modalVisible2} onClose={closeModal2} />
-            <Seeall isVisible={modalVisible} onClose={closeModal} categories={categories} />
+            <Seeall isVisible={modalVisible} onClose={closeModal} />
+            <CouponModal visible={modalVisiblecopun} onClose={() => setModalVisiblecopun(false)} onApplyCouponSuccess={handleApplyCouponSuccess}
+            />
         </SafeAreaView>
     );
 };

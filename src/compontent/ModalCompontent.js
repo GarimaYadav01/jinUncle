@@ -11,7 +11,7 @@ import { Addcart, servicedetails } from '../apiconfig/Apiconfig';
 import { object } from 'yup';
 import LoaderScreen from './LoaderScreen';
 const { height, width } = Dimensions.get("screen")
-const ModalCompontent = ({ visible, onClose, item, }) => {
+const ModalCompontent = ({ visible, onClose, serviceid, }) => {
     const navigation = useNavigation();
     const [currentIndex, setCurrentIndex] = useState(0);
     const [quantityStates, setQuantityStates] = useState({});
@@ -24,7 +24,7 @@ const ModalCompontent = ({ visible, onClose, item, }) => {
 
     const handleaddtocart = async () => {
         try {
-            setIsLoading(true);
+            // setIsLoading(true);
             const token = await AsyncStorage.getItem('token');
             const myHeaders = new Headers();
             myHeaders.append("token", token);
@@ -37,15 +37,16 @@ const ModalCompontent = ({ visible, onClose, item, }) => {
                     const { quantity } = quantityselectStates[variantId];
                     console.log("Variant ID:", variantId);
                     console.log("Quantity:", quantity);
-                    variants.push({ varinty_id: id, quanty: quantity });
+                    variants.push({ varient_id: id, quantity: quantity });
                 });
             });
 
             const varientData = JSON.stringify(variants);
             console.log("varientData--->", varientData)
             const formdata = new FormData();
-            formdata.append("service_id", item);
+            formdata.append("service_id", serviceid);
             formdata.append("varient_data", varientData);
+
             // formdata.append("varient_data", "[{\"varient_id\":1,\"quantity\":1},{\"varient_id\":2,\"quantity\":2}]");
             const requestOptions = {
                 method: "POST",
@@ -56,24 +57,27 @@ const ModalCompontent = ({ visible, onClose, item, }) => {
 
             const response = await fetch(Addcart, requestOptions);
             const result = await response.json();
-            console.log("result--res--addcart-->", result);
-            if (response.data === 200) {
+            console.log("result--res--addcartee-->", result);
+            if (result.data == 200) {
                 showMessage({
                     message: "add to view card successfull",
                     type: "success",
                     icon: "success"
                 })
+                setIsLoading(false);
             }
             console.log("resul-tresul-t--->", result)
+
         } catch (error) {
             console.log("error--handleaddtocart--->", error)
+            setIsLoading(false);
         }
 
     }
 
-    console.log("item---item---item>", item)
+    console.log("item---item---item>", serviceid)
     const handledetailsservice = async () => {
-        console.log("service_id---item--->", item)
+        console.log("service_id---item--->", serviceid)
         try {
             // setIsLoading(true); 
             const token = await AsyncStorage.getItem('token');
@@ -81,7 +85,8 @@ const ModalCompontent = ({ visible, onClose, item, }) => {
             myHeaders.append("token", token);
             myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
             const formdata = new FormData();
-            formdata.append('service_id', item);
+            formdata.append('service_id', serviceid);
+            // formdata.append('service_id', "1");
             const requestOptions = {
                 method: 'POST',
                 headers: myHeaders,
@@ -161,7 +166,7 @@ const ModalCompontent = ({ visible, onClose, item, }) => {
     };
 
     const handleDecrease = (id) => {
-        // setIsVisibleModal(true);
+        handleaddtocart();
         setQuantityStates(prevStates => ({
             ...prevStates,
             [id]: {

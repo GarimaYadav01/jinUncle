@@ -18,7 +18,6 @@ const Account = () => {
             image: ICONS.arrow,
             screen: "Address"
         },
-
         {
             id: "3",
             lable: "I want to changes my email address",
@@ -33,7 +32,6 @@ const Account = () => {
         },
     ]
     const handleMenuItemPress = (screen) => {
-        // Navigate to the specified screen
         navigation.navigate(screen);
     };
     return (
@@ -51,7 +49,6 @@ const Account = () => {
                     </View>
                 </View>
             </ScrollView>
-
         </SafeAreaView>
 
     );

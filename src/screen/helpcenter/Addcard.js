@@ -41,7 +41,7 @@ const Addcard = (props) => {
         validate,
         onSubmit: values => {
             props.navigation.navigate("PaymentScreen")
-            console.log(values);
+            console.log("Values----values---->", values);
         },
     });
     return (
@@ -58,10 +58,8 @@ const Addcard = (props) => {
                         placeholderTextColor={"gray"}
                         onChangeText={formik.handleChange('fullName')}
                         value={formik.values.fullName}
-
                     />
                     {formik.errors.fullName && <Text style={styles.error}>{formik.errors.fullName}</Text>}
-
                     <Text style={styles.label}>
                         Address
                     </Text>
@@ -71,11 +69,8 @@ const Addcard = (props) => {
                         placeholderTextColor={"gray"}
                         onChangeText={formik.handleChange('address')}
                         value={formik.values.address}
-
-
                     />
                     {formik.errors.address && <Text style={styles.error}>{formik.errors.address}</Text>}
-
                     <Text style={styles.label}>
                         City
                     </Text>
@@ -85,10 +80,8 @@ const Addcard = (props) => {
                         placeholderTextColor={"gray"}
                         onChangeText={formik.handleChange('city')}
                         value={formik.values.city}
-
                     />
                     {formik.errors.city && <Text style={styles.error}>{formik.errors.city}</Text>}
-
                     <Text style={styles.label}>
                         State/Province/Region
                     </Text>
@@ -98,7 +91,6 @@ const Addcard = (props) => {
                         placeholderTextColor={"gray"}
                         onChangeText={formik.handleChange('state')}
                         value={formik.values.state}
-
                     />
                     {formik.errors.state && <Text style={styles.error}>{formik.errors.state}</Text>}
 
@@ -113,7 +105,6 @@ const Addcard = (props) => {
                         value={formik.values.zipCode}
                     />
                     {formik.errors.zipCode && <Text style={styles.error}>{formik.errors.zipCode}</Text>}
-
                     <Text style={styles.label}>
                         Country
                     </Text>
@@ -123,7 +114,6 @@ const Addcard = (props) => {
                         placeholderTextColor={"gray"}
                         onChangeText={formik.handleChange('country')}
                         value={formik.values.country}
-
                     />
                     {formik.errors.country && <Text style={styles.error}>{formik.errors.country}</Text>}
 
@@ -135,11 +125,9 @@ const Addcard = (props) => {
 };
 
 export default Addcard;
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-
     },
     scrollViewContent: {
         flexGrow: 1,

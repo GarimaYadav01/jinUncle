@@ -4,13 +4,12 @@ import Header from "../../compontent/Header";
 import { carddetails, imagebaseurl } from "../../apiconfig/Apiconfig";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import AuthContext from "../context/AuthContext";
+import LoaderScreen from "../../compontent/LoaderScreen";
 const { height, width } = Dimensions.get("screen");
 
 const Addcard = () => {
-    const [isLoading, setIsLoading] = useState(false);
-    const { iscardlist } = useContext(AuthContext)
+    const { iscardlist, isLoading } = useContext(AuthContext)
     console.log("iscardlist------->", iscardlist);
-
     const priceDetail = iscardlist?.data?.price_detail;
     const cartProducts = iscardlist?.data?.cart_products;
     console.log("priceDetail------>", priceDetail);
@@ -35,13 +34,20 @@ const Addcard = () => {
         }
         const imagePath = imagebaseurl + imageData.image_path;
         console.log("imageimageimage---->", imagePath)
+        let data;
+        try {
+            data = JSON.parse(item.varient_data)[0];
+        } catch (error) {
+            return null;
+        }
+        const qty = data.quantity;
 
         return (
             <View style={styles.cardContainer}>
                 <Image source={{ uri: imagePath }} style={styles.cardImage} />
                 <View style={styles.cardDetails}>
                     <Text style={styles.cardText}>{item.name}</Text>
-                    <Text style={styles.cardLabel}>{item.delivery_charge}</Text>
+                    <Text style={[styles.text1, { marginLeft: width * 0.1 }]}>quantity:{qty}</Text>
                     {/* <Text style={styles.cardPrice}>{item.varient_data}</Text> */}
                 </View>
             </View>
@@ -64,11 +70,12 @@ const Addcard = () => {
                         )}
                     />
                     <View style={styles.priceDetailSection}>
-                        <Text style={styles.priceDetailHeading}>Price Details</Text>
-                        {renderPriceDetail()}
+                        {/* <Text style={styles.priceDetailHeading}>Price Details</Text> */}
+                        {/* {renderPriceDetail()} */}
                     </View>
                 </View>
             </ScrollView>
+            {isLoading && <LoaderScreen isLoading={isLoading} />}
         </SafeAreaView>
     );
 }
@@ -94,7 +101,8 @@ const styles = StyleSheet.create({
     cardText: {
         fontSize: 18,
         fontWeight: 'bold',
-        color: "black"
+        color: "black",
+        marginLeft: 20
     },
     cardLabel: {
         color: 'black',
@@ -128,5 +136,12 @@ const styles = StyleSheet.create({
         color: "gray",
         lineHeight: 22,
         marginTop: 10
-    }
+    },
+    text1: {
+        fontSize: 16,
+        color: "gray",
+        fontFamily: "Roboto-MediumItalic",
+        marginVertical: height * 0.005,
+        lineHeight: 22
+    },
 });

@@ -1,23 +1,19 @@
 
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { View, Image, StyleSheet, SafeAreaView, StatusBar, Text, ScrollView, FlatList, TouchableOpacity, Platform } from 'react-native';
 import Header from "../../compontent/Header";
 import CheckBox from 'react-native-check-box';
 import { getaddress } from "../../apiconfig/Apiconfig";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ContiuneShopping from "../home/ContiuneShopping";
+import AuthContext from "../context/AuthContext";
 const Address = (props) => {
     const [isaddress, setIsaddress] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    console.log("isaddress------->", isaddress);
-    const Data = [
-        {
-            name: "Mahesh Kumar",
-            address: "3 Newbridge Court Chino Hills, CA 91709, United States",
-            button: "Edit"
-        },
 
-    ];
+    // const { isaddress } = useContext(AuthContext);
+    console.log("isaddress--isaddAuthContextress-->", isaddress)
+
     const [isCheckedList, setIsCheckedList] = useState(Array(isaddress?.length).fill(false));
     const onCheckBoxPress = (index) => {
         const newIsCheckedList = [...isCheckedList];
@@ -30,14 +26,15 @@ const Address = (props) => {
             const token = await AsyncStorage.getItem('token');
             const myHeaders = new Headers();
             myHeaders.append("token", token);
+            console.log("token--->", token)
             myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
             const requestOptions = {
                 method: "GET",
-                headers: myHeaders,
+                headers: token,
                 redirect: "follow"
             };
             const response = await fetch(getaddress, requestOptions);
-            console.log("Response:", response);
+            console.log("Response:dddd", response);
             const result = await response.json();
             console.log("Response--result--->", result)
             if (result.status == 200) {
@@ -52,7 +49,7 @@ const Address = (props) => {
 
     useEffect(() => {
         handlegetaddress();
-    }, [props.navigate])
+    }, [])
 
 
 
@@ -111,6 +108,12 @@ const Address = (props) => {
                     renderItem={renderItem}
                     keyExtractor={(item, index) => index.toString()}
                     showsVerticalScrollIndicator={false}
+                    ListEmptyComponent={() => (
+                        <View style={styles.emptyListContainer}>
+                            <Image source={require("../../assets/Newicon/delete.png")} style={{ width: 70, height: 70 }} />
+                            <Text style={styles.emptyListText}>No data found</Text>
+                        </View>
+                    )}
                 />
                 <TouchableOpacity style={styles.addButton} onPress={() => props.navigation.navigate("AddressEdit")}>
                     <Image source={require("../../assets/logo/plus.png")} resizeMode="contain" style={{ width: 50, height: 50 }} />
@@ -175,6 +178,17 @@ const styles = StyleSheet.create({
     addButtonImage: {
         height: 60,
         width: 60,
+    },
+    emptyListContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 20,
+    },
+    emptyListText: {
+        fontSize: 20,
+        color: 'gray',
+        fontWeight: "bold"
     },
 });
 

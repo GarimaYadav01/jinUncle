@@ -35,13 +35,12 @@ const Getting = (props) => {
         },
         {
             id: "6",
-            name: "Does urban company charge any can cancellation fee ?",
+            name: "Does jinnuncle company charge any can cancellation fee ?",
             icon: ICONS.arrow,
             screen: "Professional"
         }
     ]
     const handleMenuItemPress = (screen) => {
-        // Navigate to the specified screen
         navigation.navigate(screen);
     };
     return (

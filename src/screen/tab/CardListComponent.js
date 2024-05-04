@@ -56,8 +56,7 @@ const CardListComponent = ({ scrollToTop }) => {
     const navigation = useNavigation();
 
     const handleCardPress = (item) => {
-        console.log("Selected item id:", item);
-        setSelectedItem(item);
+        setSelectedItem(item)
         setModalVisible(true);
     };
     const closeModal = () => {
@@ -74,7 +73,7 @@ const CardListComponent = ({ scrollToTop }) => {
                 keyExtractor={(item) => item.id}
                 showsVerticalScrollIndicator={false}
             />
-            <ModalCompontent visible={modalVisible} onClose={closeModal} item={selectedItem} />
+            <ModalCompontent visible={modalVisible} onClose={closeModal} serviceid={selectedItem} />
         </View>
     );
 };

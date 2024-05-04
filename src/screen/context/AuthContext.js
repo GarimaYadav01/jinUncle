@@ -3,6 +3,7 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { carddetails, categoridetails, categoriesapi, get_most_popular_service, get_offer_banner, getaddress, getcurrentlocation, getprofile, servicedetails, serviceget, sub_category, sub_categorydetails } from '../../apiconfig/Apiconfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ContiuneShopping from '../home/ContiuneShopping';
+import { CommonActions } from '@react-navigation/native';
 const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
@@ -22,6 +23,7 @@ export const AuthProvider = ({ children }) => {
     const categoryIds = iscategories.map(category => category.id);
     console.log("categoryIds----categoryIds-->", categoryIds);
     console.log("iscardlist------>", iscardlist);
+    console.log("isaddress--------->", isaddress)
     const login = (userData) => {
         setUser(userData);
     };
@@ -399,15 +401,15 @@ export const AuthProvider = ({ children }) => {
             console.log("result-----response>", result)
             if (result.status == 200) {
                 setIsCardlist(result);
+                setIsLoading(false);
                 console.log("result-----response>200", result)
             }
-            setIsLoading(false);
+
         } catch (error) {
             console.log("Error fetching cart details:", error);
             setIsLoading(false);
         }
     }
-
 
     return (
         <AuthContext.Provider

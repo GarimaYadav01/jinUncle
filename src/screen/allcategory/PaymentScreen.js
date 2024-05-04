@@ -5,7 +5,7 @@ import Header from '../../compontent/Header';
 import { useNavigation } from '@react-navigation/native';
 import RazorpayCheckout from 'react-native-razorpay';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { createorder, paymentOptionget } from '../../apiconfig/Apiconfig';
+import { createorder, paymentOptionget, paymentstatus } from '../../apiconfig/Apiconfig';
 const { height } = Dimensions.get("screen");
 
 const PaymentScreen = () => {
@@ -15,6 +15,33 @@ const PaymentScreen = () => {
   console.log("ispayment---->", ispayment)
 
   const navigation = useNavigation();
+
+
+
+
+  const handlepaymemtstatus = async () => {
+    try {
+      const token = await AsyncStorage.getItem('token');
+      const myHeaders = new Headers();
+      myHeaders.append("token", token);
+      myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
+      const formdata = new FormData();
+      formdata.append("order_id", "151713877576");
+
+      const requestOptions = {
+        method: "POST",
+        headers: myHeaders,
+        body: formdata,
+        redirect: "follow"
+      };
+      const response = await fetch(paymentstatus, requestOptions);
+      console.log("Response:", response);
+      const result = await response.json();
+      console.log("saddsddd---->", result);
+    } catch (error) {
+      console.log("error------>", error)
+    }
+  }
 
   const handlePayment = async () => {
     try {

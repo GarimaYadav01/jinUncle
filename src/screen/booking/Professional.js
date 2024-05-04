@@ -8,7 +8,7 @@ const Professional = () => {
             <Header />
             <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false} >
                 <View style={styles.container}>
-                    <Text style={styles.sectionTitle}>Does Urban Company charge any cancellation fee?</Text>
+                    <Text style={styles.sectionTitle}>Does jinnuncle Company charge any cancellation fee?</Text>
 
                     <Text style={styles.sectionText}>Cancellation fee is charged only if a professional is assigned on your booking and the time of cancellation is closer to your booking time. This is done to fairly compensate our professionals for their time and the cost of travel while travelling to your place .</Text>
 

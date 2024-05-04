@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { View, TextInput, StyleSheet, SafeAreaView, Dimensions, Text, ScrollView, Platform } from 'react-native';
 import Header from "../../compontent/Header";
 import CustomButton from "../../compontent/Custombutton";
@@ -7,15 +7,20 @@ import { useNavigation } from "@react-navigation/native";
 import { updateaddress } from "../../apiconfig/Apiconfig";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { showMessage } from "react-native-flash-message";
+import AuthContext from "../context/AuthContext";
 const { height, width } = Dimensions.get('screen');
 
 const AddressEdit = (props) => {
     const navigation = useNavigation();
     const [isLoading, setIsLoading] = useState([]);
+
+    const { isaddress } = useContext(AuthContext);
+    console.log("isaddress--isaddress-->", isaddress)
+
     const validate = values => {
         const errors = {};
-        if (!values.fullName) {
-            errors.fullName = 'Full Name is required';
+        if (!values.name) {
+            errors.name = ' Name is required';
         }
         if (!values.address) {
             errors.address = 'Address is required';
@@ -37,12 +42,12 @@ const AddressEdit = (props) => {
 
     const formik = useFormik({
         initialValues: {
-            fullName: '',
-            address: '',
-            city: '',
-            state: '',
-            zipCode: '',
-            country: '',
+            name: isaddress.name || '',
+            address: isaddress.address || '',
+            city: isaddress.city || '',
+            state: isaddress.state || '',
+            zipCode: isaddress.pincode || '',
+            country: isaddress.country || '',
         },
         validate,
         onSubmit: values => {
@@ -50,7 +55,8 @@ const AddressEdit = (props) => {
             console.log(values);
         },
     });
-    const handleupdateaddress = async () => {
+    const handleupdateaddress = async (values) => {
+        console.log("jhds,mhljs--->", values)
         try {
             setIsLoading(true);
             const token = await AsyncStorage.getItem('token');
@@ -58,13 +64,13 @@ const AddressEdit = (props) => {
             myHeaders.append("token", token);
             myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
             const formdata = new FormData();
-            formdata.append("address_id", "47");
-            formdata.append("name", "shahrukh");
-            formdata.append("address", "Demo Address");
-            formdata.append("city", "Delhi");
-            formdata.append("state", "Delhi");
-            formdata.append("pincode", "110086");
-            formdata.append("country", "India");
+            formdata.append("address_id", isaddress.address_id);
+            formdata.append("name", values.name);
+            formdata.append("address", values.address);
+            formdata.append("city", values.city);
+            formdata.append("state", values.state);
+            formdata.append("pincode", values.zipCode);
+            formdata.append("country", values.country);
             const requestOptions = {
                 method: "POST",
                 headers: myHeaders,
@@ -95,17 +101,17 @@ const AddressEdit = (props) => {
             <ScrollView contentContainerStyle={styles.scrollViewContent} showsVerticalScrollIndicator={false}>
                 <View>
                     <Text style={styles.label}>
-                        Full Name
+                        Name
                     </Text>
                     <TextInput
-                        placeholder="Enter your fullname"
+                        placeholder="Enter your name"
                         style={styles.inputText}
                         placeholderTextColor={"gray"}
-                        onChangeText={formik.handleChange('fullName')}
-                        value={formik.values.fullName}
+                        onChangeText={formik.handleChange('name')}
+                        value={formik.values.name}
 
                     />
-                    {formik.errors.fullName && <Text style={styles.error}>{formik.errors.fullName}</Text>}
+                    {formik.errors.name && <Text style={styles.error}>{formik.errors.name}</Text>}
 
                     <Text style={styles.label}>
                         Address
