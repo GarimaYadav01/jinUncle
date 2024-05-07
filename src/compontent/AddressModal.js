@@ -1,11 +1,15 @@
 
 import { useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { View, Text, Modal, Button, StyleSheet, Image, TouchableOpacity, Dimensions } from 'react-native';
+import AuthContext from '../screen/context/AuthContext';
 
 const { height, width } = Dimensions.get("screen")
 const AddressModal = ({ visible, onClose, }) => {
     const navigation = useNavigation();
+    const { location } = useContext(AuthContext);
+    console.log("location---location->", location)
+
     const handlesubmit = () => {
         onClose();
         navigation.navigate("AddressEdit")
@@ -42,7 +46,7 @@ const AddressModal = ({ visible, onClose, }) => {
                                 <Image source={require("../assets/subimages/dots.png")} style={{ width: 15, height: 15 }} />
                             </TouchableOpacity>
                         </View>
-                        <Text style={{ fontSize: 15, color: "gray", paddingBottom: 10 }}>Kriti Shikar,District Centre,Janakpuri ,Delhi,110058,india</Text>
+                        <Text style={{ fontSize: 15, color: "gray", paddingBottom: 10 }}>{location}</Text>
                     </View>
                 </View>
             </View>

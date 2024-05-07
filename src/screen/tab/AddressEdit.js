@@ -4,15 +4,16 @@ import Header from "../../compontent/Header";
 import CustomButton from "../../compontent/Custombutton";
 import { useFormik } from 'formik';
 import { useNavigation } from "@react-navigation/native";
-import { updateaddress } from "../../apiconfig/Apiconfig";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { showMessage } from "react-native-flash-message";
 import AuthContext from "../context/AuthContext";
+import { addaddress } from "../../apiconfig/Apiconfig";
+import LoaderScreen from "../../compontent/LoaderScreen";
 const { height, width } = Dimensions.get('screen');
 
 const AddressEdit = (props) => {
     const navigation = useNavigation();
-    const [isLoading, setIsLoading] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const { isaddress } = useContext(AuthContext);
     console.log("isaddress--isaddress-->", isaddress)
@@ -55,8 +56,7 @@ const AddressEdit = (props) => {
             console.log(values);
         },
     });
-    const handleupdateaddress = async (values) => {
-        console.log("jhds,mhljs--->", values)
+    const handleupdateaddress = async () => {
         try {
             setIsLoading(true);
             const token = await AsyncStorage.getItem('token');
@@ -64,36 +64,36 @@ const AddressEdit = (props) => {
             myHeaders.append("token", token);
             myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
             const formdata = new FormData();
-            formdata.append("address_id", isaddress.address_id);
-            formdata.append("name", values.name);
-            formdata.append("address", values.address);
-            formdata.append("city", values.city);
-            formdata.append("state", values.state);
-            formdata.append("pincode", values.zipCode);
-            formdata.append("country", values.country);
+            formdata.append("name", formik.values.name);
+            formdata.append("address", formik.values.address);
+            formdata.append("city", formik.values.city);
+            formdata.append("state", formik.values.state);
+            formdata.append("pincode", formik.values.zipCode);
+            formdata.append("country", formik.values.country);
             const requestOptions = {
                 method: "POST",
                 headers: myHeaders,
                 body: formdata,
                 redirect: "follow"
             };
-            const response = await fetch(updateaddress, requestOptions);
+            const response = await fetch(addaddress, requestOptions);
             console.log("Response:", response);
             const result = await response.json();
-            console.log("resultupdateaddress---->", result)
+            console.log("resultupdateaddress---->", result);
             if (result.status == 200) {
                 showMessage({
-                    message: "update successfully adreess",
+                    message: "Add address successfully ",
                     type: "success",
                     icon: "success"
-                })
+                });
+                setIsLoading(false);
                 navigation.goBack();
             }
-
         } catch (error) {
-            console.log("error---json->", error)
+            console.log("error---json->", error);
+            setIsLoading(false);
         }
-    }
+    };
 
     return (
         <SafeAreaView style={styles.container}>
@@ -181,6 +181,7 @@ const AddressEdit = (props) => {
                     <CustomButton label={"SAVE ADDRESS"} size={"large"} onPress={formik.handleSubmit} backgroundColor={"#004E8C"} color={"white"} />
                 </View>
             </ScrollView>
+            {isLoading && <LoaderScreen isLoading={isLoading} />}
         </SafeAreaView>
     );
 };

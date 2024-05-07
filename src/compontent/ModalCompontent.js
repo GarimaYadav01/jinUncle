@@ -19,9 +19,8 @@ const ModalCompontent = ({ visible, onClose, serviceid, }) => {
     const [isvissbleModal, setIsVisibleModal] = useState(false);
     const [servericdetailsget, setServericdetailsget] = useState([]);
     const [isLoading, setIsLoading] = useState(false)
-
     console.log("quantityselectStates------>", quantityselectStates)
-
+    console.log("serviceid------>", serviceid)
     const handleaddtocart = async () => {
         try {
             // setIsLoading(true);
@@ -45,6 +44,7 @@ const ModalCompontent = ({ visible, onClose, serviceid, }) => {
             console.log("varientData--->", varientData)
             const formdata = new FormData();
             formdata.append("service_id", serviceid);
+
             formdata.append("varient_data", varientData);
 
             // formdata.append("varient_data", "[{\"varient_id\":1,\"quantity\":1},{\"varient_id\":2,\"quantity\":2}]");
@@ -85,8 +85,8 @@ const ModalCompontent = ({ visible, onClose, serviceid, }) => {
             myHeaders.append("token", token);
             myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
             const formdata = new FormData();
-            formdata.append('service_id', serviceid);
-            // formdata.append('service_id', "1");
+            // formdata.append('service_id', serviceid);
+            formdata.append('service_id', "1");
             const requestOptions = {
                 method: 'POST',
                 headers: myHeaders,

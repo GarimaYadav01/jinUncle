@@ -2,12 +2,10 @@
 import React, { useEffect, useState } from "react";
 import { Dimensions, FlatList, Image, Modal, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { showMessage } from "react-native-flash-message";
 import { GestureHandlerRootView, Swipeable } from 'react-native-gesture-handler';
 import { Copuonapiget, applycopuon } from "../apiconfig/Apiconfig";
-
 const { height, width } = Dimensions.get("screen")
 
 const CouponModal = ({ visible, onClose, onApplyCouponSuccess }) => {
@@ -85,8 +83,6 @@ const CouponModal = ({ visible, onClose, onApplyCouponSuccess }) => {
             setIsLoading(false);
         }
     }
-
-
 
     const renderCoupon = ({ item }) => {
         return (

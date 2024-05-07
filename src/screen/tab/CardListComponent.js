@@ -23,7 +23,8 @@ const CardListComponent = ({ scrollToTop }) => {
                 <View>
                     <Image source={{ uri: imagePath }} style={styles.image} />
                     <View>
-                        <TouchableOpacity style={styles.smallbutton} onPress={() => handleCardPress(item.id)}>
+                        <TouchableOpacity style={styles.smallbutton} onPress={() => navigation.navigate("ServiceDetails", { serviceid: item.id })}
+                        >
                             <Text style={styles.textbut}>Add</Text>
                         </TouchableOpacity>
                     </View>
@@ -37,10 +38,16 @@ const CardListComponent = ({ scrollToTop }) => {
                     </View>
                     {/* <Text style={{ color: "black", fontSize: 17 }}>{item.starts}</Text> */}
                     <Text style={{ color: "#004E8C", marginTop: 10, fontWeight: "500" }}>{item.off_per}  off item onwords</Text>
-                    <Text>₹{item.price}</Text>
+                    <Text style={{ color: "black", fontStyle: "normal", fontSize: 16 }}>₹{item.price}</Text>
                     <Text style={styles.label}>{item.short_description}</Text>
                     {/* <Text style={[styles.label, { color: "gray" }]}>{item.full_description}</Text> */}
-                    <TouchableOpacity onPress={() => handleCardPress(item.id)}>
+                    <TouchableOpacity
+                        // onPress={() => handleCardPress(item.id)}
+                        onPress={() => navigation.navigate("ServiceDetails", { serviceid: item.id })}
+
+
+                    >
+
                         <Text style={{ color: "#004E8C", marginTop: 10, fontWeight: "800", fontSize: 14 }}>View details</Text>
                     </TouchableOpacity>
                 </View>
@@ -70,7 +77,7 @@ const CardListComponent = ({ scrollToTop }) => {
                 ref={flatListRef}
                 data={servericeget}
                 renderItem={handlerender}
-                keyExtractor={(item) => item.id}
+                keyExtractor={(item) => item.id.toString()}
                 showsVerticalScrollIndicator={false}
             />
             <ModalCompontent visible={modalVisible} onClose={closeModal} serviceid={selectedItem} />

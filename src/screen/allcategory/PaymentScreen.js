@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Dimensions } from 'react-native';
 import { RadioButton } from 'react-native-paper';
 import Header from '../../compontent/Header';
@@ -6,19 +6,23 @@ import { useNavigation } from '@react-navigation/native';
 import RazorpayCheckout from 'react-native-razorpay';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createorder, paymentOptionget, paymentstatus } from '../../apiconfig/Apiconfig';
+import AuthContext from '../context/AuthContext';
 const { height } = Dimensions.get("screen");
 
-const PaymentScreen = () => {
-  const [paymentOption, setPaymentOption] = useState('creditCard');
+const PaymentScreen = ({ route }) => {
+  const [paymentOption, setPaymentOption] = useState("");
+  console.log("paymentOption------>", paymentOption)
   const [isLoading, setIsLoading] = useState(false);
   const [ispayment, setIspayment] = useState([])
+  const [iscreateorder, setIscreateorder] = useState([]);
+  const { selectedDay, selectedTime, } = route.params;
+  const { isgetprofile } = useContext(AuthContext);
+  console.log("selectedDay----->", selectedDay)
+  console.log("selectedTime----->", selectedTime)
+  console.log("isgetprofile---->", isgetprofile)
   console.log("ispayment---->", ispayment)
 
   const navigation = useNavigation();
-
-
-
-
   const handlepaymemtstatus = async () => {
     try {
       const token = await AsyncStorage.getItem('token');
@@ -53,18 +57,21 @@ const PaymentScreen = () => {
         amount: '10000', // Payment amount in paise (e.g., for ₹100.00, provide 10000)
         name: 'Jinn Uncle',
         prefill: {
-          email: 'example@example.com', // User's email
-          contact: '1234567890', // User's phone number
-          name: 'John Doe', // User's name
+          email: isgetprofile.email, // User's email
+          contact: isgetprofile.mobile, // User's phone number
+          name: isgetprofile.name, // User's name
         },
         theme: { color: '#004E8C' } // Color theme
       };
+      handleCreaterorder();
 
       RazorpayCheckout.open(options)
         .then((data) => {
           // Handle success
           console.log('Payment success:', data);
           // alert('Payment success');
+
+          handlepaymemtstatus();
           navigation.navigate("ContiuneShopping");
 
         })
@@ -87,7 +94,7 @@ const PaymentScreen = () => {
     if (selectedOption && selectedOption.name === 'PayTM') {
       handlePayment();
     } else if (selectedOption && selectedOption.name === 'COD') {
-      // Navigate to Cash screen
+      handleCreaterorder();
       navigation.navigate("ContiuneShopping");
     }
   };
@@ -128,10 +135,10 @@ const PaymentScreen = () => {
       const myHeaders = new Headers();
       myHeaders.append("token", token);
       const formdata = new FormData();
-      formdata.append("payment_method", "2");
-      formdata.append("address_id", "4");
-      formdata.append("slot_date", "2024-04-25");
-      formdata.append("slot_time", "10:00 AM");
+      formdata.append("payment_method", paymentOption);
+      formdata.append("address_id", "47");
+      formdata.append("slot_date", selectedDay.date);
+      formdata.append("slot_time", selectedTime);
       const requestOptions = {
         method: "POST",
         headers: myHeaders,
@@ -139,13 +146,18 @@ const PaymentScreen = () => {
         redirect: "follow"
       };
       const response = await fetch(createorder, requestOptions);
+      console.log("reponsese-fetch---->", response)
       const result = await response.json();
       console.log("---------result-->", result);
+      // if (result.status == 200) {
+      //   setIscreateorder(result.data);
+      // }
 
     } catch (error) {
       console.log("errror---->", error);
     }
   }
+
 
 
 
@@ -170,8 +182,8 @@ const PaymentScreen = () => {
         ))}
         <TouchableOpacity
           style={styles.button}
-          // onPress={navigateToNextScreen}
-          onPress={handleCreaterorder}
+          onPress={navigateToNextScreen}
+        // onPress={handleCreaterorder}
         >
           <Text style={styles.buttonText}>Continue</Text>
         </TouchableOpacity>

@@ -60,6 +60,8 @@ import Refer from '../screen/tab/Refer';
 import MostpollarDetails from '../screen/tab/MostpollarDetails';
 import Copuon from '../screen/payments/Copuon';
 import Editadressstart from '../screen/tab/Editadressstart';
+import Editadd from '../screen/tab/Editadd';
+import ServiceDetails from '../screen/tab/ServiceDetails';
 
 const Stack = createNativeStackNavigator();
 const Navigation = () => {
@@ -125,6 +127,8 @@ const Navigation = () => {
                 <Stack.Screen name="MostpollarDetails" component={MostpollarDetails} />
                 <Stack.Screen name="Copuon" component={Copuon} />
                 <Stack.Screen name="Editadressstart" component={Editadressstart} />
+                <Stack.Screen name="Editadd" component={Editadd} />
+                <Stack.Screen name="ServiceDetails" component={ServiceDetails} />
 
             </Stack.Navigator>
         </NavigationContainer>

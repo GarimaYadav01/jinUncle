@@ -5,22 +5,24 @@ import { useNavigation } from '@react-navigation/native';
 import { showMessage } from 'react-native-flash-message';
 import AuthContext from '../context/AuthContext';
 import Header from '../../compontent/Header';
+import { servicedetails } from '../../apiconfig/Apiconfig';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const { height, width } = Dimensions.get("screen")
 const MostpollarDetails = ({ route }) => {
     const navigation = useNavigation();
     const [currentIndex, setCurrentIndex] = useState(0);
     const [quantityStates, setQuantityStates] = useState({});
     const [quantityselectStates, setQuantityselectStates] = useState({});
+    const [servericdetailsget, setServericdetailsget] = useState([]);
     const [isvissbleModal, setIsVisibleModal] = useState(false);
-    const { servericdetailsget, mostpolluar } = useContext(AuthContext);
+    const { mostpolluar } = useContext(AuthContext);
     console.log("servericdetailsget------->", servericdetailsget)
-    console.log("MostpollarDetailsMostpollarDetails------->", mostpolluar)
     const MostpollarDe = route?.params?.MostpollarDe || "Default MostpollarDe";
+    const mostpolluarid = route?.params?.mostpolluarid
+    console.log("mostpolluarid:", mostpolluarid)
     const handleViewCard = () => {
-        // onClose();
         navigation.navigate("Summary");
     };
-
     const [isOpen, setIsOpen] = useState(false);
     const togglePopup = () => {
         setIsOpen(!isOpen);
@@ -32,14 +34,6 @@ const MostpollarDetails = ({ route }) => {
             useNativeDriver: true,
         }).start();
     };
-    const openModal = () => {
-        // onClose();
-        setIsVisibleModal(true);
-    }
-    const closeModal = () => {
-        // onClose();
-        setIsVisibleModal(false);
-    }
     useEffect(() => {
         // Initialize quantity states for each item
         const initialQuantityStates = {};
@@ -224,23 +218,50 @@ const MostpollarDetails = ({ route }) => {
         }
     ]
 
-    const data = [
-        {
-            title: 'Step 1: Deep Cleaning',
-            description: 'Deep cleaning of indoor & outdoor unit before the anti-rust protection is applied',
-            image: require("../../assets/gif/AC.gif"),
-        },
-        {
-            title: 'Step 2: Anti-rust Protection',
-            description: 'Specialised anti-rust coating for copper coils to prevent gas leakage (Up to 1 year)',
-            image: require("../../assets/gif/AC.gif"),
-        },
-        {
-            title: 'Step 3: Anti-rust Protection',
-            description: 'Specialised anti-rust coating for copper coils to prevent gas leakage (Up to 1 year)',
-            image: require("../../assets/gif/AC.gif"),
-        },
-    ];
+    const handledetailsservice = async () => {
+        console.log("service_id---item--->", serviceid)
+        try {
+            // setIsLoading(true); 
+            const token = await AsyncStorage.getItem('token');
+            const myHeaders = new Headers();
+            myHeaders.append("token", token);
+            myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
+            const formdata = new FormData();
+            formdata.append('service_id', serviceid);
+            // formdata.append('service_id', "1");
+            const requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: formdata,
+                redirect: 'follow'
+            };
+            console.log("requestOptions----->", requestOptions)
+            const response = await fetch(servicedetails, requestOptions);
+            const result = await response.json();
+            console.log("resultressssultn2--->", result);
+            if (result?.status == 200) {
+                setServericdetailsget(result);
+                setIsLoading(false);
+                console.log("resultresult.data-result-->", result);
+            }
+        } catch (error) {
+            console.error("handledetailsserviceerrorrr------>", error);
+            setIsLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        const handleFocus = () => {
+            handledetailsservice();
+        };
+        handleFocus();
+        const unsubscribeFocus = navigation.addListener('focus', handleFocus);
+        return unsubscribeFocus;
+    }, []);
+
+
+
+
 
     const renderItemallmix = ({ item }) => (
         <View style={{ marginBottom: 20, marginTop: 10, alignContent: "center", justifyContent: "center" }}>

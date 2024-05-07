@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Modal, StyleSheet, Text, TouchableOpacity, View, Dimensions, FlatList, Image, ScrollView } from "react-native";
 import { ICONS } from "../assets/themes";
 import CustomButton from "./Custombutton";
@@ -10,15 +10,18 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createorder, posttime, timeSlotting } from "../apiconfig/Apiconfig";
 import LoaderScreen from "./LoaderScreen";
 import { showMessage } from "react-native-flash-message";
+import AuthContext from "../screen/context/AuthContext";
 const { width, height } = Dimensions.get("screen");
 const TimeSlot = ({ isVisible, onClose, categories }) => {
     const navigation = useNavigation();
     const [selectedDayIndex, setSelectedDayIndex] = useState(null);
-    const [selectedItemIndex, setSelectedItemIndex] = useState(null);
     const [selectedItemIndex2, setSelectedItemIndex2] = useState(null);
+    const [istime, setIstime] = useState([]);
     const [timeSlotget, setTimeslotget] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    console.log("hhhdg----->", timeSlotget)
+    const { location } = useContext(AuthContext);
+    console.log("hhhdg----->", istime)
+    console.log("location----->", location)
     const handlesubmit = async () => {
         try {
             setIsLoading(true);
@@ -50,14 +53,7 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
 
     const handlesubmitpost = async () => {
         try {
-            if (selectedDayIndex === null || selectedItemIndex === null || selectedItemIndex2 === null) {
-                showMessage({
-                    message: "Please select all fields",
-                    type: "warning",
-                    icon: "warning"
-                });
-                return;
-            }
+
             const token = await AsyncStorage.getItem("token")
             const myHeaders = new Headers();
             myHeaders.append("token", token);
@@ -78,9 +74,10 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
                     type: "success",
                     icon: "success"
                 })
+                setIstime(result.data.times)
+                console.log("result.data.times-------->", result.data.times)
             }
-            onClose();
-            navigation.navigate("PaymentScreen");
+
 
         } catch (error) {
             console.log("error----error-->", error)
@@ -95,10 +92,9 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
     }
     const handleDaySelect = (index) => {
         setSelectedDayIndex(index);
+        handlesubmitpost();
     };
-    const handleItemSelect = (index) => {
-        setSelectedItemIndex(index);
-    };
+
     const handletimeSelect = (index) => {
         setSelectedItemIndex2(index);
     };
@@ -114,6 +110,15 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
                 styles.text1,
                 selectedDayIndex === index ? styles.selecttext : null
             ]}>{item.name}</Text>
+            <Text style={[
+                styles.text1,
+                selectedDayIndex === index ? styles.selecttext : null
+            ]}
+            >{item.date}</Text>
+            {/* <Text style={[
+                styles.text1,
+                selectedItemIndex === index ? styles.selecttext : null
+            ]}>{item.date}</Text> */}
         </TouchableOpacity>
     );
 
@@ -128,25 +133,28 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
             <Text style={[
                 styles.text1,
                 selectedItemIndex2 === index ? styles.selecttext : null
-            ]}>{item.day}</Text>
+            ]}>{item.name}</Text>
         </TouchableOpacity>
     );
 
 
-    const renderItem3 = ({ item, index }) => (
-        <TouchableOpacity
-            style={[
-                styles.btn,
-                selectedItemIndex === index ? styles.selectedDay : null
-            ]}
-            onPress={() => handleItemSelect(index)}
-        >
-            <Text style={[
-                styles.text1,
-                selectedItemIndex === index ? styles.selecttext : null
-            ]}>{item.date}</Text>
-        </TouchableOpacity>
-    );
+
+    const vaildation = () => {
+        if (selectedDayIndex === null || selectedItemIndex2 === null) {
+            showMessage({
+                message: "Please select all fields",
+                type: "warning",
+                icon: "warning"
+            });
+            // onClose();
+            return;
+        }
+        onClose();
+        navigation.navigate("PaymentScreen", {
+            selectedDay: timeSlotget.days[selectedDayIndex],
+            selectedTime: istime[selectedItemIndex2],
+        });
+    };
 
     return (
         <Modal
@@ -167,7 +175,7 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
                             <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", borderBottomWidth: 1, borderBottomColor: "lightgray", paddingBottom: 15 }}>
                                 <View style={{ flexDirection: "row", columnGap: 10, }}>
                                     <Image source={require("../assets/bottomnavigatiomnimage/homeactive.png")} style={{ height: 20, width: 20 }} />
-                                    <Text style={styles.title}>Home - Takhi discount ,center</Text>
+                                    <Text style={styles.title}>Home - {location}</Text>
                                 </View>
 
                                 <Image source={ICONS.arrow} style={{ height: 20, width: 20 }} />
@@ -191,7 +199,7 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
                             <View>
                                 <Text style={[styles.title, { marginTop: 10 }]}>Select start date of service</Text>
                                 <FlatList
-                                    data={timeSlotget.days}
+                                    data={istime}
                                     // numColumns={4}
                                     renderItem={renderItem2}
                                     keyExtractor={(item, index) => index.toString()}
@@ -202,8 +210,8 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
                                 />
                             </View>
                             <View>
-                                <Text style={[styles.title, { marginTop: 10 }]}>Select start date of service</Text>
-                                <FlatList
+                                {/* <Text style={[styles.title, { marginTop: 10 }]}>Select start date of service</Text> */}
+                                {/* <FlatList
                                     data={timeSlotget.days}
                                     // numColumns={4}
                                     renderItem={renderItem3}
@@ -212,11 +220,11 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
                                     horizontal
                                     contentContainerStyle={{ columnGap: 10 }}
                                     showsHorizontalScrollIndicator={false}
-                                />
+                                /> */}
                             </View>
                         </View>
                         <View style={{ marginTop: height * 0.02 }}>
-                            <CustomButton size={"large"} label={"Proceed to checkout"} backgroundColor={"#004E8C"} color={"white"} onPress={handlesubmitpost} />
+                            <CustomButton size={"large"} label={"Proceed to checkout"} backgroundColor={"#004E8C"} color={"white"} onPress={vaildation} />
                         </View>
                     </ScrollView>
                 </View>

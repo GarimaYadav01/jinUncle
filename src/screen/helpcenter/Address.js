@@ -7,12 +7,13 @@ import { getaddress } from "../../apiconfig/Apiconfig";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ContiuneShopping from "../home/ContiuneShopping";
 import AuthContext from "../context/AuthContext";
+import LoaderScreen from "../../compontent/LoaderScreen";
 const Address = (props) => {
     const [isaddress, setIsaddress] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
 
     // const { isaddress } = useContext(AuthContext);
-    console.log("isaddress--isaddAuthContextress-->", isaddress)
+    // console.log("isaddress--isaddAuthContextress-->", isaddress)
 
     const [isCheckedList, setIsCheckedList] = useState(Array(isaddress?.length).fill(false));
     const onCheckBoxPress = (index) => {
@@ -20,58 +21,48 @@ const Address = (props) => {
         newIsCheckedList[index] = !newIsCheckedList[index];
         setIsCheckedList(newIsCheckedList);
     };
+
+
     const handlegetaddress = async () => {
         try {
             setIsLoading(true);
             const token = await AsyncStorage.getItem('token');
             const myHeaders = new Headers();
             myHeaders.append("token", token);
-            console.log("token--->", token)
             myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
             const requestOptions = {
                 method: "GET",
-                headers: token,
+                headers: myHeaders,
                 redirect: "follow"
             };
             const response = await fetch(getaddress, requestOptions);
-            console.log("Response:dddd", response);
-            const result = await response.json();
-            console.log("Response--result--->", result)
-            if (result.status == 200) {
-                setIsaddress(result.data);
-                console.log("resutl--dd-dd-->", result.data)
+            console.log("Response:", response);
+            const result = await response.text();
+            console.log("Response result:", result);
+            // Check if response is HTML or JSON
+            if (response.ok) {
+                try {
+                    const jsonData = JSON.parse(result);
+                    setIsaddress(jsonData.data);
+                    setIsLoading(false);
+                    console.log("Parsed JSON data:", jsonData);
+                } catch (error) {
+                    console.log("Error parsing JSON:", error);
+                }
+            } else {
+                console.log("Non-JSON response:", result);
             }
-
         } catch (error) {
-            console.log("error--getadrres-->", error)
+            console.log("Error:", error);
+            setIsLoading(false);
         }
     }
 
     useEffect(() => {
         handlegetaddress();
-    }, [])
+    }, []);
 
 
-
-
-    // const handlegetaddaddress = async () => {
-    //     try {
-    //         setIsLoading(true);
-    //         const token = await AsyncStorage.getItem('token');
-    //         const myHeaders = new Headers();
-    //         myHeaders.append("token", token);
-    //         myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
-    //         const formdata = new FormData();
-    //         formdata.append("name", "shahrukh");
-    //         formdata.append("address", "Demo Address");
-    //         formdata.append("city", "Delhi");
-    //         formdata.append("state", "Delhi");
-    //         formdata.append("pincode", "110086");
-    //         formdata.append("country", "India");
-    //     } catch (error) {
-
-    //     }
-    // }
 
     const renderItem = ({ item, index }) => (
         <View style={styles.card}>
@@ -79,7 +70,7 @@ const Address = (props) => {
                 <Text style={styles.name}>
                     {item.name}
                 </Text>
-                <TouchableOpacity onPress={() => props.navigation.navigate("AddressEdit")}>
+                <TouchableOpacity onPress={() => props.navigation.navigate("Editadd", { addressId: item.address_id, adress: item })}>
                     <Text style={[styles.button, { color: "#004E8C" }]}>
                         Edit
                     </Text>
@@ -119,6 +110,7 @@ const Address = (props) => {
                     <Image source={require("../../assets/logo/plus.png")} resizeMode="contain" style={{ width: 50, height: 50 }} />
                 </TouchableOpacity>
             </ScrollView>
+            {isLoading && <LoaderScreen isLoading={isLoading} />}
         </SafeAreaView>
     );
 };
