@@ -26,9 +26,8 @@ const Summary = (props) => {
     const handleToggleCoupon = () => {
         setIsCouponApplied(!isCouponApplied);
         if (!isCouponApplied) {
-            setModalVisiblecopun(true); // Show the modal only when applying the coupon
+            setModalVisiblecopun(true);
         } else {
-            // If coupon is already applied and the "Remove" button is pressed, call the remove API
             removehandle();
         }
     };
@@ -58,7 +57,7 @@ const Summary = (props) => {
             const result = await response.json();
             console.log("result-----result>", result)
         } catch (error) {
-            console.log("error--->", error)
+            console.log("error--asdd->", error)
         }
     }
 
@@ -71,35 +70,10 @@ const Summary = (props) => {
     console.log("priceDetail------>", priceDetail);
     console.log("cartProducts------>", cartProducts);
 
-    const handleIncrease = (id) => {
-        setQuantityStates(prevStates => ({
-            ...prevStates,
-            [id]: {
-                ...prevStates[id],
-                quantity: prevStates[id].quantity + 1
-            }
-        }));
-    };
 
-    const handleDecrease = (id) => {
-        setQuantityStates(prevStates => ({
-            ...prevStates,
-            [id]: {
-                ...prevStates[id],
-                quantity: Math.max(0, prevStates[id].quantity - 1)
-            }
-        }));
-    };
 
-    const toggleVector = (id) => {
-        setQuantityStates(prevStates => ({
-            ...prevStates,
-            [id]: {
-                ...prevStates[id],
-                showQuantityView: !prevStates[id].showQuantityView
-            }
-        }));
-    };
+
+
     useEffect(() => {
         // Initialize quantity states for each item
         const initialQuantityStates = {};
@@ -143,14 +117,16 @@ const Summary = (props) => {
         }
         const qty = data.quantity;
         return (
-            <View style={styles.cardContainer}>
-                <Image source={{ uri: imagePath }} style={styles.cardImage} />
-                <View style={styles.cardDetails}>
-                    <Text style={styles.name}>{item.name}</Text>
-                    <Text style={[styles.text1, { marginLeft: width * 0.1 }]}>quantity:{qty}</Text>
-                    {/* <Text style={styles.cardPrice}>{item.varient_data}</Text> */}
+            <TouchableOpacity>
+                <View style={styles.cardContainer}>
+                    <Image source={{ uri: imagePath }} style={styles.cardImage} />
+                    <View style={styles.cardDetails}>
+                        <Text style={styles.name}>{item.name}</Text>
+                        <Text style={[styles.text1, { marginLeft: width * 0.1 }]}>quantity:{qty}</Text>
+                        {/* <Text style={styles.cardPrice}>{item.varient_data}</Text> */}
+                    </View>
                 </View>
-            </View>
+            </TouchableOpacity>
         );
     };
 
@@ -252,9 +228,9 @@ const Summary = (props) => {
                     </View>
                     <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                         <Text style={styles.text1}>Coupons and offers</Text>
-                        <TouchableOpacity onPress={removehandle} style={{ flexDirection: "row", alignItems: "center", alignSelf: "center" }}>
+                        <TouchableOpacity onPress={handleToggleCoupon} style={{ flexDirection: "row", alignItems: "center", alignSelf: "center" }}>
                             <Text style={{ color: "#004E8C", fontSize: 17 }}>
-                                {isCouponApplied ? 'Remove' : 'Apply'} {/* Toggle button text */}
+                                {isCouponApplied ? 'Remove' : 'Apply'}
                             </Text>
                             <Image source={ICONS.arrow} style={{ height: 20, width: 20 }} />
                         </TouchableOpacity>

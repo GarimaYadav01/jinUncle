@@ -47,7 +47,6 @@ import Warranty from '../screen/helpcenter/Warranty';
 import Services from '../screen/helpcenter/Services';
 import Pay from '../screen/helpcenter/Pay';
 import MyWallet from '../screen/helpcenter/MyWallet';
-import Servicedetails from '../screen/payments/Servicedetails';
 import Summary from '../screen/payments/Summary';
 import Subcategory from '../screen/allcategory/Subcategory';
 import PaymentScreen from '../screen/allcategory/PaymentScreen';
@@ -116,7 +115,6 @@ const Navigation = () => {
                 <Stack.Screen name="Services" component={Services} />
                 <Stack.Screen name="Pay" component={Pay} />
                 <Stack.Screen name="MyWallet" component={MyWallet} />
-                <Stack.Screen name="Servicedetails" component={Servicedetails} />
                 <Stack.Screen name="Summary" component={Summary} />
                 <Stack.Screen name="Subcategory" component={Subcategory} />
                 <Stack.Screen name="PaymentScreen" component={PaymentScreen} />

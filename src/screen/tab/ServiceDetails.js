@@ -137,10 +137,7 @@ const ServiceDetails = ({ route, onClose, }) => {
         // onClose();
         setIsVisibleModal(true);
     }
-    const closeModal = () => {
-        // onClose();
-        setIsVisibleModal(false);
-    }
+
     useEffect(() => {
         // Initialize quantity states for each item
         const initialQuantityStates = {};
@@ -152,43 +149,9 @@ const ServiceDetails = ({ route, onClose, }) => {
         });
         setQuantityStates(initialQuantityStates);
     }, []);
-    const handleIncrease = (id) => {
-        // setIsVisibleModal(true);
-        setQuantityStates(prevStates => ({
-            ...prevStates,
-            [id]: {
-                ...prevStates[id],
-                quantity: prevStates[id].quantity + 1
-            }
-        }));
-    };
 
-    const handleDecrease = (id) => {
-        handleaddtocart();
-        setQuantityStates(prevStates => ({
-            ...prevStates,
-            [id]: {
-                ...prevStates[id],
-                quantity: Math.max(1, prevStates[id].quantity - 1)
-            }
-        }));
-    };
 
-    const handleAddButtonClick = () => {
-        setShowQuantityView(true);
-    };
-    const toggleVector = (id) => {
-        handleaddtocart();
-        togglePopup();
-        setQuantityStates(prevStates => ({
-            ...prevStates,
-            [id]: {
-                ...prevStates[id],
-                showQuantityView: !prevStates[id].showQuantityView
-            }
-        }));
 
-    };
 
     const images = [
         require('../../assets/banner/banner.png'),

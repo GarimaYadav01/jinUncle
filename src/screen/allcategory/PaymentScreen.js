@@ -15,7 +15,7 @@ const PaymentScreen = ({ route }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [ispayment, setIspayment] = useState([])
   const [iscreateorder, setIscreateorder] = useState([]);
-  const { selectedDay, selectedTime, } = route.params;
+  const { selectedDay, selectedTime, } = route?.params;
   const { isgetprofile } = useContext(AuthContext);
   console.log("selectedDay----->", selectedDay)
   console.log("selectedTime----->", selectedTime)
@@ -23,7 +23,7 @@ const PaymentScreen = ({ route }) => {
   console.log("ispayment---->", ispayment)
 
   const navigation = useNavigation();
-  const handlepaymemtstatus = async () => {
+  const handlepaymemtstatus = async (data) => {
     try {
       const token = await AsyncStorage.getItem('token');
       const myHeaders = new Headers();
@@ -31,6 +31,7 @@ const PaymentScreen = ({ route }) => {
       myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
       const formdata = new FormData();
       formdata.append("order_id", "151713877576");
+      formdata.append("data", data);
 
       const requestOptions = {
         method: "POST",
@@ -63,7 +64,7 @@ const PaymentScreen = ({ route }) => {
         },
         theme: { color: '#004E8C' } // Color theme
       };
-      handleCreaterorder();
+
 
       RazorpayCheckout.open(options)
         .then((data) => {
@@ -136,9 +137,11 @@ const PaymentScreen = ({ route }) => {
       myHeaders.append("token", token);
       const formdata = new FormData();
       formdata.append("payment_method", paymentOption);
+      console.log("payment_method----->", paymentOption)
       formdata.append("address_id", "47");
       formdata.append("slot_date", selectedDay.date);
-      formdata.append("slot_time", selectedTime);
+      formdata.append("slot_time --->", selectedTime.name);
+      console.log("slot_time----->", selectedTime.name)
       const requestOptions = {
         method: "POST",
         headers: myHeaders,
@@ -146,15 +149,16 @@ const PaymentScreen = ({ route }) => {
         redirect: "follow"
       };
       const response = await fetch(createorder, requestOptions);
-      console.log("reponsese-fetch---->", response)
       const result = await response.json();
-      console.log("---------result-->", result);
-      // if (result.status == 200) {
-      //   setIscreateorder(result.data);
-      // }
+      console.log("resu--->", result);
+      if (result.status == 200) {
+
+        navigateToNextScreen();
+      }
+
 
     } catch (error) {
-      console.log("errror---->", error);
+      console.log("error----ddsd>", error)
     }
   }
 
@@ -182,8 +186,8 @@ const PaymentScreen = ({ route }) => {
         ))}
         <TouchableOpacity
           style={styles.button}
-          onPress={navigateToNextScreen}
-        // onPress={handleCreaterorder}
+          // onPress={navigateToNextScreen}
+          onPress={handleCreaterorder}
         >
           <Text style={styles.buttonText}>Continue</Text>
         </TouchableOpacity>

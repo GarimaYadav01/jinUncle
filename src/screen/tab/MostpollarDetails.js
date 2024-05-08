@@ -5,8 +5,9 @@ import { useNavigation } from '@react-navigation/native';
 import { showMessage } from 'react-native-flash-message';
 import AuthContext from '../context/AuthContext';
 import Header from '../../compontent/Header';
-import { servicedetails } from '../../apiconfig/Apiconfig';
+import { Addcart, imagebaseurl, servicedetails } from '../../apiconfig/Apiconfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import LoaderScreen from '../../compontent/LoaderScreen';
 const { height, width } = Dimensions.get("screen")
 const MostpollarDetails = ({ route }) => {
     const navigation = useNavigation();
@@ -15,11 +16,12 @@ const MostpollarDetails = ({ route }) => {
     const [quantityselectStates, setQuantityselectStates] = useState({});
     const [servericdetailsget, setServericdetailsget] = useState([]);
     const [isvissbleModal, setIsVisibleModal] = useState(false);
+    const [isLoading, setIsLoading] = useState(false)
     const { mostpolluar } = useContext(AuthContext);
     console.log("servericdetailsget------->", servericdetailsget)
     const MostpollarDe = route?.params?.MostpollarDe || "Default MostpollarDe";
     const mostpolluarid = route?.params?.mostpolluarid
-    console.log("mostpolluarid:", mostpolluarid)
+    console.log("mostpolluarid:----->", mostpolluarid)
     const handleViewCard = () => {
         navigation.navigate("Summary");
     };
@@ -67,9 +69,9 @@ const MostpollarDetails = ({ route }) => {
         }));
     };
 
-    const handleAddButtonClick = () => {
-        setShowQuantityView(true);
-    };
+    // const handleAddButtonClick = () => {
+    //     setShowQuantityView(true);
+    // };
     const toggleVector = (id) => {
         togglePopup();
         setQuantityStates(prevStates => ({
@@ -132,7 +134,7 @@ const MostpollarDetails = ({ route }) => {
         setQuantityselectStates(initialQuantityselectStates);
     }, []);
     const handleIncreaseselect = (id) => {
-        // setIsVisibleModal(true);
+        handleaddtocart();
         setQuantityselectStates(prevStates => ({
             ...prevStates,
             [id]: {
@@ -142,7 +144,7 @@ const MostpollarDetails = ({ route }) => {
         }));
     };
     const handleDecreaseselect = (id) => {
-        // setIsVisibleModal(true);
+        handleaddtocart()
         setQuantityselectStates(prevStates => ({
             ...prevStates,
             [id]: {
@@ -152,7 +154,7 @@ const MostpollarDetails = ({ route }) => {
         }));
     };
     const toggleVectorselect = (id) => {
-        // setIsVisibleModal(true);
+        handleaddtocart()
         togglePopup();
         setQuantityselectStates(prevStates => ({
             ...prevStates,
@@ -218,6 +220,54 @@ const MostpollarDetails = ({ route }) => {
         }
     ]
 
+
+    const handleaddtocart = async () => {
+        try {
+            // setIsLoading(true);
+            const token = await AsyncStorage.getItem('token');
+            const myHeaders = new Headers();
+            myHeaders.append("token", token);
+            myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
+            const variants = [];
+            dverinat.forEach(variant => {
+                const { id } = variant;
+                Object.keys(quantityselectStates).forEach(variantId => {
+                    const { quantity } = quantityselectStates[variantId];
+                    console.log("Variant ID:", variantId);
+                    console.log("Quantity:", quantity);
+                    variants.push({ varient_id: id, quantity: quantity });
+                });
+            });
+            const varientData = JSON.stringify(variants);
+            console.log("varientData--->", varientData)
+            const formdata = new FormData();
+            formdata.append("service_id", serviceid);
+            formdata.append("varient_data", varientData);
+            // formdata.append("varient_data", "[{\"varient_id\":1,\"quantity\":1},{\"varient_id\":2,\"quantity\":2}]");
+            const requestOptions = {
+                method: "POST",
+                headers: myHeaders,
+                body: formdata,
+                redirect: "follow"
+            };
+            const response = await fetch(Addcart, requestOptions);
+            const result = await response.json();
+            console.log("result--res--addcartee-->", result);
+            if (result.data == 200) {
+                showMessage({
+                    message: "add to view card successfull",
+                    type: "success",
+                    icon: "success"
+                })
+                setIsLoading(false);
+            }
+            console.log("resul-tresul-t--->", result)
+        } catch (error) {
+            console.log("error--handleaddtocart--->", error)
+            setIsLoading(false);
+        }
+
+    }
     const handledetailsservice = async () => {
         console.log("service_id---item--->", serviceid)
         try {
@@ -261,7 +311,16 @@ const MostpollarDetails = ({ route }) => {
 
 
 
+    const serviceName = servericdetailsget && servericdetailsget.data && servericdetailsget?.data[0] ? servericdetailsget?.data[0]?.name : "";
+    const serviceRating = servericdetailsget && servericdetailsget.data && servericdetailsget?.data[0] ? servericdetailsget?.data[0]?.rating : "";
+    const dverinat = servericdetailsget && servericdetailsget.data && servericdetailsget?.data[0] ? servericdetailsget?.data[0]?.varient : "";
+    // const image = categoryDetail && categoryDetail.data && categoryDetail?.data[0]?.image ? JSON.parse(categoryDetail.data[0].image) : [];
+    const imageBaseUrl = servericdetailsget?.imageurl; // Assuming this is the base URL for your images
+    const imageData = servericdetailsget && servericdetailsget.data && servericdetailsget?.data[0]?.banner;
+    const image = imageData ? JSON.parse(imageData).map(img => ({ ...img, image_path: imagebaseurl + img.image_path })) : [];
+    console.log("imageimage---->", image)
 
+    console.log("dverinat---->", dverinat)
 
     const renderItemallmix = ({ item }) => (
         <View style={{ marginBottom: 20, marginTop: 10, alignContent: "center", justifyContent: "center" }}>
@@ -328,19 +387,26 @@ const MostpollarDetails = ({ route }) => {
     );
 
 
-    // const serviceName = servericdetailsget?.data[0]?.name;
-    const serviceRating = mostpolluar?.rating;
+    // // const serviceName = servericdetailsget?.data[0]?.name;
+    // const serviceRating = mostpolluar?.rating;
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <Header />
             <ScrollView>
                 <View style={styles.modalContent}>
                     <ScrollView showsVerticalScrollIndicator={false} style={{ flexGrow: 1, paddingBottom: 150, }}>
-                        <View style={{ flexDirection: "row" }}>
-                            <Image source={images[currentIndex]} style={{ borderRadius: 10, width: width * 0.9 }} />
+                        <View
+                            style={styles.container2}>
+                            {image.map((image, index) => (
+                                <Image
+                                    key={index}
+                                    source={{ uri: image.image_path }}
+                                    style={{ width: 150, height: 150 }}
+                                />
+                            ))}
                         </View>
                         {console.log("serveailsget-name------>", serviceRating)}
-                        <Text style={styles.text}>{MostpollarDe}</Text>
+                        <Text style={styles.text}>{serviceName}</Text>
                         <View style={{ flexDirection: "row", alignItems: "center", columnGap: 10, marginTop: 10 }}>
                             <Image source={require("../../assets/logo/star.png")} style={{ width: 20, height: 20 }} resizeMode="contain" />
                             <Text style={{ color: "gray", fontFamily: "Roboto-Regular" }}>{serviceRating}</Text>
@@ -363,7 +429,7 @@ const MostpollarDetails = ({ route }) => {
 
                             {console.log("servericdetailsget.varient------>", servericdetailsget.varient)}
                             <FlatList
-                                data={servericdetailsget.varient}
+                                data={dverinat}
                                 renderItem={renderselectvariant}
                                 keyExtractor={item => item.id}
                                 horizontal
@@ -371,13 +437,13 @@ const MostpollarDetails = ({ route }) => {
                             />
                         </View>
                         <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
-                            <FlatList
+                            {/* <FlatList
                                 data={Allmix}
                                 renderItem={renderItemallmix}
                                 keyExtractor={item => item.id}
                                 horizontal
                                 showsHorizontalScrollIndicator={false}
-                            />
+                            /> */}
                         </View>
 
                         <View style={{ flexDirection: "row", alignItems: "center", columnGap: 10 }}>
@@ -434,6 +500,7 @@ const MostpollarDetails = ({ route }) => {
                     </View>
                 </Animated.View>
             </View>
+            {isLoading && <LoaderScreen isLoading={isLoading} />}
         </SafeAreaView>
     );
 };
@@ -702,6 +769,13 @@ const styles = StyleSheet.create({
     textbut: {
         textAlign: "center",
         color: "white"
+    },
+    container2: {
+        // flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginVertical: height * 0.03,
+        borderRadius: 30
     },
 });
 

@@ -53,7 +53,6 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
 
     const handlesubmitpost = async () => {
         try {
-
             const token = await AsyncStorage.getItem("token")
             const myHeaders = new Headers();
             myHeaders.append("token", token);
@@ -77,8 +76,6 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
                 setIstime(result.data.times)
                 console.log("result.data.times-------->", result.data.times)
             }
-
-
         } catch (error) {
             console.log("error----error-->", error)
         }
@@ -170,7 +167,7 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.contentContainer}>
-                    <ScrollView style={{ flexGrow: 1, paddingBottom: 50 }} showsVerticalScrollIndicator={false}>
+                    <ScrollView style={{ flexGrow: 1, paddingBottom: 100 }} showsVerticalScrollIndicator={false}>
                         <TouchableOpacity onPress={openmodal}>
                             <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center", borderBottomWidth: 1, borderBottomColor: "lightgray", paddingBottom: 15 }}>
                                 <View style={{ flexDirection: "row", columnGap: 10, }}>
