@@ -4,9 +4,7 @@ import { View, Text, Modal, Button, StyleSheet, Image, TouchableOpacity, Dimensi
 
 const { height, width } = Dimensions.get("screen")
 const LogoutModal = ({ visible, onClose, onLogout }) => {
-  const logout = async () => {
-
-  }
+ 
   return (
     <Modal
       animationType="slide"

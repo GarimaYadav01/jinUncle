@@ -37,13 +37,38 @@ const Summary = (props) => {
         setCouponResponse(response);
     };
 
+    // const removehandle = async () => {
+    //     try {
+    //         const token = await AsyncStorage.getItem('token');
+    //         console.log("tokennnnn---->", token)
+    //         const myHeaders = new Headers();
+    //         myHeaders.append("token", token);
+    //         myHeaders.append("Cookie", "ci_session=77cdeb6b53ba3146084a1022d42edece856c52d2");
+    //         const formdata = new FormData();
+    //         const requestOptions = {
+    //             method: "POST",
+    //             headers: myHeaders,
+    //             body: formdata,
+    //             redirect: "follow"
+    //         };
+    //         console.log("requestOption------>s", requestOptions)
+
+    //         const response = await fetch(removeCopoun, requestOptions);
+    //         const result = await response.json();
+    //         console.log("result-----result>", result)
+    //     } catch (error) {
+    //         console.log("error--asdd->", error)
+    //     }
+    // }
+
+
     const removehandle = async () => {
         try {
             const token = await AsyncStorage.getItem('token');
             console.log("tokennnnn---->", token)
             const myHeaders = new Headers();
             myHeaders.append("token", token);
-            myHeaders.append("Cookie", "ci_session=77cdeb6b53ba3146084a1022d42edece856c52d2");
+            myHeaders.append("Cookie", "ci_session=cb2565654291381768a2715a2289cdb1f0aab364");
             const formdata = new FormData();
             const requestOptions = {
                 method: "POST",
@@ -51,15 +76,15 @@ const Summary = (props) => {
                 body: formdata,
                 redirect: "follow"
             };
-            console.log("requestOption------>s", requestOptions)
-
-            const response = await fetch(cardremove, requestOptions);
+            const response = await fetch("https://aduetechnologies.com/jinuncle/api/cart/remove_coupon", requestOptions);
             const result = await response.json();
-            console.log("result-----result>", result)
+            console.log("response----resnse-->", result)
         } catch (error) {
-            console.log("error--asdd->", error)
+            console.log("errorrrr----ssss>", error)
         }
     }
+
+
 
     console.log("mostpolluar----mostpolluar-->", mostpolluar);
     console.log("iscardlist----iscardli-----st---8888iscardlist->", iscardlist)
@@ -228,7 +253,7 @@ const Summary = (props) => {
                     </View>
                     <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                         <Text style={styles.text1}>Coupons and offers</Text>
-                        <TouchableOpacity onPress={handleToggleCoupon} style={{ flexDirection: "row", alignItems: "center", alignSelf: "center" }}>
+                        <TouchableOpacity onPress={removehandle} style={{ flexDirection: "row", alignItems: "center", alignSelf: "center" }}>
                             <Text style={{ color: "#004E8C", fontSize: 17 }}>
                                 {isCouponApplied ? 'Remove' : 'Apply'}
                             </Text>

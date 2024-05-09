@@ -1,30 +1,98 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, Text, SafeAreaView, StyleSheet, Dimensions, FlatList, Image, ScrollView } from "react-native";
+import { View, Text, SafeAreaView, StyleSheet, Dimensions, FlatList, Image, ScrollView, TouchableOpacity } from "react-native";
 import Header from "../../compontent/Header";
-import { carddetails, imagebaseurl } from "../../apiconfig/Apiconfig";
+import { GestureHandlerRootView, Swipeable } from 'react-native-gesture-handler';
+import { carddetails, cardremove, imagebaseurl } from "../../apiconfig/Apiconfig";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import AuthContext from "../context/AuthContext";
 import LoaderScreen from "../../compontent/LoaderScreen";
+import { Modal } from "react-native-paper";
 const { height, width } = Dimensions.get("screen");
-
 const Addcard = () => {
-    const { iscardlist, isLoading } = useContext(AuthContext)
+    const { iscardlist, } = useContext(AuthContext)
+    const [isLoading, setIsLoading] = useState(false);
+    const [deleteModalVisible, setDeleteModalVisible] = useState(false);
     console.log("iscardlist------->", iscardlist);
     const priceDetail = iscardlist?.data?.price_detail;
     const cartProducts = iscardlist?.data?.cart_products;
     console.log("priceDetail------>", priceDetail);
     console.log("cartProducts------>", cartProducts);
-
-    const renderPriceDetail = () => {
-        return Object?.entries(priceDetail)?.map(([key, value]) => (
-            <View style={styles.priceDetailContainer} key={key}>
-                <Text style={styles.priceDetailLabel}>{key}</Text>
-                <Text style={styles.priceDetailValue}>{value}</Text>
-            </View>
-        ));
+    const toggleDeleteModal = () => {
+        setDeleteModalVisible(!deleteModalVisible);
+    };
+    const onDelete = () => {
+        handleremovecard();
+        toggleDeleteModal();
+    };
+    const DeleteModal = () => {
+        return (
+            <Modal visible={deleteModalVisible} animationType="slide" transparent>
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalContent}>
+                        <Text style={styles.modalText}>Are you sure you want to delete?</Text>
+                        <Image source={require("../../assets/logo/jinnlogo.png")} resizeMode='contain' style={{ width: 100, height: 100 }} />
+                        <View style={{ flexDirection: "row", justifyContent: "space-around", }}>
+                            <TouchableOpacity onPress={toggleDeleteModal} style={[styles.btn, { backgroundColor: "white" }]}>
+                                <Text style={[styles.text, { color: "text" }]}>Cancel</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={onDelete} style={styles.btn}>
+                                <Text style={styles.text}>Delete</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
+        );
     };
 
+    const handleremovecard = async () => {
+        try {
+            setIsLoading(true);
+            const token = await AsyncStorage.getItem('token');
+            const myHeaders = new Headers();
+            myHeaders.append("token", token);
+            myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
+            const formdata = new FormData();
+            formdata.append("cart_id", iscardlist.cart_id);
+            console.log("cartid--->", iscardlist.cart_id)
+
+            const requestOptions = {
+                method: "POST",
+                headers: myHeaders,
+                body: formdata,
+                redirect: "follow"
+            };
+            const response = await fetch(cardremove, requestOptions);
+            const result = await response.json();
+            if (result.status == 200) {
+                setIsLoading(false);
+            }
+            console.log("resultresult---->", result)
+        } catch (error) {
+            console.log("errorerror----->", error)
+            setIsLoading(false);
+        }
+    }
+
+
+
     const renderitem = ({ item }) => {
+        // const onDelete = () => {
+        //     // Handle delete action
+        //     console.log("Delete notification with id:", item.id);
+        // };
+        const renderRightActions = (progress, dragX) => {
+            const trans = dragX.interpolate({
+                inputRange: [0, 50, 100],
+                outputRange: [100, 0, -100],
+            });
+            return (
+                <TouchableOpacity onPress={onDelete}>
+                    <Image source={require("../../assets/Icon/delete.png")} style={{ width: 40, height: 40, marginTop: height * 0.08, marginRight: 15 }} tintColor={"red"} />
+                </TouchableOpacity>
+            );
+        };
+
         console.log("Item:", item);
         let imageData;
         try {
@@ -41,23 +109,25 @@ const Addcard = () => {
             return null;
         }
         const qty = data.quantity;
-
         return (
-            <View style={styles.cardContainer}>
-                <Image source={{ uri: imagePath }} style={styles.cardImage} />
-                <View style={styles.cardDetails}>
-                    <Text style={styles.cardText}>{item.name}</Text>
-                    <Text style={[styles.text1, { marginLeft: width * 0.1 }]}>quantity:{qty}</Text>
-                    {/* <Text style={styles.cardPrice}>{item.varient_data}</Text> */}
-                </View>
-            </View>
+            <GestureHandlerRootView>
+                <Swipeable renderRightActions={renderRightActions}>
+                    <View style={styles.cardContainer}>
+                        <Image source={{ uri: imagePath }} style={styles.cardImage} />
+                        <View style={styles.cardDetails}>
+                            <Text style={styles.cardText}>{item.name}</Text>
+                            <Text style={[styles.text1, { marginLeft: width * 0.06 }]}>quantity:{qty}</Text>
+                        </View>
+                    </View>
+                </Swipeable>
+            </GestureHandlerRootView>
         );
     };
 
     return (
-        <SafeAreaView style={{ flex: 1, backgroundColor: "#FFFF" }}>
+        <SafeAreaView style={{ flex: 1, }}>
             <Header title={"Add to Cart"} />
-            <ScrollView style={{ flexGrow: 1 }} showsHorizontalScrollIndicator={false}>
+            <ScrollView style={{ flexGrow: 1, }} showsHorizontalScrollIndicator={false}>
                 <View style={styles.container}>
                     <FlatList
                         data={cartProducts}
@@ -76,6 +146,8 @@ const Addcard = () => {
                 </View>
             </ScrollView>
             {isLoading && <LoaderScreen isLoading={isLoading} />}
+            <DeleteModal />
+
         </SafeAreaView>
     );
 }
@@ -83,11 +155,21 @@ const Addcard = () => {
 export default Addcard;
 
 const styles = StyleSheet.create({
+    container: {
+        justifyContent: "center",
+        alignSelf: "center",
+
+    },
     cardContainer: {
         flexDirection: 'row',
         padding: 20,
-        borderBottomWidth: 1,
-        borderBottomColor: '#ccc',
+        // borderBottomWidth: 1,
+        // borderBottomColor: '#ccc',
+        backgroundColor: "#FFFF",
+        width: width * 0.9,
+        marginTop: height * 0.02,
+        borderRadius: 20
+
     },
     cardImage: {
         width: 100,
@@ -121,7 +203,8 @@ const styles = StyleSheet.create({
     priceDetailContainer: {
         flexDirection: "row",
         justifyContent: "space-between",
-        marginHorizontal: 20
+        marginHorizontal: 20,
+        columnGap: 20
     },
     priceDetailLabel: {
         color: "black",
@@ -133,9 +216,10 @@ const styles = StyleSheet.create({
         mafrginTop: 20
     },
     priceDetailValue: {
-        color: "gray",
+        color: "black",
         lineHeight: 22,
         marginTop: 10
+
     },
     text1: {
         fontSize: 16,
@@ -144,4 +228,48 @@ const styles = StyleSheet.create({
         marginVertical: height * 0.005,
         lineHeight: 22
     },
+    modalContainer: {
+        // flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        // backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalContent: {
+        backgroundColor: 'white',
+        padding: 20,
+        borderRadius: 10,
+        width: width * 0.8,
+
+        marginTop: 10,
+        flexGrow: 1,
+        // marginHorizontal: 20,
+        paddingBottom: 100,
+        alignContent: "center",
+        alignItems: 'center',
+        // height:height
+
+
+    },
+    modalText: {
+        marginBottom: 20,
+        textAlign: 'center',
+        fontFamily: "Roboto-MediumItalic",
+        color: "black",
+        fontSize: 18
+    },
+    btn: {
+        width: width * 0.3,
+        height: height * 0.06,
+        borderWidth: 1,
+        backgroundColor: "#004E8C",
+        borderColor: "#f5fffa",
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 10
+    },
+    text: {
+        color: "#FFF",
+        fontFamily: "Roboto-BoldItalic",
+        fontSize: 16
+    }
 });

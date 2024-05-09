@@ -36,7 +36,8 @@ const ServiceDetails = ({ route, onClose, }) => {
             dverinat.forEach(variant => {
                 const { id } = variant;
                 Object.keys(quantityselectStates).forEach(variantId => {
-                    const { quantity } = quantityselectStates[variantId];
+                    // const { quantity } = quantityselectStates[variantId];
+                    const quantity = quantityselectStates[id]?.quantity || 0;
                     console.log("Variant ID:", variantId);
                     console.log("Quantity:", quantity);
                     variants.push({ varient_id: id, quantity: quantity });
@@ -56,14 +57,15 @@ const ServiceDetails = ({ route, onClose, }) => {
             };
             const response = await fetch(Addcart, requestOptions);
             const result = await response.json();
-            console.log("result--res--addcartee-->", result);
+            console.log("result--res--Quantity:-->", result);
             if (result.data == 200) {
+                setIsLoading(false);
                 showMessage({
                     message: "add to view card successfull",
                     type: "success",
                     icon: "success"
                 })
-                setIsLoading(false);
+
             }
             console.log("resul-tresul-t--->", result)
         } catch (error) {
@@ -150,9 +152,6 @@ const ServiceDetails = ({ route, onClose, }) => {
         setQuantityStates(initialQuantityStates);
     }, []);
 
-
-
-
     const images = [
         require('../../assets/banner/banner.png'),
         require('../../assets/banner/ACBAnner.png'),
@@ -199,7 +198,6 @@ const ServiceDetails = ({ route, onClose, }) => {
         setQuantityselectStates(initialQuantityselectStates);
     }, []);
     const handleIncreaseselect = (id) => {
-        // setIsVisibleModal(true);
         setQuantityselectStates(prevStates => ({
             ...prevStates,
             [id]: {
@@ -207,9 +205,9 @@ const ServiceDetails = ({ route, onClose, }) => {
                 quantity: prevStates[id].quantity + 1
             }
         }));
+        handleaddtocart(id, quantityselectStates[id].quantity + 1);
     };
     const handleDecreaseselect = (id) => {
-        // setIsVisibleModal(true);
         setQuantityselectStates(prevStates => ({
             ...prevStates,
             [id]: {
@@ -217,6 +215,7 @@ const ServiceDetails = ({ route, onClose, }) => {
                 quantity: Math.max(1, prevStates[id].quantity - 1)
             }
         }));
+        handleaddtocart(id, Math.max(1, quantityselectStates[id].quantity - 1));
     };
     const toggleVectorselect = (id) => {
         handleaddtocart();
@@ -307,6 +306,7 @@ const ServiceDetails = ({ route, onClose, }) => {
                                 <Text style={styles.textbut}>-</Text>
                             </TouchableOpacity>
                             <Text style={styles.textbut}>{quantityselectStates[item.id]?.quantity}</Text>
+                            {console.log("uantityselectStates[item.id]?.quantity-->", quantityselectStates[item.id]?.quantity)}
                             <TouchableOpacity onPress={() => handleIncreaseselect(item.id)}>
                                 <Text style={styles.textbut}>+</Text>
                             </TouchableOpacity>
