@@ -24,6 +24,7 @@ const ServiceDetails = ({ route, onClose, }) => {
     const serviceid = route.params.serviceid;
     console.log("serviceid---->", serviceid)
     console.log("quantityselectStates------>", quantityselectStates)
+    console.log("servericdetailsget----->", servericdetailsget)
     console.log("serviceid------>", serviceid)
     const handleaddtocart = async () => {
         try {
@@ -32,22 +33,26 @@ const ServiceDetails = ({ route, onClose, }) => {
             const myHeaders = new Headers();
             myHeaders.append("token", token);
             myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
-            const variants = [];
-            dverinat.forEach(variant => {
-                const { id } = variant;
-                Object.keys(quantityselectStates).forEach(variantId => {
-                    // const { quantity } = quantityselectStates[variantId];
-                    const quantity = quantityselectStates[id]?.quantity || 0;
-                    console.log("Variant ID:", variantId);
-                    console.log("Quantity:", quantity);
-                    variants.push({ varient_id: id, quantity: quantity });
-                });
-            });
-            const varientData = JSON.stringify(variants);
-            console.log("varientData--->", varientData)
+            // const variants = [];
+            // dverinat.forEach(variant => {
+            //     const { id } = variant;
+            //     Object.keys(quantityselectStates).forEach(variantId => {
+            //         // const { quantity } = quantityselectStates[variantId];
+            //         const quantity = quantityselectStates[id]?.quantity || 0;
+            //         console.log("Variant ID:", variantId);
+            //         console.log("Quantity:", quantity);
+            //         variants.push({ varient_id: id, quantity: quantity });
+            //     });
+            // });
+            // const varientData = JSON.stringify(variants);
+            // console.log("varientData--->", varientData)
             const formdata = new FormData();
             formdata.append("service_id", serviceid);
-            formdata.append("varient_data", varientData);
+            formdata.append("varient_id", dverinat.id);
+            formdata.append("quantity", quantityselectStates.quantity);
+            console.log("service_id---->", serviceid)
+            console.log("varient_id------->", dverinat.id)
+            console.log("quantity---->", dverinat.quantity)
             // formdata.append("varient_data", "[{\"varient_id\":1,\"quantity\":1},{\"varient_id\":2,\"quantity\":2}]");
             const requestOptions = {
                 method: "POST",
@@ -140,17 +145,17 @@ const ServiceDetails = ({ route, onClose, }) => {
         setIsVisibleModal(true);
     }
 
-    useEffect(() => {
-        // Initialize quantity states for each item
-        const initialQuantityStates = {};
-        Allmix.forEach(({ id }) => {
-            initialQuantityStates[id] = {
-                showQuantityView: false,
-                quantity: 1
-            };
-        });
-        setQuantityStates(initialQuantityStates);
-    }, []);
+    // useEffect(() => {
+    //     // Initialize quantity states for each item
+    //     const initialQuantityStates = {};
+    //     Allmix.forEach(({ id }) => {
+    //         initialQuantityStates[id] = {
+    //             showQuantityView: false,
+    //             quantity: 1
+    //         };
+    //     });
+    //     setQuantityStates(initialQuantityStates);
+    // }, []);
 
     const images = [
         require('../../assets/banner/banner.png'),
@@ -167,55 +172,54 @@ const ServiceDetails = ({ route, onClose, }) => {
         return () => clearInterval(interval);
     }, []);
 
-    const select = [
-        {
-            id: "1",
-            image: require("../../assets/newimages/washingmachine1.png"),
-            name: "Window Ac",
-            icon: require("../../assets/logo/star.png"),
-            likes: "4.85(60k reviews)",
-            starts: 549,
-        },
-        {
-            id: "2",
-            image: require("../../assets/newimages/washingmachine2.png"),
-            name: "Split AC",
-            icon: require("../../assets/logo/star.png"),
-            likes: "4.85(60k reviews)",
-            starts: 549,
-        },
-    ]
+
+
+    // useEffect(() => {
+    //     const initialQuantityselectStates = {};
+    //     dverinat.forEach(({ id }) => {
+    //         initialQuantityselectStates[id] = {
+    //             showQuantityView: false,
+    //             quantity: 1 // Initialize quantity to 1 or any default value
+    //         };
+    //     });
+    //     setQuantityselectStates(initialQuantityselectStates);
+    // }, []);
 
     useEffect(() => {
-        // Initialize quantity states for each item
         const initialQuantityselectStates = {};
-        select.forEach(({ id }) => {
-            initialQuantityselectStates[id] = {
-                showQuantityView: false,
-                quantity: 1
-            };
-        });
+        if (dverinat && dverinat.length > 0) {
+            dverinat.forEach(({ id }) => {
+                initialQuantityselectStates[id] = {
+                    showQuantityView: false,
+                    quantity: 1
+                };
+            });
+        }
         setQuantityselectStates(initialQuantityselectStates);
-    }, []);
+    }, [dverinat]);
+
+
+
     const handleIncreaseselect = (id) => {
         setQuantityselectStates(prevStates => ({
             ...prevStates,
             [id]: {
                 ...prevStates[id],
-                quantity: prevStates[id].quantity + 1
+                quantity: prevStates[id]?.quantity ? prevStates[id].quantity + 1 : 1 // Ensure quantity is at least 1 before incrementing
             }
         }));
-        handleaddtocart(id, quantityselectStates[id].quantity + 1);
+        // Add any other logic related to adding to cart
     };
+
     const handleDecreaseselect = (id) => {
         setQuantityselectStates(prevStates => ({
             ...prevStates,
             [id]: {
                 ...prevStates[id],
-                quantity: Math.max(1, prevStates[id].quantity - 1)
+                quantity: Math.max(1, prevStates[id]?.quantity - 1) // Ensure quantity doesn't go below 1
             }
         }));
-        handleaddtocart(id, Math.max(1, quantityselectStates[id].quantity - 1));
+        // Add any other logic related to adding to cart
     };
     const toggleVectorselect = (id) => {
         handleaddtocart();
@@ -224,7 +228,7 @@ const ServiceDetails = ({ route, onClose, }) => {
             ...prevStates,
             [id]: {
                 ...prevStates[id],
-                showQuantityView: !prevStates[id].showQuantityView
+                showQuantityView: !prevStates[id]?.showQuantityView
             }
         }));
         // showMessage({
@@ -305,7 +309,8 @@ const ServiceDetails = ({ route, onClose, }) => {
                             <TouchableOpacity onPress={() => handleDecreaseselect(item.id)}>
                                 <Text style={styles.textbut}>-</Text>
                             </TouchableOpacity>
-                            <Text style={styles.textbut}>{quantityselectStates[item.id]?.quantity}</Text>
+                            {/* <Text style={styles.textbut}>{quantityselectStates[item.id]?.quantity}</Text> */}
+                            <Text>{item.quantity}</Text>
                             {console.log("uantityselectStates[item.id]?.quantity-->", quantityselectStates[item.id]?.quantity)}
                             <TouchableOpacity onPress={() => handleIncreaseselect(item.id)}>
                                 <Text style={styles.textbut}>+</Text>
@@ -316,31 +321,16 @@ const ServiceDetails = ({ route, onClose, }) => {
             </View>
         </View>
     );
-    const renderItemallmix2 = ({ item }) => (
-        <View style={{ marginBottom: 20, marginTop: 10, alignContent: "center", justifyContent: "center" }}>
-            <TouchableOpacity style={styles.btn1}>
-                <Image source={item.image} style={{ width: 100, height: 100, borderRadius: 5 }} resizeMode="contain" />
-                <Text style={[styles.name, { width: width * 0.3 }]}>{item.name}</Text>
-                {/* <View style={styles.ratingContainer}>
-                    <Image source={item.icon} style={styles.starIcon} />
-                    <Text style={styles.likes}>{item.likes}</Text>
-                </View> */}
-                <Text style={{ color: "black" }}>₹258</Text>
-                <TouchableOpacity style={styles.smallbutton} onPress={openModal}>
-                    <Text style={styles.textbut}>Add</Text>
-                </TouchableOpacity>
-            </TouchableOpacity>
-        </View>
-    );
+
 
     const serviceName = servericdetailsget && servericdetailsget.data && servericdetailsget?.data[0] ? servericdetailsget?.data[0]?.name : "";
     const serviceRating = servericdetailsget && servericdetailsget.data && servericdetailsget?.data[0] ? servericdetailsget?.data[0]?.rating : "";
     const dverinat = servericdetailsget && servericdetailsget.data && servericdetailsget?.data[0] ? servericdetailsget?.data[0]?.varient : "";
-    // const image = categoryDetail && categoryDetail.data && categoryDetail?.data[0]?.image ? JSON.parse(categoryDetail.data[0].image) : [];
     const imageBaseUrl = servericdetailsget?.imageurl; // Assuming this is the base URL for your images
     const imageData = servericdetailsget && servericdetailsget.data && servericdetailsget?.data[0]?.banner;
     const image = imageData ? JSON.parse(imageData).map(img => ({ ...img, image_path: imagebaseurl + img.image_path })) : [];
     console.log("imageimage---->", image)
+
 
     console.log("dverinat---->", dverinat)
     return (
@@ -396,16 +386,6 @@ const ServiceDetails = ({ route, onClose, }) => {
                                 )}
                             />
                         </View>
-                        {/* <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
-                            <FlatList
-                                data={Allmix}
-                                renderItem={renderItemallmix}
-                                keyExtractor={item => item.id}
-                                horizontal
-                                showsHorizontalScrollIndicator={false}
-                            />
-                        </View> */}
-
                         <View style={{ flexDirection: "row", alignItems: "center", columnGap: 10 }}>
                             <Image source={require("../../assets/Icon/check.png")} resizeMode="contain" style={{ width: 20, height: 20 }} />
                             <Text style={{ color: "#004E8C", fontSize: 22, fontWeight: "bold" }}>JU Cover</Text>

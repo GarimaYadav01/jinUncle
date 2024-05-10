@@ -53,6 +53,7 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
 
     const handlesubmitpost = async () => {
         try {
+            setIsLoading(true);
             const token = await AsyncStorage.getItem("token")
             const myHeaders = new Headers();
             myHeaders.append("token", token);
@@ -74,9 +75,11 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
                     icon: "success"
                 })
                 setIstime(result.data.times)
+                setIsLoading(false);
                 console.log("result.data.times-------->", result.data.times)
             }
         } catch (error) {
+            setIsLoading(false);
             console.log("error----error-->", error)
         }
     }
@@ -107,11 +110,11 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
                 styles.text1,
                 selectedDayIndex === index ? styles.selecttext : null
             ]}>{item.name}</Text>
-            <Text style={[
+            {/* <Text style={[
                 styles.text1,
                 selectedDayIndex === index ? styles.selecttext : null
             ]}
-            >{item.date}</Text>
+            >{item.date}</Text> */}
             {/* <Text style={[
                 styles.text1,
                 selectedItemIndex === index ? styles.selecttext : null

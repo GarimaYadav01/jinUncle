@@ -135,6 +135,7 @@ const Addcard = () => {
                         keyExtractor={(item) => item.cart_id.toString()}
                         ListEmptyComponent={() => (
                             <View style={{ justifyContent: "center", alignItems: "center", marginTop: height * 0.2 }}>
+                                <Image source={require("../../assets/Newicon/delete.png")} style={{ width: 70, height: 70 }} />
                                 <Text style={styles.text}>No Data Found</Text>
                             </View>
                         )}
@@ -147,7 +148,6 @@ const Addcard = () => {
             </ScrollView>
             {isLoading && <LoaderScreen isLoading={isLoading} />}
             <DeleteModal />
-
         </SafeAreaView>
     );
 }
@@ -268,7 +268,7 @@ const styles = StyleSheet.create({
         borderRadius: 10
     },
     text: {
-        color: "#FFF",
+        color: "black",
         fontFamily: "Roboto-BoldItalic",
         fontSize: 16
     }

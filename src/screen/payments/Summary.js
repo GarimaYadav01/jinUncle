@@ -6,7 +6,7 @@ import { ICONS } from "../../assets/themes";
 import CustomButton from "../../compontent/Custombutton";
 import TimeSlot from "../../compontent/TimeSlot";
 import AuthContext from "../context/AuthContext";
-import { cardremove, imagebaseurl } from "../../apiconfig/Apiconfig";
+import { cardremove, imagebaseurl, removeCopoun } from "../../apiconfig/Apiconfig";
 import { useNavigation } from "@react-navigation/native";
 import Couponmodal from "../../compontent/Couponmodal";
 import CouponModal from "../../compontent/Couponmodal";
@@ -31,7 +31,7 @@ const Summary = (props) => {
             removehandle();
         }
     };
-    console.log("couponResponse:", couponResponse)
+    console.log("couponResponse:--->", couponResponse)
     const handleApplyCouponSuccess = (response) => {
         // Update the state with the response data
         setCouponResponse(response);
@@ -76,7 +76,7 @@ const Summary = (props) => {
                 body: formdata,
                 redirect: "follow"
             };
-            const response = await fetch("https://aduetechnologies.com/jinuncle/api/cart/remove_coupon", requestOptions);
+            const response = await fetch(removeCopoun, requestOptions);
             const result = await response.json();
             console.log("response----resnse-->", result)
         } catch (error) {
@@ -84,20 +84,13 @@ const Summary = (props) => {
         }
     }
 
-
-
     console.log("mostpolluar----mostpolluar-->", mostpolluar);
     console.log("iscardlist----iscardli-----st---8888iscardlist->", iscardlist)
-
-
     const priceDetail = iscardlist?.data?.price_detail;
     const cartProducts = iscardlist?.data?.cart_products;
     console.log("priceDetail------>", priceDetail);
     console.log("cartProducts------>", cartProducts);
-
-
-
-
+    const priceDetailArray = Object.entries(priceDetail);
 
     useEffect(() => {
         // Initialize quantity states for each item
@@ -203,6 +196,7 @@ const Summary = (props) => {
             <View style={styles.priceDetailContainer} key={key}>
                 <Text style={styles.text2}>{key}</Text>
                 <Text style={styles.text2}>{value}</Text>
+
             </View>
         ));
     };
@@ -253,7 +247,7 @@ const Summary = (props) => {
                     </View>
                     <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                         <Text style={styles.text1}>Coupons and offers</Text>
-                        <TouchableOpacity onPress={removehandle} style={{ flexDirection: "row", alignItems: "center", alignSelf: "center" }}>
+                        <TouchableOpacity onPress={handleToggleCoupon} style={{ flexDirection: "row", alignItems: "center", alignSelf: "center" }}>
                             <Text style={{ color: "#004E8C", fontSize: 17 }}>
                                 {isCouponApplied ? 'Remove' : 'Apply'}
                             </Text>

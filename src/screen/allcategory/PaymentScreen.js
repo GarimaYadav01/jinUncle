@@ -30,8 +30,10 @@ const PaymentScreen = ({ route }) => {
       myHeaders.append("token", token);
       myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
       const formdata = new FormData();
-      formdata.append("order_id", "151713877576");
+      formdata.append("order_id", iscreateorder.order_id);
       formdata.append("data", data);
+      console.log("data---->", data)
+      console.log("order_id---->", iscreateorder.order_id)
 
       const requestOptions = {
         method: "POST",
@@ -64,15 +66,11 @@ const PaymentScreen = ({ route }) => {
         },
         theme: { color: '#004E8C' } // Color theme
       };
-
-
       RazorpayCheckout.open(options)
         .then((data) => {
-          // Handle success
           console.log('Payment success:', data);
           // alert('Payment success');
-
-          handlepaymemtstatus();
+          handlepaymemtstatus(data);
           navigation.navigate("ContiuneShopping");
 
         })
@@ -152,7 +150,8 @@ const PaymentScreen = ({ route }) => {
       const result = await response.json();
       console.log("resu--->", result);
       if (result.status == 200) {
-
+        setIscreateorder(result.data)
+        console.log("setIscreateorder------>", result.data)
         navigateToNextScreen();
       }
 
