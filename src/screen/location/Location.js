@@ -18,7 +18,7 @@ const Location = (props) => {
                                 Where do you want your Service?
                             </Text>
                             <CustomButton label={"At my current location"} size={"large"} backgroundColor="#004E8C" color={"white"} onPress={() => props.navigation.navigate("Location2")} />
-                            <CustomButton label={"I'll enter my location manually"} size={"large"} backgroundColor="#004E8C" color={"white"} onPress={() => props.navigation.navigate("Editadressstart")} />
+                            <CustomButton label={"I'll enter my location manually"} size={"large"} backgroundColor="#004E8C" color={"white"} onPress={() => props.navigation.navigate("Maullayaddadress")} />
                         </View>
                     </View>
                     {/* </ImageBackground> */}

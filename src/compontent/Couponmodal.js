@@ -6,12 +6,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { showMessage } from "react-native-flash-message";
 import { GestureHandlerRootView, Swipeable } from 'react-native-gesture-handler';
 import { Copuonapiget, applycopuon } from "../apiconfig/Apiconfig";
+import AuthContext from "../screen/context/AuthContext";
 const { height, width } = Dimensions.get("screen")
 
 const CouponModal = ({ visible, onClose, onApplyCouponSuccess }) => {
     const navigation = useNavigation();
     const [iscopon, setIscopon] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const { gethandlecart } = useState(AuthContext);
     console.log("iscopon----iscopon--->", iscopon)
 
 
@@ -32,8 +34,10 @@ const CouponModal = ({ visible, onClose, onApplyCouponSuccess }) => {
             const result = await response.json();
             console.log("copuonresult----->", result)
             if (result.status == 200) {
+
                 setIscopon(result.data);
                 setIsLoading(false);
+                gethandlecart();
                 console.log("copuonresult---data-->", result.data)
             }
         } catch (error) {

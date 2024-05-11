@@ -11,6 +11,7 @@ import { useNavigation } from "@react-navigation/native";
 import Couponmodal from "../../compontent/Couponmodal";
 import CouponModal from "../../compontent/Couponmodal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { showMessage } from "react-native-flash-message";
 const { height, width } = Dimensions.get("screen");
 const Summary = (props) => {
     const [index, setIndex] = useState(0);
@@ -19,7 +20,7 @@ const Summary = (props) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [quantityStates, setQuantityStates] = useState({});
-    const { mostpolluar, iscardlist } = useContext(AuthContext);
+    const { mostpolluar, iscardlist, gethandlecart } = useContext(AuthContext);
     const [modalVisiblecopun, setModalVisiblecopun] = useState(false);
     const [couponResponse, setCouponResponse] = useState([]);
     const [isCouponApplied, setIsCouponApplied] = useState(false);
@@ -37,31 +38,6 @@ const Summary = (props) => {
         setCouponResponse(response);
     };
 
-    // const removehandle = async () => {
-    //     try {
-    //         const token = await AsyncStorage.getItem('token');
-    //         console.log("tokennnnn---->", token)
-    //         const myHeaders = new Headers();
-    //         myHeaders.append("token", token);
-    //         myHeaders.append("Cookie", "ci_session=77cdeb6b53ba3146084a1022d42edece856c52d2");
-    //         const formdata = new FormData();
-    //         const requestOptions = {
-    //             method: "POST",
-    //             headers: myHeaders,
-    //             body: formdata,
-    //             redirect: "follow"
-    //         };
-    //         console.log("requestOption------>s", requestOptions)
-
-    //         const response = await fetch(removeCopoun, requestOptions);
-    //         const result = await response.json();
-    //         console.log("result-----result>", result)
-    //     } catch (error) {
-    //         console.log("error--asdd->", error)
-    //     }
-    // }
-
-
     const removehandle = async () => {
         try {
             const token = await AsyncStorage.getItem('token');
@@ -69,20 +45,32 @@ const Summary = (props) => {
             const myHeaders = new Headers();
             myHeaders.append("token", token);
             myHeaders.append("Cookie", "ci_session=cb2565654291381768a2715a2289cdb1f0aab364");
-            const formdata = new FormData();
+
             const requestOptions = {
-                method: "POST",
+                method: "GET",
                 headers: myHeaders,
-                body: formdata,
                 redirect: "follow"
             };
             const response = await fetch(removeCopoun, requestOptions);
             const result = await response.json();
-            console.log("response----resnse-->", result)
+            if (result.status == 200) {
+                showMessage({
+                    message: result?.message,
+                    type: "success",
+                    icon: "success"
+                });
+            } else if (result.status == 400) {
+                showMessage({
+                    message: result.message,
+                    type: "error",
+                    icon: "error"
+                });
+            }
+            console.log("response----resnse-->", result);
         } catch (error) {
-            console.log("errorrrr----ssss>", error)
+            console.log("errorrrr----ssss>", error);
         }
-    }
+    };
 
     console.log("mostpolluar----mostpolluar-->", mostpolluar);
     console.log("iscardlist----iscardli-----st---8888iscardlist->", iscardlist)
@@ -190,9 +178,8 @@ const Summary = (props) => {
     };
 
     const renderPriceDetail = () => {
-        const detailToRender = priceDetail || couponResponse;
-
-        return Object?.entries(detailToRender)?.map(([key, value]) => (
+        // const detailToRender = priceDetail || couponResponse;
+        return Object?.entries(priceDetail)?.map(([key, value]) => (
             <View style={styles.priceDetailContainer} key={key}>
                 <Text style={styles.text2}>{key}</Text>
                 <Text style={styles.text2}>{value}</Text>

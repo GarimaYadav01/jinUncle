@@ -309,8 +309,8 @@ const ServiceDetails = ({ route, onClose, }) => {
                             <TouchableOpacity onPress={() => handleDecreaseselect(item.id)}>
                                 <Text style={styles.textbut}>-</Text>
                             </TouchableOpacity>
-                            {/* <Text style={styles.textbut}>{quantityselectStates[item.id]?.quantity}</Text> */}
-                            <Text>{item.quantity}</Text>
+                            <Text style={styles.textbut}>{quantityselectStates[item.id]?.quantity}</Text>
+                            {/* <Text>{item.quantity}</Text> */}
                             {console.log("uantityselectStates[item.id]?.quantity-->", quantityselectStates[item.id]?.quantity)}
                             <TouchableOpacity onPress={() => handleIncreaseselect(item.id)}>
                                 <Text style={styles.textbut}>+</Text>

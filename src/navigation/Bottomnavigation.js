@@ -5,8 +5,6 @@ import ProfileScreen from '../screen/home/ProfileScreen';
 import SettingsScreen from '../screen/home/SettingsScreen';
 import { Dimensions, Image } from 'react-native';
 import HomeScreen from '../screen/home/HomeScreen';
-import Profile from '../screen/auth/Profile';
-import LoginScreen from '../screen/auth/LoginScreen';
 import Notification from '../screen/tab/Notification';
 import Addcard from '../screen/tab/Addcard';
 const { width, height } = Dimensions.get("screen")
@@ -16,7 +14,6 @@ const Bottomnavigation = () => {
     return (
         <Tab.Navigator
             screenOptions={({ route }) => ({
-
                 tabBarActiveTintColor: '#004E8C',
                 tabBarStyle: {
                     height: height * 0.08,

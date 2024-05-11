@@ -53,7 +53,6 @@ const AddressModal = ({ visible, onClose, }) => {
         </Modal>
     );
 };
-
 export default AddressModal;
 const styles = StyleSheet.create({
     container: {

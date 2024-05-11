@@ -9,7 +9,6 @@ const Minimum = () => {
             <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false} >
                 <View style={styles.container}>
                     <Text style={styles.sectionTitle}>Do i have to order a minimum value of serivces before i can preferred</Text>
-
                     <Text style={styles.sectionText}>To ensure efficient use of our professional's time, there are minimum order requirements for each category.</Text>
                     <Text style={styles.sectionText}>If the serivce you've selected does not meet the minimum order requirements, you will be prompted to add more services before you can proceed to checkout.</Text>
                 </View>
@@ -18,8 +17,6 @@ const Minimum = () => {
                         <Text style={[styles.text2, { fontSize: 20, color: "gray" }]}>Was this article helpful ?</Text>
                     </View>
                     <View style={{ flexDirection: "row", columnGap: 10 }}>
-
-
                         <TouchableOpacity
                         >
                             <Image source={require("../../assets/Newicon/like.png")} resizeMode="contain" style={{ width: 20, height: 20, }} />
