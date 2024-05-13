@@ -147,9 +147,9 @@ const PaymentScreen = ({ route }) => {
         redirect: "follow"
       };
       const response = await fetch(createorder, requestOptions);
-      const result = await response.json();
+      const result = await response.text();
       console.log("resu--->", result);
-      if (result.status == 200) {
+      if (response.status == 200) {
         setIscreateorder(result.data)
         console.log("setIscreateorder------>", result.data)
         navigateToNextScreen();

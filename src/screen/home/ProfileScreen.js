@@ -15,7 +15,6 @@ const ProfileScreen = () => {
     const navigation = useNavigation();
     const { isgetprofile, getProfile } = useContext(AuthContext);
     console.log("getprofile------fetch--->", isgetprofile);
-
     useEffect(() => {
         getProfile();
     })
@@ -64,12 +63,12 @@ const ProfileScreen = () => {
             image: ICONS.arrow,
             screen: "Settings"
         },
-        {
-            id: "9",
-            lable: "Scheduled bookings",
-            image: ICONS.arrow,
-            screen: "Schechdulebooking"
-        },
+        // {
+        //     id: "9",
+        //     lable: "Scheduled bookings",
+        //     image: ICONS.arrow,
+        //     screen: "Schechdulebooking"
+        // },
         {
             id: "10",
             lable: "About",

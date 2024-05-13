@@ -1,11 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, Image, Dimensions } from "react-native";
 import CustomButton from "../../compontent/Custombutton";
 import { useNavigation } from "@react-navigation/native";
+import Modalrating from "../../compontent/Modalrating";
 const { height, width } = Dimensions.get("screen")
 
 const ContiuneShopping = () => {
     const navigation = useNavigation();
+
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const toggleModal = () => {
+        setIsModalVisible(!isModalVisible);
+    };
+
     return (
         <View style={styles.container}>
             <Image source={require("../../assets/logo/jinnlogo.png")} style={styles.logo} resizeMode='contain' />
@@ -13,9 +20,16 @@ const ContiuneShopping = () => {
             <Text style={styles.text}>Your booking has been confirmed.</Text>
             {/* Add additional details about the booking */}
             <View style={{ marginTop: height * 0.09 }}>
-                <CustomButton label={"contiune"} size={"large"} backgroundColor={"#004E8C"} color={"white"} onPress={() => navigation.navigate("Bottomnavigation")} />
+                <CustomButton
+                    label={"contiune"}
+                    size={"large"}
+                    backgroundColor={"#004E8C"}
+                    color={"white"}
+                    // onPress={() => navigation.navigate("Bottomnavigation")} 
+                    onPress={toggleModal}
+                />
             </View>
-
+            <Modalrating isVisible={isModalVisible} onClose={toggleModal} />
         </View>
     );
 };

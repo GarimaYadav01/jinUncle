@@ -1,17 +1,76 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Image, StyleSheet, SafeAreaView, Dimensions, Text, ScrollView, FlatList, TouchableOpacity } from 'react-native';
 import Header from "../../compontent/Header";
 import CheckBox from 'react-native-check-box';
 import { IMAGE } from "../../assets/themes";
 import { AirbnbRating } from 'react-native-ratings';
 import Rateingmodal from "../../compontent/Rateingmodal";
-
+import { addrating, ratinggetapi } from "../../apiconfig/Apiconfig";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const { height, width } = Dimensions.get("screen");
 
 const Rateing = () => {
-
     const [isVisible, setIsVisible] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
+
+    const getrating = async () => {
+        try {
+            const token = await AsyncStorage.getItem('token');
+            const myHeaders = new Headers();
+            myHeaders.append("token", token);
+            myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
+            const formdata = new FormData();
+            const requestOptions = {
+                method: "Post",
+                headers: myHeaders,
+                body: formdata,
+                redirect: "follow"
+            };
+
+            const response = await fetch(ratinggetapi, requestOptions);
+            const result = await response.json();
+            console.log("result--result-result-sjdj>", result)
+        } catch (error) {
+            console.log("error======>", error)
+        }
+    }
+
+
+    useEffect(() => {
+        getrating();
+    })
+
+
+
+    const handlesubmitrating = async () => {
+        try {
+            const token = await AsyncStorage.getItem('token');
+            const myHeaders = new Headers();
+            myHeaders.append("token", token);
+            myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
+            const formdata = new FormData();
+            formdata.append("booking_id", "48");
+            formdata.append("message", "sasafsa");
+            formdata.append("rating", "1");
+            const requestOptions = {
+                method: "POST",
+                headers: myHeaders,
+                body: formdata,
+                redirect: "follow"
+            };
+            const response = await fetch(addrating, requestOptions);
+            const result = await response.json();
+            console.log("result---addrating-->", result)
+
+
+        } catch (error) {
+            console.log("errorratingadd---->", error)
+        }
+    }
+
+
+
+
 
     const showModal = () => {
         setIsVisible(true);
@@ -23,6 +82,7 @@ const Rateing = () => {
 
     const handleSave = () => {
         hideModal();
+        handlesubmitrating();
     };
 
     const handleRating = (rating) => {

@@ -4,12 +4,31 @@ import CustomButton from "./Custombutton";
 import { AirbnbRating } from 'react-native-ratings';
 // import ImagePicker from 'react-native-image-crop-picker';
 const { width, height } = Dimensions.get("screen");
+import ImagePicker from 'react-native-image-crop-picker';
 
 const Rateingmodal = ({ isVisible, hideModal, handleSave }) => {
     const handleRating = (rating) => {
         // Handle the rating as needed, such as saving it to state or sending it to a server
         console.log('Selected rating:', rating);
     };
+    const [imageUris, setImageUris] = useState([]);
+
+    const openCamera = () => {
+        ImagePicker.openCamera({
+            width: 300,
+            height: 400,
+            cropping: true,
+        }).then((image) => {
+            if (!image.cancelled) {
+                setImageUris([...imageUris, image.path]);
+            }
+        }).catch((error) => {
+            console.log('Errssssor:', error);
+        });
+    };
+
+
+
     return (
         <Modal
             animationType="slide"
@@ -44,7 +63,8 @@ const Rateingmodal = ({ isVisible, hideModal, handleSave }) => {
                                 placeholderStyle={{ paddingTop: 10 }}
                                 multiline={true}
                             />
-                            <TouchableOpacity style={styles.btn}>
+
+                            <TouchableOpacity style={styles.btn} onPress={openCamera}>
                                 {/* <Image source={require("../assets/payment/Big.png")} resizeMode="contain" style={{ height: 70, width: 70, alignSelf: "center" }} /> */}
                                 <Text style={[styles.text, { fontSize: 10 }]}>Add your photos</Text>
                             </TouchableOpacity>

@@ -177,16 +177,16 @@ const Summary = (props) => {
         );
     };
 
-    const renderPriceDetail = () => {
-        // const detailToRender = priceDetail || couponResponse;
-        return Object?.entries(priceDetail)?.map(([key, value]) => (
-            <View style={styles.priceDetailContainer} key={key}>
-                <Text style={styles.text2}>{key}</Text>
-                <Text style={styles.text2}>{value}</Text>
+    // const renderPriceDetail = () => {
+    //     // const detailToRender = priceDetail || couponResponse;
+    //     return Object?.entries(priceDetail)?.map(([key, value]) => (
+    //         <View style={styles.priceDetailContainer} key={key}>
+    //             <Text style={styles.text2}>{key}</Text>
+    //             <Text style={styles.text2}>{value}</Text>
 
-            </View>
-        ));
-    };
+    //         </View>
+    //     ));
+    // };
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#FFF" }}>
@@ -245,7 +245,7 @@ const Summary = (props) => {
 
                 <View style={styles.priceDetailSection}>
                     <Text style={styles.priceDetailHeading}>Price Details</Text>
-                    {renderPriceDetail()}
+                    {/* {renderPriceDetail()} */}
                 </View>
                 <View style={{ marginTop: height * 0.03 }}>
                     <CustomButton size={"large"} label={"Continue"} backgroundColor={"#004E8C"} color={"white"} onPress={handleCardPress} />
