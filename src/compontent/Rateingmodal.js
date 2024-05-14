@@ -7,11 +7,27 @@ const { width, height } = Dimensions.get("screen");
 import ImagePicker from 'react-native-image-crop-picker';
 
 const Rateingmodal = ({ isVisible, hideModal, handleSave }) => {
-    const handleRating = (rating) => {
-        // Handle the rating as needed, such as saving it to state or sending it to a server
-        console.log('Selected rating:', rating);
-    };
+    // const handleRating = (rating) => {
+    //     // Handle the rating as needed, such as saving it to state or sending it to a server
+    //     console.log('Selected rating:', rating);
+    // };
+
     const [imageUris, setImageUris] = useState([]);
+    const [message, setMessage] = useState('');
+    const [rating, setRating] = useState(0);
+
+
+
+    const handleRating = (rating) => {
+        setRating(rating);
+    };
+
+    const handleMessageChange = (text) => {
+        setMessage(text);
+    };
+
+
+
 
     const openCamera = () => {
         ImagePicker.openCamera({
@@ -27,6 +43,15 @@ const Rateingmodal = ({ isVisible, hideModal, handleSave }) => {
         });
     };
 
+    const handleSendReview = () => {
+        // Call handleSave function with rating and message as parameters
+        handleSave(rating, message);
+    };
+
+
+
+
+
 
 
     return (
@@ -35,46 +60,37 @@ const Rateingmodal = ({ isVisible, hideModal, handleSave }) => {
             transparent={true}
             visible={isVisible}
             onRequestClose={hideModal}
-
         >
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
                         <View style={styles.line}></View>
-                        <Text style={styles.modalTitle}>What is you rate?</Text>
-                        <View
-                        // style={{marginTop:-height*0.04}}
-                        >
-                            <AirbnbRating
-                                count={5}
-                                defaultRating={0}
-                                size={30}
-                                onFinishRating={handleRating}
-
-                            />
-                        </View>
+                        <Text style={styles.modalTitle}>What is your rate?</Text>
+                        <AirbnbRating
+                            count={5}
+                            defaultRating={0}
+                            size={30}
+                            onFinishRating={handleRating}
+                        />
                         <View style={{ marginTop: height * 0.02 }}>
-                            <Text style={styles.text}>Please share your opinion
-                                about the product</Text>
-
-                            <TextInput placeholder="Your review"
+                            <Text style={styles.text}>Please share your opinion about the product</Text>
+                            <TextInput
+                                placeholder="Your review"
                                 style={styles.input}
                                 placeholderTextColor={"#9B9B9B"}
                                 placeholderStyle={{ paddingTop: 10 }}
                                 multiline={true}
+                                value={message}
+                                onChangeText={handleMessageChange}
                             />
-
                             <TouchableOpacity style={styles.btn} onPress={openCamera}>
-                                {/* <Image source={require("../assets/payment/Big.png")} resizeMode="contain" style={{ height: 70, width: 70, alignSelf: "center" }} /> */}
                                 <Text style={[styles.text, { fontSize: 10 }]}>Add your photos</Text>
                             </TouchableOpacity>
                         </View>
-
-                        <CustomButton label={"SEND REVIEW"} size={"large"} onPress={handleSave} backgroundColor={"#004E8C"} color={"white"} />
+                        <CustomButton label={"SEND REVIEW"} size={"large"} onPress={handleSendReview} backgroundColor={"#004E8C"} color={"white"} />
                     </View>
                 </View>
             </ScrollView>
-
         </Modal>
     );
 };

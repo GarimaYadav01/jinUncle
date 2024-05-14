@@ -62,6 +62,7 @@ import Editadressstart from '../screen/tab/Editadressstart';
 import Editadd from '../screen/tab/Editadd';
 import ServiceDetails from '../screen/tab/ServiceDetails';
 import Maullayaddadress from '../screen/tab/Maullayaddadress';
+import Bookingdetails from '../screen/profilescreens/Bookingdetails';
 
 const Stack = createNativeStackNavigator();
 const Navigation = () => {
@@ -129,6 +130,7 @@ const Navigation = () => {
                 <Stack.Screen name="Editadd" component={Editadd} />
                 <Stack.Screen name="ServiceDetails" component={ServiceDetails} />
                 <Stack.Screen name="Maullayaddadress" component={Maullayaddadress} />
+                <Stack.Screen name="Bookingdetails" component={Bookingdetails} />
 
             </Stack.Navigator>
         </NavigationContainer>

@@ -29,9 +29,9 @@ const ProfileScreen = () => {
         },
         {
             id: "2",
-            lable: "Help center",
+            lable: "Edit profile",
             image: ICONS.arrow,
-            screen: "Helpcenter"
+            screen: "Editprofile"
         },
         {
             id: "3",

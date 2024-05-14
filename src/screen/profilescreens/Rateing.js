@@ -7,6 +7,7 @@ import { AirbnbRating } from 'react-native-ratings';
 import Rateingmodal from "../../compontent/Rateingmodal";
 import { addrating, ratinggetapi } from "../../apiconfig/Apiconfig";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { showMessage } from "react-native-flash-message";
 const { height, width } = Dimensions.get("screen");
 
 const Rateing = () => {
@@ -21,7 +22,7 @@ const Rateing = () => {
             myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
             const formdata = new FormData();
             const requestOptions = {
-                method: "Post",
+                method: "get",
                 headers: myHeaders,
                 body: formdata,
                 redirect: "follow"
@@ -42,16 +43,16 @@ const Rateing = () => {
 
 
 
-    const handlesubmitrating = async () => {
+    const handlesubmitrating = async (rating, message) => {
         try {
             const token = await AsyncStorage.getItem('token');
             const myHeaders = new Headers();
             myHeaders.append("token", token);
             myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
             const formdata = new FormData();
-            formdata.append("booking_id", "48");
-            formdata.append("message", "sasafsa");
-            formdata.append("rating", "1");
+            formdata.append("booking_id", "51");
+            formdata.append("message", message);
+            formdata.append("rating", rating);
             const requestOptions = {
                 method: "POST",
                 headers: myHeaders,
@@ -61,16 +62,19 @@ const Rateing = () => {
             const response = await fetch(addrating, requestOptions);
             const result = await response.json();
             console.log("result---addrating-->", result)
+            if (result.status == 200) {
+                showMessage({
+                    message: "rating successfully",
+                    icon: "success",
+                    type: "success"
+                })
+            }
 
 
         } catch (error) {
             console.log("errorratingadd---->", error)
         }
     }
-
-
-
-
 
     const showModal = () => {
         setIsVisible(true);
@@ -90,20 +94,20 @@ const Rateing = () => {
         console.log('Selected rating:', rating);
     };
 
-    const data = [
-        {
-            comment: "I loved this dress so much as soon as I tried it on I knew I had to buy it in another color. I am 5'3 about 155lbs and I carry all my weight in my upper body. When I put it on I felt like it thinned me put and I got so many compliments.",
-            lable: "Kim Shine",
-            date: "August 13, 2019",
-            // icon: IMAGE.car,
-        },
-        {
-            comment: "I loved this dress so much as soon as I tried it on I knew I had to buy it in another color. I am 5'3 about 155lbs and I carry all my weight in my upper body. When I put it on I felt like it thinned me put and I got so many compliments.",
-            lable: "Kim Shine",
-            date: "August 13, 2019",
-            // icon: IMAGE.car,
-        }
-    ];
+    // const data = [
+    //     {
+    //         comment: "I loved this dress so much as soon as I tried it on I knew I had to buy it in another color. I am 5'3 about 155lbs and I carry all my weight in my upper body. When I put it on I felt like it thinned me put and I got so many compliments.",
+    //         lable: "Kim Shine",
+    //         date: "August 13, 2019",
+    //         // icon: IMAGE.car,
+    //     },
+    //     {
+    //         comment: "I loved this dress so much as soon as I tried it on I knew I had to buy it in another color. I am 5'3 about 155lbs and I carry all my weight in my upper body. When I put it on I felt like it thinned me put and I got so many compliments.",
+    //         lable: "Kim Shine",
+    //         date: "August 13, 2019",
+    //         // icon: IMAGE.car,
+    //     }
+    // ];
 
     const renderReviewItem = ({ item }) => (
         <View style={styles.card}>
@@ -166,7 +170,6 @@ const Rateing = () => {
                         </View>
                     </TouchableOpacity>
                 </View>
-
                 <Rateingmodal
                     isVisible={isVisible}
                     hideModal={hideModal}

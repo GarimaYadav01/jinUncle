@@ -177,16 +177,44 @@ const Summary = (props) => {
         );
     };
 
-    // const renderPriceDetail = () => {
-    //     // const detailToRender = priceDetail || couponResponse;
-    //     return Object?.entries(priceDetail)?.map(([key, value]) => (
-    //         <View style={styles.priceDetailContainer} key={key}>
-    //             <Text style={styles.text2}>{key}</Text>
-    //             <Text style={styles.text2}>{value}</Text>
+    const renderPriceDetail = ({ item }) => {
+        return (
+            <View style={styles.priceDetailContainer} >
+                <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                    <Text style={styles.text2}>cartsubtotal</Text>
+                    <Text style={{ color: "gray", }}>{item.cart_sub_total}</Text>
+                </View>
 
-    //         </View>
-    //     ));
-    // };
+                <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                    <Text style={styles.text2}>deliverycharge</Text>
+                    <Text style={{ color: "gray", }}>{item.delivery_charge}</Text>
+                </View>
+
+                <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                    <Text style={styles.text2}>carttotal</Text>
+                    <Text style={{ color: "gray", }}>{item.cart_total}</Text>
+                </View>
+
+                <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                    <Text style={styles.text2}>payableamount</Text>
+                    <Text style={{ color: "gray", }}>{item.payable_amount}</Text>
+                </View>
+
+                {isCouponApplied && (
+                    <View>
+                        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                            <Text style={styles.text2}>couponname</Text>
+                            <Text style={{ color: "gray", }}>{couponResponse[0]?.coupon_name}</Text>
+                        </View>
+                        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                            <Text style={styles.text2}>coupondiscount</Text>
+                            <Text style={{ color: "gray", }}>{couponResponse[0]?.coupon_discount}</Text>
+                        </View>
+                    </View>
+                )}
+            </View>
+        );
+    };
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#FFF" }}>
@@ -245,7 +273,12 @@ const Summary = (props) => {
 
                 <View style={styles.priceDetailSection}>
                     <Text style={styles.priceDetailHeading}>Price Details</Text>
-                    {/* {renderPriceDetail()} */}
+                    <View style={{ marginTop: height * 0.01 }}>
+                        <FlatList
+                            data={priceDetail}
+                            renderItem={renderPriceDetail} />
+                    </View>
+
                 </View>
                 <View style={{ marginTop: height * 0.03 }}>
                     <CustomButton size={"large"} label={"Continue"} backgroundColor={"#004E8C"} color={"white"} onPress={handleCardPress} />
@@ -344,9 +377,10 @@ const styles = StyleSheet.create({
         paddingBottom: 10
     },
     text2: {
-        fontSize: 16,
-        color: "gray",
-        lineHeight: 22
+        fontSize: 17,
+        color: "black",
+        lineHeight: 22,
+
     },
     smallbutton: {
         height: height * 0.03,
@@ -400,12 +434,12 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: "black",
         fontWeight: "700",
-        marginHorizontal: 20
+        marginHorizontal: 10
     },
     priceDetailContainer: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        marginHorizontal: 20
+        // flexDirection: "row",
+        // justifyContent: "space-between",
+        marginHorizontal: 10
     },
     priceDetailLabel: {
         color: "black",

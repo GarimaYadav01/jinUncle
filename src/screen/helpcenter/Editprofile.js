@@ -106,7 +106,7 @@ const Editprofile = () => {
                                     value={values.phone}
                                     error={errors.phone}
                                     disabled={true}
-                                    
+
                                 />
                                 {touched.phone && errors.phone && <Text style={{ color: "red", fontSize: 14 }}>{errors.phone}</Text>}
                                 <View style={{ marginTop: 20 }}>

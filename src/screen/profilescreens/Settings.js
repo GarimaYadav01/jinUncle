@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text, View, Switch, Dimensions, TouchableOpacity, Modal, Button } from "react-native";
 import Header from "../../compontent/Header";
-import { del } from "../../apiconfig/Apiconfig";
+import { del, serverl } from "../../apiconfig/Apiconfig";
 import LoaderScreen from "../../compontent/LoaderScreen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { showMessage } from "react-native-flash-message";
@@ -45,9 +45,29 @@ const Settings = ({ navigation }) => {
     };
 
 
+    const handlewhatsupupdate = async () => {
+        try {
+            const myHeaders = new Headers();
+            const token = await AsyncStorage.getItem('token');
+            myHeaders.append("token", token);
+            myHeaders.append("Cookie", "ci_session=21ae07cdcb962f9db308f3b0c2ffc4e41b9eca97");
+            const requestOptions = {
+                method: "GET",
+                headers: myHeaders,
+                redirect: "follow"
+            };
+            const response = await fetch(serverl, requestOptions);
+            const result = await response.json();
+            console.log("Whatsupdate-----response:---->", result);
+        } catch (error) {
+            console.log("error---logpou->", error)
+        }
+    }
+
     const toggleSwitch = () => {
         setIsEnabled(previousState => !previousState);
         if (!isEnabled) {
+            handlewhatsupupdate();
             openUpdateModal();
         }
     };

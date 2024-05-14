@@ -20,7 +20,7 @@ const ServiceDetails = ({ route, onClose, }) => {
     const [isLoading, setIsLoading] = useState(false)
     const { iscardlist } = useContext(AuthContext);
     const priceDetail = iscardlist?.data?.price_detail;
-    console.log("iscardlist---->", iscardlist)
+    console.log("priceDetail---->", priceDetail)
     const serviceid = route.params.serviceid;
     console.log("serviceid---->", serviceid)
     console.log("quantityselectStates------>", quantityselectStates)
@@ -216,10 +216,10 @@ const ServiceDetails = ({ route, onClose, }) => {
             ...prevStates,
             [id]: {
                 ...prevStates[id],
-                quantity: Math.max(1, prevStates[id]?.quantity - 1) // Ensure quantity doesn't go below 1
+                quantity: Math.max(1, prevStates[id]?.quantity - 1)
             }
         }));
-        // Add any other logic related to adding to cart
+
     };
     const toggleVectorselect = (id) => {
         handleaddtocart();
@@ -331,6 +331,8 @@ const ServiceDetails = ({ route, onClose, }) => {
     const image = imageData ? JSON.parse(imageData).map(img => ({ ...img, image_path: imagebaseurl + img.image_path })) : [];
     console.log("imageimage---->", image)
 
+    const cartSubTotal = priceDetail && priceDetail.length > 0 ? priceDetail[0].cart_sub_total : "";
+
 
     console.log("dverinat---->", dverinat)
     return (
@@ -430,7 +432,8 @@ const ServiceDetails = ({ route, onClose, }) => {
                 >
                     <View style={styles.modalContent2}>
                         <View style={styles.paymentcard}>
-                            <Text style={styles.text}>{priceDetail?.cart_sub_total}</Text>
+                            <Text style={styles.text}>{cartSubTotal}</Text>
+                            {console.log("princedetails------>", priceDetail?.cart_sub_total)}
                             <TouchableOpacity style={styles.smallbutton} onPress={handleViewCard}>
                                 <Text style={styles.textbut}>View card</Text>
                             </TouchableOpacity>

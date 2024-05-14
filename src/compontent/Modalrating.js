@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import Modal from 'react-native-modal';
 
-
 const Modalrating = ({ isVisible, onClose, onSubmitRating }) => {
     const [rating, setRating] = useState(0);
 
@@ -18,6 +17,43 @@ const Modalrating = ({ isVisible, onClose, onSubmitRating }) => {
         onClose();
         navigation.navigate("Bottomnavigation");
     };
+
+
+    const handlesubmitrating = async () => {
+        try {
+            const token = await AsyncStorage.getItem('token');
+            const myHeaders = new Headers();
+            myHeaders.append("token", token);
+            myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
+            const formdata = new FormData();
+            formdata.append("booking_id", "51");
+            formdata.append("message", "sasafsa");
+            formdata.append("rating", rating);
+            const requestOptions = {
+                method: "POST",
+                headers: myHeaders,
+                body: formdata,
+                redirect: "follow"
+            };
+            const response = await fetch(addrating, requestOptions);
+            const result = await response.json();
+            console.log("result---addrating-->", result)
+            if (result.status == 200) {
+                showMessage({
+                    message: "rating successfully",
+                    icon: "success",
+                    type: "success"
+                })
+            }
+
+
+        } catch (error) {
+            console.log("errorratingadd---->", error)
+        }
+    }
+
+
+
 
     return (
         <Modal isVisible={isVisible} onBackdropPress={onClose}>
