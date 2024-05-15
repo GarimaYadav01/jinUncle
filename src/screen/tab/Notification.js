@@ -66,7 +66,7 @@ const Notification = () => {
                         <Image source={item.image} style={styles.notificationImage} />
                         <View style={styles.notificationDetails}>
                             <Text style={styles.notificationText}>{item.notification}</Text>
-                            <Text>{item.timing} - {item.date}</Text>
+                            <Text style={{ color: "gray" }}>{item.timing} - {item.date}</Text>
                         </View>
                     </View>
                 </Swipeable>
@@ -109,6 +109,7 @@ const styles = StyleSheet.create({
     },
     notificationText: {
         fontWeight: 'bold',
+        color: "black"
     },
     deleteButton: {
         backgroundColor: 'red',

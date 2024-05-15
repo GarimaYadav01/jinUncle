@@ -9,7 +9,7 @@ import LoaderScreen from "../../compontent/LoaderScreen";
 import { Modal } from "react-native-paper";
 const { height, width } = Dimensions.get("screen");
 const Addcard = () => {
-    const { iscardlist, } = useContext(AuthContext)
+    const { iscardlist, setIsCardlist } = useContext(AuthContext)
     const [isLoading, setIsLoading] = useState(false);
     const [deleteModalVisible, setDeleteModalVisible] = useState(false);
     console.log("iscardlist------->", iscardlist);
@@ -20,8 +20,8 @@ const Addcard = () => {
     const toggleDeleteModal = () => {
         setDeleteModalVisible(!deleteModalVisible);
     };
-    const onDelete = () => {
-        handleremovecard();
+    const onDelete = (cart_id) => {
+        handleremovecard(cart_id);
         toggleDeleteModal();
     };
     const DeleteModal = () => {
@@ -36,7 +36,7 @@ const Addcard = () => {
                                 <Text style={[styles.text, { color: "text" }]}>Cancel</Text>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={onDelete} style={styles.btn}>
-                                <Text style={styles.text}>Delete</Text>
+                                <Text style={[styles.text, { color: "white" }]}>Delete</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -45,7 +45,7 @@ const Addcard = () => {
         );
     };
 
-    const handleremovecard = async () => {
+    const handleremovecard = async (cart_id) => {
         try {
             setIsLoading(true);
             const token = await AsyncStorage.getItem('token');
@@ -53,8 +53,8 @@ const Addcard = () => {
             myHeaders.append("token", token);
             myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
             const formdata = new FormData();
-            formdata.append("cart_id", iscardlist.cart_id);
-            console.log("cartid--->", iscardlist.cart_id)
+            formdata.append("cart_id", cart_id);
+            console.log("cartid--->", cart_id)
 
             const requestOptions = {
                 method: "POST",
@@ -65,16 +65,26 @@ const Addcard = () => {
             const response = await fetch(cardremove, requestOptions);
             const result = await response.json();
             if (result.status == 200) {
+                // Remove the deleted card from the card list
+                const updatedCardList = cartProducts.filter(card => card.cart_id !== cart_id);
+                // Capture the cart_id before updating the state
+                const updatedCartId = cart_id;
+                setIsCardlist(prevState => ({
+                    ...prevState,
+                    data: {
+                        ...prevState.data,
+                        cart_products: updatedCardList
+                    }
+                }));
                 setIsLoading(false);
+                console.log("Deleted card with ID:", updatedCartId);
             }
-            console.log("resultresult---->", result)
+            console.log("resultresultddd---->", result)
         } catch (error) {
             console.log("errorerror----->", error)
             setIsLoading(false);
         }
     }
-
-
 
     const renderitem = ({ item }) => {
         // const onDelete = () => {
@@ -87,7 +97,7 @@ const Addcard = () => {
                 outputRange: [100, 0, -100],
             });
             return (
-                <TouchableOpacity onPress={onDelete}>
+                <TouchableOpacity onPress={() => onDelete(item.cart_id)}>
                     <Image source={require("../../assets/Icon/delete.png")} style={{ width: 40, height: 40, marginTop: height * 0.08, marginRight: 15 }} tintColor={"red"} />
                 </TouchableOpacity>
             );

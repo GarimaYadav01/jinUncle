@@ -45,7 +45,6 @@ const Summary = (props) => {
             const myHeaders = new Headers();
             myHeaders.append("token", token);
             myHeaders.append("Cookie", "ci_session=cb2565654291381768a2715a2289cdb1f0aab364");
-
             const requestOptions = {
                 method: "GET",
                 headers: myHeaders,
@@ -184,12 +183,10 @@ const Summary = (props) => {
                     <Text style={styles.text2}>cartsubtotal</Text>
                     <Text style={{ color: "gray", }}>{item.cart_sub_total}</Text>
                 </View>
-
                 <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                     <Text style={styles.text2}>deliverycharge</Text>
                     <Text style={{ color: "gray", }}>{item.delivery_charge}</Text>
                 </View>
-
                 <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                     <Text style={styles.text2}>carttotal</Text>
                     <Text style={{ color: "gray", }}>{item.cart_total}</Text>

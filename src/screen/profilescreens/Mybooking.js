@@ -84,13 +84,11 @@ const Mybooking = () => {
             return true;
         } else if (selectedTab === "Upcomming Booking") {
             // Add condition for Upcomming Booking
-            return item.upcomming_condition; // Replace upcomming_condition with actual condition
+            return true;
         } else if (selectedTab === "Runing Booking") {
-            // Add condition for Runing Booking
-            return item.runing_condition; // Replace runing_condition with actual condition
+            return true;
         } else if (selectedTab === "Compeleted Booking") {
-            // Add condition for Compeleted Booking
-            return item.compeleted_condition; // Replace compeleted_condition with actual condition
+            return true;
         }
     });
 

@@ -26,7 +26,7 @@ const ServiceDetails = ({ route, onClose, }) => {
     console.log("quantityselectStates------>", quantityselectStates)
     console.log("servericdetailsget----->", servericdetailsget)
     console.log("serviceid------>", serviceid)
-    const handleaddtocart = async () => {
+    const handleaddtocart = async (quantity) => {
         try {
             // setIsLoading(true);
             const token = await AsyncStorage.getItem('token');
@@ -49,11 +49,9 @@ const ServiceDetails = ({ route, onClose, }) => {
             const formdata = new FormData();
             formdata.append("service_id", serviceid);
             formdata.append("varient_id", dverinat.id);
-            formdata.append("quantity", quantityselectStates.quantity);
-            console.log("service_id---->", serviceid)
-            console.log("varient_id------->", dverinat.id)
-            console.log("quantity---->", dverinat.quantity)
-            // formdata.append("varient_data", "[{\"varient_id\":1,\"quantity\":1},{\"varient_id\":2,\"quantity\":2}]");
+            // formdata.append("quantity", quantityselectStates.quantity);
+            formdata.append("quantity", quantity);
+            console.log("quantity-------->", quantity)
             const requestOptions = {
                 method: "POST",
                 headers: myHeaders,
@@ -140,50 +138,6 @@ const ServiceDetails = ({ route, onClose, }) => {
             useNativeDriver: true,
         }).start();
     };
-    const openModal = () => {
-        // onClose();
-        setIsVisibleModal(true);
-    }
-
-    // useEffect(() => {
-    //     // Initialize quantity states for each item
-    //     const initialQuantityStates = {};
-    //     Allmix.forEach(({ id }) => {
-    //         initialQuantityStates[id] = {
-    //             showQuantityView: false,
-    //             quantity: 1
-    //         };
-    //     });
-    //     setQuantityStates(initialQuantityStates);
-    // }, []);
-
-    const images = [
-        require('../../assets/banner/banner.png'),
-        require('../../assets/banner/ACBAnner.png'),
-        require('../../assets/banner/ACBAnner1.png'),
-        // Add more image sources as needed
-    ];
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-        }, 3000);
-
-        return () => clearInterval(interval);
-    }, []);
-
-
-
-    // useEffect(() => {
-    //     const initialQuantityselectStates = {};
-    //     dverinat.forEach(({ id }) => {
-    //         initialQuantityselectStates[id] = {
-    //             showQuantityView: false,
-    //             quantity: 1 // Initialize quantity to 1 or any default value
-    //         };
-    //     });
-    //     setQuantityselectStates(initialQuantityselectStates);
-    // }, []);
 
     useEffect(() => {
         const initialQuantityselectStates = {};
@@ -200,29 +154,29 @@ const ServiceDetails = ({ route, onClose, }) => {
 
 
 
-    const handleIncreaseselect = (id) => {
-        setQuantityselectStates(prevStates => ({
-            ...prevStates,
-            [id]: {
-                ...prevStates[id],
-                quantity: prevStates[id]?.quantity ? prevStates[id].quantity + 1 : 1 // Ensure quantity is at least 1 before incrementing
-            }
-        }));
-        // Add any other logic related to adding to cart
-    };
+    // const handleIncreaseselect = (id) => {
+    //     setQuantityselectStates(prevStates => ({
+    //         ...prevStates,
+    //         [id]: {
+    //             ...prevStates[id],
+    //             quantity: prevStates[id]?.quantity ? prevStates[id].quantity + 1 : 1 // Ensure quantity is at least 1 before incrementing
+    //         }
+    //     }));
+    //     // Add any other logic related to adding to cart
+    // };
 
-    const handleDecreaseselect = (id) => {
-        setQuantityselectStates(prevStates => ({
-            ...prevStates,
-            [id]: {
-                ...prevStates[id],
-                quantity: Math.max(1, prevStates[id]?.quantity - 1)
-            }
-        }));
+    // const handleDecreaseselect = (id) => {
+    //     setQuantityselectStates(prevStates => ({
+    //         ...prevStates,
+    //         [id]: {
+    //             ...prevStates[id],
+    //             quantity: Math.max(1, prevStates[id]?.quantity - 1)
+    //         }
+    //     }));
 
-    };
-    const toggleVectorselect = (id) => {
-        handleaddtocart();
+    // };
+    const toggleVectorselect = (id, quantity) => {
+        handleaddtocart(quantity);
         togglePopup();
         setQuantityselectStates(prevStates => ({
             ...prevStates,
@@ -231,62 +185,45 @@ const ServiceDetails = ({ route, onClose, }) => {
                 showQuantityView: !prevStates[id]?.showQuantityView
             }
         }));
-        // showMessage({
-        //     message: "add to view card successful",
-        //     type: "success",
-        //     icon: "success"
-        // });
+
     };
-    const Allmix = [
-        {
-            id: "1",
-            image: require("../../assets/newimages/washingmachine1.png"),
-            name: " washing",
-            icon: require("../../assets/logo/star.png"),
-            likes: "4.85(60k reviews)",
-            starts: 549,
-        },
-        {
-            id: "2",
-            image: require("../../assets/newimages/washingmachine2.png"),
-            name: "cleaning",
-            icon: require("../../assets/logo/star.png"),
-            likes: "4.85(60k reviews)",
-            starts: 549,
-        },
-        {
-            id: "3",
-            image: require("../../assets/newimages/wahingmachine3.png"),
-            name: "change the wire",
-            icon: require("../../assets/logo/star.png"),
-            likes: "4.85(60k reviews)",
-            starts: 549,
-        },
-        {
-            id: "4",
-            image: require("../../assets/newimages/AC1.png"),
-            name: "Repair & gas refill",
-            icon: require("../../assets/logo/star.png"),
-            likes: "4.85(60k reviews)",
-            starts: 549,
-        },
-        {
-            id: "5",
-            image: require("../../assets/newimages/AC.png"),
-            name: "Install & Uninstall",
-            icon: require("../../assets/logo/star.png"),
-            likes: "4.85(60k reviews)",
-            starts: 549,
-        },
-        {
-            id: "6",
-            image: require("../../assets/newimages/AC2.png"),
-            name: "service",
-            icon: require("../../assets/logo/star.png"),
-            likes: "4.85(60k reviews)",
-            starts: 549,
-        }
-    ]
+    const handleDecreaseselect = (quantity) => {
+        handleaddtocart(quantity);
+        setServericdetailsget(prevData => ({
+            ...prevData,
+            data: prevData.data.map((item, index) => {
+                if (index === 0) {
+                    return {
+                        ...item,
+                        varient: item.varient.map(variantItem => ({
+                            ...variantItem,
+                            quantity: Math.max(1, parseInt(variantItem.quantity) - 1)
+                        }))
+                    };
+                }
+                return item;
+            })
+        }));
+    };
+
+    const handleIncreaseselect = (quantity) => {
+        handleaddtocart(quantity);
+        setServericdetailsget(prevData => ({
+            ...prevData,
+            data: prevData.data.map((item, index) => {
+                if (index === 0) {
+                    return {
+                        ...item,
+                        varient: item.varient.map(variantItem => ({
+                            ...variantItem,
+                            quantity: parseInt(variantItem.quantity) + 1
+                        }))
+                    };
+                }
+                return item;
+            })
+        }));
+    };
 
 
     const renderselectvariant = ({ item }) => (
@@ -299,20 +236,22 @@ const ServiceDetails = ({ route, onClose, }) => {
                     <Text style={{ color: "gray" }}>{item.likes}</Text>
                 </View>
                 <Text style={{ color: "black" }}>₹258</Text>
+
+
                 <View>
                     {!quantityselectStates[item.id]?.showQuantityView ? (
-                        <TouchableOpacity style={styles.smallbutton} onPress={() => toggleVectorselect(item.id)}>
+                        <TouchableOpacity style={styles.smallbutton} onPress={() => toggleVectorselect(item.id, item.quantity)}>
                             <Text style={styles.textbut}>Add</Text>
                         </TouchableOpacity>
                     ) : (
                         <View style={styles.container1}>
-                            <TouchableOpacity onPress={() => handleDecreaseselect(item.id)}>
+                            <TouchableOpacity onPress={() => handleDecreaseselect(item.id, item.quantity)}>
                                 <Text style={styles.textbut}>-</Text>
                             </TouchableOpacity>
-                            <Text style={styles.textbut}>{quantityselectStates[item.id]?.quantity}</Text>
-                            {/* <Text>{item.quantity}</Text> */}
+                            <Text style={styles.textbut}>{item.quantity}</Text>
+
                             {console.log("uantityselectStates[item.id]?.quantity-->", quantityselectStates[item.id]?.quantity)}
-                            <TouchableOpacity onPress={() => handleIncreaseselect(item.id)}>
+                            <TouchableOpacity onPress={() => handleIncreaseselect(item.id, item.quantity)}>
                                 <Text style={styles.textbut}>+</Text>
                             </TouchableOpacity>
                         </View>
@@ -325,18 +264,20 @@ const ServiceDetails = ({ route, onClose, }) => {
 
     const serviceName = servericdetailsget && servericdetailsget.data && servericdetailsget?.data[0] ? servericdetailsget?.data[0]?.name : "";
     const serviceRating = servericdetailsget && servericdetailsget.data && servericdetailsget?.data[0] ? servericdetailsget?.data[0]?.rating : "";
-    const dverinat = servericdetailsget && servericdetailsget.data && servericdetailsget?.data[0] ? servericdetailsget?.data[0]?.varient : "";
+    // const dverinat = servericdetailsget && servericdetailsget.data && servericdetailsget?.data[0] ? servericdetailsget?.data[0]?.varient : "";
+    const dverinat = servericdetailsget?.data && servericdetailsget.data.length > 0 ? servericdetailsget.data[0].varient : [];
     const imageBaseUrl = servericdetailsget?.imageurl; // Assuming this is the base URL for your images
     const imageData = servericdetailsget && servericdetailsget.data && servericdetailsget?.data[0]?.banner;
     const image = imageData ? JSON.parse(imageData).map(img => ({ ...img, image_path: imagebaseurl + img.image_path })) : [];
     console.log("imageimage---->", image)
+    const quantity = dverinat.length > 0 ? dverinat[0].quantity : null;
+    console.log("quantity-----quantity---->", quantity)
 
     const cartSubTotal = priceDetail && priceDetail.length > 0 ? priceDetail[0].cart_sub_total : "";
 
 
     console.log("dverinat---->", dverinat)
     return (
-        // <Modal visible={visible} transparent={true} animationType="slide">
         <View style={{ flex: 1 }}>
             <Header title={"Service Deatils"} />
             <View style={styles.modalContainer}>
@@ -442,7 +383,7 @@ const ServiceDetails = ({ route, onClose, }) => {
                 </Animated.View>
             </View>
             {isLoading && <LoaderScreen isLoading={isLoading} />}
-            {/* // </Modal> */}
+
         </View>
     );
 };

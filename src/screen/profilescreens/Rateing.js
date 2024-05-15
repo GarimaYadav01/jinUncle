@@ -69,8 +69,6 @@ const Rateing = () => {
                     type: "success"
                 })
             }
-
-
         } catch (error) {
             console.log("errorratingadd---->", error)
         }

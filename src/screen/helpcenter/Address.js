@@ -1,5 +1,5 @@
 
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, createContext } from "react";
 import { View, Image, StyleSheet, SafeAreaView, StatusBar, Text, ScrollView, FlatList, TouchableOpacity, Platform, Dimensions, } from 'react-native';
 import Header from "../../compontent/Header";
 import CheckBox from 'react-native-check-box';
@@ -13,16 +13,16 @@ import { GestureHandlerRootView, Swipeable } from "react-native-gesture-handler"
 import { Modal } from "react-native-paper";
 
 const { height, width } = Dimensions.get("screen")
+
+const AddressIdContext = createContext();
 const Address = (props) => {
     const [isaddress, setIsaddress] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [deleteModalVisible, setDeleteModalVisible] = useState(false);
-
+    const [addressId, setAddressId] = useState(null);
     console.log("isLoading----->", isLoading)
-
     // const { isaddress } = useContext(AuthContext);
     // console.log("isaddress--isaddAuthContextress-->", isaddress)
-
     const [isCheckedList, setIsCheckedList] = useState(Array(isaddress?.length).fill(false));
     console.log("isCheckedList---->", isCheckedList)
     const onCheckBoxPress = (index, address_id) => {
@@ -33,6 +33,14 @@ const Address = (props) => {
     };
 
 
+
+    const setAddressIdValue = (value) => {
+        setAddressId(value);
+    };
+
+    const getAddressIdValue = () => {
+        return addressId;
+    };
     const saveCheckedList = async () => {
         try {
             await AsyncStorage.setItem('isCheckedList', JSON.stringify(isCheckedList));
@@ -59,7 +67,6 @@ const Address = (props) => {
     useEffect(() => {
         saveCheckedList();
     }, [isCheckedList]);
-
 
 
     const handlewdefult = async (address_id) => {
@@ -99,7 +106,6 @@ const Address = (props) => {
         }
 
     }
-
 
     const onDelete = (item) => {
         handleDeleteaddress(item.address_id);
@@ -171,6 +177,7 @@ const Address = (props) => {
             };
             const response = await fetch(deleteaddress, requestOptions);
             const result = await response.json();
+            console.log("resresultult--->", result)
             if (result.status == 200) {
                 showMessage({
                     message: result.message,
@@ -194,12 +201,6 @@ const Address = (props) => {
             setIsLoading(false);
         }
     }
-
-
-
-
-
-
 
 
 
@@ -269,30 +270,32 @@ const Address = (props) => {
 
                 </Swipeable>
             </GestureHandlerRootView>
-        )
-
+        );
     };
 
     return (
         <SafeAreaView style={styles.container}>
             <Header title={"Manage Addresses"} />
-            <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
-                <FlatList
-                    data={isaddress}
-                    renderItem={renderItem}
-                    keyExtractor={(item, index) => index.toString()}
-                    showsVerticalScrollIndicator={false}
-                    ListEmptyComponent={() => (
-                        <View style={styles.emptyListContainer}>
-                            <Image source={require("../../assets/Newicon/delete.png")} style={{ width: 70, height: 70 }} />
-                            <Text style={styles.emptyListText}>No data found</Text>
-                        </View>
-                    )}
-                />
-                <TouchableOpacity style={styles.addButton} onPress={() => props.navigation.navigate("AddressEdit")}>
-                    <Image source={require("../../assets/logo/plus.png")} resizeMode="contain" style={{ width: 50, height: 50 }} />
-                </TouchableOpacity>
-            </ScrollView>
+            <AddressIdContext.Provider value={{ addressId, setAddressIdValue, getAddressIdValue }}>
+                <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+
+                    <FlatList
+                        data={isaddress}
+                        renderItem={renderItem}
+                        keyExtractor={(item, index) => index.toString()}
+                        showsVerticalScrollIndicator={false}
+                        ListEmptyComponent={() => (
+                            <View style={styles.emptyListContainer}>
+                                <Image source={require("../../assets/Newicon/delete.png")} style={{ width: 70, height: 70 }} />
+                                <Text style={styles.emptyListText}>No data found</Text>
+                            </View>
+                        )}
+                    />
+                    <TouchableOpacity style={styles.addButton} onPress={() => props.navigation.navigate("AddressEdit")}>
+                        <Image source={require("../../assets/logo/plus.png")} resizeMode="contain" style={{ width: 50, height: 50 }} />
+                    </TouchableOpacity>
+                </ScrollView>
+            </AddressIdContext.Provider>
             {isLoading && <LoaderScreen isLoading={isLoading} />}
             <DeleteModal />
         </SafeAreaView>

@@ -11,15 +11,21 @@ import { createorder, posttime, timeSlotting } from "../apiconfig/Apiconfig";
 import LoaderScreen from "./LoaderScreen";
 import { showMessage } from "react-native-flash-message";
 import AuthContext from "../screen/context/AuthContext";
+import AddressIdContext from "../screen/helpcenter/Address";
 const { width, height } = Dimensions.get("screen");
+;
 const TimeSlot = ({ isVisible, onClose, categories }) => {
     const navigation = useNavigation();
     const [selectedDayIndex, setSelectedDayIndex] = useState(null);
     const [selectedItemIndex2, setSelectedItemIndex2] = useState(null);
     const [istime, setIstime] = useState([]);
     const [timeSlotget, setTimeslotget] = useState([]);
+    const [iscreateorder, setIscreateorder] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const { location } = useContext(AuthContext);
+    const { getAddressIdValue } = useContext(AddressIdContext);
+
+
     console.log("hhhdg----->", istime)
     console.log("location----->", location)
     const handlesubmit = async () => {
@@ -83,6 +89,56 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
             console.log("error----error-->", error)
         }
     }
+
+
+    const handleCreaterorder = async () => {
+        try {
+            const selectedDate = timeSlotget.days[selectedDayIndex];
+            const selectedTime = istime[selectedItemIndex2];
+
+            console.log("selectedDate-----9999>", selectedDate)
+            console.log("selectedTime----888>", selectedTime)
+            const token = await AsyncStorage.getItem("token")
+            const myHeaders = new Headers();
+            myHeaders.append("token", token);
+            const formdata = new FormData();
+            formdata.append("payment_method", "1");
+            formdata.append("address_id", "58");
+            formdata.append("slot_date", selectedDate);
+            formdata.append("slot_time", selectedTime);
+            console.log("slot_date---selectedDate-->", selectedDate.date)
+            console.log("slot_time--selectedTime--->", selectedTime.name)
+            const requestOptions = {
+                method: "POST",
+                headers: myHeaders,
+                body: formdata,
+                redirect: "follow"
+            };
+            const response = await fetch(createorder, requestOptions);
+            const result = await response.json();
+            console.log("resu--->", result);
+            if (response.status == 200) {
+                setIscreateorder(result.data)
+                console.log("setIscreateorder------>", result.data)
+                showMessage({
+                    message: "",
+                    type: "success",
+                    icon: "success"
+
+                });
+                navigation.navigate("ContiuneShopping")
+            }
+
+        } catch (error) {
+            console.log("error----ddsd>", error)
+        }
+    }
+
+
+
+
+
+
 
 
 
@@ -149,11 +205,12 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
             // onClose();
             return;
         }
-        onClose();
-        navigation.navigate("PaymentScreen", {
-            selectedDay: timeSlotget.days[selectedDayIndex],
-            selectedTime: istime[selectedItemIndex2],
-        });
+        // onClose();
+        handleCreaterorder();
+        // navigation.navigate("PaymentScreen", {
+        //     selectedDay: timeSlotget.days[selectedDayIndex],
+        //     selectedTime: istime[selectedItemIndex2],
+        // });
     };
 
     return (
