@@ -1,19 +1,37 @@
 
 import { useNavigation } from '@react-navigation/native';
 import React, { useContext, useState } from 'react';
-import { View, Text, Modal, Button, StyleSheet, Image, TouchableOpacity, Dimensions } from 'react-native';
+import { View, Text, Modal, Button, StyleSheet, FlatList, Image, TouchableOpacity, Dimensions } from 'react-native';
 import AuthContext from '../screen/context/AuthContext';
-
 const { height, width } = Dimensions.get("screen")
 const AddressModal = ({ visible, onClose, }) => {
     const navigation = useNavigation();
-    const { location } = useContext(AuthContext);
-    console.log("location---location->", location)
+    const { location, isaddress } = useContext(AuthContext);
+    console.log("location---locaticcccon->", isaddress)
 
     const handlesubmit = () => {
         onClose();
         navigation.navigate("AddressEdit")
     }
+
+
+    const renderItem = ({ item }) => {
+        return (
+            <View style={{ marginTop: height * 0.02 }}>
+                <View style={{ flexDirection: "row", columnGap: 10, alignItems: "center", justifyContent: "space-between" }}>
+                    <View style={{ flexDirection: "row", columnGap: 10 }}>
+                        <Text style={{ fontSize: 30, fontWeight: "bold", color: "black" }}>*</Text>
+                        <Text style={styles.address}>{item.address}</Text>
+                    </View>
+                    <TouchableOpacity>
+                        <Image source={require("../assets/subimages/dots.png")} style={{ width: 15, height: 15 }} />
+                    </TouchableOpacity>
+                </View>
+                <Text style={styles.address}>{item.city}</Text>
+            </View>
+        )
+    }
+
     return (
         <Modal
             animationType="slide"
@@ -36,18 +54,10 @@ const AddressModal = ({ visible, onClose, }) => {
                             <Text style={styles.text}>Add another address</Text>
                         </View>
                     </TouchableOpacity>
-                    <View style={{ marginTop: height * 0.02 }}>
-                        <View style={{ flexDirection: "row", columnGap: 10, alignItems: "center", justifyContent: "space-between" }}>
-                            <View style={{ flexDirection: "row", columnGap: 10 }}>
-                                <Text style={{ fontSize: 30, fontWeight: "bold", color: "black" }}>*</Text>
-                                <Text style={styles.modalText}>Home</Text>
-                            </View>
-                            <TouchableOpacity>
-                                <Image source={require("../assets/subimages/dots.png")} style={{ width: 15, height: 15 }} />
-                            </TouchableOpacity>
-                        </View>
-                        <Text style={{ fontSize: 15, color: "gray", paddingBottom: 10 }}>{location}</Text>
-                    </View>
+
+                    <FlatList
+                        data={isaddress}
+                        renderItem={renderItem} />
                 </View>
             </View>
         </Modal>

@@ -57,7 +57,7 @@ const Settings = ({ navigation }) => {
                 redirect: "follow"
             };
             const response = await fetch(serverl, requestOptions);
-            const result = await response.json();
+            const result = await response.text();
             console.log("Whatsupdate-----response:---->", result);
         } catch (error) {
             console.log("error---logpou->", error)

@@ -120,8 +120,6 @@ const ServiceDetails = ({ route, onClose, }) => {
         return unsubscribeFocus;
     }, []);
 
-
-
     const handleViewCard = () => {
         // onClose();
         navigation.navigate("Summary");
@@ -152,29 +150,6 @@ const ServiceDetails = ({ route, onClose, }) => {
         setQuantityselectStates(initialQuantityselectStates);
     }, [dverinat]);
 
-
-
-    // const handleIncreaseselect = (id) => {
-    //     setQuantityselectStates(prevStates => ({
-    //         ...prevStates,
-    //         [id]: {
-    //             ...prevStates[id],
-    //             quantity: prevStates[id]?.quantity ? prevStates[id].quantity + 1 : 1 // Ensure quantity is at least 1 before incrementing
-    //         }
-    //     }));
-    //     // Add any other logic related to adding to cart
-    // };
-
-    // const handleDecreaseselect = (id) => {
-    //     setQuantityselectStates(prevStates => ({
-    //         ...prevStates,
-    //         [id]: {
-    //             ...prevStates[id],
-    //             quantity: Math.max(1, prevStates[id]?.quantity - 1)
-    //         }
-    //     }));
-
-    // };
     const toggleVectorselect = (id, quantity) => {
         handleaddtocart(quantity);
         togglePopup();
@@ -185,43 +160,43 @@ const ServiceDetails = ({ route, onClose, }) => {
                 showQuantityView: !prevStates[id]?.showQuantityView
             }
         }));
-
     };
-    const handleDecreaseselect = (quantity) => {
+    const handleDecreaseselect = (id, quantity) => {
         handleaddtocart(quantity);
         setServericdetailsget(prevData => ({
             ...prevData,
-            data: prevData.data.map((item, index) => {
-                if (index === 0) {
-                    return {
-                        ...item,
-                        varient: item.varient.map(variantItem => ({
+            data: prevData.data.map(item => ({
+                ...item,
+                varient: item.varient.map(variantItem => {
+                    if (variantItem.id === id) { // Identify the correct variant
+                        return {
                             ...variantItem,
                             quantity: Math.max(1, parseInt(variantItem.quantity) - 1)
-                        }))
-                    };
-                }
-                return item;
-            })
+                        };
+                    }
+                    return variantItem;
+                })
+            }))
         }));
     };
 
-    const handleIncreaseselect = (quantity) => {
+
+    const handleIncreaseselect = (id, quantity) => {
         handleaddtocart(quantity);
         setServericdetailsget(prevData => ({
             ...prevData,
-            data: prevData.data.map((item, index) => {
-                if (index === 0) {
-                    return {
-                        ...item,
-                        varient: item.varient.map(variantItem => ({
+            data: prevData.data.map(item => ({
+                ...item,
+                varient: item.varient.map(variantItem => {
+                    if (variantItem.id === id) { // Identify the correct variant
+                        return {
                             ...variantItem,
                             quantity: parseInt(variantItem.quantity) + 1
-                        }))
-                    };
-                }
-                return item;
-            })
+                        };
+                    }
+                    return variantItem;
+                })
+            }))
         }));
     };
 

@@ -16,8 +16,6 @@ const Rateingmodal = ({ isVisible, hideModal, handleSave }) => {
     const [message, setMessage] = useState('');
     const [rating, setRating] = useState(0);
 
-
-
     const handleRating = (rating) => {
         setRating(rating);
     };
@@ -25,9 +23,6 @@ const Rateingmodal = ({ isVisible, hideModal, handleSave }) => {
     const handleMessageChange = (text) => {
         setMessage(text);
     };
-
-
-
 
     const openCamera = () => {
         ImagePicker.openCamera({
@@ -49,11 +44,6 @@ const Rateingmodal = ({ isVisible, hideModal, handleSave }) => {
     };
 
 
-
-
-
-
-
     return (
         <Modal
             animationType="slide"
@@ -63,6 +53,11 @@ const Rateingmodal = ({ isVisible, hideModal, handleSave }) => {
         >
             <ScrollView showsVerticalScrollIndicator={false}>
                 <View style={styles.modalContainer}>
+                    <View style={{ justifyContent: "flex-end", marginLeft: width * 0.8, paddingBottom: 20, marginTop: height * 0.3 }}>
+                        <TouchableOpacity onPress={hideModal}>
+                            <Image source={require("../assets/Icon/x-mark.png")} style={{ width: 40, height: 40, marginTop: 10 }} tintColor={"white"} />
+                        </TouchableOpacity>
+                    </View>
                     <View style={styles.modalContent}>
                         <View style={styles.line}></View>
                         <Text style={styles.modalTitle}>What is your rate?</Text>
@@ -108,7 +103,7 @@ const styles = StyleSheet.create({
         padding: 20,
         borderRadius: 10,
         width: width,
-        marginTop: height * 0.35
+
 
     },
     modalTitle: {

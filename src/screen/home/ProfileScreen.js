@@ -52,12 +52,6 @@ const ProfileScreen = () => {
             screen: "Address"
         },
         {
-            id: "7",
-            lable: "Manage payment methods",
-            image: ICONS.arrow,
-            screen: "Managepaymentmethods"
-        },
-        {
             id: "8",
             lable: "Settings",
             image: ICONS.arrow,

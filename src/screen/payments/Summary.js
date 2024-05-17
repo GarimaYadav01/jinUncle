@@ -12,6 +12,7 @@ import Couponmodal from "../../compontent/Couponmodal";
 import CouponModal from "../../compontent/Couponmodal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { showMessage } from "react-native-flash-message";
+import LoaderScreen from "../../compontent/LoaderScreen";
 const { height, width } = Dimensions.get("screen");
 const Summary = (props) => {
     const [index, setIndex] = useState(0);
@@ -24,6 +25,7 @@ const Summary = (props) => {
     const [modalVisiblecopun, setModalVisiblecopun] = useState(false);
     const [couponResponse, setCouponResponse] = useState([]);
     const [isCouponApplied, setIsCouponApplied] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const handleToggleCoupon = () => {
         setIsCouponApplied(!isCouponApplied);
         if (!isCouponApplied) {
@@ -40,6 +42,7 @@ const Summary = (props) => {
 
     const removehandle = async () => {
         try {
+            setIsLoading(true);
             const token = await AsyncStorage.getItem('token');
             console.log("tokennnnn---->", token)
             const myHeaders = new Headers();
@@ -58,16 +61,19 @@ const Summary = (props) => {
                     type: "success",
                     icon: "success"
                 });
+                setIsLoading(false);
             } else if (result.status == 400) {
                 showMessage({
                     message: result.message,
                     type: "error",
                     icon: "error"
                 });
+                setIsLoading(false);
             }
             console.log("response----resnse-->", result);
         } catch (error) {
             console.log("errorrrr----ssss>", error);
+            setIsLoading(false);
         }
     };
 
@@ -285,6 +291,7 @@ const Summary = (props) => {
             <Seeall isVisible={modalVisible} onClose={closeModal} />
             <CouponModal visible={modalVisiblecopun} onClose={() => setModalVisiblecopun(false)} onApplyCouponSuccess={handleApplyCouponSuccess}
             />
+            {isLoading && <LoaderScreen isLoading={isLoading} />}
         </SafeAreaView>
     );
 };

@@ -11,9 +11,8 @@ import { createorder, posttime, timeSlotting } from "../apiconfig/Apiconfig";
 import LoaderScreen from "./LoaderScreen";
 import { showMessage } from "react-native-flash-message";
 import AuthContext from "../screen/context/AuthContext";
-import AddressIdContext from "../screen/helpcenter/Address";
 const { width, height } = Dimensions.get("screen");
-;
+
 const TimeSlot = ({ isVisible, onClose, categories }) => {
     const navigation = useNavigation();
     const [selectedDayIndex, setSelectedDayIndex] = useState(null);
@@ -23,11 +22,9 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
     const [iscreateorder, setIscreateorder] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const { location } = useContext(AuthContext);
-    const { getAddressIdValue } = useContext(AddressIdContext);
-
-
     console.log("hhhdg----->", istime)
     console.log("location----->", location)
+
     const handlesubmit = async () => {
         try {
             setIsLoading(true);
@@ -52,8 +49,14 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
             setIsLoading(false);
         }
     }
+
     useEffect(() => {
-        handlesubmit();
+        const handleFocus = () => {
+            handlesubmit();
+        };
+        handleFocus();
+        const unsubscribeFocus = navigation.addListener('focus', handleFocus);
+        return unsubscribeFocus;
     }, []);
 
 
@@ -63,7 +66,6 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
             const token = await AsyncStorage.getItem("token")
             const myHeaders = new Headers();
             myHeaders.append("token", token);
-
             const formdata = new FormData();
             formdata.append("date", selectedItemIndex2);
             const requestOptions = {
@@ -95,7 +97,6 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
         try {
             const selectedDate = timeSlotget.days[selectedDayIndex];
             const selectedTime = istime[selectedItemIndex2];
-
             console.log("selectedDate-----9999>", selectedDate)
             console.log("selectedTime----888>", selectedTime)
             const token = await AsyncStorage.getItem("token")
@@ -128,20 +129,10 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
                 });
                 navigation.navigate("ContiuneShopping")
             }
-
         } catch (error) {
             console.log("error----ddsd>", error)
         }
     }
-
-
-
-
-
-
-
-
-
     const [modalVisible, setModalVisible] = useState(false);
     const openmodal = () => {
         setModalVisible(true);
@@ -150,7 +141,6 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
         setSelectedDayIndex(index);
         handlesubmitpost();
     };
-
     const handletimeSelect = (index) => {
         setSelectedItemIndex2(index);
     };
@@ -184,8 +174,7 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
                 styles.btn,
                 selectedItemIndex2 === index ? styles.selectedDay : null
             ]}
-            onPress={() => handletimeSelect(index)}
-        >
+            onPress={() => handletimeSelect(index)}>
             <Text style={[
                 styles.text1,
                 selectedItemIndex2 === index ? styles.selecttext : null

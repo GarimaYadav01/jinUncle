@@ -22,7 +22,7 @@ const Addcard = () => {
     };
     const onDelete = (cart_id) => {
         handleremovecard(cart_id);
-        toggleDeleteModal();
+        // toggleDeleteModal();
     };
     const DeleteModal = () => {
         return (
@@ -151,8 +151,9 @@ const Addcard = () => {
                         )}
                     />
                     <View style={styles.priceDetailSection}>
-                        {/* <Text style={styles.priceDetailHeading}>Price Details</Text> */}
-                        {/* {renderPriceDetail()} */}
+                        <TouchableOpacity>
+                            <Text></Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </ScrollView>

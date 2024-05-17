@@ -10,24 +10,34 @@ import axios from 'axios';
 import { Loginapi } from '../../apiconfig/Apiconfig';
 import { useNavigation } from '@react-navigation/native';
 import LoaderScreen from '../../compontent/LoaderScreen';
+import DeviceInfo from 'react-native-device-info';
 
 const { width, height } = Dimensions.get("screen");
 
 const LoginScreen = (props) => {
   const navigation = useNavigation();
   const [countryCode] = useState('+91');
-  const [phoneNumber, setPhoneNumber] = useState(''); // Define phoneNumber state
-
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [deviceId, setDeviceId] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   console.log("pohonenumber------->", phoneNumber)
+  console.log("deviceId--->", deviceId)
 
+  useEffect(() => {
+    const fetchDeviceId = async () => {
+      const id = await DeviceInfo.getUniqueId();
+      setDeviceId(id);
+    };
+
+    fetchDeviceId();
+  }, []);
   const handleLogin = async (values) => {
     setIsLoading(true);
     try {
       const formdata = new FormData();
       formdata.append("country_code", countryCode);
       formdata.append("mobile", phoneNumber);
-      formdata.append("device_id", "654654654");
+      formdata.append("device_id", deviceId);
       // formdata.append("firebase_token", "f5s6a4f65as4f654sa56f4sa65fsaafafafa");
       const requestOptions = {
         method: "POST",

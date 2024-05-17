@@ -22,7 +22,7 @@ const Rateing = () => {
             myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
             const formdata = new FormData();
             const requestOptions = {
-                method: "get",
+                method: "GET",
                 headers: myHeaders,
                 body: formdata,
                 redirect: "follow"

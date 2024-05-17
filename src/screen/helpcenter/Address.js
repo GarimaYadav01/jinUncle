@@ -1,5 +1,5 @@
 
-import React, { useContext, useEffect, useState, createContext } from "react";
+import React, { useContext, useEffect, useState, createContext, useCallback } from "react";
 import { View, Image, StyleSheet, SafeAreaView, StatusBar, Text, ScrollView, FlatList, TouchableOpacity, Platform, Dimensions, } from 'react-native';
 import Header from "../../compontent/Header";
 import CheckBox from 'react-native-check-box';
@@ -11,9 +11,8 @@ import LoaderScreen from "../../compontent/LoaderScreen";
 import { showMessage } from "react-native-flash-message";
 import { GestureHandlerRootView, Swipeable } from "react-native-gesture-handler";
 import { Modal } from "react-native-paper";
-
+import { useFocusEffect } from '@react-navigation/native';
 const { height, width } = Dimensions.get("screen")
-
 const AddressIdContext = createContext();
 const Address = (props) => {
     const [isaddress, setIsaddress] = useState([]);
@@ -31,7 +30,6 @@ const Address = (props) => {
         setIsCheckedList(newIsCheckedList);
         handlewdefult(address_id);
     };
-
 
 
     const setAddressIdValue = (value) => {
@@ -153,9 +151,11 @@ const Address = (props) => {
         }
     }
 
-    useEffect(() => {
-        handlegetaddress();
-    }, []);
+    useFocusEffect(
+        useCallback(() => {
+            handlegetaddress();
+        }, [])
+    );
 
 
 
@@ -179,6 +179,8 @@ const Address = (props) => {
             const result = await response.json();
             console.log("resresultult--->", result)
             if (result.status == 200) {
+                // Remove the address from the local state
+                setIsaddress(prevAddresses => prevAddresses.filter(address => address.address_id !== address_id));
                 showMessage({
                     message: result.message,
                     type: "success",
@@ -201,7 +203,6 @@ const Address = (props) => {
             setIsLoading(false);
         }
     }
-
 
 
     const DeleteModal = () => {

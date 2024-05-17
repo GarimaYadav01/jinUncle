@@ -6,7 +6,6 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { showMessage } from 'react-native-flash-message';
 const { width, height } = Dimensions.get("screen")
-
 const SignupScreen = (props) => {
 
     const validationSchema = Yup.object().shape({
@@ -21,17 +20,15 @@ const SignupScreen = (props) => {
             <ScrollView showsVerticalScrollIndicator={false} style={styles.con}>
                 <View style={{ backgroundColor: "#FFF", flex: 1 }}>
                     <StatusBar backgroundColor={"transperent"} translucent />
-
                     <View style={styles.container1}>
                         <Image source={require("../../assets/logo/logo.png")} style={styles.logo} resizeMode='contain' />
-
                         <Text style={styles.subheading}>
                             SignUp Your Account
                         </Text>
                         <ScrollView showsVerticalScrollIndicator={false} >
                             <Formik
                                 initialValues={{ email: '', password: '', fullname: '', phonenumber: '', confrimpassword: '' }}
-                                // validationSchema={validationSchema}
+                                validationSchema={validationSchema}
                                 onSubmit={(values) => {
                                     // Handle form submission
                                     console.log(values);
@@ -116,9 +113,9 @@ const styles = StyleSheet.create({
         color: "#000",
         fontSize: 30,
         fontWeight: "400",
-        marginTop: height*0.04,
+        marginTop: height * 0.04,
         fontFamily: "Rubik-Regular"
-        
+
     },
     error: {
         color: 'red',
