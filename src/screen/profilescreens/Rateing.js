@@ -13,23 +13,26 @@ const { height, width } = Dimensions.get("screen");
 const Rateing = () => {
     const [isVisible, setIsVisible] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
+    const [isgetrating, setISGetrating] = useState([]);
 
     const getrating = async () => {
         try {
             const token = await AsyncStorage.getItem('token');
             const myHeaders = new Headers();
             myHeaders.append("token", token);
-            myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
             const formdata = new FormData();
             const requestOptions = {
                 method: "GET",
                 headers: myHeaders,
-                body: formdata,
                 redirect: "follow"
             };
 
             const response = await fetch(ratinggetapi, requestOptions);
             const result = await response.json();
+            if (result.status == 200) {
+                setISGetrating(result.data)
+                console.log("response----garima--->", result.data)
+            }
             console.log("result--result-result-sjdj>", result)
         } catch (error) {
             console.log("error======>", error)
@@ -154,7 +157,7 @@ const Rateing = () => {
                 <View style={{ marginTop: height * 0.03 }}>
 
                     <FlatList
-                        data={data}
+                        data={isgetrating}
                         renderItem={renderReviewItem}
                         keyExtractor={(item, index) => index.toString()}
                         showsVerticalScrollIndicator={false}

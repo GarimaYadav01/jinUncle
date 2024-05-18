@@ -25,8 +25,9 @@ const ContiuneShopping = () => {
                     size={"large"}
                     backgroundColor={"#004E8C"}
                     color={"white"}
-                    // onPress={() => navigation.navigate("Bottomnavigation")} 
-                    onPress={toggleModal}
+                    onPress={() => navigation.navigate("Mybooking")}
+                // onPress={toggleModal}
+
                 />
             </View>
             <Modalrating isVisible={isModalVisible} onClose={toggleModal} />

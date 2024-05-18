@@ -26,6 +26,7 @@ const Summary = (props) => {
     const [couponResponse, setCouponResponse] = useState([]);
     const [isCouponApplied, setIsCouponApplied] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    console.log("iscardlist------>", iscardlist)
     const handleToggleCoupon = () => {
         setIsCouponApplied(!isCouponApplied);
         if (!isCouponApplied) {
@@ -83,7 +84,7 @@ const Summary = (props) => {
     const cartProducts = iscardlist?.data?.cart_products;
     console.log("priceDetail------>", priceDetail);
     console.log("cartProducts------>", cartProducts);
-    const priceDetailArray = Object.entries(priceDetail);
+
 
     useEffect(() => {
         // Initialize quantity states for each item
@@ -207,11 +208,12 @@ const Summary = (props) => {
                     <View>
                         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                             <Text style={styles.text2}>couponname</Text>
-                            <Text style={{ color: "gray", }}>{couponResponse[0]?.coupon_name}</Text>
+                            {console.log("couponResponse[0]?.coupon_name", couponResponse[0]?.coupon_name)}
+                            <Text style={{ color: "gray", }}>{item?.coupon_name}</Text>
                         </View>
                         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                             <Text style={styles.text2}>coupondiscount</Text>
-                            <Text style={{ color: "gray", }}>{couponResponse[0]?.coupon_discount}</Text>
+                            <Text style={{ color: "gray", }}>{item?.coupon_discount}</Text>
                         </View>
                     </View>
                 )}

@@ -127,6 +127,7 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
                     icon: "success"
 
                 });
+                onClose();
                 navigation.navigate("ContiuneShopping")
             }
         } catch (error) {

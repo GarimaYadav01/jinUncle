@@ -389,11 +389,10 @@ export const AuthProvider = ({ children }) => {
             setIsLoading(true);
             const token = await AsyncStorage.getItem('token');
             const myHeaders = new Headers();
-            myHeaders.append("token", token);
-            myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
+            // myHeaders.append("token", token);
             const requestOptions = {
                 method: "GET",
-                headers: myHeaders,
+                headers: token,
                 redirect: "follow"
             };
             const response = await fetch(carddetails, requestOptions);

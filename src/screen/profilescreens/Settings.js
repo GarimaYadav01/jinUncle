@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text, View, Switch, Dimensions, TouchableOpacity, Modal, Button } from "react-native";
 import Header from "../../compontent/Header";
-import { del, serverl } from "../../apiconfig/Apiconfig";
+import { del, serverl, whtasuodate } from "../../apiconfig/Apiconfig";
 import LoaderScreen from "../../compontent/LoaderScreen";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { showMessage } from "react-native-flash-message";
@@ -56,8 +56,8 @@ const Settings = ({ navigation }) => {
                 headers: myHeaders,
                 redirect: "follow"
             };
-            const response = await fetch(serverl, requestOptions);
-            const result = await response.text();
+            const response = await fetch(whtasuodate, requestOptions);
+            const result = await response.json();
             console.log("Whatsupdate-----response:---->", result);
         } catch (error) {
             console.log("error---logpou->", error)

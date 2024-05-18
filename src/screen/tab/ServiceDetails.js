@@ -26,7 +26,7 @@ const ServiceDetails = ({ route, onClose, }) => {
     console.log("quantityselectStates------>", quantityselectStates)
     console.log("servericdetailsget----->", servericdetailsget)
     console.log("serviceid------>", serviceid)
-    const handleaddtocart = async (quantity) => {
+    const handleaddtocart = async (quantity,id) => {
         try {
             // setIsLoading(true);
             const token = await AsyncStorage.getItem('token');
@@ -48,10 +48,11 @@ const ServiceDetails = ({ route, onClose, }) => {
             // console.log("varientData--->", varientData)
             const formdata = new FormData();
             formdata.append("service_id", serviceid);
-            formdata.append("varient_id", dverinat.id);
+            formdata.append("varient_id", id);
             // formdata.append("quantity", quantityselectStates.quantity);
             formdata.append("quantity", quantity);
             console.log("quantity-------->", quantity)
+            console.log("varient_id--->", id)
             const requestOptions = {
                 method: "POST",
                 headers: myHeaders,
@@ -150,8 +151,60 @@ const ServiceDetails = ({ route, onClose, }) => {
         setQuantityselectStates(initialQuantityselectStates);
     }, [dverinat]);
 
+    // const toggleVectorselect = (id, quantity) => {
+    //     handleaddtocart(quantity);
+    //     togglePopup();
+    //     setQuantityselectStates(prevStates => ({
+    //         ...prevStates,
+    //         [id]: {
+    //             ...prevStates[id],
+    //             showQuantityView: !prevStates[id]?.showQuantityView
+    //         }
+    //     }));
+    // };
+    // const handleDecreaseselect = (id, quantity) => {
+    //     handleaddtocart(quantity);
+    //     setServericdetailsget(prevData => ({
+    //         ...prevData,
+    //         data: prevData.data.map(item => ({
+    //             ...item,
+    //             varient: item.varient.map(variantItem => {
+    //                 if (variantItem.id === id) { // Identify the correct variant
+    //                     return {
+    //                         ...variantItem,
+    //                         quantity: Math.max(1, parseInt(variantItem.quantity) - 1)
+    //                     };
+    //                 }
+    //                 return variantItem;
+    //             })
+    //         }))
+    //     }));
+    // };
+
+
+    // const handleIncreaseselect = (id, quantity) => {
+    //     handleaddtocart(quantity);
+    //     setServericdetailsget(prevData => ({
+    //         ...prevData,
+    //         data: prevData.data.map(item => ({
+    //             ...item,
+    //             varient: item.varient.map(variantItem => {
+    //                 if (variantItem.id === id) { // Identify the correct variant
+    //                     return {
+    //                         ...variantItem,
+    //                         quantity: parseInt(variantItem.quantity) + 1
+    //                     };
+    //                 }
+    //                 return variantItem;
+    //             })
+    //         }))
+    //     }));
+    // };
+
+
     const toggleVectorselect = (id, quantity) => {
-        handleaddtocart(quantity);
+        const validQuantity = quantity ?? 0;
+        handleaddtocart(validQuantity,id);
         togglePopup();
         setQuantityselectStates(prevStates => ({
             ...prevStates,
@@ -161,17 +214,19 @@ const ServiceDetails = ({ route, onClose, }) => {
             }
         }));
     };
+
     const handleDecreaseselect = (id, quantity) => {
-        handleaddtocart(quantity);
+        const validQuantity = quantity ?? 0;
+        handleaddtocart(validQuantity,id);
         setServericdetailsget(prevData => ({
             ...prevData,
             data: prevData.data.map(item => ({
                 ...item,
                 varient: item.varient.map(variantItem => {
-                    if (variantItem.id === id) { // Identify the correct variant
+                    if (variantItem.id === id) {
                         return {
                             ...variantItem,
-                            quantity: Math.max(1, parseInt(variantItem.quantity) - 1)
+                            quantity: Math.max(1, (parseInt(variantItem.quantity) || 0) - 1)
                         };
                     }
                     return variantItem;
@@ -179,19 +234,19 @@ const ServiceDetails = ({ route, onClose, }) => {
             }))
         }));
     };
-
 
     const handleIncreaseselect = (id, quantity) => {
-        handleaddtocart(quantity);
+        const validQuantity = quantity ?? 0;
+        handleaddtocart(validQuantity,id);
         setServericdetailsget(prevData => ({
             ...prevData,
             data: prevData.data.map(item => ({
                 ...item,
                 varient: item.varient.map(variantItem => {
-                    if (variantItem.id === id) { // Identify the correct variant
+                    if (variantItem.id === id) {
                         return {
                             ...variantItem,
-                            quantity: parseInt(variantItem.quantity) + 1
+                            quantity: (parseInt(variantItem.quantity) || 0) + 1
                         };
                     }
                     return variantItem;
@@ -199,7 +254,6 @@ const ServiceDetails = ({ route, onClose, }) => {
             }))
         }));
     };
-
 
     const renderselectvariant = ({ item }) => (
         <View style={{ marginBottom: 20, marginTop: 10, alignContent: "center", justifyContent: "center" }}>
@@ -215,18 +269,19 @@ const ServiceDetails = ({ route, onClose, }) => {
 
                 <View>
                     {!quantityselectStates[item.id]?.showQuantityView ? (
-                        <TouchableOpacity style={styles.smallbutton} onPress={() => toggleVectorselect(item.id, item.quantity)}>
+                        <TouchableOpacity style={styles.smallbutton} onPress={() => toggleVectorselect(item.id, item.quantity ?? 0)}>
                             <Text style={styles.textbut}>Add</Text>
                         </TouchableOpacity>
                     ) : (
                         <View style={styles.container1}>
-                            <TouchableOpacity onPress={() => handleDecreaseselect(item.id, item.quantity)}>
+                            <TouchableOpacity onPress={() => handleDecreaseselect(item.id, item.quantity ?? 0)}>
                                 <Text style={styles.textbut}>-</Text>
                             </TouchableOpacity>
-                            <Text style={styles.textbut}>{item.quantity}</Text>
+
+                            <Text style={styles.textbut}>{item.quantity ?? 0}</Text>
 
                             {console.log("uantityselectStates[item.id]?.quantity-->", quantityselectStates[item.id]?.quantity)}
-                            <TouchableOpacity onPress={() => handleIncreaseselect(item.id, item.quantity)}>
+                            <TouchableOpacity onPress={() => handleIncreaseselect(item.id, item.quantity ?? 0)}>
                                 <Text style={styles.textbut}>+</Text>
                             </TouchableOpacity>
                         </View>

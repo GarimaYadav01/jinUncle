@@ -14,7 +14,7 @@ const CouponModal = ({ visible, onClose, onApplyCouponSuccess }) => {
     const [iscopon, setIscopon] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const { gethandlecart } = useState(AuthContext);
-    console.log("iscopon----iscopon--->", iscopon)
+    // // // // console.log("iscopon----iscopon--->", iscopon)
 
 
     const handlegetapi = async () => {
@@ -30,18 +30,18 @@ const CouponModal = ({ visible, onClose, onApplyCouponSuccess }) => {
                 redirect: "follow"
             };
             const response = await fetch(Copuonapiget, requestOptions);
-            console.log("Response:", response);
+            // // // // console.log("Response:", response);
             const result = await response.json();
-            console.log("copuonresult----->", result)
+            // // // // console.log("copuonresult----->", result)
             if (result.status == 200) {
 
                 setIscopon(result.data);
                 setIsLoading(false);
                 gethandlecart();
-                console.log("copuonresult---data-->", result.data)
+                // // // // console.log("copuonresult---data-->", result.data)
             }
         } catch (error) {
-            console.log("error------>", error)
+            // // // // console.log("error------>", error)
             setIsLoading(false);
         }
     }
@@ -52,7 +52,7 @@ const CouponModal = ({ visible, onClose, onApplyCouponSuccess }) => {
 
 
 
-    const handlepostcopuon = async () => {
+    const handlepostcopuon = async (name) => {
         try {
             setIsLoading(true);
             const token = await AsyncStorage.getItem('token');
@@ -60,18 +60,19 @@ const CouponModal = ({ visible, onClose, onApplyCouponSuccess }) => {
             myHeaders.append("token", token);
             myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
             const formdata = new FormData();
-            formdata.append("coupon", iscopon.name);
+            formdata.append("coupon", name);
             // formdata.append("coupon", "admin");
-            console.log("iscopon.name--->", iscopon.name)
+            console.log("iscopon.name--->", name)
             const requestOptions = {
-                method: "GET",
+                method: "Post",
                 headers: myHeaders,
+                body: formdata,
                 redirect: "follow"
             };
             const response = await fetch(applycopuon, requestOptions);
             const result = await response.json();
-            console.log("result--->", result)
-            if (response?.status === 200) {
+            console.log("result---hdagsgdh>", result)
+            if (result.status == 200) {
                 showMessage({
                     message: "apply copoun successfully",
                     type: "success",
@@ -83,14 +84,14 @@ const CouponModal = ({ visible, onClose, onApplyCouponSuccess }) => {
             }
 
         } catch (error) {
-            console.log("error---cop-->", error);
+            // // console.log("error---cop-->", error);
             setIsLoading(false);
         }
     }
 
     const renderCoupon = ({ item }) => {
         return (
-            <TouchableOpacity onPress={() => handlepostcopuon(item)}>
+            <TouchableOpacity onPress={() => handlepostcopuon(item.name)}>
                 <View style={styles.card}>
                     <Text style={styles.title}>{item.name}</Text>
                     <Text style={styles.description}>{item.amount}</Text>

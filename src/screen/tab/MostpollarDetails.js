@@ -241,7 +241,7 @@ const MostpollarDetails = ({ route }) => {
             const varientData = JSON.stringify(variants);
             console.log("varientData--->", varientData)
             const formdata = new FormData();
-            formdata.append("service_id", serviceid);
+            formdata.append("service_id", mostpolluarid);
             formdata.append("varient_data", varientData);
             // formdata.append("varient_data", "[{\"varient_id\":1,\"quantity\":1},{\"varient_id\":2,\"quantity\":2}]");
             const requestOptions = {
@@ -269,7 +269,7 @@ const MostpollarDetails = ({ route }) => {
 
     }
     const handledetailsservice = async () => {
-        console.log("service_id---item--->", serviceid)
+        console.log("service_id---item--->", mostpolluarid)
         try {
             // setIsLoading(true); 
             const token = await AsyncStorage.getItem('token');
@@ -277,7 +277,7 @@ const MostpollarDetails = ({ route }) => {
             myHeaders.append("token", token);
             myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
             const formdata = new FormData();
-            formdata.append('service_id', serviceid);
+            formdata.append('service_id', mostpolluarid);
             // formdata.append('service_id', "1");
             const requestOptions = {
                 method: 'POST',

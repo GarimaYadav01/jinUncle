@@ -7,8 +7,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import AuthContext from "../context/AuthContext";
 import LoaderScreen from "../../compontent/LoaderScreen";
 import { Modal } from "react-native-paper";
+import { useNavigation } from "@react-navigation/native";
 const { height, width } = Dimensions.get("screen");
 const Addcard = () => {
+    const navigation = useNavigation();
     const { iscardlist, setIsCardlist } = useContext(AuthContext)
     const [isLoading, setIsLoading] = useState(false);
     const [deleteModalVisible, setDeleteModalVisible] = useState(false);
@@ -151,8 +153,8 @@ const Addcard = () => {
                         )}
                     />
                     <View style={styles.priceDetailSection}>
-                        <TouchableOpacity>
-                            <Text></Text>
+                        <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate("Summary")}>
+                            <Text style={[styles.text,{color:"white"}]}>Check Out</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -224,7 +226,8 @@ const styles = StyleSheet.create({
         marginTop: 10
     },
     priceDetailSection: {
-        mafrginTop: 20
+        marginTop:height*0.06,
+        alignSelf:"center"
     },
     priceDetailValue: {
         color: "black",
@@ -269,7 +272,7 @@ const styles = StyleSheet.create({
         fontSize: 18
     },
     btn: {
-        width: width * 0.3,
+        width: width * 0.6,
         height: height * 0.06,
         borderWidth: 1,
         backgroundColor: "#004E8C",

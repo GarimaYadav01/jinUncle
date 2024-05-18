@@ -127,19 +127,19 @@ const Mybooking = () => {
 
     const renderItem = ({ item }) => {
         console.log("item---wwwww-->", item)
-        // let imageData;
-        // try {
-        //     imageData = JSON.parse(item?.service_image)[0];
-        // } catch (error) {
-        //     return null;
-        // }
+        let imageData;
+        try {
+            imageData = JSON.parse(item?.service_image)[0];
+        } catch (error) {
+            return null;
+        }
 
-        // const imagePath = imagebaseurl + imageData?.image_path;
+        const imagePath = imagebaseurl + imageData?.image_path;
         return (
-            <TouchableOpacity onPress={() => navigation.navigate("Bookingdetails")}>
+            <TouchableOpacity onPress={() => navigation.navigate("Bookingdetails", { bookingid: item.booking_id })}>
                 <View style={styles.continer}>
                     <View>
-                        {/* <Image source={{ uri: imagePath }} style={{ width: 100, height: 100, borderRadius: 10 }} resizeMode="contain" /> */}
+                        <Image source={{ uri: imagePath }} style={{ width: 100, height: 100, borderRadius: 10 }} resizeMode="contain" />
                     </View>
                     <View style={{ marginTop: 10 }}>
                         <Text style={[styles.name,]}>{item.service_name}</Text>
