@@ -18,7 +18,12 @@ const Editprofile = () => {
     const navigation = useNavigation();
 
     useEffect(() => {
-        getProfile();
+        const handleFocus = () => {
+            getProfile();
+        };
+        handleFocus();
+        const unsubscribeFocus = navigation.addListener('focus', handleFocus);
+        return unsubscribeFocus;
     }, []);
 
     const handleEditprofile = async (values) => {

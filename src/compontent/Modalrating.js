@@ -15,7 +15,7 @@ const Modalrating = ({ isVisible, onClose, onSubmitRating }) => {
 
     const handleNotNow = () => {
         onClose();
-        navigation.navigate("Bottomnavigation");
+        // navigation.navigate("Bottomnavigation");
     };
 
 

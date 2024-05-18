@@ -28,7 +28,6 @@ import Accategory from '../screen/allcategory/Accategory';
 import Fridagecategory from '../screen/allcategory/Fridagecategory';
 import Washingmachinecategory from '../screen/allcategory/Washingmachinecategory';
 import Schechdulebooking from '../screen/profilescreens/Schechdulebooking';
-import Addcard from '../screen/helpcenter/Addcard';
 import Getting from '../screen/getting/Getting';
 import Book from '../screen/booking/Book';
 import Booking from '../screen/booking/Booking';
@@ -63,6 +62,9 @@ import Editadd from '../screen/tab/Editadd';
 import ServiceDetails from '../screen/tab/ServiceDetails';
 import Maullayaddadress from '../screen/tab/Maullayaddadress';
 import Bookingdetails from '../screen/profilescreens/Bookingdetails';
+import Addcard from '../screen/tab/Addcard';
+import HomeScreen from '../screen/home/HomeScreen';
+
 
 const Stack = createNativeStackNavigator();
 const Navigation = () => {
@@ -98,7 +100,6 @@ const Navigation = () => {
                 <Stack.Screen name="Fridagecategory" component={Fridagecategory} />
                 <Stack.Screen name="Washingmachinecategory" component={Washingmachinecategory} />
                 <Stack.Screen name="Schechdulebooking" component={Schechdulebooking} />
-                <Stack.Screen name="Addcard" component={Addcard} />
                 <Stack.Screen name="Getting" component={Getting} />
                 <Stack.Screen name="Book" component={Book} />
                 <Stack.Screen name="Booking" component={Booking} />
@@ -131,7 +132,8 @@ const Navigation = () => {
                 <Stack.Screen name="ServiceDetails" component={ServiceDetails} />
                 <Stack.Screen name="Maullayaddadress" component={Maullayaddadress} />
                 <Stack.Screen name="Bookingdetails" component={Bookingdetails} />
-
+                <Stack.Screen name="Addcard" component={Addcard} />
+                <Stack.Screen name="HomeScreen" component={HomeScreen} />
             </Stack.Navigator>
         </NavigationContainer>
     );

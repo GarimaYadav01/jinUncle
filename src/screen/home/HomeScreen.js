@@ -13,9 +13,9 @@ const { width, height } = Dimensions.get("screen")
 const HomeScreen = (props) => {
     const navigation = useNavigation();
     const { fetchData, handleGetlocation, location, iscategories, fetchDataCategory, categoryDetail, fetchSubCategories, issubCategories, isLoading, getProfile, getsubCategoryhandle, issubcategorydetails, handlegetservice, servericeget, handlebannerhome, banner, handledetailsservice, servericdetailsget, handlemostpopularservice, mostpolluar, setIsmostpolluar, handlegetaddress, gethandlecart } = useContext(AuthContext);
-    console.log("mostpolluar------>", mostpolluar);
-    console.log("servericeget----servericeget-----dhdhd--->", servericdetailsget)
-    console.log("banner---->", banner)
+    // console.log("mostpolluar------>", mostpolluar);
+    // console.log("servericeget----servericeget-----dhdhd--->", servericdetailsget)
+    // console.log("banner---->", banner)
     const [refreshing, setRefreshing] = useState(false);
     useEffect(() => {
         const handleFocus = () => {
@@ -146,7 +146,7 @@ const HomeScreen = (props) => {
     };
 
     const renderItemallmix = ({ item }) => {
-        console.log("item----->", item)
+        // console.log("item----->", item)
         let imageData;
         try {
             imageData = JSON.parse(item.banner)[0];

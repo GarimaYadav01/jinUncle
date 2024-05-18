@@ -16,8 +16,14 @@ const ProfileScreen = () => {
     const { isgetprofile, getProfile } = useContext(AuthContext);
     console.log("getprofile------fetch--->", isgetprofile);
     useEffect(() => {
-        getProfile();
-    })
+        const handleFocus = () => {
+            getProfile();
+        };
+        handleFocus();
+        const unsubscribeFocus = navigation.addListener('focus', handleFocus);
+        return unsubscribeFocus;
+    }, []);
+
 
     const [isLoading, setIsLoading] = useState();
     const buttonData = [

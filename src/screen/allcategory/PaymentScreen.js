@@ -123,9 +123,16 @@ const PaymentScreen = ({ route }) => {
     }
   }
 
+
   useEffect(() => {
-    getpaymentOption();
-  }, [])
+    const handleFocus = () => {
+      getpaymentOption();
+    };
+    handleFocus();
+    const unsubscribeFocus = navigation.addListener('focus', handleFocus);
+    return unsubscribeFocus;
+  }, []);
+
 
 
   const handleCreaterorder = async () => {

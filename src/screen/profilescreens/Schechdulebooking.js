@@ -33,8 +33,13 @@ const Mybooking = () => {
 
 
     useEffect(() => {
-        getmybooking();
-    }, [])
+        const handleFocus = () => {
+            getmybooking();
+        };
+        handleFocus();
+        const unsubscribeFocus = navigation.addListener('focus', handleFocus);
+        return unsubscribeFocus;
+    }, []);
 
     const renderItemallmix = ({ item }) => {
         console.log("item----->", item)

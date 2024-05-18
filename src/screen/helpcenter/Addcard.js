@@ -5,7 +5,7 @@ import CustomButton from "../../compontent/Custombutton";
 import { useFormik } from 'formik';
 const { height, width } = Dimensions.get('screen');
 
-const Addcard = (props) => {
+const Addcardeeee = (props) => {
     const validate = values => {
         const errors = {};
         if (!values.fullName) {
@@ -124,7 +124,7 @@ const Addcard = (props) => {
     );
 };
 
-export default Addcard;
+export default Addcardeeee;
 const styles = StyleSheet.create({
     container: {
         flex: 1,

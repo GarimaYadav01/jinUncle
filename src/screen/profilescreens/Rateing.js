@@ -8,13 +8,15 @@ import Rateingmodal from "../../compontent/Rateingmodal";
 import { addrating, ratinggetapi } from "../../apiconfig/Apiconfig";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { showMessage } from "react-native-flash-message";
+import { useNavigation } from "@react-navigation/native";
 const { height, width } = Dimensions.get("screen");
-
-const Rateing = () => {
+const Rateing = ({ route }) => {
+    const navigation = useNavigation();
     const [isVisible, setIsVisible] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
     const [isgetrating, setISGetrating] = useState([]);
-
+    const bookingid = route?.params?.bookingid
+    console.log("console.lo====>g", bookingid)
     const getrating = async () => {
         try {
             const token = await AsyncStorage.getItem('token');
@@ -39,10 +41,14 @@ const Rateing = () => {
         }
     }
 
-
     useEffect(() => {
-        getrating();
-    })
+        const handleFocus = () => {
+            getrating();
+        };
+        handleFocus();
+        const unsubscribeFocus = navigation.addListener('focus', handleFocus);
+        return unsubscribeFocus;
+    }, []);
 
 
 
@@ -53,7 +59,8 @@ const Rateing = () => {
             myHeaders.append("token", token);
             myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
             const formdata = new FormData();
-            formdata.append("booking_id", "51");
+            formdata.append("booking_id", bookingid);
+            console.log("booking_id------>", bookingid)
             formdata.append("message", message);
             formdata.append("rating", rating);
             const requestOptions = {
@@ -95,36 +102,27 @@ const Rateing = () => {
         console.log('Selected rating:', rating);
     };
 
-    // const data = [
-    //     {
-    //         comment: "I loved this dress so much as soon as I tried it on I knew I had to buy it in another color. I am 5'3 about 155lbs and I carry all my weight in my upper body. When I put it on I felt like it thinned me put and I got so many compliments.",
-    //         lable: "Kim Shine",
-    //         date: "August 13, 2019",
-    //         // icon: IMAGE.car,
-    //     },
-    //     {
-    //         comment: "I loved this dress so much as soon as I tried it on I knew I had to buy it in another color. I am 5'3 about 155lbs and I carry all my weight in my upper body. When I put it on I felt like it thinned me put and I got so many compliments.",
-    //         lable: "Kim Shine",
-    //         date: "August 13, 2019",
-    //         // icon: IMAGE.car,
-    //     }
-    // ];
+
 
     const renderReviewItem = ({ item }) => (
         <View style={styles.card}>
             {/* <Image source={IMAGE.proboy} resizeMode="contain" style={{ width: 30, height: 30, marginTop: -height * 0.07, marginRight: height * 0.08 }} /> */}
             <View style={{ marginHorizontal: 20 }}>
-                <Text style={styles.kim}>{item.lable}</Text>
+                <Text style={styles.kim}>{item.service_name}</Text>
                 <View style={styles.container2}>
                     <AirbnbRating
                         count={5}
-                        defaultRating={0}
+                        defaultRating={item.rating}
+                        selectedColor="#FFD700"
+                        unSelectedColor="#DDDDDD"
                         size={20}
                         onFinishRating={handleRating}
+                        isDisabled={true}
+                        showRating={false}
                     />
                     <Text style={styles.date}>{item.date}</Text>
                 </View>
-                <Text style={styles.loved}>{item.comment}</Text>
+                <Text style={styles.loved}>{item.message}</Text>
                 <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                     <View style={{ flexDirection: "row", marginTop: 10 }}>
                         {[1, 2, 3, 4].map((index) => (
@@ -132,10 +130,7 @@ const Rateing = () => {
                         ))}
                     </View>
                 </ScrollView>
-                <View style={{ flexDirection: "row", alignSelf: "center", marginLeft: width * 0.6, marginTop: height * 0.05 }}>
-                    <Text>Helpful</Text>
-                    {/* <Image source={require("../../assets/payment/icon.png")} resizeMode="contain" style={{ width: 30, height: 30, marginTop: -height * 0.01 }} /> */}
-                </View>
+
             </View>
         </View>
     );
@@ -209,7 +204,7 @@ const styles = StyleSheet.create({
     },
     card: {
         borderWidth: 1,
-        paddingVertical: height * 0.07,
+        // paddingVertical: height * 0.07,
         backgroundColor: "#FFF",
         borderColor: "#FFF",
         borderRadius: 10,

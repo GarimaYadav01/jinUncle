@@ -9,7 +9,7 @@ import { Addcart, imagebaseurl, servicedetails } from '../../apiconfig/Apiconfig
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import LoaderScreen from '../../compontent/LoaderScreen';
 const { height, width } = Dimensions.get("screen")
-const MostpollarDetails = ({ route }) => {
+const MostpollarDetails = ({ route, props }) => {
     const navigation = useNavigation();
     const [currentIndex, setCurrentIndex] = useState(0);
     const [quantityStates, setQuantityStates] = useState({});
@@ -22,9 +22,7 @@ const MostpollarDetails = ({ route }) => {
     const MostpollarDe = route?.params?.MostpollarDe || "Default MostpollarDe";
     const mostpolluarid = route?.params?.mostpolluarid
     console.log("mostpolluarid:----->", mostpolluarid)
-    const handleViewCard = () => {
-        navigation.navigate("Summary");
-    };
+
     const [isOpen, setIsOpen] = useState(false);
     const togglePopup = () => {
         setIsOpen(!isOpen);
@@ -493,7 +491,7 @@ const MostpollarDetails = ({ route }) => {
                     <View >
                         <View style={styles.paymentcard}>
                             <Text style={styles.text}>₹549</Text>
-                            <TouchableOpacity style={styles.smallbutton} onPress={handleViewCard}>
+                            <TouchableOpacity style={styles.smallbutton} onPress={() => navigation.navigate("Addcard")}>
                                 <Text style={styles.textbut}>View card</Text>
                             </TouchableOpacity>
                         </View>

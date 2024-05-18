@@ -18,7 +18,7 @@ const ServiceDetails = ({ route, onClose, }) => {
     const [isvissbleModal, setIsVisibleModal] = useState(false);
     const [servericdetailsget, setServericdetailsget] = useState([]);
     const [isLoading, setIsLoading] = useState(false)
-    const { iscardlist } = useContext(AuthContext);
+    const { iscardlist, gethandlecart } = useContext(AuthContext);
     const priceDetail = iscardlist?.data?.price_detail;
     console.log("priceDetail---->", priceDetail)
     const serviceid = route.params.serviceid;
@@ -26,7 +26,16 @@ const ServiceDetails = ({ route, onClose, }) => {
     console.log("quantityselectStates------>", quantityselectStates)
     console.log("servericdetailsget----->", servericdetailsget)
     console.log("serviceid------>", serviceid)
-    const handleaddtocart = async (quantity,id) => {
+    useEffect(() => {
+        const handleFocus = () => {
+            gethandlecart();
+        };
+        handleFocus();
+        const unsubscribeFocus = navigation.addListener('focus', handleFocus);
+        return unsubscribeFocus;
+    }, []);
+
+    const handleaddtocart = async (quantity, id) => {
         try {
             // setIsLoading(true);
             const token = await AsyncStorage.getItem('token');
@@ -62,7 +71,7 @@ const ServiceDetails = ({ route, onClose, }) => {
             const response = await fetch(Addcart, requestOptions);
             const result = await response.json();
             console.log("result--res--Quantity:-->", result);
-            if (result.data == 200) {
+            if (result?.data == 200) {
                 setIsLoading(false);
                 showMessage({
                     message: "add to view card successfull",
@@ -123,7 +132,8 @@ const ServiceDetails = ({ route, onClose, }) => {
 
     const handleViewCard = () => {
         // onClose();
-        navigation.navigate("Summary");
+        navigation.navigate("Addcard");
+        // navigation.navigate("Summary");
     };
 
     const [isOpen, setIsOpen] = useState(false);
@@ -204,7 +214,7 @@ const ServiceDetails = ({ route, onClose, }) => {
 
     const toggleVectorselect = (id, quantity) => {
         const validQuantity = quantity ?? 0;
-        handleaddtocart(validQuantity,id);
+        handleaddtocart(validQuantity, id);
         togglePopup();
         setQuantityselectStates(prevStates => ({
             ...prevStates,
@@ -217,7 +227,7 @@ const ServiceDetails = ({ route, onClose, }) => {
 
     const handleDecreaseselect = (id, quantity) => {
         const validQuantity = quantity ?? 0;
-        handleaddtocart(validQuantity,id);
+        handleaddtocart(validQuantity, id);
         setServericdetailsget(prevData => ({
             ...prevData,
             data: prevData.data.map(item => ({
@@ -237,7 +247,7 @@ const ServiceDetails = ({ route, onClose, }) => {
 
     const handleIncreaseselect = (id, quantity) => {
         const validQuantity = quantity ?? 0;
-        handleaddtocart(validQuantity,id);
+        handleaddtocart(validQuantity, id);
         setServericdetailsget(prevData => ({
             ...prevData,
             data: prevData.data.map(item => ({

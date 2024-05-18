@@ -11,8 +11,8 @@ const Location3 = () => {
     const { handleGetlocation, location, handlegetaddress, isaddress } = useContext(AuthContext);
     const [isLoading, setIsLoading] = useState(false);
     // const [isaddress, setIsaddress] = useState([]);
-    console.log("location---->", location)
-    console.log("isaddress----isaddress->", isaddress)
+    // console.log("location---->", location)
+    // console.log("isaddress----isaddress->", isaddress)
     const navigation = useNavigation();
 
     useEffect(() => {

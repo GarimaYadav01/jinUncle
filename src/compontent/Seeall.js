@@ -5,7 +5,6 @@ import AuthContext from "../screen/context/AuthContext";
 import { imagebaseurl } from "../apiconfig/Apiconfig";
 const { width, height } = Dimensions.get("screen");
 const Seeall = ({ isVisible, onClose, categories }) => {
-
     const { issubCategories, mostpolluar } = useContext(AuthContext);
     console.log("issubCategories--->", issubCategories)
     const flatListRef = useRef(null);
@@ -18,9 +17,9 @@ const Seeall = ({ isVisible, onClose, categories }) => {
             return () => clearTimeout(timer);
         }
     }, [isVisible]);
-    const handleMenuItemPress = (screen) => {
+    const handleMenuItemPress = (item) => {
         onClose();
-        navigation.navigate(screen);
+        navigation.navigate("MostpollarDetails", { mostpolluarid: item.id })
         console.log("Pressed item with screen:", screen);
     };
     const renderItem = ({ item }) => {
@@ -35,7 +34,7 @@ const Seeall = ({ isVisible, onClose, categories }) => {
         const imagePath = imagebaseurl + imageData.image_path;
         return (
             <View style={{ marginBottom: 20, marginTop: 10 }}>
-                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate("MostpollarDetails", { mostpolluarid: item.id })}>
+                <TouchableOpacity style={styles.btn} onPress={handleMenuItemPress}>
                     <Image source={{ uri: imagePath }} style={{ width: 150, height: 150, borderRadius: 10 }} resizeMode="contain" />
                     <Text style={[styles.name,]}>{item.name}</Text>
                     <View style={styles.ratingContainer}>

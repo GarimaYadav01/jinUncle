@@ -21,9 +21,9 @@ export const AuthProvider = ({ children }) => {
     const [isaddress, setISaddress] = useState([]);
     const [iscardlist, setIsCardlist] = useState([]);
     const categoryIds = iscategories.map(category => category.id);
-    console.log("categoryIds----categoryIds-->", categoryIds);
-    console.log("iscardlist------>", iscardlist);
-    console.log("isaddress--------->", isaddress)
+    // console.log("categoryIds----categoryIds-->", categoryIds);
+    // console.log("iscardlist------>", iscardlist);
+    // console.log("isaddress--------->", isaddress)
     const login = (userData) => {
         setUser(userData);
     };
@@ -89,14 +89,14 @@ export const AuthProvider = ({ children }) => {
     };
 
     const fetchDataCategory = async () => {
-        console.log("iscategoriesiscategories------------?<ll;", iscategories)
+        // console.log("iscategoriesiscategories------------?<ll;", iscategories)
         try {
             setIsLoading(true);
             const token = await AsyncStorage.getItem('token');
             const formdata = new FormData();
             formdata.append("id", iscategories[1].id);
 
-            console.log("id iscategories--------->", iscategories.id)
+            // console.log("id iscategories--------->", iscategories.id)
             const requestOptions = {
                 method: "POST",
                 headers: {
@@ -114,7 +114,7 @@ export const AuthProvider = ({ children }) => {
                 console.log("reponseresponse------>", result.data);
             }
         } catch (error) {
-            console.error("errorrrrr----rrrr---->", error);
+            // console.error("errorrrrr----rrrr---->", error);
             setIsLoading(false);
         }
     };
@@ -389,10 +389,11 @@ export const AuthProvider = ({ children }) => {
             setIsLoading(true);
             const token = await AsyncStorage.getItem('token');
             const myHeaders = new Headers();
-            // myHeaders.append("token", token);
+            myHeaders.append("token", token);
+            myHeaders.append("Cookie", "ci_session=b20e6431a041c4b21d06df69372d74619c5d0d17");
             const requestOptions = {
                 method: "GET",
-                headers: token,
+                headers: myHeaders,
                 redirect: "follow"
             };
             const response = await fetch(carddetails, requestOptions);

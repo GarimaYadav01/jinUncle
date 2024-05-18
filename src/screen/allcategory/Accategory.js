@@ -21,7 +21,7 @@ const Accategory = ({ route }) => {
     const { issubCategories, banner } = useContext(AuthContext);
     const [isLoading, setIsLoading] = useState(false);
     const [categoryDetail, setCategoryDetail] = useState([]);
-    console.log("categoryDetail----category-->", categoryDetail)
+    // console.log("categoryDetail----category-->", categoryDetail)
 
     const fetchDataCategory = async () => {
         try {
@@ -116,9 +116,9 @@ const Accategory = ({ route }) => {
 
     return (
         <SafeAreaView style={{ flex: 1 }}>
+            <Header2 />
             <ScrollView style={{ flexGrow: 1, paddingBottom: 50 }} showsVerticalScrollIndicator={false}>
                 <View >
-                    <Header2 />
                     <View
                         style={styles.container1}>
                         {image.map((image, index) => (

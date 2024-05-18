@@ -195,12 +195,12 @@ const TimeSlot = ({ isVisible, onClose, categories }) => {
             // onClose();
             return;
         }
-        // onClose();
-        handleCreaterorder();
-        // navigation.navigate("PaymentScreen", {
-        //     selectedDay: timeSlotget.days[selectedDayIndex],
-        //     selectedTime: istime[selectedItemIndex2],
-        // });
+        onClose();
+        // handleCreaterorder();
+        navigation.navigate("PaymentScreen", {
+            selectedDay: timeSlotget.days[selectedDayIndex],
+            selectedTime: istime[selectedItemIndex2],
+        });
     };
 
     return (

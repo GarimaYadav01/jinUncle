@@ -149,14 +149,20 @@ const Addcard = () => {
                             <View style={{ justifyContent: "center", alignItems: "center", marginTop: height * 0.2 }}>
                                 <Image source={require("../../assets/Newicon/delete.png")} style={{ width: 70, height: 70 }} />
                                 <Text style={styles.text}>No Data Found</Text>
+
+                                <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate("HomeScreen")}>
+                                    <Text style={[styles.text, { color: "white" }]}>Look for services</Text>
+                                </TouchableOpacity>
                             </View>
                         )}
                     />
-                    <View style={styles.priceDetailSection}>
-                        <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate("Summary")}>
-                            <Text style={[styles.text,{color:"white"}]}>Check Out</Text>
-                        </TouchableOpacity>
-                    </View>
+                    {cartProducts && cartProducts.length > 0 && (
+                        <View style={styles.priceDetailSection}>
+                            <TouchableOpacity style={styles.btn} onPress={() => navigation.navigate("Summary")}>
+                                <Text style={[styles.text, { color: "white" }]}>Check Out</Text>
+                            </TouchableOpacity>
+                        </View>
+                    )}
                 </View>
             </ScrollView>
             {isLoading && <LoaderScreen isLoading={isLoading} />}
@@ -226,8 +232,8 @@ const styles = StyleSheet.create({
         marginTop: 10
     },
     priceDetailSection: {
-        marginTop:height*0.06,
-        alignSelf:"center"
+        marginTop: height * 0.06,
+        alignSelf: "center"
     },
     priceDetailValue: {
         color: "black",

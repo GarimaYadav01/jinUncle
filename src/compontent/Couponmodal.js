@@ -45,10 +45,15 @@ const CouponModal = ({ visible, onClose, onApplyCouponSuccess }) => {
             setIsLoading(false);
         }
     }
-
     useEffect(() => {
-        handlegetapi();
-    }, [])
+        const handleFocus = () => {
+            handlegetapi();
+        };
+        handleFocus();
+        const unsubscribeFocus = navigation.addListener('focus', handleFocus);
+        return unsubscribeFocus;
+    }, []);
+
 
 
 

@@ -36,7 +36,7 @@ const Fridagecategory = ({ route }) => {
     const [showPayment, setShowPayment] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [issubcategorydetails, setIsSubCategoriesdetails] = useState([]);
-    console.log("issubcategorydetails000000---->", issubcategorydetails)
+    // console.log("issubcategorydetails000000---->", issubcategorydetails)
     const handleCardPress = () => {
         setModalVisible(true);
     };
@@ -128,9 +128,10 @@ const Fridagecategory = ({ route }) => {
     console.log("imageimage--issubcategorydetails-->", image)
     return (
         <SafeAreaView style={{ flex: 1 }}>
+            <Header2 />
             <ScrollView style={{ flexGrow: 1, paddingBottom: 50 }} showsVerticalScrollIndicator={false}>
                 <View >
-                    <Header2 />
+
                     <View
                         style={styles.container1}>
                         {image.map((image, index) => (

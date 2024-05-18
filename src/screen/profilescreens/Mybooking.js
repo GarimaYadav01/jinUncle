@@ -92,38 +92,12 @@ const Mybooking = () => {
         }
     });
 
+    useEffect(() => {
+        getmybooking("1"); // Fetch data for the default tab (All Booking) when component mounts
+    }, []);
+
 
     console.log("filteredData----->", filteredData)
-
-    // const renderItemallmix = ({ item }) => {
-    //     console.log("item---wwwww-->", item)
-    //     let imageData;
-    //     try {
-    //         imageData = JSON.parse(item.service_image)[0];
-    //     } catch (error) {
-    //         return null;
-    //     }
-
-    //     const imagePath = imagebaseurl + imageData.image_path;
-    //     return (
-    //         <View style={styles.continer}>
-    //             <View>
-    //                 <Image source={{ uri: imagePath }} style={{ width: 100, height: 100, borderRadius: 10 }} resizeMode="contain" />
-    //             </View>
-    //             <View style={{ marginTop: 10 }}>
-    //                 <Text style={[styles.name,]}>{item.service_name}</Text>
-    //                 {/* <View style={styles.ratingContainer}>
-    //                     <Image source={require("../../assets/logo/star.png")} style={styles.starIcon} />
-    //                     <Text style={styles.likes}>{item.rating}</Text>
-    //                 </View> */}
-    //                 <Text style={{ color: "black" }}>₹{item.final_price}</Text>
-    //                 <Text>{item.booking_date_time}</Text>
-    //             </View>
-    //         </View>
-    //     );
-    // };
-
-
 
     const renderItem = ({ item }) => {
         console.log("item---wwwww-->", item)

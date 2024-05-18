@@ -5,8 +5,10 @@ import { ICONS } from "../../assets/themes";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { wallet } from "../../apiconfig/Apiconfig";
 import LoaderScreen from "../../compontent/LoaderScreen";
+import { useNavigation } from "@react-navigation/native";
 const { height, width } = Dimensions.get("screen")
 const MyWallet = () => {
+    const navigation = useNavigation();
     const [expanded, setExpanded] = useState(false);
     const [isWallet, setIsWallet] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -42,9 +44,15 @@ const MyWallet = () => {
         }
     }
 
+
     useEffect(() => {
+        const handleFocus = () => {
+            handlegetwallet();
+        };
         handlegetwallet();
-    }, [])
+        const unsubscribeFocus = navigation.addListener('focus', handleFocus);
+        return unsubscribeFocus;
+    }, []);
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <Header title={"My Wallet"} />
