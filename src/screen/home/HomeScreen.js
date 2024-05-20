@@ -61,15 +61,6 @@ const HomeScreen = (props) => {
         navigation.navigate(screen, { itemId: id, itemName: name });
     };
 
-    // useEffect(() => {
-    //     const interval = setInterval(() => {
-    //         const nextIndex = (index + 1) % mostpolluar?.length;
-    //         flatListRef.current.scrollToIndex({ animated: true, index: nextIndex });
-    //         setIndex(nextIndex);
-    //     }, 3000);
-    //     return () => clearInterval(interval);
-    // }, [index]);
-
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);

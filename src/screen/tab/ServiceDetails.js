@@ -37,28 +37,13 @@ const ServiceDetails = ({ route, onClose, }) => {
 
     const handleaddtocart = async (quantity, id) => {
         try {
-            // setIsLoading(true);
             const token = await AsyncStorage.getItem('token');
             const myHeaders = new Headers();
             myHeaders.append("token", token);
             myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
-            // const variants = [];
-            // dverinat.forEach(variant => {
-            //     const { id } = variant;
-            //     Object.keys(quantityselectStates).forEach(variantId => {
-            //         // const { quantity } = quantityselectStates[variantId];
-            //         const quantity = quantityselectStates[id]?.quantity || 0;
-            //         console.log("Variant ID:", variantId);
-            //         console.log("Quantity:", quantity);
-            //         variants.push({ varient_id: id, quantity: quantity });
-            //     });
-            // });
-            // const varientData = JSON.stringify(variants);
-            // console.log("varientData--->", varientData)
             const formdata = new FormData();
             formdata.append("service_id", serviceid);
             formdata.append("varient_id", id);
-            // formdata.append("quantity", quantityselectStates.quantity);
             formdata.append("quantity", quantity);
             console.log("quantity-------->", quantity)
             console.log("varient_id--->", id)
@@ -72,6 +57,7 @@ const ServiceDetails = ({ route, onClose, }) => {
             const result = await response.json();
             console.log("result--res--Quantity:-->", result);
             if (result?.data == 200) {
+                await gethandlecart();
                 setIsLoading(false);
                 showMessage({
                     message: "add to view card successfull",

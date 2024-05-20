@@ -11,8 +11,7 @@ import { useNavigation } from "@react-navigation/native";
 const { height, width } = Dimensions.get("screen");
 const Addcard = () => {
     const navigation = useNavigation();
-    const { iscardlist, setIsCardlist } = useContext(AuthContext)
-    const [isLoading, setIsLoading] = useState(false);
+    const { iscardlist, setIsCardlist, isLoading, setIsLoading } = useContext(AuthContext)
     const [deleteModalVisible, setDeleteModalVisible] = useState(false);
     console.log("iscardlist------->", iscardlist);
     const priceDetail = iscardlist?.data?.price_detail;
@@ -57,7 +56,6 @@ const Addcard = () => {
             const formdata = new FormData();
             formdata.append("cart_id", cart_id);
             console.log("cartid--->", cart_id)
-
             const requestOptions = {
                 method: "POST",
                 headers: myHeaders,

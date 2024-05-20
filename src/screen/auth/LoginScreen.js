@@ -11,6 +11,7 @@ import { Loginapi } from '../../apiconfig/Apiconfig';
 import { useNavigation } from '@react-navigation/native';
 import LoaderScreen from '../../compontent/LoaderScreen';
 import DeviceInfo from 'react-native-device-info';
+import messaging from '@react-native-firebase/messaging';
 
 const { width, height } = Dimensions.get("screen");
 

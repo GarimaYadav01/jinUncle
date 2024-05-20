@@ -27,8 +27,6 @@ const ApplyModal = ({ isVisible, hideModal, handleSave, onClose }) => {
             animationOut={"bounceInDown"}
         >
             <View style={styles.modalContainer}>
-
-
                 <ScrollView showsVerticalScrollIndicator={false}>
                     <View style={styles.modalContent}>
                         <View style={{ justifyContent: "flex-end", marginLeft: width * 0.85 }}>
@@ -106,7 +104,7 @@ const styles = StyleSheet.create({
         marginBottom: 10,
         textAlign: "center",
         marginVertical: height * 0.02,
-        color:"gray"
+        color: "gray"
 
     },
     input: {
@@ -134,7 +132,7 @@ const styles = StyleSheet.create({
         fontFamily: "Roboto-Regular",
         fontSize: 14,
         width: width * 0.8,
-        color:"gray"
+        color: "gray"
     }
 });
 

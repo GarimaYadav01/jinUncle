@@ -41,6 +41,7 @@ target 'jinUncle' do
 
   target 'jinUncleTests' do
     inherit! :complete
+  
     # Pods for testing
   end
 

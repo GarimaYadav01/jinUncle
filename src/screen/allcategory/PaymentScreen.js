@@ -7,7 +7,7 @@ import RazorpayCheckout from 'react-native-razorpay';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createorder, paymentOptionget, paymentstatus } from '../../apiconfig/Apiconfig';
 import AuthContext from '../context/AuthContext';
-const { height } = Dimensions.get("screen");
+const { height, width } = Dimensions.get("screen");
 
 const PaymentScreen = ({ route }) => {
   const [paymentOption, setPaymentOption] = useState("");
@@ -55,16 +55,16 @@ const PaymentScreen = ({ route }) => {
       const options = {
         description: 'Payment for goods',
         image: require("../../assets/logo/jinnlogo.png"),
-        currency: 'INR', // Currency code (e.g., INR, USD)
-        key: 'rzp_test_uhu2i0SIc40SxY', // Your Razorpay key
-        amount: '10000', // Payment amount in paise (e.g., for ₹100.00, provide 10000)
+        currency: 'INR',
+        key: 'rzp_test_uhu2i0SIc40SxY',
+        amount: '10000',
         name: 'Jinn Uncle',
         prefill: {
           email: isgetprofile.email, // User's email
           contact: isgetprofile.mobile, // User's phone number
           name: isgetprofile.name, // User's name
         },
-        theme: { color: '#004E8C' } // Color theme
+        theme: { color: '#004E8C' }
       };
       RazorpayCheckout.open(options)
         .then((data) => {
@@ -162,13 +162,10 @@ const PaymentScreen = ({ route }) => {
         navigateToNextScreen();
       }
 
-
     } catch (error) {
       console.log("error----ddsd>", error)
     }
   }
-
-
 
 
   return (
@@ -182,11 +179,15 @@ const PaymentScreen = ({ route }) => {
             style={styles.radioButton}
             onPress={() => handlePaymentOptionChange(option.id)}
           >
-            <RadioButton
+            {/* <RadioButton
               value={option.id}
               status={paymentOption === option.id ? 'checked' : 'unchecked'}
               onPress={() => handlePaymentOptionChange(option.id)}
-            />
+              color="#004E8C"
+            /> */}
+            <View style={styles.radioOuterCircle}>
+              {paymentOption === option.id && <View style={styles.radioInnerCircle} />}
+            </View>
             <Text style={styles.text}>{option.name}</Text>
           </TouchableOpacity>
         ))}
@@ -233,7 +234,28 @@ const styles = StyleSheet.create({
     color: "black",
     fontSize: 14,
     fontStyle: "normal"
-  }
+  },
+  radioButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 10,
+  },
+  radioOuterCircle: {
+    height: 24,
+    width: 24,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: '#004E8C',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 10,
+  },
+  radioInnerCircle: {
+    height: 12,
+    width: 12,
+    borderRadius: 6,
+    backgroundColor: '#004E8C',
+  },
 });
 
 export default PaymentScreen;

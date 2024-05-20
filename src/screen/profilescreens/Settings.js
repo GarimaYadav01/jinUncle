@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from 'react';
 import { Image, SafeAreaView, ScrollView, StyleSheet, Text, View, Switch, Dimensions, TouchableOpacity, Modal, Button } from "react-native";
 import Header from "../../compontent/Header";
 import { del, serverl, whtasuodate } from "../../apiconfig/Apiconfig";
 import LoaderScreen from "../../compontent/LoaderScreen";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { showMessage } from "react-native-flash-message";
+import { useFocusEffect } from '@react-navigation/native';
 const { height, width } = Dimensions.get("screen");
 const Settings = ({ navigation }) => {
     const [isEnabled, setIsEnabled] = useState(false);
@@ -64,13 +65,38 @@ const Settings = ({ navigation }) => {
         }
     }
 
-    const toggleSwitch = () => {
-        setIsEnabled(previousState => !previousState);
-        if (!isEnabled) {
-            handlewhatsupupdate();
-            openUpdateModal();
+    const toggleSwitch = async () => {
+        const newEnabledState = !isEnabled;
+        setIsEnabled(newEnabledState);
+        await AsyncStorage.setItem('isEnabled', JSON.stringify(newEnabledState));
+
+        if (newEnabledState) {
+            try {
+                await handlewhatsupupdate();
+                openUpdateModal();
+            } catch (error) {
+                console.error('Failed to update WhatsApp settings:', error);
+                // Revert the state if the API call fails
+                const previousState = !newEnabledState;
+                setIsEnabled(previousState);
+                await AsyncStorage.setItem('isEnabled', JSON.stringify(previousState));
+            }
         }
     };
+    const loadSwitchState = async () => {
+        const storedState = await AsyncStorage.getItem('isEnabled');
+        if (storedState !== null) {
+            setIsEnabled(JSON.parse(storedState));
+        }
+    };
+
+
+    useFocusEffect(
+        useCallback(() => {
+            loadSwitchState();
+        }, [])
+    );
+
     const openDeleteModal = () => setDeleteModalVisible(true);
     const closeDeleteModal = () => setDeleteModalVisible(false);
     const openUpdateModal = () => setUpdateModalVisible(true);

@@ -18,9 +18,10 @@ const Seeall = ({ isVisible, onClose, categories }) => {
         }
     }, [isVisible]);
     const handleMenuItemPress = (item) => {
-        onClose();
-        navigation.navigate("MostpollarDetails", { mostpolluarid: item.id })
-        console.log("Pressed item with screen:", screen);
+
+        navigation.navigate("MostpollarDetails", { mostpolluarid: item.service_id })
+
+
     };
     const renderItem = ({ item }) => {
         console.log("item----->", item)
@@ -34,7 +35,10 @@ const Seeall = ({ isVisible, onClose, categories }) => {
         const imagePath = imagebaseurl + imageData.image_path;
         return (
             <View style={{ marginBottom: 20, marginTop: 10 }}>
-                <TouchableOpacity style={styles.btn} onPress={handleMenuItemPress}>
+                <TouchableOpacity style={styles.btn} onPress={() => {
+                    onClose();
+                    navigation.navigate("MostpollarDetails", { mostpolluarid: item.service_id })
+                }}>
                     <Image source={{ uri: imagePath }} style={{ width: 150, height: 150, borderRadius: 10 }} resizeMode="contain" />
                     <Text style={[styles.name,]}>{item.name}</Text>
                     <View style={styles.ratingContainer}>

@@ -13,7 +13,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Resendotp, otpverify } from '../../apiconfig/Apiconfig';
 // import AsyncStorage from 'react-native-async-storage/async-storage';
 const { width, height } = Dimensions.get("screen")
-
 const Otp = (props) => {
     const phoneNumber = props?.route?.params?.phoneNumber;
     console.log("Phone Number-->", props?.route?.params?.phoneNumber);
@@ -22,7 +21,6 @@ const Otp = (props) => {
     const [isLoading, setIsLoading] = useState(false);
     const [isCodeEntered, setIsCodeEntered] = useState(false);
     const navigation = useNavigation();
-
     const onCodeFilled = (code) => {
         setCode(code);
         setIsCodeEntered(true);
@@ -33,7 +31,6 @@ const Otp = (props) => {
         formdata.append("type", "2");
         formdata.append("otp", code);
         setIsLoading(true);
-
         fetch(otpverify, {
             method: 'POST',
             body: formdata,

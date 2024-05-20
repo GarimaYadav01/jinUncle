@@ -1,247 +1,68 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Modal, Text, TouchableOpacity, StyleSheet, Image, Dimension, Dimensions, ScrollView, FlatList, Animated, SafeAreaView } from 'react-native';
+import { View, Modal, Text, TouchableOpacity, StyleSheet, Image, Dimension, Dimensions, ScrollView, FlatList, Animated } from 'react-native';
 import { ICONS } from '../../assets/themes';
 import { useNavigation } from '@react-navigation/native';
 import { showMessage } from 'react-native-flash-message';
-import AuthContext from '../context/AuthContext';
-import Header from '../../compontent/Header';
-import { Addcart, imagebaseurl, servicedetails } from '../../apiconfig/Apiconfig';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { object } from 'yup';
+import { Addcart, imagebaseurl, servicedetails } from '../../apiconfig/Apiconfig';
 import LoaderScreen from '../../compontent/LoaderScreen';
+import Header from '../../compontent/Header';
+import AuthContext from '../context/AuthContext';
 const { height, width } = Dimensions.get("screen")
-const MostpollarDetails = ({ route, props }) => {
+const MostpollarDetails = ({ route, onClose, }) => {
     const navigation = useNavigation();
     const [currentIndex, setCurrentIndex] = useState(0);
     const [quantityStates, setQuantityStates] = useState({});
     const [quantityselectStates, setQuantityselectStates] = useState({});
-    const [servericdetailsget, setServericdetailsget] = useState([]);
     const [isvissbleModal, setIsVisibleModal] = useState(false);
+    const [servericdetailsget, setServericdetailsget] = useState([]);
     const [isLoading, setIsLoading] = useState(false)
-    const { mostpolluar } = useContext(AuthContext);
-    console.log("servericdetailsget------->", servericdetailsget)
-    const MostpollarDe = route?.params?.MostpollarDe || "Default MostpollarDe";
+    const { iscardlist, gethandlecart } = useContext(AuthContext);
+    const priceDetail = iscardlist?.data?.price_detail;
+    console.log("priceDetail---->", priceDetail)
+    const serviceid = route.params.serviceid;
     const mostpolluarid = route?.params?.mostpolluarid
-    console.log("mostpolluarid:----->", mostpolluarid)
-
-    const [isOpen, setIsOpen] = useState(false);
-    const togglePopup = () => {
-        setIsOpen(!isOpen);
-    };
-    const translateY = new Animated.Value(height);
-    const animatePopup = () => {
-        Animated.spring(translateY, {
-            toValue: isOpen ? height : height - 200,
-            useNativeDriver: true,
-        }).start();
-    };
+    console.log("serviceid---->", serviceid)
+    console.log("quantityselectStates------>", quantityselectStates)
+    console.log("servericdetailsget----->", servericdetailsget)
+    console.log("serviceid------>", serviceid)
     useEffect(() => {
-        // Initialize quantity states for each item
-        const initialQuantityStates = {};
-        Allmix.forEach(({ id }) => {
-            initialQuantityStates[id] = {
-                showQuantityView: false,
-                quantity: 1
-            };
-        });
-        setQuantityStates(initialQuantityStates);
-    }, []);
-    const handleIncrease = (id) => {
-        // setIsVisibleModal(true);
-        setQuantityStates(prevStates => ({
-            ...prevStates,
-            [id]: {
-                ...prevStates[id],
-                quantity: prevStates[id].quantity + 1
-            }
-        }));
-    };
-
-    const handleDecrease = (id) => {
-        // setIsVisibleModal(true);
-        setQuantityStates(prevStates => ({
-            ...prevStates,
-            [id]: {
-                ...prevStates[id],
-                quantity: Math.max(1, prevStates[id].quantity - 1)
-            }
-        }));
-    };
-
-    // const handleAddButtonClick = () => {
-    //     setShowQuantityView(true);
-    // };
-    const toggleVector = (id) => {
-        togglePopup();
-        setQuantityStates(prevStates => ({
-            ...prevStates,
-            [id]: {
-                ...prevStates[id],
-                showQuantityView: !prevStates[id].showQuantityView
-            }
-        }));
-        showMessage({
-            message: "add to view card successfull",
-            type: "success",
-            icon: "success"
-        })
-    };
-
-    const images = [
-        require('../../assets/banner/banner.png'),
-        require('../../assets/banner/ACBAnner.png'),
-        require('../../assets/banner/ACBAnner1.png'),
-        // Add more image sources as needed
-    ];
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-        }, 3000);
-
-        return () => clearInterval(interval);
+        const handleFocus = () => {
+            gethandlecart();
+        };
+        handleFocus();
+        const unsubscribeFocus = navigation.addListener('focus', handleFocus);
+        return unsubscribeFocus;
     }, []);
 
-    const select = [
-        {
-            id: "1",
-            image: require("../../assets/newimages/washingmachine1.png"),
-            name: "Window Ac",
-            icon: require("../../assets/logo/star.png"),
-            likes: "4.85(60k reviews)",
-            starts: 549,
-        },
-        {
-            id: "2",
-            image: require("../../assets/newimages/washingmachine2.png"),
-            name: "Split AC",
-            icon: require("../../assets/logo/star.png"),
-            likes: "4.85(60k reviews)",
-            starts: 549,
-        },
-    ]
-
-    useEffect(() => {
-        // Initialize quantity states for each item
-        const initialQuantityselectStates = {};
-        select.forEach(({ id }) => {
-            initialQuantityselectStates[id] = {
-                showQuantityView: false,
-                quantity: 1
-            };
-        });
-        setQuantityselectStates(initialQuantityselectStates);
-    }, []);
-    const handleIncreaseselect = (id) => {
-        handleaddtocart();
-        setQuantityselectStates(prevStates => ({
-            ...prevStates,
-            [id]: {
-                ...prevStates[id],
-                quantity: prevStates[id].quantity + 1
-            }
-        }));
-    };
-    const handleDecreaseselect = (id) => {
-        handleaddtocart()
-        setQuantityselectStates(prevStates => ({
-            ...prevStates,
-            [id]: {
-                ...prevStates[id],
-                quantity: Math.max(1, prevStates[id].quantity - 1)
-            }
-        }));
-    };
-    const toggleVectorselect = (id) => {
-        handleaddtocart()
-        togglePopup();
-        setQuantityselectStates(prevStates => ({
-            ...prevStates,
-            [id]: {
-                ...prevStates[id],
-                showQuantityView: !prevStates[id].showQuantityView
-            }
-        }));
-        showMessage({
-            message: "add to view card successful",
-            type: "success",
-            icon: "success"
-        });
-    };
-    const Allmix = [
-        {
-            id: "1",
-            image: require("../../assets/newimages/washingmachine1.png"),
-            name: " washing",
-            icon: require("../../assets/logo/star.png"),
-            likes: "4.85(60k reviews)",
-            starts: 549,
-        },
-        {
-            id: "2",
-            image: require("../../assets/newimages/washingmachine2.png"),
-            name: "cleaning",
-            icon: require("../../assets/logo/star.png"),
-            likes: "4.85(60k reviews)",
-            starts: 549,
-        },
-        {
-            id: "3",
-            image: require("../../assets/newimages/wahingmachine3.png"),
-            name: "change the wire",
-            icon: require("../../assets/logo/star.png"),
-            likes: "4.85(60k reviews)",
-            starts: 549,
-        },
-        {
-            id: "4",
-            image: require("../../assets/newimages/AC1.png"),
-            name: "Repair & gas refill",
-            icon: require("../../assets/logo/star.png"),
-            likes: "4.85(60k reviews)",
-            starts: 549,
-        },
-        {
-            id: "5",
-            image: require("../../assets/newimages/AC.png"),
-            name: "Install & Uninstall",
-            icon: require("../../assets/logo/star.png"),
-            likes: "4.85(60k reviews)",
-            starts: 549,
-        },
-        {
-            id: "6",
-            image: require("../../assets/newimages/AC2.png"),
-            name: "service",
-            icon: require("../../assets/logo/star.png"),
-            likes: "4.85(60k reviews)",
-            starts: 549,
-        }
-    ]
-
-
-    const handleaddtocart = async () => {
+    const handleaddtocart = async (quantity, id) => {
         try {
             // setIsLoading(true);
             const token = await AsyncStorage.getItem('token');
             const myHeaders = new Headers();
             myHeaders.append("token", token);
             myHeaders.append("Cookie", "ci_session=b11173bda63e18cdc2565b9111ff8c30cf7660fd");
-            const variants = [];
-            dverinat.forEach(variant => {
-                const { id } = variant;
-                Object.keys(quantityselectStates).forEach(variantId => {
-                    const { quantity } = quantityselectStates[variantId];
-                    console.log("Variant ID:", variantId);
-                    console.log("Quantity:", quantity);
-                    variants.push({ varient_id: id, quantity: quantity });
-                });
-            });
-            const varientData = JSON.stringify(variants);
-            console.log("varientData--->", varientData)
+            // const variants = [];
+            // dverinat.forEach(variant => {
+            //     const { id } = variant;
+            //     Object.keys(quantityselectStates).forEach(variantId => {
+            //         // const { quantity } = quantityselectStates[variantId];
+            //         const quantity = quantityselectStates[id]?.quantity || 0;
+            //         console.log("Variant ID:", variantId);
+            //         console.log("Quantity:", quantity);
+            //         variants.push({ varient_id: id, quantity: quantity });
+            //     });
+            // });
+            // const varientData = JSON.stringify(variants);
+            // console.log("varientData--->", varientData)
             const formdata = new FormData();
             formdata.append("service_id", mostpolluarid);
-            formdata.append("varient_data", varientData);
-            // formdata.append("varient_data", "[{\"varient_id\":1,\"quantity\":1},{\"varient_id\":2,\"quantity\":2}]");
+            formdata.append("varient_id", id);
+            // formdata.append("quantity", quantityselectStates.quantity);
+            formdata.append("quantity", quantity);
+            console.log("quantity-------->", quantity)
+            console.log("varient_id--->", id)
             const requestOptions = {
                 method: "POST",
                 headers: myHeaders,
@@ -250,14 +71,15 @@ const MostpollarDetails = ({ route, props }) => {
             };
             const response = await fetch(Addcart, requestOptions);
             const result = await response.json();
-            console.log("result--res--addcartee-->", result);
-            if (result.data == 200) {
+            console.log("result--res--Quantity:-->", result);
+            if (result?.data == 200) {
+                setIsLoading(false);
                 showMessage({
                     message: "add to view card successfull",
                     type: "success",
                     icon: "success"
                 })
-                setIsLoading(false);
+
             }
             console.log("resul-tresul-t--->", result)
         } catch (error) {
@@ -266,6 +88,8 @@ const MostpollarDetails = ({ route, props }) => {
         }
 
     }
+
+    console.log("item---item---item>", mostpolluarid)
     const handledetailsservice = async () => {
         console.log("service_id---item--->", mostpolluarid)
         try {
@@ -307,51 +131,140 @@ const MostpollarDetails = ({ route, props }) => {
         return unsubscribeFocus;
     }, []);
 
+    const handleViewCard = () => {
+        // onClose();
+        navigation.navigate("Addcard");
+        // navigation.navigate("Summary");
+    };
+
+    const [isOpen, setIsOpen] = useState(false);
+    const togglePopup = () => {
+        setIsOpen(!isOpen);
+    };
+    const translateY = new Animated.Value(height);
+    const animatePopup = () => {
+        Animated.spring(translateY, {
+            toValue: isOpen ? height : height - 200,
+            useNativeDriver: true,
+        }).start();
+    };
+
+    useEffect(() => {
+        const initialQuantityselectStates = {};
+        if (dverinat && dverinat.length > 0) {
+            dverinat.forEach(({ id }) => {
+                initialQuantityselectStates[id] = {
+                    showQuantityView: false,
+                    quantity: 1
+                };
+            });
+        }
+        setQuantityselectStates(initialQuantityselectStates);
+    }, [dverinat]);
+
+    // const toggleVectorselect = (id, quantity) => {
+    //     handleaddtocart(quantity);
+    //     togglePopup();
+    //     setQuantityselectStates(prevStates => ({
+    //         ...prevStates,
+    //         [id]: {
+    //             ...prevStates[id],
+    //             showQuantityView: !prevStates[id]?.showQuantityView
+    //         }
+    //     }));
+    // };
+    // const handleDecreaseselect = (id, quantity) => {
+    //     handleaddtocart(quantity);
+    //     setServericdetailsget(prevData => ({
+    //         ...prevData,
+    //         data: prevData.data.map(item => ({
+    //             ...item,
+    //             varient: item.varient.map(variantItem => {
+    //                 if (variantItem.id === id) { // Identify the correct variant
+    //                     return {
+    //                         ...variantItem,
+    //                         quantity: Math.max(1, parseInt(variantItem.quantity) - 1)
+    //                     };
+    //                 }
+    //                 return variantItem;
+    //             })
+    //         }))
+    //     }));
+    // };
 
 
-    const serviceName = servericdetailsget && servericdetailsget.data && servericdetailsget?.data[0] ? servericdetailsget?.data[0]?.name : "";
-    const serviceRating = servericdetailsget && servericdetailsget.data && servericdetailsget?.data[0] ? servericdetailsget?.data[0]?.rating : "";
-    const dverinat = servericdetailsget && servericdetailsget.data && servericdetailsget?.data[0] ? servericdetailsget?.data[0]?.varient : "";
-    // const image = categoryDetail && categoryDetail.data && categoryDetail?.data[0]?.image ? JSON.parse(categoryDetail.data[0].image) : [];
-    const imageBaseUrl = servericdetailsget?.imageurl; // Assuming this is the base URL for your images
-    const imageData = servericdetailsget && servericdetailsget.data && servericdetailsget?.data[0]?.banner;
-    const image = imageData ? JSON.parse(imageData).map(img => ({ ...img, image_path: imagebaseurl + img.image_path })) : [];
-    console.log("imageimage---->", image)
-
-    console.log("dverinat---->", dverinat)
-
-    const renderItemallmix = ({ item }) => (
-        <View style={{ marginBottom: 20, marginTop: 10, alignContent: "center", justifyContent: "center" }}>
-            <View style={styles.btn1}>
-                <Image source={item.image} style={{ width: 100, height: 100, borderRadius: 5 }} resizeMode="contain" />
-                <Text style={[styles.name, { width: width * 0.3 }]}>{item.name}</Text>
-                <View style={styles.ratingContainer}>
-                    <Image source={item.icon} style={styles.starIcon} />
-                    <Text style={{ color: "gray" }}>{item.likes}</Text>
-                </View>
-                <Text style={{ color: "black" }}>₹258</Text>
-                <View>
-                    {!quantityStates[item.id]?.showQuantityView ? (
-                        <TouchableOpacity style={styles.smallbutton} onPress={() => toggleVector(item.id)}>
-                            <Text style={styles.textbut}>Add</Text>
-                        </TouchableOpacity>
-                    ) : (
-                        <View style={styles.container1}>
-                            <TouchableOpacity onPress={() => handleDecrease(item.id)}>
-                                <Text style={styles.textbut}>-</Text>
-                            </TouchableOpacity>
-                            <Text style={styles.textbut}>{quantityStates[item.id]?.quantity}</Text>
-                            <TouchableOpacity onPress={() => handleIncrease(item.id)}>
-                                <Text style={styles.textbut}>+</Text>
-                            </TouchableOpacity>
-                        </View>
-                    )}
-                </View>
-            </View>
-        </View>
-    );
+    // const handleIncreaseselect = (id, quantity) => {
+    //     handleaddtocart(quantity);
+    //     setServericdetailsget(prevData => ({
+    //         ...prevData,
+    //         data: prevData.data.map(item => ({
+    //             ...item,
+    //             varient: item.varient.map(variantItem => {
+    //                 if (variantItem.id === id) { // Identify the correct variant
+    //                     return {
+    //                         ...variantItem,
+    //                         quantity: parseInt(variantItem.quantity) + 1
+    //                     };
+    //                 }
+    //                 return variantItem;
+    //             })
+    //         }))
+    //     }));
+    // };
 
 
+    const toggleVectorselect = (id, quantity) => {
+        const validQuantity = quantity ?? 0;
+        handleaddtocart(validQuantity, id);
+        togglePopup();
+        setQuantityselectStates(prevStates => ({
+            ...prevStates,
+            [id]: {
+                ...prevStates[id],
+                showQuantityView: !prevStates[id]?.showQuantityView
+            }
+        }));
+    };
+
+    const handleDecreaseselect = (id, quantity) => {
+        const validQuantity = quantity ?? 0;
+        handleaddtocart(validQuantity, id);
+        setServericdetailsget(prevData => ({
+            ...prevData,
+            data: prevData.data.map(item => ({
+                ...item,
+                varient: item.varient.map(variantItem => {
+                    if (variantItem.id === id) {
+                        return {
+                            ...variantItem,
+                            quantity: Math.max(1, (parseInt(variantItem.quantity) || 0) - 1)
+                        };
+                    }
+                    return variantItem;
+                })
+            }))
+        }));
+    };
+
+    const handleIncreaseselect = (id, quantity) => {
+        const validQuantity = quantity ?? 0;
+        handleaddtocart(validQuantity, id);
+        setServericdetailsget(prevData => ({
+            ...prevData,
+            data: prevData.data.map(item => ({
+                ...item,
+                varient: item.varient.map(variantItem => {
+                    if (variantItem.id === id) {
+                        return {
+                            ...variantItem,
+                            quantity: (parseInt(variantItem.quantity) || 0) + 1
+                        };
+                    }
+                    return variantItem;
+                })
+            }))
+        }));
+    };
 
     const renderselectvariant = ({ item }) => (
         <View style={{ marginBottom: 20, marginTop: 10, alignContent: "center", justifyContent: "center" }}>
@@ -363,18 +276,23 @@ const MostpollarDetails = ({ route, props }) => {
                     <Text style={{ color: "gray" }}>{item.likes}</Text>
                 </View>
                 <Text style={{ color: "black" }}>₹258</Text>
+
+
                 <View>
                     {!quantityselectStates[item.id]?.showQuantityView ? (
-                        <TouchableOpacity style={styles.smallbutton} onPress={() => toggleVectorselect(item.id)}>
+                        <TouchableOpacity style={styles.smallbutton} onPress={() => toggleVectorselect(item.id, item.quantity ?? 0)}>
                             <Text style={styles.textbut}>Add</Text>
                         </TouchableOpacity>
                     ) : (
                         <View style={styles.container1}>
-                            <TouchableOpacity onPress={() => handleDecreaseselect(item.id)}>
+                            <TouchableOpacity onPress={() => handleDecreaseselect(item.id, item.quantity ?? 0)}>
                                 <Text style={styles.textbut}>-</Text>
                             </TouchableOpacity>
-                            <Text style={styles.textbut}>{quantityselectStates[item.id]?.quantity}</Text>
-                            <TouchableOpacity onPress={() => handleIncreaseselect(item.id)}>
+
+                            <Text style={styles.textbut}>{item.quantity ?? 0}</Text>
+
+                            {console.log("uantityselectStates[item.id]?.quantity-->", quantityselectStates[item.id]?.quantity)}
+                            <TouchableOpacity onPress={() => handleIncreaseselect(item.id, item.quantity ?? 0)}>
                                 <Text style={styles.textbut}>+</Text>
                             </TouchableOpacity>
                         </View>
@@ -385,12 +303,26 @@ const MostpollarDetails = ({ route, props }) => {
     );
 
 
-    // // const serviceName = servericdetailsget?.data[0]?.name;
-    // const serviceRating = mostpolluar?.rating;
+    const serviceName = servericdetailsget && servericdetailsget.data && servericdetailsget?.data[0] ? servericdetailsget?.data[0]?.name : "";
+    const serviceRating = servericdetailsget && servericdetailsget.data && servericdetailsget?.data[0] ? servericdetailsget?.data[0]?.rating : "";
+    // const dverinat = servericdetailsget && servericdetailsget.data && servericdetailsget?.data[0] ? servericdetailsget?.data[0]?.varient : "";
+    const dverinat = servericdetailsget?.data && servericdetailsget.data.length > 0 ? servericdetailsget.data[0].varient : [];
+    const imageBaseUrl = servericdetailsget?.imageurl; // Assuming this is the base URL for your images
+    const imageData = servericdetailsget && servericdetailsget.data && servericdetailsget?.data[0]?.banner;
+    const image = imageData ? JSON.parse(imageData).map(img => ({ ...img, image_path: imagebaseurl + img.image_path })) : [];
+    console.log("imageimage---->", image)
+    const quantity = dverinat.length > 0 ? dverinat[0].quantity : null;
+    console.log("quantity-----quantity---->", quantity)
+
+    const cartSubTotal = priceDetail && priceDetail.length > 0 ? priceDetail[0].cart_sub_total : "";
+
+
+    console.log("dverinat---->", dverinat)
     return (
-        <SafeAreaView style={{ flex: 1 }}>
-            <Header />
-            <ScrollView>
+        <View style={{ flex: 1 }}>
+            <Header title={"Service Deatils"} />
+            <View style={styles.modalContainer}>
+
                 <View style={styles.modalContent}>
                     <ScrollView showsVerticalScrollIndicator={false} style={{ flexGrow: 1, paddingBottom: 150, }}>
                         <View
@@ -403,7 +335,7 @@ const MostpollarDetails = ({ route, props }) => {
                                 />
                             ))}
                         </View>
-                        {console.log("serveailsget-name------>", serviceRating)}
+                        {console.log("serveailsget-name------>", servericdetailsget.data)}
                         <Text style={styles.text}>{serviceName}</Text>
                         <View style={{ flexDirection: "row", alignItems: "center", columnGap: 10, marginTop: 10 }}>
                             <Image source={require("../../assets/logo/star.png")} style={{ width: 20, height: 20 }} resizeMode="contain" />
@@ -422,9 +354,7 @@ const MostpollarDetails = ({ route, props }) => {
                         </TouchableOpacity>
 
                         <Text style={styles.text}>Select variant</Text>
-
                         <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
-
                             {console.log("servericdetailsget.varient------>", servericdetailsget.varient)}
                             <FlatList
                                 data={dverinat}
@@ -432,23 +362,19 @@ const MostpollarDetails = ({ route, props }) => {
                                 keyExtractor={item => item.id}
                                 horizontal
                                 showsHorizontalScrollIndicator={false}
+                                ListEmptyComponent={() => (
+                                    <View style={styles.emptyListContainer}>
+                                        <Image source={require("../../assets/Newicon/delete.png")} style={{ width: 70, height: 70 }} />
+                                        <Text style={styles.emptyListText}>No data found</Text>
+                                    </View>
+                                )}
                             />
                         </View>
-                        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 10 }}>
-                            {/* <FlatList
-                                data={Allmix}
-                                renderItem={renderItemallmix}
-                                keyExtractor={item => item.id}
-                                horizontal
-                                showsHorizontalScrollIndicator={false}
-                            /> */}
-                        </View>
-
                         <View style={{ flexDirection: "row", alignItems: "center", columnGap: 10 }}>
                             <Image source={require("../../assets/Icon/check.png")} resizeMode="contain" style={{ width: 20, height: 20 }} />
                             <Text style={{ color: "#004E8C", fontSize: 22, fontWeight: "bold" }}>JU Cover</Text>
                         </View>
-                        <View style={{ flexDirection: "row", columnGap: 10, }}>
+                        <View style={{ flexDirection: "row", columnGap: 10, paddingBottom: 150 }}>
                             <View style={styles.warrantybutton}>
                                 <Image source={require("../../assets/bottomnavigatiomnimage/waranty.png")} style={{
                                     width: 60,
@@ -473,9 +399,7 @@ const MostpollarDetails = ({ route, props }) => {
                         </View>
                     </ScrollView>
                 </View>
-
-            </ScrollView>
-
+            </View>
             <View
             // style={styles.container}
             >
@@ -488,10 +412,11 @@ const MostpollarDetails = ({ route, props }) => {
                     ]}
                     onLayout={animatePopup}
                 >
-                    <View >
+                    <View style={styles.modalContent2}>
                         <View style={styles.paymentcard}>
-                            <Text style={styles.text}>₹549</Text>
-                            <TouchableOpacity style={styles.smallbutton} onPress={() => navigation.navigate("Addcard")}>
+                            <Text style={styles.text}>{cartSubTotal}</Text>
+                            {console.log("princedetails------>", priceDetail?.cart_sub_total)}
+                            <TouchableOpacity style={styles.smallbutton} onPress={handleViewCard}>
                                 <Text style={styles.textbut}>View card</Text>
                             </TouchableOpacity>
                         </View>
@@ -499,7 +424,8 @@ const MostpollarDetails = ({ route, props }) => {
                 </Animated.View>
             </View>
             {isLoading && <LoaderScreen isLoading={isLoading} />}
-        </SafeAreaView>
+
+        </View>
     );
 };
 
@@ -515,13 +441,14 @@ const styles = StyleSheet.create({
         padding: 20,
         // borderRadius: 10,
         width: width,
-        borderTopLeftRadius: 10,
-        borderTopRightRadius: 10,
-        marginTop: 10,
+        // borderTopLeftRadius: 10,
+        // borderTopRightRadius: 10,
+        // marginTop: 10,
         flexGrow: 1,
         // marginHorizontal: 20,
         paddingBottom: 100
         // height:height
+
     },
     closeButton: {
         marginTop: 10,
@@ -532,7 +459,7 @@ const styles = StyleSheet.create({
         color: "#000",
         fontWeight: "bold",
         fontFamily: "Roboto-BoldItalic",
-        marginTop: height * 0.03
+        marginVertical: height * 0.01
     },
     subtext: {
         fontSize: 16,
@@ -739,20 +666,18 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
     },
-    modalContent: {
-        backgroundColor: 'white',
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-        padding: 20,
-        paddingTop: 10,
-    },
-    // paymentcard: {
-    //     flexDirection: 'row',
-    //     alignItems: 'center',
-    //     justifyContent: 'space-between',
-    //     paddingHorizontal: 15
-    // },
 
+    paymentcard: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingHorizontal: 15
+    },
+    text: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        color: "black"
+    },
     smallbutton: {
         height: height * 0.04,
         width: width * 0.27,
@@ -767,6 +692,17 @@ const styles = StyleSheet.create({
     textbut: {
         textAlign: "center",
         color: "white"
+    },
+    emptyListContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 20,
+    },
+    emptyListText: {
+        fontSize: 20,
+        color: 'gray',
+        fontWeight: "bold"
     },
     container2: {
         // flex: 1,

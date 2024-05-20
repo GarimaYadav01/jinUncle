@@ -12,7 +12,6 @@ const Bookingdetails = ({ route }) => {
     const navigation = useNavigation();
     const bookingid = route?.params?.bookingid;
     console.log("bookingid--->", bookingid)
-
     const [isLoading, setIsLoading] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isItems, setIsItems] = useState([]);
@@ -78,16 +77,12 @@ const Bookingdetails = ({ route }) => {
         return (
             <View style={styles.continer}>
                 <View style={{ marginTop: 10 }}>
-
                     <Text>name:<Text style={{ color: "gray" }}> {item.name}</Text></Text>
                     <Text style={{ color: "black" }}>price:<Text style={{ color: "gray" }}>₹{item.price}</Text></Text>
-
                     <Text>orderdate:<Text style={{ color: "gray" }}> {item.order_date_time}</Text></Text>
                     <Text>quantity:<Text style={{ color: "gray" }}> {item.quantity}</Text></Text>
-
                 </View>
             </View>
-
         )
     }
     const renderItem = ({ item }) => {
@@ -97,17 +92,9 @@ const Bookingdetails = ({ route }) => {
         } catch (error) {
             return null;
         }
-
         const imagePath = imagebaseurl + imageData?.image_path;
         const priceDetail = JSON.parse(item.price_detail);
-
-
         console.log("itemDetail--->", isItems)
-
-
-
-
-
         return (
             <TouchableOpacity onPress={() => navigation.navigate("Rateing", { bookingid: item.booking_id })}>
                 <View style={styles.continer}>
@@ -115,25 +102,14 @@ const Bookingdetails = ({ route }) => {
                         <Image source={{ uri: imagePath }} style={{ width: 150, height: 150, borderRadius: 10 }} resizeMode="contain" />
                     </View>
                     <Text style={[styles.name,]}>{item.service_name}</Text>
-                    <View style={{ marginLeft: 20, flex: 1, marginTop: 10 }}>
-
-                        <Text>slot time:<Text style={{ color: "gray" }}> {item.slot_time}</Text></Text>
-                        <Text>order id:<Text style={{ color: "gray" }}> {item.order_id}</Text></Text>
-                        <Text>slot date:<Text style={{ color: "gray" }}> {item.slot_date}</Text></Text>
-                        <Text>slot date:<Text style={{ color: "gray" }}> {item.slot_date}</Text></Text>
-                        <Text>slot date:<Text style={{ color: "gray" }}> {item.slot_date}</Text></Text>
-                        <View style={{ marginTop: 10 }}>
-                            <Text style={{ fontWeight: 'bold' }}>Price Details:</Text>
-                            <Text>Sub Total: <Text style={{ color: "gray" }}>₹{priceDetail.cart_sub_total}</Text></Text>
-                            <Text>Delivery Charge: <Text style={{ color: "gray" }}>₹{priceDetail.delivery_charge}</Text></Text>
-                            <Text>Cart Total: <Text style={{ color: "gray" }}>₹{priceDetail.cart_total}</Text></Text>
-                            <Text>Coupon Name: <Text style={{ color: "gray" }}>{priceDetail.coupon_name}</Text></Text>
-                            <Text>Coupon Discount: <Text style={{ color: "gray" }}>₹{priceDetail.coupon_discount}</Text></Text>
-                            <Text>Payable Amount: <Text style={{ color: "gray" }}>₹{priceDetail.payable_amount}</Text></Text>
-                            <Text>Total Products: <Text style={{ color: "gray" }}>{priceDetail.total_product}</Text></Text>
+                    <View style={{ marginLeft: 20, flex: 1, marginTop: 10, }}>
+                        <View style={{ borderWidth: 1, borderRadius: 10, padding: 10, borderColor: "rgb(167, 236, 238)", backgroundColor: "rgb(85, 133, 181)" }}>
+                            <Text style={styles.ttext2}>slot time:<Text style={{ color: "white", }}>                        {item.slot_time}</Text></Text>
+                            <Text style={styles.ttext2}>slot date:<Text style={{ color: "white" }}>                      {item.slot_date}</Text></Text>
+                            <Text style={styles.ttext2}>order id: <Text style={{ color: "white" }}>                 {item.order_id}</Text></Text>
                         </View>
                         <View style={{ marginTop: 10 }}>
-                            <Text style={{ fontWeight: 'bold' }}>Items:</Text>
+                            <Text style={{ fontWeight: 'bold', fontSize: 18 }}>Items:</Text>
                             {/* 
                             <View key={index}>
                                 <Text>Name: {itemDetail.name}</Text>
@@ -144,7 +120,16 @@ const Bookingdetails = ({ route }) => {
                                 data={isItems}
                                 renderItem={renderItem2}
                             />
-
+                        </View>
+                        <View style={{ marginTop: 10 }}>
+                            <Text style={{ fontWeight: 'bold', fontSize: 18 }}>Price Details:</Text>
+                            <Text style={styles.text3}>Sub Total: <Text style={{ color: "gray" }}>                                         ₹{priceDetail.cart_sub_total}</Text></Text>
+                            <Text style={styles.text3}>Delivery Charge: <Text style={{ color: "gray" }}>                                  ₹{priceDetail.delivery_charge}</Text></Text>
+                            <Text style={styles.text3}>Cart Total: <Text style={{ color: "gray" }}>                                         ₹{priceDetail.cart_total}</Text></Text>
+                            <Text style={styles.text3}>Coupon Name: <Text style={{ color: "gray" }}>                                     {priceDetail.coupon_name}</Text></Text>
+                            <Text style={styles.text3}>Coupon Discount: <Text style={{ color: "gray" }}>                               ₹{priceDetail.coupon_discount}</Text></Text>
+                            <Text style={styles.text3}>Payable Amount: <Text style={{ color: "gray" }}>                             ₹{priceDetail.payable_amount}</Text></Text>
+                            <Text style={styles.text3}>Total Products: <Text style={{ color: "gray" }}>                                     {priceDetail.total_product}</Text></Text>
                         </View>
                     </View>
                 </View>
@@ -173,7 +158,6 @@ const Bookingdetails = ({ route }) => {
             </View>
             <Modalrating isVisible={isModalVisible} onClose={toggleModal} />
         </SafeAreaView>
-
     )
 }
 
@@ -202,7 +186,7 @@ const styles = StyleSheet.create({
     },
     continer: {
         marginBottom: 20,
-        marginTop: 10,
+        // marginTop: 10,
         // flexDirection: "row",
         backgroundColor: "#FFF",
         padding: 10,
@@ -211,7 +195,6 @@ const styles = StyleSheet.create({
         borderColor: "#FFF",
         borderRadius: 10,
         columnGap: 20,
-
     },
     name: {
         color: "black",
@@ -234,5 +217,16 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         justifyContent: "center",
         marginTop: height * 0.03
+    },
+    ttext2: {
+        color: "white",
+        fontSize: 18,
+        flexDirection: "row"
+
+    },
+    text3: {
+        color: "black",
+        fontSize: 16,
+        lineHeight: 22
     }
 });

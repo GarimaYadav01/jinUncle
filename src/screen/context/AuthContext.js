@@ -89,13 +89,11 @@ export const AuthProvider = ({ children }) => {
     };
 
     const fetchDataCategory = async () => {
-        // console.log("iscategoriesiscategories------------?<ll;", iscategories)
         try {
             setIsLoading(true);
             const token = await AsyncStorage.getItem('token');
             const formdata = new FormData();
             formdata.append("id", iscategories[1].id);
-
             // console.log("id iscategories--------->", iscategories.id)
             const requestOptions = {
                 method: "POST",
@@ -404,7 +402,6 @@ export const AuthProvider = ({ children }) => {
                 setIsLoading(false);
                 console.log("result-----response>200", result)
             }
-
         } catch (error) {
             console.log("Error fetching cart details:", error);
             setIsLoading(false);
@@ -428,6 +425,7 @@ export const AuthProvider = ({ children }) => {
                 fetchSubCategories,
                 issubCategories,
                 isLoading,
+                setIsLoading,
                 getProfile,
                 isgetprofile,
                 getsubCategoryhandle,
