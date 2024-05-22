@@ -13,7 +13,7 @@ import { GestureHandlerRootView, Swipeable } from "react-native-gesture-handler"
 import { Modal } from "react-native-paper";
 import { useFocusEffect } from '@react-navigation/native';
 const { height, width } = Dimensions.get("screen")
-const AddressIdContext = createContext();
+
 const Address = (props) => {
     const [isaddress, setIsaddress] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
@@ -29,9 +29,8 @@ const Address = (props) => {
         newIsCheckedList[index] = !newIsCheckedList[index];
         setIsCheckedList(newIsCheckedList);
         handlewdefult(address_id);
+        // setAddressId(address_id); 
     };
-
-
     const setAddressIdValue = (value) => {
         setAddressId(value);
     };
@@ -277,26 +276,26 @@ const Address = (props) => {
     return (
         <SafeAreaView style={styles.container}>
             <Header title={"Manage Addresses"} />
-            <AddressIdContext.Provider value={{ addressId, setAddressIdValue, getAddressIdValue }}>
-                <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
 
-                    <FlatList
-                        data={isaddress}
-                        renderItem={renderItem}
-                        keyExtractor={(item, index) => index.toString()}
-                        showsVerticalScrollIndicator={false}
-                        ListEmptyComponent={() => (
-                            <View style={styles.emptyListContainer}>
-                                <Image source={require("../../assets/Newicon/delete.png")} style={{ width: 70, height: 70 }} />
-                                <Text style={styles.emptyListText}>No data found</Text>
-                            </View>
-                        )}
-                    />
-                    <TouchableOpacity style={styles.addButton} onPress={() => props.navigation.navigate("AddressEdit")}>
-                        <Image source={require("../../assets/logo/plus.png")} resizeMode="contain" style={{ width: 50, height: 50 }} />
-                    </TouchableOpacity>
-                </ScrollView>
-            </AddressIdContext.Provider>
+            <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+                <FlatList
+                    data={isaddress}
+                    renderItem={renderItem}
+                    keyExtractor={(item, index) => index.toString()}
+                    showsVerticalScrollIndicator={false}
+                    ListEmptyComponent={() => (
+                        <View style={styles.emptyListContainer}>
+                            <Image source={require("../../assets/Newicon/delete.png")} style={{ width: 70, height: 70 }} />
+                            <Text style={styles.emptyListText}>No data found</Text>
+                        </View>
+                    )}
+                />
+                <TouchableOpacity style={styles.addButton} onPress={() => props.navigation.navigate("AddressEdit")}>
+                    <Image source={require("../../assets/logo/plus.png")} resizeMode="contain" style={{ width: 50, height: 50 }} />
+                </TouchableOpacity>
+            </ScrollView>
+            {children}
+
             {isLoading && <LoaderScreen isLoading={isLoading} />}
             <DeleteModal />
         </SafeAreaView>

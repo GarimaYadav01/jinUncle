@@ -9,6 +9,7 @@ import { addrating, ratinggetapi } from "../../apiconfig/Apiconfig";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { showMessage } from "react-native-flash-message";
 import { useNavigation } from "@react-navigation/native";
+import { GestureHandlerRootView, Swipeable } from "react-native-gesture-handler";
 const { height, width } = Dimensions.get("screen");
 const Rateing = ({ route }) => {
     const navigation = useNavigation();
@@ -62,6 +63,7 @@ const Rateing = ({ route }) => {
             formdata.append("booking_id", bookingid);
             console.log("booking_id------>", bookingid)
             formdata.append("message", message);
+            console.log("message----->", message)
             formdata.append("rating", rating);
             const requestOptions = {
                 method: "POST",
@@ -78,6 +80,7 @@ const Rateing = ({ route }) => {
                     icon: "success",
                     type: "success"
                 })
+                getrating();
             }
         } catch (error) {
             console.log("errorratingadd---->", error)
@@ -87,24 +90,20 @@ const Rateing = ({ route }) => {
     const showModal = () => {
         setIsVisible(true);
     };
-
     const hideModal = () => {
         setIsVisible(false);
     };
-
-    const handleSave = () => {
+    const handleSave = (rating, message) => {
         hideModal();
-        handlesubmitrating();
+        handlesubmitrating(rating, message);
     };
 
     const handleRating = (rating) => {
-        // Handle the rating as needed, such as saving it to state or sending it to a server
         console.log('Selected rating:', rating);
     };
 
 
-
-    const renderReviewItem = ({ item }) => (
+    const renderReviewItem = ({ item, index }) => (
         <View style={styles.card}>
             {/* <Image source={IMAGE.proboy} resizeMode="contain" style={{ width: 30, height: 30, marginTop: -height * 0.07, marginRight: height * 0.08 }} /> */}
             <View style={{ marginHorizontal: 20 }}>
@@ -170,6 +169,7 @@ const Rateing = ({ route }) => {
                     isVisible={isVisible}
                     hideModal={hideModal}
                     handleSave={handleSave}
+                    onSubmitRating={handleSave}
                 />
             </ScrollView>
         </SafeAreaView>

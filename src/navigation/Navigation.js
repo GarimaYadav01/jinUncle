@@ -64,77 +64,82 @@ import Maullayaddadress from '../screen/tab/Maullayaddadress';
 import Bookingdetails from '../screen/profilescreens/Bookingdetails';
 import Addcard from '../screen/tab/Addcard';
 import HomeScreen from '../screen/home/HomeScreen';
+import { AddressProvider } from '../screen/helpcenter/AdressContext';
 
 
 const Stack = createNativeStackNavigator();
 const Navigation = () => {
     return (
         <NavigationContainer>
-            <Stack.Navigator screenOptions={{ headerShown: false }}>
-                <Stack.Screen name="Splash" component={Splash} />
-                <Stack.Screen name="Bottomnavigation" component={Bottomnavigation} />
-                <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
-                <Stack.Screen name="Otp" component={Otp} />
-                <Stack.Screen name="SignupScreen" component={SignupScreen} />
-                <Stack.Screen name="LoginScreen" component={LoginScreen} />
-                <Stack.Screen name="Resetpassword" component={Resetpassword} />
-                <Stack.Screen name="Location" component={Location} />
-                <Stack.Screen name="Location2" component={Location2} />
-                <Stack.Screen name="Paypal" component={Paypal} />
-                <Stack.Screen name="Location3" component={Location3} />
-                <Stack.Screen name="Mybooking" component={Mybooking} />
-                <Stack.Screen name="Aboutus" component={Aboutus} />
-                <Stack.Screen name="Helpcenter" component={Helpcenter} />
-                <Stack.Screen name="Account" component={Account} />
-                <Stack.Screen name="phonenumber" component={phonenumber} />
-                <Stack.Screen name="Editprofile" component={Editprofile} />
-                <Stack.Screen name="Saved" component={Saved} />
-                <Stack.Screen name="Changeemail" component={Changeemail} />
-                <Stack.Screen name="Address" component={Address} />
-                <Stack.Screen name="Checksavedpayments" component={Checksavedpayments} />
-                <Stack.Screen name="Managepaymentmethods" component={Managepaymentmethods} />
-                <Stack.Screen name="Wallet" component={Wallet} />
-                <Stack.Screen name="Settings" component={Settings} />
-                <Stack.Screen name="Rateing" component={Rateing} />
-                <Stack.Screen name="Accategory" component={Accategory} />
-                <Stack.Screen name="Fridagecategory" component={Fridagecategory} />
-                <Stack.Screen name="Washingmachinecategory" component={Washingmachinecategory} />
-                <Stack.Screen name="Schechdulebooking" component={Schechdulebooking} />
-                <Stack.Screen name="Getting" component={Getting} />
-                <Stack.Screen name="Book" component={Book} />
-                <Stack.Screen name="Booking" component={Booking} />
-                <Stack.Screen name="Cancellation" component={Cancellation} />
-                <Stack.Screen name="Minimum" component={Minimum} />
-                <Stack.Screen name="Professional" component={Professional} />
-                <Stack.Screen name="Unable" component={Unable} />
-                <Stack.Screen name="Gotowallet" component={Gotowallet} />
-                <Stack.Screen name="Jucredits" component={Jucredits} />
-                <Stack.Screen name="Validitywallet" component={Validitywallet} />
-                <Stack.Screen name="Referral" component={Referral} />
-                <Stack.Screen name="Secondreferral" component={Secondreferral} />
-                <Stack.Screen name="Paymentdetails" component={Paymentdetails} />
-                <Stack.Screen name="Jusatefy" component={Jusatefy} />
-                <Stack.Screen name="Warranty" component={Warranty} />
-                <Stack.Screen name="Services" component={Services} />
-                <Stack.Screen name="Pay" component={Pay} />
-                <Stack.Screen name="MyWallet" component={MyWallet} />
-                <Stack.Screen name="Summary" component={Summary} />
-                <Stack.Screen name="Subcategory" component={Subcategory} />
-                <Stack.Screen name="PaymentScreen" component={PaymentScreen} />
-                <Stack.Screen name="BottomPopup" component={BottomPopup} />
-                <Stack.Screen name="ContiuneShopping" component={ContiuneShopping} />
-                <Stack.Screen name="AddressEdit" component={AddressEdit} />
-                <Stack.Screen name="Refer" component={Refer} />
-                <Stack.Screen name="MostpollarDetails" component={MostpollarDetails} />
-                <Stack.Screen name="Copuon" component={Copuon} />
-                <Stack.Screen name="Editadressstart" component={Editadressstart} />
-                <Stack.Screen name="Editadd" component={Editadd} />
-                <Stack.Screen name="ServiceDetails" component={ServiceDetails} />
-                <Stack.Screen name="Maullayaddadress" component={Maullayaddadress} />
-                <Stack.Screen name="Bookingdetails" component={Bookingdetails} />
-                <Stack.Screen name="Addcard" component={Addcard} />
-                <Stack.Screen name="HomeScreen" component={HomeScreen} />
-            </Stack.Navigator>
+            <AddressProvider>
+
+
+                <Stack.Navigator screenOptions={{ headerShown: false }}>
+                    <Stack.Screen name="Splash" component={Splash} />
+                    <Stack.Screen name="Bottomnavigation" component={Bottomnavigation} />
+                    <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
+                    <Stack.Screen name="Otp" component={Otp} />
+                    <Stack.Screen name="SignupScreen" component={SignupScreen} />
+                    <Stack.Screen name="LoginScreen" component={LoginScreen} />
+                    <Stack.Screen name="Resetpassword" component={Resetpassword} />
+                    <Stack.Screen name="Location" component={Location} />
+                    <Stack.Screen name="Location2" component={Location2} />
+                    <Stack.Screen name="Paypal" component={Paypal} />
+                    <Stack.Screen name="Location3" component={Location3} />
+                    <Stack.Screen name="Mybooking" component={Mybooking} />
+                    <Stack.Screen name="Aboutus" component={Aboutus} />
+                    <Stack.Screen name="Helpcenter" component={Helpcenter} />
+                    <Stack.Screen name="Account" component={Account} />
+                    <Stack.Screen name="phonenumber" component={phonenumber} />
+                    <Stack.Screen name="Editprofile" component={Editprofile} />
+                    <Stack.Screen name="Saved" component={Saved} />
+                    <Stack.Screen name="Changeemail" component={Changeemail} />
+                    <Stack.Screen name="Address" component={Address} />
+                    <Stack.Screen name="Checksavedpayments" component={Checksavedpayments} />
+                    <Stack.Screen name="Managepaymentmethods" component={Managepaymentmethods} />
+                    <Stack.Screen name="Wallet" component={Wallet} />
+                    <Stack.Screen name="Settings" component={Settings} />
+                    <Stack.Screen name="Rateing" component={Rateing} />
+                    <Stack.Screen name="Accategory" component={Accategory} />
+                    <Stack.Screen name="Fridagecategory" component={Fridagecategory} />
+                    <Stack.Screen name="Washingmachinecategory" component={Washingmachinecategory} />
+                    <Stack.Screen name="Schechdulebooking" component={Schechdulebooking} />
+                    <Stack.Screen name="Getting" component={Getting} />
+                    <Stack.Screen name="Book" component={Book} />
+                    <Stack.Screen name="Booking" component={Booking} />
+                    <Stack.Screen name="Cancellation" component={Cancellation} />
+                    <Stack.Screen name="Minimum" component={Minimum} />
+                    <Stack.Screen name="Professional" component={Professional} />
+                    <Stack.Screen name="Unable" component={Unable} />
+                    <Stack.Screen name="Gotowallet" component={Gotowallet} />
+                    <Stack.Screen name="Jucredits" component={Jucredits} />
+                    <Stack.Screen name="Validitywallet" component={Validitywallet} />
+                    <Stack.Screen name="Referral" component={Referral} />
+                    <Stack.Screen name="Secondreferral" component={Secondreferral} />
+                    <Stack.Screen name="Paymentdetails" component={Paymentdetails} />
+                    <Stack.Screen name="Jusatefy" component={Jusatefy} />
+                    <Stack.Screen name="Warranty" component={Warranty} />
+                    <Stack.Screen name="Services" component={Services} />
+                    <Stack.Screen name="Pay" component={Pay} />
+                    <Stack.Screen name="MyWallet" component={MyWallet} />
+                    <Stack.Screen name="Summary" component={Summary} />
+                    <Stack.Screen name="Subcategory" component={Subcategory} />
+                    <Stack.Screen name="PaymentScreen" component={PaymentScreen} />
+                    <Stack.Screen name="BottomPopup" component={BottomPopup} />
+                    <Stack.Screen name="ContiuneShopping" component={ContiuneShopping} />
+                    <Stack.Screen name="AddressEdit" component={AddressEdit} />
+                    <Stack.Screen name="Refer" component={Refer} />
+                    <Stack.Screen name="MostpollarDetails" component={MostpollarDetails} />
+                    <Stack.Screen name="Copuon" component={Copuon} />
+                    <Stack.Screen name="Editadressstart" component={Editadressstart} />
+                    <Stack.Screen name="Editadd" component={Editadd} />
+                    <Stack.Screen name="ServiceDetails" component={ServiceDetails} />
+                    <Stack.Screen name="Maullayaddadress" component={Maullayaddadress} />
+                    <Stack.Screen name="Bookingdetails" component={Bookingdetails} />
+                    <Stack.Screen name="Addcard" component={Addcard} />
+                    <Stack.Screen name="HomeScreen" component={HomeScreen} />
+                </Stack.Navigator>
+            </AddressProvider>
         </NavigationContainer>
     );
 };

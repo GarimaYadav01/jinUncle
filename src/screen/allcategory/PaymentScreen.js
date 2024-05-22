@@ -7,6 +7,8 @@ import RazorpayCheckout from 'react-native-razorpay';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createorder, paymentOptionget, paymentstatus } from '../../apiconfig/Apiconfig';
 import AuthContext from '../context/AuthContext';
+import AddressContext from '../helpcenter/AdressContext';
+
 const { height, width } = Dimensions.get("screen");
 
 const PaymentScreen = ({ route }) => {
@@ -16,7 +18,9 @@ const PaymentScreen = ({ route }) => {
   const [ispayment, setIspayment] = useState([])
   const [iscreateorder, setIscreateorder] = useState([]);
   const { selectedDay, selectedTime, } = route?.params;
+  const { addressId, Address } = useContext(AddressContext);
   const { isgetprofile } = useContext(AuthContext);
+  console.log('Address--->', Address)
   console.log("selectedDay----->", selectedDay)
   console.log("selectedTime----->", selectedTime)
   console.log("isgetprofile---->", isgetprofile)
@@ -134,7 +138,6 @@ const PaymentScreen = ({ route }) => {
   }, []);
 
 
-
   const handleCreaterorder = async () => {
     try {
       const token = await AsyncStorage.getItem("token")
@@ -143,7 +146,8 @@ const PaymentScreen = ({ route }) => {
       const formdata = new FormData();
       formdata.append("payment_method", paymentOption);
       console.log("payment_method----->", paymentOption)
-      formdata.append("address_id", "47");
+      formdata.append("address_id", addressId);
+      console.log("address_idaddress_id-->", addressId)
       formdata.append("slot_date", selectedDay.date);
       formdata.append("slot_time --->", selectedTime.name);
       console.log("slot_time----->", selectedTime.name)

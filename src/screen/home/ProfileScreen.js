@@ -45,12 +45,12 @@ const ProfileScreen = () => {
             image: ICONS.arrow,
             screen: "MyWallet"
         },
-        {
-            id: "5",
-            lable: "My rating",
-            image: ICONS.arrow,
-            screen: "Rateing"
-        },
+        // {
+        //     id: "5",
+        //     lable: "My rating",
+        //     image: ICONS.arrow,
+        //     screen: "Rateing"
+        // },
         {
             id: "6",
             lable: "Manage addresses",

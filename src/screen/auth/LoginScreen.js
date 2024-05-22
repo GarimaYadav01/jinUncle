@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, StatusBar, Dimensions, ScrollView, BackHandler, Alert, ImageBackground, Image, TextInput } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, StatusBar, Dimensions, ScrollView, BackHandler, Alert, ImageBackground, Image, TextInput, } from 'react-native';
 import TextinputComponent from '../../compontent/TextinputComponent';
 import CustomButton from '../../compontent/Custombutton';
 import { Formik } from 'formik';
@@ -10,8 +10,6 @@ import axios from 'axios';
 import { Loginapi } from '../../apiconfig/Apiconfig';
 import { useNavigation } from '@react-navigation/native';
 import LoaderScreen from '../../compontent/LoaderScreen';
-import DeviceInfo from 'react-native-device-info';
-import messaging from '@react-native-firebase/messaging';
 
 const { width, height } = Dimensions.get("screen");
 
@@ -19,26 +17,17 @@ const LoginScreen = (props) => {
   const navigation = useNavigation();
   const [countryCode] = useState('+91');
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [deviceId, setDeviceId] = useState('');
+
   const [isLoading, setIsLoading] = useState(false);
-  console.log("pohonenumber------->", phoneNumber)
-  console.log("deviceId--->", deviceId)
 
-  useEffect(() => {
-    const fetchDeviceId = async () => {
-      const id = await DeviceInfo.getUniqueId();
-      setDeviceId(id);
-    };
 
-    fetchDeviceId();
-  }, []);
   const handleLogin = async (values) => {
     setIsLoading(true);
     try {
       const formdata = new FormData();
       formdata.append("country_code", countryCode);
       formdata.append("mobile", phoneNumber);
-      formdata.append("device_id", deviceId);
+      formdata.append("device_id", "654654654");
       // formdata.append("firebase_token", "f5s6a4f65as4f654sa56f4sa65fsaafafafa");
       const requestOptions = {
         method: "POST",
